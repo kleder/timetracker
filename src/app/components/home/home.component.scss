@@ -1,0 +1,35 @@
+.kleder-track-wrapper {
+  // background: url(../../../assets/kleder_logo.png) no-repeat center fixed;
+  // -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+  // background-size: cover; /* version standardisée */
+  background: #38b4e7;
+  box-shadow: 0 2px 2px 0;
+  position: relative;
+  height: 130px;
+  img {
+    display: block;
+    margin: auto;
+    max-height: 100%;
+    max-width: 100%;
+    height: inherit;
+    object-fit: contain;
+  }
+  .title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 5px;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+  }
+}
+.kleder-track-content {
+  height: calc(100% - 280px);
+  padding-top: 150px;
+  background: #000000;
+  form {
+    text-align: center;
+  }
+
+}
