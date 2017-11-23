@@ -1,8 +1,10 @@
-# Time track App
+# Time track App 
 
 Timesheet app for tracking work hours in Youtrack. Use the timer to log task times. All the time logs are synced to the cloud or local Youtrack instances.
 
-Thi is desktop client used to recording work time and sending it to your youtrack instance. 
+This is desktop client used to recording work time and sending it to your youtrack instance. 
+
+[![Build Status](https://travis-ci.org/kleder/timetracker.svg?branch=master)](https://travis-ci.org/kleder/timetracker)
 
 # Downloads 
 The windows (x64) and Mac binaries are avaible on [Release](https://github.com/kleder/timetracker/releases) page.
