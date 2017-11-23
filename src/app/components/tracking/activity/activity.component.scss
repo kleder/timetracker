@@ -1,0 +1,70 @@
+@import "../../../theme/colors.scss";
+
+.container {
+    padding: 5px 19px;
+    .record-list__item {
+        background-color: $issue-bg-color;
+        border: 0px solid $issue-bg-color;
+        border-radius: 4px;
+        padding: 11px;
+        margin-bottom: 8px;
+        .record-list__header {
+            color: $issue-font-color;
+            font-size: 10px;
+            font-family: 'Montserrat', sans-serif;
+            text-align: left;
+            font-weight: 400;
+            padding-bottom: 21px;
+            .record-list__summary, .record-list__todays-time, {
+                display: inline-block;
+                font-family: 'Montserrat', sans-serif;
+                color:  $white;
+                font-size: 14px;
+                font-weight: 400;
+            }
+            .record-list__summary {
+                width: 76%;
+            }
+            .record-list__todays-time {
+                float: right;
+            }
+        }
+        .record-list__content {
+            font-family: 'Montserrat', sans-serif;
+            color:  $white;
+            font-size: 14px;
+            font-weight: 400;
+            text-align: left;
+            .record-list__agile {
+                color: $issue-font-color;
+                font-size: 10px;
+                font-weight: 400;
+            }
+            .record-list__record {
+                float: right;
+                background: none;
+                border: none;
+                color: $record-color;
+                .fa-circle {
+                    font-size: 6px;
+                    padding-right: 4px;
+                    vertical-align: middle;
+                }
+                &.recording {
+                    background-color: $record-color;
+                    color: $white;
+                    border: 0px solid $record-color;
+                    border-radius: 2px;
+                    .fa-square {
+                        padding-right: 4px;
+                        font-size: 6px;
+                        vertical-align: middle;
+                    }
+                }
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+    }
+}

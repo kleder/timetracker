@@ -1,0 +1,46 @@
+<div class="header">
+    <div class="header__options">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+        <i class="fa fa-refresh" aria-hidden="true"></i>  
+    </div>
+</div>
+<div class="menu">      
+    <ul>
+        <li routerLink="dashboard" routerLinkActive="active">Backlog</li>
+        <li routerLink="activity" routerLinkActive="active">Records</li>
+    </ul>
+</div>
+<div class="content">
+    <router-outlet></router-outlet>
+</div>
+<div class="current-item" *ngIf="timerService.currentIssueId">
+    <div class="current-item__header">
+        <span class="current-item__summary">{{ timerService.currentIssue.field.summary }}</span>
+        <span class="current-item__duration">{{ timerService.currentTime | secondsToTime }}</span>
+    </div>
+    <div class="current-item__content">
+        <span class="current-item__todays-time">THIS DAY: {{ timerService.currentIssue.todaysTime | secondsToTime }}</span>
+        <button class="current-item__record" (click)="stopTracking(timerService.currentIssue)">
+            <span><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
+        </button>    
+    </div>
+</div>
+<div id="afk-notification" *ngIf="timerService.currentIssueId">
+    <div class="afk-notification__text">
+        <span>You were afk <strong>{{ timerService.notificationTime | secondsToTime }}. </strong>What should I do?</span>            
+    </div>
+    <div class="afk-notification__action">
+        <button class="danger" (click)="timerService.shouldAddAfkTime(false)">Remove</button>
+        <button class="positive" (click)="timerService.shouldAddAfkTime(true)">Add</button>
+    </div>
+</div>
+<div id="unstopped-item" *ngIf="unstoppedItem">
+    <div class="unstopped-item__info">
+        <span>You have not stopped working on the {{ unstoppedItem.issueid }} issue. What should I do with {{ unstoppedItem.duration | secondsToTime }}?</span>
+    </div>
+    <div class="unstopped-item__buttons">
+        <button class="danger" (click)="manageUnstoppedItem('remove')">Remove</button>
+        <button class="info" (click)="manageUnstoppedItem('resume')">Resume</button>
+        <button class="positive" (click)="manageUnstoppedItem('add')">Add</button>
+    </div>
+</div>

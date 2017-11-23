@@ -1,8 +1,3 @@
-// import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron';
-// import * as path from 'path';
-
-// const url = require('url')
-
 const electron = require("electron")
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
@@ -10,6 +5,8 @@ const Tray = electron.Tray
 const Menu = electron.Menu
 const url = require('url')
 const path = require('path')
+const ipcMain = electron.ipcMain
+// const sqlite3 = require('sqlite3').verbose()
 
 let mainWindow, serve;
 var trayIcon = null;
@@ -30,8 +27,8 @@ function createWindow(name) {
   name = new BrowserWindow({
     // x: 0,
     // y: 0,
-    width: 800,
-    height: 800
+    width: 450,
+    height: 760
   });
 
   // and load the index.html of the app.
@@ -43,9 +40,9 @@ function createWindow(name) {
   }))
 
   // Open the DevTools.
-  if (serve) {
-    name.webContents.openDevTools();
-  }
+  // if (serve) {
+  //   name.webContents.openDevTools();
+  // }
 
   // Emitted when the window is closed.
   name.on('closed', () => {
@@ -62,18 +59,17 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   // app.on('ready', createWindow);
-  app.on('ready', function() {
+  app.on('ready', () => {
 
-    const iconName = '../src/assets/icon.png';
+    const iconName = '../src/assets/cog.png';
     const iconPath = path.join(__dirname, iconName);
   
     trayIcon = new Tray(iconPath);
-    trayIcon.setToolTip('Hello World');
-
+    trayIcon.setToolTip('Kleder Track App');
 
     mainWindow = new BrowserWindow({
-      // height: 8000,
-      // width: 1000,
+      width: 450,
+      height: 760,
       title: 'Kleder Track App'
     })
     
@@ -83,6 +79,7 @@ try {
         slashes: true,
         icon: __dirname + '/img/icon.ico'
     }))
+    mainWindow.once("ready-to-show", () => { mainWindow.show() })
 
     mainWindow.on('closed', function() {
         app.quit()
@@ -105,25 +102,34 @@ try {
         ]
       },
       {
-        label: "Options",
+        label: "Edit",
         submenu: [
-          {
-            label: 'Option 1',
-            click() {
-              this.createAddWindow('option-1')
-            }
-          },
-          {
-            label: 'Option 2',
-            click() {
-              this.createAddWindow('option-2')
-            }
-          },
-          {
-            role: 'reload'
-          }
+          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+          { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+          { type: "separator" },
+          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+          { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
         ]
-      }
+      },
+      // {
+      //   label: "Options",
+      //   submenu: [
+      //     {
+      //       label: 'Option 1',
+      //       click() {
+      //         this.createAddWindow('option-1')
+      //       }
+      //     },
+      //     {
+      //       label: 'Option 2',
+      //       click() {
+      //         this.createAddWindow('option-2')
+      //       }
+      //     },
+      //   ]
+      // }
     ]
 
     if (process.platform == 'darwin') {
@@ -141,9 +147,6 @@ try {
                   click() {
                       mainWindow.toggleDevTools()
                   }
-              },
-              {
-                  role: 'reload'
               }
           ]
       })
@@ -155,7 +158,7 @@ try {
     trayIcon.on('click', () => {
       mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
     })
-
+    
   });
   
   // Quit when all windows are closed.

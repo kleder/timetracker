@@ -1,0 +1,24 @@
+@import "./theme/colors.scss";
+$fa-font-path: "../../node_modules/font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome.scss';
+
+body {
+  background-color: $dark;
+}
+.wrapper {
+  background: $dark;
+  position: fixed;
+  top: 0;
+  height: 100px;
+  width: 100%;
+  .title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 5px;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;    
+    color: white;
+    text-align: center;
+  }
+}

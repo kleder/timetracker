@@ -1,0 +1,125 @@
+@import "../../../theme/colors.scss";
+
+.container {
+    padding: 30px 19px;
+    .project-list {
+        color: $white;
+        &__agile {
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid $border-color;
+            letter-spacing: 1px;
+            .project-list__title, .project-list__toggle {
+                display: inline-block;
+            }
+            .project-list__title {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                color: $white;
+                margin: 0
+            }
+            .project-list__toggle {
+                float: right;
+                margin: 2px 5px 0 0;
+            }
+        }
+        &__issues {
+            transition: height 2s;
+            -moz-transition: height 2s; /* Firefox 4 */
+            -webkit-transition: height 2s; /* Safari and Chrome */
+            -o-transition: height 2s;
+            .project-list__item {
+                background-color: $issue-bg-color;
+                border: 0px solid $issue-bg-color;
+                border-radius: 4px;
+                padding: 11px;
+                margin-bottom: 7px;
+                &:last-child {
+                    margin-bottom: 31px;
+                }
+                &.recording {
+                    opacity: 0.7;
+                }
+                &.normal {
+                    border-left: 4px solid $normal;
+                }
+                &.major {
+                    border-left: 4px solid $major;
+                }
+                .project-list__header {
+                    color: $issue-font-color;
+                    font-size: 10px;
+                    font-family: 'Montserrat', sans-serif;
+                    text-align: left;
+                    font-weight: 400;
+                    padding-bottom: 21px;
+                    .project-list__id, .project-list__type, .project-list__priority, .project-list__description, .project-list__comments, .project-list__record {
+                        display: inline-block;
+                    }
+                    .project-list__id {
+                        width: 50px;
+                        padding-right: 5px;
+                    }
+                    .project-list__type {
+                        width: 33px;
+                        padding-right: 5px;
+                    }
+                    .project-list__priority {
+                        width: 50px;
+                        padding-right: 5px;
+                        &.normal {
+                            color: $normal;
+                        }
+                        &.major {
+                            color: $major;
+                        }
+                    }
+                    .project-list__description {
+                        width: 19px;
+                        font-size: 12px;
+                        padding-right: 5px;
+                    }
+                    .project-list__comments {
+                        font-size: 12px;
+                        i {
+                            padding-right: 4px;
+                        }
+                    }
+                    .project-list__record {
+                        float: right;
+                        background: none;
+                        border: none;
+                        color: $record-color;
+                        .fa-circle {
+                            font-size: 6px;
+                            padding-right: 4px;
+                            vertical-align: middle;
+                        }
+                        &.recording {
+                            background-color: $record-color;
+                            color: $white;
+                            border: 0px solid $record-color;
+                            border-radius: 2px;
+                            .fa-square {
+                                padding-right: 4px;
+                                font-size: 6px;
+                                vertical-align: middle;
+                            }
+                        }
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+                }
+                .project-list__content {
+                    font-family: 'Montserrat', sans-serif;
+                    color:  $white;
+                    font-size: 14px;
+                    font-weight: 400;
+                    text-align: left;
+                }
+            }
+        }
+    }
+}

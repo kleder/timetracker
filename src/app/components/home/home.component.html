@@ -1,13 +1,18 @@
-<div class="kleder-track-wrapper">
-  <img src="../../../assets/kleder_logo.png" alt="kleder_logo">
-  <h3 class="title">
-    track App test
-  </h3>
-</div>
-<div class="kleder-track-content">
-  <form>
-    <input class="login" placeholder="login" type="text">
-    <input class="password" placeholder="password" type="password">
-    <button type="submit">Log In</button>
-  </form>
+<div class="container">
+    <form>
+        <div class="title">TrackApp</div>
+        <div class="you-track-form">
+            <label>{{ 'youtrack url' | uppercase }}</label>                            
+            <input [(ngModel)]="youTrackName" name="youTrackName" type="text" required>
+            <label>{{ 'email' | uppercase }}</label>            
+            <input class="email" [(ngModel)]="username" name="username" placeholder="username" type="text" required>
+            <label>{{ 'password' | uppercase }}</label>            
+            <input class="password" [(ngModel)]="password" name="password" placeholder="password" type="password" required>
+            <div *ngIf="loginError" class="error">Incorrect username or password</div>
+            <button (click)="login(youTrackName, username, password)" type="submit">Log In</button>
+        </div>
+    </form>
+    <div class="loader">
+        <ngx-loading [show]="auth.loader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    </div>
 </div>

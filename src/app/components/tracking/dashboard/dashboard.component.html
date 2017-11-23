@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="kleder-track-content" *ngFor="let agile of agiles; let i=index">
+    <div class="project-list" *ngIf="agile.checked">
+      <div class="project-list__agile">
+        <h2 class="project-list__title">{{ agile.name }}</h2>
+        <div class="project-list__toggle" *ngIf="agile?.issues != 0">
+            <i (click)="toggle(i)" [ngClass]="agile.visiblityState=='shown'? 'fa fa-angle-down' : 'fa fa-angle-up'" aria-hidden="true"></i>              
+        </div>
+      </div>
+      <div class="project-list__issues" [@visibilityChanged]="agile.visiblityState">
+        <div class="project-list__item" *ngFor="let issue of agile.issues" [ngClass]="priorityClass(issue)" [ngClass]="issue.id == timerService.currentIssueId? 'recording' : ''">
+          <div class="project-list__header">
+            <span class="project-list__id">{{ issue.id }}</span> 
+            <span class="project-list__type">{{ issue.field.Type[0] }}</span> 
+            <span class="project-list__priority" [ngClass]="priorityClass(issue)">{{ issue.field.Priority[0] }}</span>
+            <span class="project-list__description" *ngIf="issue.hasDescription">
+              <i class="fa fa-align-left" aria-hidden="true" title="Issue has description"></i>
+            </span>
+            <span class="project-list__comments" *ngIf="issue.hasComment" title="Issue has {{ issue.hasComment }} comment(s)">
+              <i class="fa fa-comment-o" aria-hidden="true"></i>{{ issue.hasComment }}
+            </span>
+            <button class="project-list__record" [ngClass]="issue.id == timerService.currentIssueId? 'recording' : ''" (click)="startTracking(issue)">
+              <span *ngIf="issue.id == timerService.currentIssueId; else timerOff"><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
+              <ng-template #timerOff><i class="fa fa-circle" aria-hidden="true"></i>REC</ng-template> 
+            </button>
+          </div>
+          <div class="project-list__content">
+            <span class="project-list__summary">{{ issue.field.summary }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="loader">
+      <ngx-loading [show]="httpService.loader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    </div>
+  </div>
+</div>

@@ -1,35 +1,67 @@
-.kleder-track-wrapper {
-  // background: url(../../../assets/kleder_logo.png) no-repeat center fixed;
-  // -webkit-background-size: cover; /* pour anciens Chrome et Safari */
-  // background-size: cover; /* version standardisée */
-  background: #38b4e7;
-  box-shadow: 0 2px 2px 0;
-  position: relative;
-  height: 130px;
-  img {
-    display: block;
-    margin: auto;
-    max-height: 100%;
-    max-width: 100%;
-    height: inherit;
-    object-fit: contain;
-  }
-  .title {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 5px;
-    font-size: 16px;
-    color: white;
-    text-align: center;
-  }
-}
-.kleder-track-content {
-  height: calc(100% - 280px);
-  padding-top: 150px;
-  background: #000000;
-  form {
-    text-align: center;
-  }
+@import "../../theme/colors.scss";
 
+.container{
+  background-color: $menu-color; 
+  height: 100%; 
+  box-sizing: border-box;
+  padding: 0 30px 79px;
+  background: $dark;
+  form {
+    padding-top: 97px;
+    .title {
+      padding-bottom: 40px;
+      font-family: 'Montserrat', sans-serif;
+      color: $issue-font-color;
+      font-size: 24px;
+      font-weight: 600;
+      text-align: left;
+      letter-spacing: 3px;
+    }
+    .you-track-form {
+      font-size: 20px;
+      // padding-bottom: 40px;
+      label {
+        font-family: 'Montserrat', sans-serif;
+        color: $white;
+        font-size: 12px;
+        font-weight: 400;
+        text-align: left;
+        letter-spacing: 2px;
+      }
+      input {
+        margin: 16px 0 25px;
+        width: 100%;
+        display: block;
+        background: none;
+        border: 0;
+        outline: 0;
+        font-family: 'Montserrat', sans-serif;
+        color: $issue-font-color;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: left;
+        &.email, &.password {
+          border-bottom: 2px solid $border-color;
+        }
+      }
+      button {
+        display: block;
+        margin: 79px auto 0;
+        width: 126px;
+        height: 40px;
+        border: 0px solid $white;
+        border-radius: 2px;
+        background-color:  $white;
+        font-family: 'Montserrat', sans-serif;
+        color:  $issue-bg-color;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
+      }
+      .error {
+        height: 30px;
+        color: $record-color;
+      }
+    }
+  }
 }

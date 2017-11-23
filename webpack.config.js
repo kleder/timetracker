@@ -222,7 +222,9 @@ module.exports = {
     "string_decoder": "require('string_decoder')",
     "url": "require('url')",
     "util": "require('util')",
-    "zlib": "require('zlib')"
+    "zlib": "require('zlib')",
+    "idle": "require('@paulcbetts/system-idle-time')",
+    "sqlite3": "require('sqlite3')"
   },
   "resolve": {
     "extensions": [
@@ -374,6 +376,10 @@ module.exports = {
       {
         "test": /\.ts$/,
         "loader": "@ngtools/webpack"
+      },
+      {
+        "test": /\.node$/, 
+        "loader": 'node-loader'
       }
     ]
   },
