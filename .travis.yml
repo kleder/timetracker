@@ -1,5 +1,7 @@
-os:
-  - linux
+matrix:
+  include:
+  - os: linux
+  - os: osx
 
 language: node_js
 
