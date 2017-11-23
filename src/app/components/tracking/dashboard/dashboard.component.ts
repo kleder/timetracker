@@ -8,7 +8,6 @@ import { HttpService } from '../../../services/http.service'
 
 const electron = require('electron')
 const ipc = electron.ipcRenderer
-const sqlite3 = require('sqlite3')
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +29,7 @@ export class DashboardComponent implements OnInit {
   private currentIssueId: String
   private unstoppedItem: any
   private allItemsFromDb: any
-  private agiles: any
+  public agiles: any
   private totalTimes: object
 
   constructor(

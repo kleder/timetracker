@@ -15,7 +15,7 @@ export class TrackingComponent implements OnInit {
   public notificationTime: number
   public issueTime: number
   private allItemsFromDb: any
-  private unstoppedItem: any
+  public unstoppedItem: any
 
   constructor(
     public timerService: TimerService,

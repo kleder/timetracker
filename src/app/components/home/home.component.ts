@@ -7,8 +7,6 @@ import { AuthService } from '../../services/auth.service';
 
 import { Router } from '@angular/router';
 
-import { DataService } from '../../services/data.service'
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,16 +14,15 @@ import { DataService } from '../../services/data.service'
 })
 export class HomeComponent implements OnInit {
   title = `Kleder Track App`;
-  private youTrackName: String
-  private username: String
-  private password: String
-  private loginError: Boolean
+  public youTrackName: string
+  public username: string
+  public password: string
+  public loginError: boolean
   constructor(
     public http: Http,
     public auth: AuthService,
     public api: ApiService,
-    public router: Router,
-    private dataService: DataService
+    public router: Router
   ) {
     this.youTrackName = "https://YOUR_COMPANY.myjetbrains.com/youtrack"
     this.username = ""

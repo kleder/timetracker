@@ -28,7 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { HttpService } from './services/http.service';
-import { SecondsToTimePipe } from './seconds-to-time.pipe'
+import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe'
 
 @NgModule({
   declarations: [

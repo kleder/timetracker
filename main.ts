@@ -1,7 +1,7 @@
 const electron = require("electron")
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
-const Tray = electron.Tray
+// const Tray = electron.Tray
 const Menu = electron.Menu
 const url = require('url')
 const path = require('path')
@@ -9,7 +9,7 @@ const ipcMain = electron.ipcMain
 // const sqlite3 = require('sqlite3').verbose()
 
 let mainWindow, serve;
-var trayIcon = null;
+// var trayIcon = null;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
@@ -61,11 +61,11 @@ try {
   // app.on('ready', createWindow);
   app.on('ready', () => {
 
-    const iconName = '../src/assets/cog.png';
-    const iconPath = path.join(__dirname, iconName);
+    // const iconName = '../src/assets/cog.png';
+    // const iconPath = path.join(__dirname, iconName);
   
-    trayIcon = new Tray(iconPath);
-    trayIcon.setToolTip('Kleder Track App');
+    // trayIcon = new Tray(iconPath);
+    // trayIcon.setToolTip('Kleder Track App');
 
     mainWindow = new BrowserWindow({
       width: 450,
@@ -138,7 +138,7 @@ try {
     }
   
     if (process.env.NODE_ENV !== 'production') {
-      mainWindow.webContents.openDevTools();
+      // mainWindow.webContents.openDevTools();
       mainMenuTemplate.push({
           label: 'Dev Tools',
           submenu: [
@@ -155,9 +155,9 @@ try {
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
     Menu.setApplicationMenu(mainMenu)
 
-    trayIcon.on('click', () => {
-      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
-    })
+    // trayIcon.on('click', () => {
+    //   mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+    // })
     
   });
   

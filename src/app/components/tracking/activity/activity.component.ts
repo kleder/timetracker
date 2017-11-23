@@ -4,8 +4,6 @@ import { TimerService } from '../../../services/timer.service'
 import { DataService } from '../../../services/data.service'
 import { ApiService } from '../../../services/api.service'
 
-const sqlite3 = require('sqlite3')
-
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
@@ -13,11 +11,11 @@ const sqlite3 = require('sqlite3')
 })
 export class ActivityComponent implements OnInit {
   private unstoppedItem: any
-  private todaySummaryItems: Array<any>
+  public todaySummaryItems: Array<any>
   private todayTimes: object
   private db: any
   constructor(
-    private databaseService: DatabaseService,
+    public databaseService: DatabaseService,
     private timerService: TimerService,
     private dataService: DataService,
     private api: ApiService

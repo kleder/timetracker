@@ -11,7 +11,7 @@ import { HttpService } from '../../services/http.service'
   styleUrls: ['./boards-choice.component.scss']
 })
 export class BoardsChoiceComponent implements OnInit {
-  private agiles: any
+  public agiles: any
   constructor(
     public router: Router,
     private dataService: DataService,
