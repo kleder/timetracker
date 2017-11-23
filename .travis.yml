@@ -1,7 +1,9 @@
 matrix:
   include:
   - os: linux
+    env: TARGET=linux
   - os: osx
+    env: TARGET=mac
 
 language: node_js
 
@@ -12,7 +14,7 @@ script:
   - node --version
   - npm --version
   - npm install
-  - npm run electron:linux
+  - npm run electron:$TARGET
 
 cache:
   directories:
