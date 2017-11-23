@@ -1,8 +1,22 @@
+os:
+  - linux
+
 language: node_js
+
 node_js:
-  - "7"
-  - "6"
-install:
-  - npm install
+  - "6.10"
+
 script:
-  - npm run build
+  - node --version
+  - npm --version
+  - npm install
+  - npm electron:linux
+
+cache:
+  directories:
+    - node_modules
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
