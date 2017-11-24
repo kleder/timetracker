@@ -9,7 +9,9 @@ export class DatabaseService {
   public loader = false
   public db = new sqlite3.Database(dbPath)
   constructor(
-  ) {}
+  ) {
+    this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` TEXT, `duration` INTEGER, `lastUpdate` TEXT )");
+  }
 
   public getAllItems = () => {
     let that = this
@@ -19,11 +21,12 @@ export class DatabaseService {
       this.db.serialize(() => {
         that.db.all('SELECT * FROM `tasks`', function(err, rows) {
           that.loader = false
-          resolve(rows)
           if (err) {
               that.loader = false   
               console.log("err: ", err)
               resolve(err)
+            } else {
+              resolve(rows)
             }
         })
       })
