@@ -1,14 +1,17 @@
 <div class="container">
     <form>
-        <div class="title">TrackApp</div>
+        <div class="title">Sign in to an account</div>
         <div class="you-track-form">
-            <label>{{ 'youtrack url' | uppercase }}</label>                            
-            <input [(ngModel)]="youTrackName" name="youTrackName" type="text" required>
-            <label>{{ 'email' | uppercase }}</label>            
-            <input class="email" [(ngModel)]="username" name="username" placeholder="username" type="text" required>
+            <label>{{ 'url' | uppercase }}</label>
+            <!-- <label class="example">For example: https://YOUR_COMPANY.myjetbrains.com/youtrack</label>-->
+            <input [(ngModel)]="youTrackName" name="youTrackName" placeholder="https://COMPANY.myjetbrains.com/youtrack" onfocus="this.placeholder=''" onblur="this.placeholder='https://COMPANY.myjetbrains.com/youtrack'" type="text" required>
+            <label>{{ 'login or e-mail' | uppercase }}</label>            
+            <input class="email" [(ngModel)]="username" name="username" placeholder="username" onfocus="this.placeholder=''" onblur="this.placeholder='username'" type="text" required>
             <label>{{ 'password' | uppercase }}</label>            
-            <input class="password" [(ngModel)]="password" name="password" placeholder="password" type="password" required>
-            <div *ngIf="loginError" class="error">Incorrect username or password</div>
+            <input class="password" [(ngModel)]="password" name="password" placeholder="password" onfocus="this.placeholder=''" onblur="this.placeholder='password'" type="password" required>
+            <div *ngIf="!loginCorrect" class="error">
+                <span>Incorrect username or password</span>
+            </div>
             <button (click)="login(youTrackName, username, password)" type="submit">Log In</button>
         </div>
     </form>

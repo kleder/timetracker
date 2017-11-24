@@ -1,13 +1,18 @@
 <div class="container">
-  <form>
-    <div class="title">Select agile boards</div>
-    <div class="item" *ngFor="let agile of agiles; let i=index">
-      <input type="checkbox" [(ngModel)]="agile.checked" name="checked">
-      <label>{{ agile.name }}</label>
-    </div>
-    <button type=”submit” (click)="agilesChoose()">Submit</button>
-  </form>
-  <div class="loader">
-    <ngx-loading [show]="httpService.loader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+  <div class="header">
+    <span class="header__title">Select agile boards</span>
   </div>
+  <div class="content">
+    <form>
+      <div class="item" *ngFor="let agile of agiles; let i=index">
+        <input type="checkbox" [(ngModel)]="agile.checked" name="checked">
+        <label>{{ agile.name }}</label>
+      </div>
+      <button type=”submit” (click)="agilesChoose()">Submit</button>
+    </form>
+    <div class="loader">
+      <ngx-loading [show]="httpService.loader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    </div>
+  </div>
+
 </div>

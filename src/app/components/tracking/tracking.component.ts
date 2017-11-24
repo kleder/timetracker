@@ -6,6 +6,8 @@ import { DataService } from '../../services/data.service'
 import { DatabaseService } from '../../services/database.service'
 import { ApiService } from '../../services/api.service'
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-tracking',
   templateUrl: './tracking.component.html',
@@ -21,7 +23,8 @@ export class TrackingComponent implements OnInit {
     public timerService: TimerService,
     public dataService: DataService,
     public databaseService: DatabaseService,
-    public api: ApiService
+    public api: ApiService,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -88,6 +91,14 @@ export class TrackingComponent implements OnInit {
         }
       }
     )
+  }
+
+  public chooseAgiles() {
+    this.router.navigateByUrl('/boards');    
+  }
+
+  public logOut() {
+    this.router.navigateByUrl('');    
   }
 
   public showNotification() {

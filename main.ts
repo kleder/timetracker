@@ -27,8 +27,8 @@ function createWindow(name) {
   name = new BrowserWindow({
     // x: 0,
     // y: 0,
-    width: 450,
-    height: 760
+    width: 400,
+    height: 650
   });
 
   // and load the index.html of the app.
@@ -68,8 +68,8 @@ try {
     // trayIcon.setToolTip('Kleder Track App');
 
     mainWindow = new BrowserWindow({
-      width: 450,
-      height: 760,
+      width: 400,
+      height: 650,
       title: 'Kleder Track App'
     })
     

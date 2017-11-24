@@ -19,7 +19,7 @@ export class TimerService {
     this.currentTime = undefined
   }
 
-  public turnTimer(issue, startDate, startTime:number=50) {
+  public turnTimer(issue, startDate, startTime:number=0) {
     this.currentIssue = issue
     this.currentIssueId = issue.id
     this.startDate = startDate

@@ -4,29 +4,34 @@
   background-color: $menu-color; 
   height: 100%; 
   box-sizing: border-box;
-  padding: 0 30px 79px;
+  padding: 0 15px 79px;
   background: $dark;
   form {
     padding-top: 97px;
     .title {
       padding-bottom: 40px;
       font-family: 'Montserrat', sans-serif;
-      color: $issue-font-color;
+      color: $white;
       font-size: 24px;
       font-weight: 600;
-      text-align: left;
+      text-align: center;
       letter-spacing: 3px;
     }
     .you-track-form {
       font-size: 20px;
       // padding-bottom: 40px;
       label {
+        display: block;
         font-family: 'Montserrat', sans-serif;
-        color: $white;
+        color: $issue-font-color;
         font-size: 12px;
         font-weight: 400;
         text-align: left;
         letter-spacing: 2px;
+        &.example {
+          padding-top: 5px;
+          font-size: 10px;
+        }
       }
       input {
         margin: 16px 0 25px;
@@ -36,7 +41,7 @@
         border: 0;
         outline: 0;
         font-family: 'Montserrat', sans-serif;
-        color: $issue-font-color;
+        color: $white;
         font-size: 14px;
         font-weight: 400;
         text-align: left;
@@ -59,9 +64,28 @@
         text-align: center;
       }
       .error {
-        height: 30px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
         color: $record-color;
       }
     }
   }
+}
+*::-webkit-input-placeholder {
+  color: $issue-font-color;
+}
+*:-moz-placeholder {
+  /* FF 4-18 */
+  color: $issue-font-color;
+}
+*::-moz-placeholder {
+  /* FF 19+ */
+  color: $issue-font-color;
+}
+*:-ms-input-placeholder {
+  /* IE 10+ */
+  color: $issue-font-color;
 }

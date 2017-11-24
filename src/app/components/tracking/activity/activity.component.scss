@@ -1,20 +1,25 @@
 @import "../../../theme/colors.scss";
 
 .container {
-    padding: 5px 19px;
+    padding: 5px 10px;
     .record-list__item {
         background-color: $issue-bg-color;
         border: 0px solid $issue-bg-color;
         border-radius: 4px;
         padding: 11px;
         margin-bottom: 8px;
+        &:hover {
+            .record-list__record {
+                display: unset !important;
+            }
+        }
         .record-list__header {
             color: $issue-font-color;
             font-size: 10px;
             font-family: 'Montserrat', sans-serif;
             text-align: left;
             font-weight: 400;
-            padding-bottom: 21px;
+            padding-bottom: 11px;
             .record-list__summary, .record-list__todays-time, {
                 display: inline-block;
                 font-family: 'Montserrat', sans-serif;
@@ -41,10 +46,17 @@
                 font-weight: 400;
             }
             .record-list__record {
+                display: none;
                 float: right;
                 background: none;
                 border: none;
                 color: $record-color;
+                &:hover {
+                    background-color: $record-color;
+                    color: $white;
+                    border: 0px solid $record-color;
+                    border-radius: 2px;
+                }
                 .fa-circle {
                     font-size: 6px;
                     padding-right: 4px;

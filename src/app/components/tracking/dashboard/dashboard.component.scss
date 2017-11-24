@@ -1,7 +1,7 @@
 @import "../../../theme/colors.scss";
 
 .container {
-    padding: 30px 19px;
+    padding: 10px;
     .project-list {
         color: $white;
         &__agile {
@@ -29,12 +29,22 @@
             -moz-transition: height 2s; /* Firefox 4 */
             -webkit-transition: height 2s; /* Safari and Chrome */
             -o-transition: height 2s;
+            &--empty {
+                margin-bottom: 31px;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 11px;
+            }
             .project-list__item {
                 background-color: $issue-bg-color;
-                border: 0px solid $issue-bg-color;
+                border: 0;
                 border-radius: 4px;
                 padding: 11px;
                 margin-bottom: 7px;
+                &:hover {
+                    .project-list__record {
+                        display: unset !important;
+                    }
+                }
                 &:last-child {
                     margin-bottom: 31px;
                 }
@@ -53,7 +63,7 @@
                     font-family: 'Montserrat', sans-serif;
                     text-align: left;
                     font-weight: 400;
-                    padding-bottom: 21px;
+                    padding-bottom: 11px;
                     .project-list__id, .project-list__type, .project-list__priority, .project-list__description, .project-list__comments, .project-list__record {
                         display: inline-block;
                     }
@@ -87,10 +97,17 @@
                         }
                     }
                     .project-list__record {
+                        display: none;
                         float: right;
                         background: none;
                         border: none;
                         color: $record-color;
+                        &:hover {
+                            background-color: $record-color;
+                            color: $white;
+                            border: 0px solid $record-color;
+                            border-radius: 2px;
+                        }
                         .fa-circle {
                             font-size: 6px;
                             padding-right: 4px;

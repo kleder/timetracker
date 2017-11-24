@@ -17,15 +17,16 @@ export class HomeComponent implements OnInit {
   public youTrackName: string
   public username: string
   public password: string
-  public loginError: boolean
+  public loginCorrect: boolean = true
   constructor(
     public http: Http,
     public auth: AuthService,
     public api: ApiService,
     public router: Router
   ) {
-    this.youTrackName = "https://YOUR_COMPANY.myjetbrains.com/youtrack"
-    this.username = ""
+    this.youTrackName = ""
+    this.username = ""    
+    this.password = ""
    }
 
   ngOnInit() {
@@ -36,12 +37,16 @@ export class HomeComponent implements OnInit {
       data => {
         console.log(data)
         if (data["status"] == 200) {
-          this.goToLogin()
+          if (data["url"].indexOf('instanceIsNotRegistered') > -1) {
+            this.loginCorrect = false;
+          } else {
+            this.goToLogin()
+          }
         } else {
-          this.loginError = true;
+          this.loginCorrect = false;
         }
       }, error => {
-        this.loginError = true;
+        this.loginCorrect = false;
         console.log(error)
       }
     )

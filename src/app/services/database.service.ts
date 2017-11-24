@@ -17,7 +17,7 @@ export class DatabaseService {
     return new Promise(resolve => {
       this.loader = true
       this.db.serialize(() => {
-        this.db.all('SELECT * FROM `tasks`', function(err, rows) {
+        that.db.all('SELECT * FROM `tasks`', function(err, rows) {
           that.loader = false
           resolve(rows)
           if (err) {
@@ -31,10 +31,11 @@ export class DatabaseService {
   }
 
   public startItem = (issue, date) => {
+    let that = this
     let status = "start"
     let duration = 0
     this.db.serialize(function() {
-      let stmt = this.db.prepare("INSERT INTO `tasks` (`published`, `agile`, `issueid`, `status`, `date`, `duration`, `lastUpdate`) VALUES (0, '" + issue.agile + "', '" + issue.id + "', '" + status + "', '" + date + "', " + duration + ", " + date + ")");
+      let stmt = that.db.prepare("INSERT INTO `tasks` (`published`, `agile`, `issueid`, `status`, `date`, `duration`, `lastUpdate`) VALUES (0, '" + issue.agile + "', '" + issue.id + "', '" + status + "', '" + date + "', " + duration + ", " + date + ")");
       stmt.run()
       stmt.finalize()
       console.log("item started ", stmt)
@@ -42,11 +43,12 @@ export class DatabaseService {
   }
 
   public updateDuration = (duration, date) => {
+    let that = this
     console.log("UPDATE // duration: ", duration)
     console.log("date", date)
     new Promise(resolve => {
       this.db.serialize(() => {
-        let stmt = this.db.prepare("UPDATE `tasks` SET `duration` = '" + duration + "', `lastUpdate` = '" + Date.now() + "' WHERE `date` = " + date)
+        let stmt = that.db.prepare("UPDATE `tasks` SET `duration` = '" + duration + "', `lastUpdate` = '" + Date.now() + "' WHERE `date` = " + date)
         stmt.run()
         stmt.finalize()
         console.log("item duration updated ", duration)
@@ -56,9 +58,10 @@ export class DatabaseService {
   }
 
   public stopItem = (duration, date) => {
+    let that = this
     let lastUpdate = Date.now()
     this.db.serialize(function() {
-      let stmt = this.db.prepare("UPDATE `tasks` SET `status` = 'stop', `duration` = " + duration + ", `lastUpdate` = " + lastUpdate + " WHERE `date` = " + date)
+      let stmt = that.db.prepare("UPDATE `tasks` SET `status` = 'stop', `duration` = " + duration + ", `lastUpdate` = " + lastUpdate + " WHERE `date` = " + date)
       stmt.run()
       stmt.finalize()
       console.log("item stopped ", stmt)
@@ -66,8 +69,9 @@ export class DatabaseService {
   }
 
   public setIsPublished = (date) => {
+    let that = this
     this.db.serialize(function() {
-      let stmt = this.db.prepare("UPDATE `tasks` SET `published` = '1' WHERE `date` = " + date)
+      let stmt = that.db.prepare("UPDATE `tasks` SET `published` = '1' WHERE `date` = " + date)
       stmt.run()
       stmt.finalize()
       console.log("set `published` to 1", stmt)
@@ -75,8 +79,9 @@ export class DatabaseService {
   }
 
   public setIsStopped = (date) => {
+    let that = this
     this.db.serialize(function() {
-      let stmt = this.db.prepare("UPDATE `tasks` SET `status` = 'stop' WHERE `date` = " + date)
+      let stmt = that.db.prepare("UPDATE `tasks` SET `status` = 'stop' WHERE `date` = " + date)
       stmt.run()
       stmt.finalize()
       console.log("set `status` to 'stop'", stmt)
@@ -84,9 +89,10 @@ export class DatabaseService {
   }
 
   public deleteItem = (item) => {
+    let that = this
     new Promise(resolve => {
       this.db.serialize(() => {
-        let stmt = this.db.prepare("DELETE FROM `tasks` WHERE `date` = " + item.date)
+        let stmt = that.db.prepare("DELETE FROM `tasks` WHERE `date` = " + item.date)
         stmt.run()
         stmt.finalize()
       })

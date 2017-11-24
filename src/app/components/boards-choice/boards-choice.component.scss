@@ -1,63 +1,76 @@
 @import "../../theme/colors.scss";
 
 .container {
-    background-color: $menu-color; 
-    padding: 0 30px 79px;
-    background: $dark;
-    form {
-      padding-top: 97px;
-      .title {
+    // background-color: $menu-color; 
+    height: 100%;
+    // background: $dark;
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;      
+      height: 127px;
+      line-height: 127px;
+      text-align: center;
+      background-color: $menu-color;
+      &__title {
         padding-bottom: 22px;
         font-family: 'Montserrat', sans-serif;
-        color: $issue-font-color;
+        color: $white;
         font-size: 24px;
         font-weight: 600;
-        text-align: left;
+        text-align: center;
         letter-spacing: 3px;
       }
-      .item {
-        padding: 22px 0 22px 8px;
-        border-bottom: 2px solid $border-color;
-        input {
-          -webkit-appearance: none;
-          margin: 0;
-          margin-right: 17px;
-          height: 24px;
-          width: 24px;
-          background-color: none;
-          border: 1px solid $white;
-          border-radius: 2px;
-          vertical-align: middle;
-          outline: none;
-          &:checked {
-            background-color: $white;
+    }
+    .content {
+      margin-top: 127px;
+      padding: 10px 15px 79px;
+      background-color: $content-color;
+      form {
+        // padding-top: 97px;
+        .item {
+          padding: 22px 0 22px 8px;
+          border-bottom: 2px solid $border-color;
+          input {
+            -webkit-appearance: none;
+            margin: 0;
+            margin-right: 17px;
+            height: 24px;
+            width: 24px;
+            background-color: none;
+            border: 1px solid $white;
+            border-radius: 2px;
+            vertical-align: middle;
+            outline: none;
+            &:checked {
+              background-color: $white;
+            }
+          }
+          label {
+            font-family: 'Montserrat', sans-serif;
+            color:  $white;
+            font-size: 14px;
+            font-weight: 400;
+            text-align: left;
+            vertical-align: middle;
+            letter-spacing: 2px;
           }
         }
-        label {
+        button {
+          display: block;
+          margin: 79px auto 0;
+          width: 126px;
+          height: 40px;
+          border: 0px solid $white;
+          border-radius: 2px;
+          background-color:  $white;
           font-family: 'Montserrat', sans-serif;
-          color:  $white;
+          color:  $issue-bg-color;
           font-size: 14px;
           font-weight: 400;
-          text-align: left;
-          vertical-align: middle;
-          letter-spacing: 2px;
+          text-align: center;
         }
       }
-      button {
-        display: block;
-        margin: 79px auto 0;
-        width: 126px;
-        height: 40px;
-        border: 0px solid $white;
-        border-radius: 2px;
-        background-color:  $white;
-        font-family: 'Montserrat', sans-serif;
-        color:  $issue-bg-color;
-        font-size: 14px;
-        font-weight: 400;
-        text-align: center;
-      }
-    }
-  
+    } 
   }
   
