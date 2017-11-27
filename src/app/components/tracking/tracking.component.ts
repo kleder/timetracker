@@ -18,6 +18,7 @@ export class TrackingComponent implements OnInit {
   public issueTime: number
   private allItemsFromDb: any
   public unstoppedItem: any
+  public notificationText: string
 
   constructor(
     public timerService: TimerService,
@@ -31,6 +32,7 @@ export class TrackingComponent implements OnInit {
     this.subscribeNotificationTime()
     this.subscribeIssueTime()
     this.subscribeUnstoppedItem()
+    this.subscribeNotification()
   }
 
   subscribeNotificationTime() {
@@ -38,7 +40,7 @@ export class TrackingComponent implements OnInit {
       console.log(data)
       this.notificationTime = data
       if (this.notificationTime != undefined) {
-        this.showNotification()
+        this.showAfkNotification()
       }
     })
   }
@@ -50,6 +52,12 @@ export class TrackingComponent implements OnInit {
       console.log("issueTime", issueTime)
       if (issueTime % 60 === 0) {
         this.databaseService.updateDuration(Math.round(issueTime), startDate)
+      }
+      if (issueTime) {
+        let element = document.getElementById('current-item') 
+        element.className = "show"
+        let content = document.getElementById('content')
+        content.className = "content decrease"
       }
     })
   }
@@ -64,6 +72,15 @@ export class TrackingComponent implements OnInit {
     })
   }
 
+  public subscribeNotification() {
+    this.dataService.notificationText.subscribe(text => {
+      console.log(text)
+      if (text) {
+        this.timeSavedNotification(text)
+      }
+    })
+  }
+
   public manageUnstoppedItem = (action) => {
     this.unstoppedItem.action = action
     console.log("in tracking", action)
@@ -71,6 +88,7 @@ export class TrackingComponent implements OnInit {
   }
 
   public stopTracking = (issue) => {
+    this.timerService.stopTrackingNotifications()
     console.log("issue in tracking comp", issue)
     // sendToApi
     this.sendWorkItems(this.timerService.currentIssueId, {date: this.timerService.startDate, duration: this.timerService.currentTime })
@@ -81,6 +99,7 @@ export class TrackingComponent implements OnInit {
   }
 
   public sendWorkItems = (issueId, item) => {
+    let that = this
     console.log("issueId", issueId)
     this.api.createNewWorkItem(item, issueId).then(      
       response => {
@@ -88,6 +107,9 @@ export class TrackingComponent implements OnInit {
           console.log("ok")
           this.databaseService.setIsPublished(item.date)
           this.databaseService.setIsStopped(item.date)
+            that.timeSavedNotification('Your tracking has been saved!')
+        } else {
+          this.timeSavedNotification('An error occured.')
         }
       }
     )
@@ -101,7 +123,7 @@ export class TrackingComponent implements OnInit {
     this.router.navigateByUrl('');    
   }
 
-  public showNotification() {
+  public showAfkNotification() {
     document.getElementById('afk-notification').style.display = "unset"
   }
 
@@ -111,6 +133,18 @@ export class TrackingComponent implements OnInit {
 
   public hideUnstoppedNotification() {
     document.getElementById('unstopped-item').style.display = "none"
+  }
+
+  public timeSavedNotification(text: string) {
+    let that = this
+    setTimeout(function() { 
+      that.notificationText = text
+      let element = document.getElementById("default-notification")
+      element.className = "show";
+      setTimeout(function() { 
+        element.className = element.className.replace("show", "")
+      }, 2500);
+    }, 300)
   }
 
 }

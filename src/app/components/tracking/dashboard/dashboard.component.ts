@@ -204,12 +204,16 @@ export class DashboardComponent implements OnInit {
 
   public sendWorkItems = (issueId, item) => {
     console.log("issueId", issueId)
-    this.api.createNewWorkItem(item, issueId).then(      
+    this.api.createNewWorkItem(item, issueId).then(
       response => {
         if (response["ok"]) {
           console.log("ok")
+          this.dataService.timeSavedNotification('Your tracking has been saved!')
           this.databaseService.setIsPublished(item.date)
           this.databaseService.setIsStopped(item.date)
+        }
+        else {
+          this.dataService.timeSavedNotification('An error occured.')
         }
       }
     )
@@ -225,13 +229,14 @@ export class DashboardComponent implements OnInit {
     )
   }
 
-  public startTracking(issue, startTime = 50, idle = 5) {
+  public startTracking(issue, startTime = 0, idle = 5) {
     let startDate = issue.date || Date.now()
     console.log("in start tracking", issue)
     console.log("startTime", startTime)
     console.log("this.timerService.currentTime", this.timerService.currentTime)
     if (this.timerService.currentTime != undefined) {
       let currentId = this.timerService.currentIssueId
+      this.timerService.stopTrackingNotifications()
       // sendToApi
       this.sendWorkItems(this.timerService.currentIssueId, {date: this.timerService.startDate, duration: this.timerService.currentTime })
       // stop issueTimer && saveInDb 

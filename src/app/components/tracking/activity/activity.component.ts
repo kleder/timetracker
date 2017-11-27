@@ -65,11 +65,12 @@ export class ActivityComponent implements OnInit {
     })
   }
 
-  public startItem(issue, startTime=50) {
+  public startItem(issue, startTime=0) {
     console.log("start item from activity", issue)
     let startDate = Date.now()
     if (this.timerService.currentTime != undefined) {
       let currentId = this.timerService.currentIssueId
+      this.timerService.stopTrackingNotifications()
       // sendToApi
       this.sendWorkItems(this.timerService.currentIssueId, {date: this.timerService.startDate, duration: this.timerService.currentTime })
       // stop issueTimer && saveInDb 
@@ -117,20 +118,16 @@ export class ActivityComponent implements OnInit {
   }
 
   public sendWorkItems = (issueId, item) => {
-    // let newItem = {
-    //   date: item.date,
-    //   duration: item.duration, 
-    //   description: "Added by KlederTrack App",
-    //   worktype: {
-    //     name: "Testing"
-    //   }
-    // }
     this.api.createNewWorkItem(item, issueId).then(      
       response => {
         if (response["ok"]) {
           console.log("ok")
+          this.dataService.timeSavedNotification('Your tracking has been saved!')
           this.databaseService.setIsPublished(item.date)
           this.databaseService.setIsStopped(item.date)
+        } else {
+          console.log(response)
+          this.dataService.timeSavedNotification('An error occured.')
         }
       }
     )

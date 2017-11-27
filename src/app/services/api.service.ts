@@ -93,6 +93,8 @@ export class ApiService {
       this.http.post(AuthService.youtrackUrl + '/rest/issue/' + issueId + '/timetracking/workitem', newItem)
       .subscribe(data => {
         resolve(data)
+      }, error => {
+        resolve(error)
       })
     })
   }

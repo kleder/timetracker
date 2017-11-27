@@ -15,6 +15,8 @@ export class DataService {
   currentUnstoppedItem = this.unstoppedItem.asObservable()
   private unstoppedWithAction = new BehaviorSubject<object>({})
   choosenAction = this.unstoppedWithAction.asObservable()
+  private notificationMsg = new BehaviorSubject<string>("")
+  notificationText = this.notificationMsg.asObservable()
 
   constructor() { }
 
@@ -41,6 +43,11 @@ export class DataService {
   manageUnstoppedItem(data: object) {
     console.log("data", data)
     this.unstoppedWithAction.next(data)
+  }
+
+  timeSavedNotification(data: string) {
+    console.log("data", data)
+    this.notificationMsg.next(data)
   }
   
 }

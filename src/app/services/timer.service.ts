@@ -78,4 +78,14 @@ export class TimerService {
     return updatedTime
   }
 
+  public stopTrackingNotifications() {
+    let currentItem = document.getElementById('current-item') 
+    let content = document.getElementById('content')
+    currentItem.className = "fade-out"
+    content.className = content.className.replace("decrease", "increase")
+    setTimeout(function() { 
+      currentItem.className = currentItem.className.replace("fade-out", "hidden")
+    }, 500);
+  }
+
 }

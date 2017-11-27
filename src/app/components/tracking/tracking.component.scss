@@ -59,6 +59,42 @@
         background-color: $content-color;
         box-sizing: border-box;
         overflow: auto;
+        &.decrease {
+            -webkit-animation: decrease 0.5s;
+            animation: decrease 0.5s;
+            min-height: calc(100% - 271px);
+            height: calc(100% - 271px)
+        }
+        &.increase {
+            -webkit-animation: increase 0.2s;
+            animation: increase 0.2s;
+            min-height: calc(100% - 127px);
+            height: calc(100% - 127px);
+        }
+        @-webkit-keyframes decrease {
+            from {        min-height: calc(100% - 127px);
+                height: calc(100% - 127px);} 
+            to {            min-height: calc(100% - 271px);
+                height: calc(100% - 271px); }
+        }
+        @keyframes decrease {
+            from {        min-height: calc(100% - 127px);
+                height: calc(100% - 127px);} 
+            to {            min-height: calc(100% - 271px);
+                height: calc(100% - 271px); }
+        }
+        @-webkit-keyframes increase {
+            from {        min-height: calc(100% - 271px);
+                height: calc(100% - 271px);} 
+            to {                min-height: calc(100% - 127px);
+                height: calc(100% - 127px);         }
+        }
+        @keyframes increase {
+            from {        min-height: calc(100% - 271px);
+                height: calc(100% - 271px);} 
+            to {             min-height: calc(100% - 127px);
+                height: calc(100% - 127px); }
+        }
     }
     button {
         &.danger {
@@ -72,7 +108,8 @@
             background-color: #38b4e7;
         }
     }
-    .current-item {
+    #current-item {
+        visibility: hidden;
         position: fixed;
         right: 0;
         left: 0;
@@ -80,6 +117,37 @@
         background-color: $issue-bg-color;
         border-top: 1px solid $border-color;
         padding: 41px 15px 27px;
+        box-sizing: border-box;
+        height: 144px;
+        &.show {
+            visibility: visible;
+            -webkit-animation: fadein-current 0.5s;
+            animation: fadein-current 0.5s;
+        }
+        &.fade-out {
+            visibility: visible;
+            -webkit-animation: fadeout-current 0.5s ;
+            animation: fadeout-current 0.5s;
+        }
+        &.hidden {
+            visibility: hidden
+        }
+        @-webkit-keyframes fadein-current {
+            from {bottom: -144px; } 
+            to {bottom: 0; }
+        }
+        @keyframes fadein-current {
+            from {bottom: -144px; }
+            to {bottom: 0; }
+        }
+        @-webkit-keyframes fadeout-current {
+            from {bottom: 0; } 
+            to {bottom: -144px;}
+        }
+        @keyframes fadeout-current {
+            from {bottom: 0; }
+            to {bottom: -144px;}
+        }
         .current-item__header {
             color: $issue-font-color;
             font-size: 10px;
@@ -145,7 +213,7 @@
         padding: 10px 15px;
         background-color: $issue-bg-color;
         border-top: 1px solid $border-color;
-        border-bottom: 1px solid $border-color;  
+        border-bottom: 1px solid $border-color;
         .afk-notification__text {
             span {
                 display: block;
@@ -172,7 +240,44 @@
         }
 
     }
-
+    #default-notification {
+        visibility: hidden;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px 15px;
+        text-align: center;
+        box-sizing: border-box;
+        background-color: $issue-bg-color;
+        border-top: 1px solid $border-color;
+        &.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        span {
+            color: $white;
+            font-family: 'Montserrat', sans-serif;
+        }
+        @-webkit-keyframes fadein {
+            from {bottom: -52px; } 
+            to {bottom: 0; }
+        }
+        @keyframes fadein {
+            from {bottom: -52px; }
+            to {bottom: 0; }
+        }
+        @-webkit-keyframes fadeout {
+            from {bottom: 0; } 
+            to {bottom: -52px;  }
+        }
+        @keyframes fadeout {
+            from {bottom: 0; }
+            to {bottom: -52px; }
+        }
+    }
     #unstopped-item {
         display: none;
         padding: 15px;
