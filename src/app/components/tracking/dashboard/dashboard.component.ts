@@ -46,13 +46,10 @@ export class DashboardComponent implements OnInit {
   }
 
   toggle(i) {
-    if (this.agiles[i].visiblityState === 'hidden') {
+    if (this.agiles[i].visiblityState === 'hidden')
       this.agiles[i].visiblityState = 'shown'
-    }
-    else {
+    else
       this.agiles[i].visiblityState = 'hidden'
-    }
-    // console.log(this.agiles[i])
     this.dataService.sendAgilesVisibility({name: this.agiles[i].name, state: this.agiles[i].visiblityState})
   }
   

@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
   }
 
   goToLogin() {
-    this.router.navigateByUrl('/boards');
+    this.router.navigate(['/boards'], { queryParams: {isLogged: true} });
   }
 
 }

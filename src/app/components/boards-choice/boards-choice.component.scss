@@ -72,5 +72,43 @@
         }
       }
     } 
+    #default-notification {
+      visibility: hidden;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      padding: 10px 15px;
+      text-align: center;
+      box-sizing: border-box;
+      background-color: $issue-bg-color;
+      border-top: 1px solid $border-color;
+      &.show {
+          visibility: visible;
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.2s;
+          animation: fadein 0.5s, fadeout 0.5s 2.2s;
+      }
+      span {
+          color: $white;
+          font-family: 'Montserrat', sans-serif;
+      }
+      @-webkit-keyframes fadein {
+          from {bottom: -40px; } 
+          to {bottom: 0; }
+      }
+      @keyframes fadein {
+          from {bottom: -40px; }
+          to {bottom: 0; }
+      }
+      @-webkit-keyframes fadeout {
+          from {bottom: 0; } 
+          to {bottom: -40px;  }
+      }
+      @keyframes fadeout {
+          from {bottom: 0; }
+          to {bottom: -40px; }
+      }
+  }
   }
   

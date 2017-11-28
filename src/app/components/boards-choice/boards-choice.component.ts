@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
 import { DataService } from '../../services/data.service'
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
@@ -12,23 +12,34 @@ import { HttpService } from '../../services/http.service'
 })
 export class BoardsChoiceComponent implements OnInit {
   public agiles: any
+  private notificationText: string
+  private justLoggedIn: boolean
   constructor(
     public router: Router,
     private dataService: DataService,
     private auth: AuthService,
     private api: ApiService,
-    public httpService: HttpService
+    public httpService: HttpService,
+    public activatedRoute: ActivatedRoute
   ) { 
   }
 
   ngOnInit() {
     this.getAllAgiles()
+    this.activatedRoute
+    .queryParams
+    .subscribe(params => {
+      this.justLoggedIn = (params['isLogged'])
+    });
   }
 
   public getAllAgiles() {
     this.api.getAllAgiles().then(
       data => {
         this.agiles = data
+        if (this.justLoggedIn) {
+          this.welcomeNotification()          
+        }
       }
     )
   }
@@ -41,6 +52,18 @@ export class BoardsChoiceComponent implements OnInit {
     })
     this.dataService.sentChoosenAgiles(this.agiles)
     this.router.navigateByUrl('/tracking');
+  }
+
+  public welcomeNotification() {
+    let that = this
+    setTimeout(function() { 
+      that.notificationText = "You’re in! Select agile boards."
+      let element = document.getElementById("default-notification")
+      element.className = "show";
+      setTimeout(function() { 
+        element.className = element.className.replace("show", "")
+      }, 2500);
+    }, 300)
   }
   
 }

@@ -92,7 +92,6 @@ export class TrackingComponent implements OnDestroy, OnInit {
     let that = this
     this.agilesStates = []
     this.dataService.agilesStates.takeWhile(() => this.alive).subscribe(currentAgile => {
-      console.log("aaagiiiileee", currentAgile)
       if (Object.keys(currentAgile).length > 0) {
         this.agilesStates.push(currentAgile)
       }
