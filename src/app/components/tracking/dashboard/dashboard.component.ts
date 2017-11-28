@@ -46,10 +46,14 @@ export class DashboardComponent implements OnInit {
   }
 
   toggle(i) {
-    if (this.agiles[i].visiblityState === 'hidden')
+    if (this.agiles[i].visiblityState === 'hidden') {
       this.agiles[i].visiblityState = 'shown'
-    else
+    }
+    else {
       this.agiles[i].visiblityState = 'hidden'
+    }
+    // console.log(this.agiles[i])
+    this.dataService.sendAgilesVisibility({name: this.agiles[i].name, state: this.agiles[i].visiblityState})
   }
   
   ngOnInit() {
@@ -74,7 +78,6 @@ export class DashboardComponent implements OnInit {
             that.manageUnstoppedItem(itemWithAction, itemWithAction["action"])
           })
         }
-
         let todayItems = []
         if (new Date(row.date).getDate() == new Date().getDate() && row.status == "stop") {
           todayItems.push(row)
@@ -95,8 +98,19 @@ export class DashboardComponent implements OnInit {
   }
 
   public getAllAgiles() {
+    let that = this
     this.agiles.forEach((agile, index) => {
-      agile.visiblityState = 'shown'
+      that.dataService.currentAgilesStates.subscribe(agilesStates => {
+        agilesStates.forEach(agileState => {
+          (agile.name == agileState)? agile.visiblityState = agileState.state : "shown"
+        })
+      })
+      if (agile.visiblityState == '' ) {
+        agile.visiblityState = 'shown'
+      }
+      if (agile.checked) {
+        this.dataService.sendAgilesVisibility({name: agile.name, state: agile.visiblityState})  
+      }    
       agile.issues = []
       console.log(agile, index)
       if (agile.checked) {

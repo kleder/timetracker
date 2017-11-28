@@ -20,7 +20,8 @@ export class TrackingComponent implements OnDestroy, OnInit {
   public unstoppedItem: any
   public notificationText: string
   alive: boolean = true;
-
+  public agilesStates: Array<any>
+  
   constructor(
     public timerService: TimerService,
     public dataService: DataService,
@@ -34,6 +35,7 @@ export class TrackingComponent implements OnDestroy, OnInit {
     this.subscribeIssueTime()
     this.subscribeUnstoppedItem()
     this.subscribeNotification()
+    this.subscribeAgilesStates()
   }
 
   ngOnDestroy() {
@@ -83,6 +85,29 @@ export class TrackingComponent implements OnDestroy, OnInit {
       if (text) {
         this.timeSavedNotification(text)
       }
+    })
+  }
+
+  public subscribeAgilesStates() {
+    let that = this
+    this.agilesStates = []
+    this.dataService.agilesStates.takeWhile(() => this.alive).subscribe(currentAgile => {
+      console.log("aaagiiiileee", currentAgile)
+      if (Object.keys(currentAgile).length > 0) {
+        this.agilesStates.push(currentAgile)
+      }
+
+      this.agilesStates.forEach(agile => {
+       (agile.name == currentAgile["name"])? agile.state = currentAgile["state"] : ""
+      })
+
+      this.agilesStates = this.agilesStates.filter((thing, index, self) => 
+        index === self.findIndex((t) => (
+          t.name === thing.name
+        ))
+      )
+      console.log("this.agilesStates", this.agilesStates)
+      this.dataService.sendCurrentAgilesVisibility(this.agilesStates)
     })
   }
 
