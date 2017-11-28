@@ -15,8 +15,8 @@ const ipc = electron.ipcRenderer
   styleUrls: ['./dashboard.component.scss'],
   animations: [
     trigger('visibilityChanged', [
-      state('shown', style({ display: 'block', })),
-      state('hidden', style({ display: 'none' }))
+      state('shown', style({ maxHeight: '1000px', transition: 'max-height .3s ease-in', overflow: 'hidden' })),
+      state('hidden', style({ maxHeight: '0', transition: 'max-height .3s ease-out', overflow: 'hidden'}))
     ])
   ]
 })
@@ -46,11 +46,13 @@ export class DashboardComponent implements OnInit {
   }
 
   toggle(i) {
-    if (this.agiles[i].visiblityState === 'hidden')
-      this.agiles[i].visiblityState = 'shown'
-    else
-      this.agiles[i].visiblityState = 'hidden'
-    this.dataService.sendAgilesVisibility({name: this.agiles[i].name, state: this.agiles[i].visiblityState})
+    if (this.agiles[i].issues != 0) {
+      if (this.agiles[i].visiblityState === 'hidden')
+        this.agiles[i].visiblityState = 'shown'
+      else
+        this.agiles[i].visiblityState = 'hidden'
+      this.dataService.sendAgilesVisibility({name: this.agiles[i].name, state: this.agiles[i].visiblityState})
+    }
   }
   
   ngOnInit() {

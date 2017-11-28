@@ -9,6 +9,11 @@
             margin-bottom: 12px;
             border-bottom: 1px solid $border-color;
             letter-spacing: 1px;
+            &:hover {
+                .project-list__title {
+                    text-decoration: underline;
+                }
+            }
             .project-list__title, .project-list__toggle {
                 display: inline-block;
             }
@@ -17,7 +22,7 @@
                 font-size: 14px;
                 font-weight: 400;
                 color: $white;
-                margin: 0
+                margin: 0;
             }
             .project-list__toggle {
                 float: right;
@@ -25,10 +30,9 @@
             }
         }
         &__issues {
-            transition: height 2s;
-            -moz-transition: height 2s; /* Firefox 4 */
-            -webkit-transition: height 2s; /* Safari and Chrome */
-            -o-transition: height 2s;
+            max-height: 8000px;
+            transition: max-height 0.3s ease-in;
+            overflow: hidden;
             &--empty {
                 margin-bottom: 31px;
                 font-family: 'Montserrat', sans-serif;

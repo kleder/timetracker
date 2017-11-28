@@ -1,10 +1,10 @@
 <div class="container">
   <div class="kleder-track-content" *ngFor="let agile of agiles; let i=index">
     <div class="project-list" *ngIf="agile.checked">
-      <div class="project-list__agile">
+      <div class="project-list__agile" (click)="toggle(i)">
         <h2 class="project-list__title">{{ agile.name }}</h2>
         <div class="project-list__toggle" *ngIf="agile?.issues != 0">
-            <i (click)="toggle(i)" [ngClass]="agile.visiblityState=='shown'? 'fa fa-angle-down' : 'fa fa-angle-up'" aria-hidden="true"></i>              
+            <i [ngClass]="agile.visiblityState=='shown'? 'fa fa-angle-down' : 'fa fa-angle-up'" aria-hidden="true"></i>              
         </div>
       </div>
       <div class="project-list__issues" [@visibilityChanged]="agile.visiblityState">
