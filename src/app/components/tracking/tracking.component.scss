@@ -254,28 +254,28 @@
         border-top: 1px solid $border-color;
         &.show {
             visibility: visible;
-            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.2s;
+            animation: fadein 0.5s, fadeout 0.5s 2.2s;
         }
         span {
             color: $white;
             font-family: 'Montserrat', sans-serif;
         }
         @-webkit-keyframes fadein {
-            from {bottom: -52px; } 
+            from {bottom: -40px; } 
             to {bottom: 0; }
         }
         @keyframes fadein {
-            from {bottom: -52px; }
+            from {bottom: -40px; }
             to {bottom: 0; }
         }
         @-webkit-keyframes fadeout {
             from {bottom: 0; } 
-            to {bottom: -52px;  }
+            to {bottom: -40px;  }
         }
         @keyframes fadeout {
             from {bottom: 0; }
-            to {bottom: -52px; }
+            to {bottom: -40px; }
         }
     }
     #unstopped-item {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DashboardComponent }  from './dashboard/dashboard.component';
 import { ActivityComponent }    from './activity/activity.component';
 import { TimerService } from '../../services/timer.service'
@@ -13,12 +13,13 @@ import { Router } from '@angular/router';
   templateUrl: './tracking.component.html',
   styleUrls: ['./tracking.component.scss']
 })
-export class TrackingComponent implements OnInit {
+export class TrackingComponent implements OnDestroy, OnInit {
   public notificationTime: number
   public issueTime: number
   private allItemsFromDb: any
   public unstoppedItem: any
   public notificationText: string
+  alive: boolean = true;
 
   constructor(
     public timerService: TimerService,
@@ -35,8 +36,12 @@ export class TrackingComponent implements OnInit {
     this.subscribeNotification()
   }
 
+  ngOnDestroy() {
+    this.alive = false
+  }
+
   subscribeNotificationTime() {
-    this.dataService.currentNotificationTime.subscribe(data => {
+    this.dataService.currentNotificationTime.takeWhile(() => this.alive).subscribe(data => {
       console.log(data)
       this.notificationTime = data
       if (this.notificationTime != undefined) {
@@ -46,14 +51,14 @@ export class TrackingComponent implements OnInit {
   }
 
   subscribeIssueTime() {
-    this.dataService.currentIssueTime.subscribe(data => {
+    this.dataService.currentIssueTime.takeWhile(() => this.alive).subscribe(data => {
       let issueTime = data["currentTime"]
       let startDate = data["startDate"]
       console.log("issueTime", issueTime)
       if (issueTime % 60 === 0) {
         this.databaseService.updateDuration(Math.round(issueTime), startDate)
       }
-      if (issueTime) {
+      if (this.timerService.currentIssueId) {
         let element = document.getElementById('current-item') 
         element.className = "show"
         let content = document.getElementById('content')
@@ -63,7 +68,7 @@ export class TrackingComponent implements OnInit {
   }
 
   subscribeUnstoppedItem() {
-    this.dataService.currentUnstoppedItem.subscribe(data => {
+    this.dataService.currentUnstoppedItem.takeWhile(() => this.alive).subscribe(data => {
       this.unstoppedItem = data
       if (Object.keys(this.unstoppedItem).length != 0) {
         this.showUnstoppedItem()
@@ -73,8 +78,8 @@ export class TrackingComponent implements OnInit {
   }
 
   public subscribeNotification() {
-    this.dataService.notificationText.subscribe(text => {
-      console.log(text)
+    this.dataService.notificationText.takeWhile(() => this.alive).subscribe(text => {
+      console.log("subscribeNotification", text)
       if (text) {
         this.timeSavedNotification(text)
       }
@@ -136,6 +141,7 @@ export class TrackingComponent implements OnInit {
   }
 
   public timeSavedNotification(text: string) {
+    console.log("in timeSavedNotification", text)
     let that = this
     setTimeout(function() { 
       that.notificationText = text

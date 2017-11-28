@@ -123,11 +123,13 @@ export class ActivityComponent implements OnInit {
         if (response["ok"]) {
           console.log("ok")
           this.dataService.timeSavedNotification('Your tracking has been saved!')
+          this.dataService.timeSavedNotification('')
           this.databaseService.setIsPublished(item.date)
           this.databaseService.setIsStopped(item.date)
         } else {
           console.log(response)
           this.dataService.timeSavedNotification('An error occured.')
+          this.dataService.timeSavedNotification('')
         }
       }
     )
