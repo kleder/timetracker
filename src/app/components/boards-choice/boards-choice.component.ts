@@ -12,7 +12,7 @@ import { HttpService } from '../../services/http.service'
 })
 export class BoardsChoiceComponent implements OnInit {
   public agiles: any
-  private notificationText: string
+  public notificationText: string
   private justLoggedIn: boolean
   constructor(
     public router: Router,
