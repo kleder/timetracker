@@ -21,7 +21,7 @@
                 <span class="current-item__duration">{{ timerService.currentTime | secondsToTime }}</span>
             </div>
             <div class="current-item__content">
-                <span class="current-item__todays-time">THIS DAY: {{ timerService.currentIssue.todaysTime | secondsToTime }}</span>
+                <span class="current-item__todays-time">TODAY: {{ timerService.currentIssue.todaysTime | secondsToTime }}</span>
                 <button class="current-item__record" (click)="stopTracking(timerService.currentIssue)">
                     <span><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
                 </button>    

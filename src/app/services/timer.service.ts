@@ -27,6 +27,7 @@ export class TimerService {
 
     this.issueTimer = setInterval(() => { 
       this.currentTime++
+      this.currentIssue.todaysTime++
       this.dataService.sentIssueData(
         { 
           currentTime: this.currentTime, 
