@@ -1,17 +1,15 @@
 {
-  "name": "TrackApp",
+  "name": "T-rec",
   "version": "1.0.0",
-  "description": "",
+  "description": "T-rec time tracker is built for speed and live work item update in youtrack system.",
   "homepage": "",
   "author": {
-    "name": "Kamil Dobrzynski",
-    "email": "kamil.dobrzynski@kleder.co"
+    "name": "Kleder",
+    "email": "biuro@kleder.eu"
   },
-  "keywords": [
-    "angular",
-    "electron",
-    "typescript",
-    "sass"
+    "keywords": [
+    "timetracking",
+    "youtrack" 
   ],
   "main": "main.js",
   "private": true,
@@ -31,6 +29,7 @@
     "electron:linux": "npm run build:prod && node package.js --asar --platform=linux --arch=x64",
     "electron:windows": "npm run build:prod && node package.js --asar --platform=win32 --arch=x64",
     "electron:mac": "npm run build:prod && node package.js --platform=darwin --arch=x64",
+    "create-installer-win": "node installers/windows/createinstaller.js",
     "test": "karma start ./karma.conf.js",
     "pree2e": "webdriver-manager update --standalone false --gecko false --quiet && npm run build",
     "e2e": "protractor ./protractor.conf.js",
