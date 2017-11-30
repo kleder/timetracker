@@ -3,6 +3,7 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { HttpService } from '../services/http.service'
 import { AccountService } from './account.service'
+import { RemoteAccount } from 'app/models/RemoteAccount';
 @Injectable()
 export class ApiService {
 
@@ -11,6 +12,10 @@ export class ApiService {
     public http: HttpService,
     public accounts: AccountService
   ) { }
+
+  public UseAccount(remoteAccount: RemoteAccount){
+    this.http.UseAccount(remoteAccount);
+  }
 
   getAllProjects = () => {
     return new Promise(resolve => { 

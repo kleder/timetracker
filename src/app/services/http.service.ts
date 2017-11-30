@@ -12,10 +12,14 @@ import {
 import { AccountService } from './account.service'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
+import { RemoteAccount } from 'app/models/RemoteAccount';
 
 @Injectable()
 export class HttpService extends Http {
   public loader = false
+  
+  private remoteAccount: RemoteAccount;
+
   constructor(
     backend: XHRBackend,
     defaultOptions: RequestOptions
@@ -23,22 +27,33 @@ export class HttpService extends Http {
     super(backend, defaultOptions)
   }
 
-  get(url: string, options?: RequestOptions): Observable<any> { 
-    this.loader = true
-    return super.get(this.getFullUrl(url))
-    .catch(this.onCatch)
-    .do((res: Response) => {
-        this.onSuccess(res);
-    }, (error: any) => {
-        this.onError(error);
-    })
-    .finally(() => {
-        this.onEnd();
-    });
+  public UseAccount(remoteAccount : RemoteAccount) {
+    this.remoteAccount = remoteAccount;
   }
 
+  get(url: string, options?: RequestOptionsArgs): Observable<any> { 
+    return super.get(this.getFullUrl(url), this.getOptions(options));
+  }
+
+  post(url: string, body: any, options?: RequestOptionsArgs): Observable<any>{
+    return super.post(this.getFullUrl(url), body, this.getOptions(options))
+  }
+
+  private getOptions(options?: RequestOptionsArgs){
+    
+    if (options != undefined){
+      options.headers.append('Authorization', 'Bearer '+ this.remoteAccount.token)
+      return options;
+    }
+
+    return {headers: new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer '+ this.remoteAccount.token
+    })} 
+  }
   private getFullUrl(url: string): string {
-    return AccountService.youtrackUrl + url;
+    return  this.remoteAccount.url + url;
   }
 
   private onCatch(error: any, caught: Observable<any>): Observable<any> {

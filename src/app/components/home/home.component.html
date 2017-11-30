@@ -7,7 +7,7 @@
             <input [(ngModel)]="youTrackName" name="youTrackName" placeholder="https://COMPANY.myjetbrains.com/youtrack" onfocus="this.placeholder=''" onblur="this.placeholder='https://COMPANY.myjetbrains.com/youtrack'" type="text" required>
             <label>{{ 'token' | uppercase }}</label>            
             <input class="email" [(ngModel)]="token" name="token" placeholder="permament token" onfocus="this.placeholder=''" onblur="this.placeholder='permament token'" type="text" required>
-            <div *ngIf="!loginCorrect" class="error">
+            <div *ngIf="!correctLoginData" class="error">
                 <span>Incorrect username or password</span>
             </div>
             <button (click)="login()" type="submit">Add account</button>

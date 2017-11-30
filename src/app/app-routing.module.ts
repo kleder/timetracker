@@ -6,7 +6,7 @@ import { ActivityComponent } from './components/tracking/activity/activity.compo
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthService } from './services/auth.service'
+import { AccountService } from './services/account.service'
 import { ApiService } from './services/api.service'
 
 const routes: Routes = [
@@ -44,7 +44,7 @@ const routes: Routes = [
     imports: [RouterModule.forRoot(routes, {useHash: true})],
     exports: [RouterModule],
     providers: [
-        AuthService,
+        AccountService,
         ApiService
     ]
 })

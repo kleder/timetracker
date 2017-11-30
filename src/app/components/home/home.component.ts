@@ -15,19 +15,16 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   title = `Kleder Track App`;
   
-  public youTrackName: string;
-  public token: string;
-  public loginCorrect: boolean = true;
+  public correctLoginData = true;
   public loader = false;
+  public youTrackName = "";
+  public token = "";
 
   constructor(
     public http: Http,
     public account: AccountService,
-    public api: ApiService,
-    public router: Router,
+    public router: Router,    
   ) {
-    this.youTrackName = ""
-    this.token = ""    
    }
 
   ngOnInit() {
@@ -38,19 +35,18 @@ export class HomeComponent implements OnInit {
     var account = this.account.add(this.youTrackName, this.token);
     this.account.user(account).then(
       data => {
-        console.log(data)
         this.loader = false;
         this.goToBoard()
       }, error => {
         this.loader = false;
-        this.loginCorrect = false;
+        this.correctLoginData = false;
         console.log(error)
       }
     )
   }
 
   goToBoard() {
-    this.router.navigate(['/boards'], { queryParams: {isLogged: true} });
+    this.router.navigate(['/boards'], { queryParams: {isLogged: true, url: this.youTrackName} });
   }
 
 }

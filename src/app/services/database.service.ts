@@ -106,18 +106,17 @@ export class DatabaseService {
   }
 
   public getAccount(youtrack : string) : Promise<RemoteAccount> {
-    let that = this
-    return new Promise<RemoteAccount>((resolve,reject) => {
-      this.loader = true
+    return new Promise<RemoteAccount>((resolve, reject) => {
+      if (youtrack == undefined){
+        reject("Youtrack url can't be blank");
+      }
       this.db.serialize(() => {
-        that.db.all('SELECT * FROM `account` where `url` = '+ youtrack, function(err, rows) {
-          that.loader = false
+        this.db.get('SELECT * FROM `account` where `url` = \''+ youtrack + "'", function(err, row) {
           if (err) {
-              that.loader = false   
-              console.log("err: ", err)
               reject(err)
             } else {
-              resolve(rows)
+              console.log(row);
+              resolve(row)
             }
         })
       })
@@ -125,15 +124,10 @@ export class DatabaseService {
   }
 
   public getAccounts = () : Promise<RemoteAccount> => {
-    let that = this
-    return new Promise<RemoteAccount>(resolve => {
-      this.loader = true
+    return new Promise<RemoteAccount>((resolve, reject) => {
       this.db.serialize(() => {
-        that.db.all('SELECT * FROM `account`', function(err, rows) {
-          that.loader = false
+        this.db.all('SELECT * FROM `account`', (err, rows) => {
           if (err) {
-              that.loader = false   
-              console.log("err: ", err)
               reject(err)
             } else {
               resolve(rows)
@@ -144,11 +138,8 @@ export class DatabaseService {
   }
 
   public addAccount = (item : RemoteAccount) => {
-    let that = this
-    let status = "start"
-    let duration = 0
-    this.db.serialize(function() {
-      let stmt = that.db.prepare("INSERT INTO `account` (`url`, `token`) VALUES ('" + item.url + "','" + item.token + "')");
+    this.db.serialize(() => {
+      let stmt = this.db.prepare("INSERT INTO `account` (`url`, `token`) VALUES ('" + item.url + "','" + item.token + "')");
       stmt.run()
       stmt.finalize()
     });

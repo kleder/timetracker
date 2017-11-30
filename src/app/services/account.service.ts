@@ -24,8 +24,8 @@ export class AccountService {
     return account;
   }
 
-  public get(youtrack: string) : Promise<RemoteAccount> {
-    return this.databaseService.getAccount(youtrack);
+  public async get(youtrack: string) : Promise<RemoteAccount> {
+    return await this.databaseService.getAccount(youtrack);
   }
 
   public user(remoteAccount: RemoteAccount) : Promise<UserData> {
