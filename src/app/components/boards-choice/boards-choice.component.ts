@@ -31,8 +31,6 @@ export class BoardsChoiceComponent implements OnInit {
     .queryParams
     .subscribe(async params => {
       this.justLoggedIn = (params['isLogged'])
-      this.remoteAccount = await this.auth.Current()
-      this.api.UseAccount(this.remoteAccount)
       this.getAllAgiles()
     });
   }

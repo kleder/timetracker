@@ -48,8 +48,6 @@
     "@angular/router": "4.4.3",
     "@paulcbetts/system-idle-time": "git+https://github.com/paulcbetts/node-system-idle-time.git",
     "core-js": "2.4.1",
-    "electron-builder": "^19.37.2",
-    "electron-squirrel-startup": "^1.0.0",
     "enhanced-resolve": "3.3.0",
     "font-awesome": "^4.7.0",
     "ionicons": "^3.0.0",
@@ -62,6 +60,8 @@
     "zone.js": "0.8.17"
   },
   "devDependencies": {
+    "electron-builder": "^19.37.2",
+    "electron-squirrel-startup": "^1.0.0",
     "@angular/cli": "1.4.3",
     "@angular/compiler-cli": "4.4.3",
     "@types/core-js": "0.9.36",

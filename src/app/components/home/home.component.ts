@@ -26,6 +26,8 @@ export class HomeComponent implements OnInit {
     public router: Router, 
     public activatedRoute: ActivatedRoute   
   ) {
+    console.log("Home")
+    console.log(process.env)
    }
 
   async ngOnInit() {
