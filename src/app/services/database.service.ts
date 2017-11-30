@@ -5,9 +5,6 @@ const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
 
 
-
-
-
 @Injectable()
 export class DatabaseService {
   public loader = false
@@ -20,8 +17,8 @@ export class DatabaseService {
     }
     var folder = path.resolve(envPath, '.trec')
     var dbPath = path.resolve(folder,'database')
-    this.db = new sqlite3.Database(dbPath, (err) => {
-      if (!err){
+    this.db = new sqlite3.Database(dbPath, (data, err) => {
+      if (err != undefined){
         this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT )");
         this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
       }
