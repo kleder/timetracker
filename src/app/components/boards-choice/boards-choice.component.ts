@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import { DataService } from '../../services/data.service'
-import { AuthService } from '../../services/auth.service';
+import { AccountService } from '../../services/account.service';
 import { ApiService } from '../../services/api.service';
 import { HttpService } from '../../services/http.service'
+import { RemoteAccount } from 'app/models/RemoteAccount';
 
 @Component({
   selector: 'app-boards-choice',
@@ -14,10 +15,11 @@ export class BoardsChoiceComponent implements OnInit {
   public agiles: any
   public notificationText: string
   private justLoggedIn: boolean
+  private remoteAccount: RemoteAccount 
   constructor(
     public router: Router,
     private dataService: DataService,
-    private auth: AuthService,
+    private auth: AccountService,
     private api: ApiService,
     public httpService: HttpService,
     public activatedRoute: ActivatedRoute
@@ -25,11 +27,13 @@ export class BoardsChoiceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllAgiles()
     this.activatedRoute
     .queryParams
-    .subscribe(params => {
+    .subscribe(async params => {
       this.justLoggedIn = (params['isLogged'])
+      this.remoteAccount = await this.auth.get(params['url'])
+      this.api.UseAccount(this.remoteAccount)
+      this.getAllAgiles()
     });
   }
 

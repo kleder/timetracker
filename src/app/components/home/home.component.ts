@@ -3,7 +3,7 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { ApiService } from '../../services/api.service';
-import { AuthService } from '../../services/auth.service';
+import { AccountService } from '../../services/account.service';
 
 import { Router } from '@angular/router';
 
@@ -14,46 +14,39 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   title = `Kleder Track App`;
-  public youTrackName: string
-  public username: string
-  public password: string
-  public loginCorrect: boolean = true
+  
+  public correctLoginData = true;
+  public loader = false;
+  public youTrackName = "";
+  public token = "";
+
   constructor(
     public http: Http,
-    public auth: AuthService,
-    public api: ApiService,
-    public router: Router
+    public account: AccountService,
+    public router: Router,    
   ) {
-    this.youTrackName = ""
-    this.username = ""    
-    this.password = ""
    }
 
   ngOnInit() {
   }
 
-  public login = (youTrackName, username, password) => {
-    this.auth.login(youTrackName, username, password).then(
+  public login = () => {
+    this.loader = true;
+    var account = this.account.add(this.youTrackName, this.token);
+    this.account.user(account).then(
       data => {
-        console.log(data)
-        if (data["status"] == 200) {
-          if (data["url"].indexOf('instanceIsNotRegistered') > -1) {
-            this.loginCorrect = false;
-          } else {
-            this.goToLogin()
-          }
-        } else {
-          this.loginCorrect = false;
-        }
+        this.loader = false;
+        this.goToBoard()
       }, error => {
-        this.loginCorrect = false;
+        this.loader = false;
+        this.correctLoginData = false;
         console.log(error)
       }
     )
   }
 
-  goToLogin() {
-    this.router.navigate(['/boards'], { queryParams: {isLogged: true} });
+  goToBoard() {
+    this.router.navigate(['/boards'], { queryParams: {isLogged: true, url: this.youTrackName} });
   }
 
 }

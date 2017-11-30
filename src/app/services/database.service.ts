@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { RemoteAccount } from '../models/RemoteAccount';
+import { reject } from 'q';
 const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
 const dbPath = path.resolve(__dirname, 'database')
@@ -11,6 +13,7 @@ export class DatabaseService {
   constructor(
   ) {
     this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` TEXT, `duration` INTEGER, `lastUpdate` TEXT )");
+    this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
   }
 
   public getAllItems = () => {
@@ -99,6 +102,54 @@ export class DatabaseService {
         stmt.run()
         stmt.finalize()
       })
+    })
+  }
+
+  public getAccount(youtrack : string) : Promise<RemoteAccount> {
+    return new Promise<RemoteAccount>((resolve, reject) => {
+      if (youtrack == undefined){
+        reject("Youtrack url can't be blank");
+      }
+      this.db.serialize(() => {
+        this.db.get('SELECT * FROM `account` where `url` = \''+ youtrack + "'", function(err, row) {
+          if (err) {
+              reject(err)
+            } else {
+              console.log(row);
+              resolve(row)
+            }
+        })
+      })
+    })
+  }
+
+  public getAccounts = () : Promise<RemoteAccount> => {
+    return new Promise<RemoteAccount>((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.all('SELECT * FROM `account`', (err, rows) => {
+          if (err) {
+              reject(err)
+            } else {
+              resolve(rows)
+            }
+        })
+      })
+    })
+  }
+
+  public addAccount = (item : RemoteAccount) => {
+    this.db.serialize(() => {
+      let stmt = this.db.prepare("INSERT INTO `account` (`url`, `token`) VALUES ('" + item.url + "','" + item.token + "')");
+      stmt.run()
+      stmt.finalize()
+    });
+  }
+
+  public deleteAccount = (id) => {
+    this.db.serialize(() => {
+      let stmt = this.db.prepare("DELETE FROM `account` WHERE `id` = " + id)
+      stmt.run()
+      stmt.finalize()  
     })
   }
 
