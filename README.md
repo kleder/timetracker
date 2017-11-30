@@ -9,25 +9,13 @@ This is desktop client used to recording work time and sending it to your youtra
 # Downloads 
 The windows (x64) and Mac binaries are avaible on [Release](https://github.com/kleder/timetracker/releases) page.
 
-# Compilation 
+# Compilation
+To compile source code see link
+ [Development](https://github.com/kleder/timetracker/docs/readme.md)
 
-## Requiremets:
-- node (min 6.10.2)
-- node-gyp (min 3.6.2)
-
-## Steps of compilation:
-
-### Install required packages
-`npm install`
-
-### build Windows version (x64)
-`npm run electron:windows`
-
-### build Mac version (x64)
-`npm run electron:mac`
-
-### build Linux version (x64)
-`npm run electron:linux`
+# Getting started
+To get access token and run App see link
+[Getting started](https://github.com/kleder/timetracker/docs/)
 
 # License
 Apache 2.0
