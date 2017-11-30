@@ -1,8 +1,5 @@
-const electron = require('electron')
-const mainApp = electron.app
-
-module.exports = {
-  handleSquirrelEvent: function() {
+export class SquirrelEvent {
+  handleSquirrelEvent(mainApp) {
     if (process.argv.length === 1) {
       return false;
     }

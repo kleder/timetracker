@@ -1,11 +1,14 @@
 //handle setupevents as quickly as possible
-const setupEvents = require('./installers/setupEvents')
-if (setupEvents.handleSquirrelEvent()) {
+const electron = require("electron")
+import {SquirrelEvent} from './src/SquirrelEvent';
+
+const events = new SquirrelEvent();
+if (events.handleSquirrelEvent(electron.app)) {
   // squirrel event handled and app will exit in 1000ms, so don't do anything else
   process.exit;
 }
 
-const electron = require("electron")
+
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 // const Tray = electron.Tray
