@@ -3,23 +3,31 @@ import { RemoteAccount } from '../models/RemoteAccount';
 import { reject } from 'q';
 const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
-const dbPath = path.resolve(__dirname, 'database')
 
 
 @Injectable()
 export class DatabaseService {
   public loader = false
-  public db = new sqlite3.Database(dbPath)
+  public db 
   constructor(
   ) {
-    this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` TEXT, `duration` INTEGER, `lastUpdate` TEXT )");
-    this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
+    var envPath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+    if (envPath == undefined){
+      envPath= __dirname;
+    }
+    var folder = path.resolve(envPath, '.trec')
+    var dbPath = path.resolve(folder,'database')
+    this.db = new sqlite3.Database(dbPath, (data, err) => {
+      if (err != undefined){
+        this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT )");
+        this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
+      }
+    })
   }
 
-  public getAllItems = () => {
+  public async getAllItems() : Promise<any[]> {
     let that = this
-    console.log("dbPath", dbPath)
-    return new Promise(resolve => {
+    return new Promise<any[]>((resolve, reject) => {
       this.loader = true
       this.db.serialize(() => {
         that.db.all('SELECT * FROM `tasks`', function(err, rows) {
@@ -27,7 +35,7 @@ export class DatabaseService {
           if (err) {
               that.loader = false   
               console.log("err: ", err)
-              resolve(err)
+              reject(err)
             } else {
               resolve(rows)
             }
@@ -123,8 +131,8 @@ export class DatabaseService {
     })
   }
 
-  public getAccounts = () : Promise<RemoteAccount> => {
-    return new Promise<RemoteAccount>((resolve, reject) => {
+  public getAccounts = () : Promise<RemoteAccount[]> => {
+    return new Promise<RemoteAccount[]>((resolve, reject) => {
       this.db.serialize(() => {
         this.db.all('SELECT * FROM `account`', (err, rows) => {
           if (err) {

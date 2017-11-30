@@ -6,3 +6,7 @@ export class RemoteAccount {
 export class UserData {
   public Name: string;
 }
+
+export class Tasks {
+  
+}
