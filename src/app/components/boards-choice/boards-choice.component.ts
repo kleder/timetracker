@@ -54,7 +54,7 @@ export class BoardsChoiceComponent implements OnInit {
         agile.checked = false
       }
     })
-    this.dataService.sentChoosenAgiles(this.agiles)
+    this.dataService.sentChosenAgiles(this.agiles)
     this.router.navigateByUrl('/tracking');
   }
 

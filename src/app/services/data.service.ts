@@ -41,7 +41,7 @@ export class DataService {
     this.issueData.next(data)
   }
 
-  sentChoosenAgiles(data: object) {
+  sentChosenAgiles(data: object) {
     console.log("data", data)
     this.agilesData.next(data)
   }
