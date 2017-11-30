@@ -3,22 +3,33 @@ import { RemoteAccount } from '../models/RemoteAccount';
 import { reject } from 'q';
 const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
-const dbPath = path.resolve(__dirname, 'database')
+
+
+
 
 
 @Injectable()
 export class DatabaseService {
   public loader = false
-  public db = new sqlite3.Database(dbPath)
+  public db 
   constructor(
   ) {
-    this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT )");
-    this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
+    var envPath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+    if (envPath == undefined){
+      envPath= __dirname;
+    }
+    var folder = path.resolve(envPath, '.trec')
+    var dbPath = path.resolve(folder,'database')
+    this.db = new sqlite3.Database(dbPath, (err) => {
+      if (!err){
+        this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT )");
+        this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
+      }
+    })
   }
 
   public async getAllItems() : Promise<any[]> {
     let that = this
-    console.log("dbPath", dbPath)
     return new Promise<any[]>((resolve, reject) => {
       this.loader = true
       this.db.serialize(() => {
