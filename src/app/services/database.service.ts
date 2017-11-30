@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { RemoteAccount } from '../models/RemoteAccount';
 import { reject } from 'q';
+import * as fs from "fs";
+import { from } from 'rxjs/observable/from';
 const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
 
@@ -16,9 +18,13 @@ export class DatabaseService {
       envPath= __dirname;
     }
     var folder = path.resolve(envPath, '.trec')
+    try{
+      fs.mkdirSync(folder)
+    } catch(e){
+    }
     var dbPath = path.resolve(folder,'database')
-    this.db = new sqlite3.Database(dbPath, (data, err) => {
-      if (err != undefined){
+    this.db = new sqlite3.Database(dbPath, (data) => {
+      if (data == null){
         this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT )");
         this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
       }
