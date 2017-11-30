@@ -1,14 +1,19 @@
+# Getting started
 
+## Obtain youtrack token for app 
 
-## 1. Getting token
+For using the T-Rec app you need to obtain the permament token for your personal youtrack account. Please fallow this instruction to get one https://www.jetbrains.com/help/youtrack/standalone/Manage-Permanent-Token.html
 
-Log into Youtrack. Go to your profile menu and click "Update personal information and manage logins" link on 'General' tab. Click "New token..." button on 'Authentication' tab. Select name and scope and click "Create token". You should copy created token.
+If you don't see the "New Token" button make shure that you have **Create Service** privileges in one of your youtrack roles.  
 
-## 2. Creating account
+## Before run
 
-Once you run T-rec App, you should pass your Youtrack URL and personal token propper in fields and add account.
+Before first run of app please assign task to you in youtrack and group it in some agile board inside sprint fallowing this sprint https://www.jetbrains.com/help/youtrack/standalone/Agile-Board.html
 
-**Agile boards are required to import tasks.**
+## First run
+
+Once you run T-rec App, you should pass your Youtrack URL like  and personal token in propper fields.
+Please select boards proper board and next you may start recording time spend on your tasks
 
 
 
