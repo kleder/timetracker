@@ -28,7 +28,7 @@ To build Linus version (x64) run:
 ```sh
 npm run electron:Linux
 ```
-Generated files are be located in app-builds folder.
+Generated files are located in app-builds folder.
 ### 2. Developer run
 
 To run application enter and run:
