@@ -11,9 +11,15 @@ export class ApiService {
     // public http: Http,
     public http: HttpService,
     public accounts: AccountService
-  ) { }
+  ) { 
+    this.UseAccount();
+  }
 
-  public UseAccount(remoteAccount: RemoteAccount){
+  public async UseAccount(remoteAccount?: RemoteAccount){
+    if (remoteAccount == undefined){
+      var remoteAccount = await this.accounts.Current();
+      console.log(remoteAccount);
+    }
     this.http.UseAccount(remoteAccount);
   }
 
