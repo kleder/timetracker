@@ -84,7 +84,7 @@ export class ActivityComponent implements OnInit {
       }
     }
     this.timerService.turnTimer(issue, startDate)
-    this.timerService.startidleTime(5)
+    this.timerService.startidleTime(60*5)
     if (!issue.date) {
       console.log("start item")
       this.databaseService.startItem(issue, startDate)
