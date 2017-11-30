@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { HttpService } from '../services/http.service'
-import { AuthService } from './auth.service'
+import { AccountService } from './account.service'
 @Injectable()
 export class ApiService {
 
   constructor(
     // public http: Http,
     public http: HttpService,
-    public auth: AuthService
+    public accounts: AccountService
   ) { }
 
   getAllProjects = () => {
@@ -90,7 +90,7 @@ export class ApiService {
     }
     console.log(data)
     return new Promise(resolve => {
-      this.http.post(AuthService.youtrackUrl + '/rest/issue/' + issueId + '/timetracking/workitem', newItem)
+      this.http.post('/rest/issue/' + issueId + '/timetracking/workitem', newItem)
       .subscribe(data => {
         resolve(data)
       }, error => {
@@ -118,5 +118,4 @@ export class ApiService {
       })
     })
   }
-
 }

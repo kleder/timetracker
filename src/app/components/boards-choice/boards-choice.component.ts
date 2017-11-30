@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import { DataService } from '../../services/data.service'
-import { AuthService } from '../../services/auth.service';
+import { AccountService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 import { HttpService } from '../../services/http.service'
 
@@ -17,7 +17,7 @@ export class BoardsChoiceComponent implements OnInit {
   constructor(
     public router: Router,
     private dataService: DataService,
-    private auth: AuthService,
+    private auth: AccountService,
     private api: ApiService,
     public httpService: HttpService,
     public activatedRoute: ActivatedRoute

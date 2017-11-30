@@ -9,7 +9,7 @@ import {
   XHRBackend,
   ConnectionBackend
 } from '@angular/http';
-import { AuthService } from '../services/auth.service'
+import { AccountService } from './account.service'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
@@ -38,7 +38,7 @@ export class HttpService extends Http {
   }
 
   private getFullUrl(url: string): string {
-    return AuthService.youtrackUrl + url;
+    return AccountService.youtrackUrl + url;
   }
 
   private onCatch(error: any, caught: Observable<any>): Observable<any> {
