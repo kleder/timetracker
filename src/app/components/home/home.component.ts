@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import { ApiService } from '../../services/api.service';
 import { AccountService } from '../../services/account.service';
 
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -23,11 +23,15 @@ export class HomeComponent implements OnInit {
   constructor(
     public http: Http,
     public account: AccountService,
-    public router: Router,    
+    public router: Router, 
+    public activatedRoute: ActivatedRoute   
   ) {
    }
 
   ngOnInit() {
+    this.activatedRoute
+    .queryParams
+    .subscribe(async params => {})
   }
 
   public login = () => {
@@ -46,7 +50,7 @@ export class HomeComponent implements OnInit {
   }
 
   goToBoard() {
-    this.router.navigate(['/boards'], { queryParams: {isLogged: true, url: this.youTrackName} });
+    this.router.navigate(['/boards'], { queryParams: {isLogged: true} });
   }
 
 }

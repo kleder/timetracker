@@ -123,8 +123,8 @@ export class DatabaseService {
     })
   }
 
-  public getAccounts = () : Promise<RemoteAccount> => {
-    return new Promise<RemoteAccount>((resolve, reject) => {
+  public getAccounts = () : Promise<RemoteAccount[]> => {
+    return new Promise<RemoteAccount[]>((resolve, reject) => {
       this.db.serialize(() => {
         this.db.all('SELECT * FROM `account`', (err, rows) => {
           if (err) {
