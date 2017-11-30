@@ -1,8 +1,13 @@
-# Time track App 
+# T-Rec time track app 
 
-Timesheet app for tracking work hours in Youtrack. Use the timer to log task times. All the time logs are synced to the cloud or local Youtrack instances.
+![T-rec image](./src/assets/dino.png)
 
-This is desktop client used to recording work time and sending it to your youtrack instance. 
+Timesheet app for tracking work in Youtrack. Use the timer to log task times. All the time logs are synced to the cloud or local Youtrack instances.
+
+This is desktop client used to recording work time and sending it to your youtrack instance.
+
+*This app can record your time and save it youtrack work item.
+*This app detecting your idle time and allow you to decide what to do with it.
 
 [![Build Status](https://travis-ci.org/kleder/timetracker.svg?branch=master)](https://travis-ci.org/kleder/timetracker)
 
