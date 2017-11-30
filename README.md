@@ -24,7 +24,7 @@ Before first run of app please assign task to you in youtrack and group it in so
 ### First run
 
 Once you run T-rec App, you should pass your Youtrack URL like  and personal token in propper fields.
-Please select boards proper board and next you may start recording time spend on your tasks
+Please select proper boards and next you may start recording time spend on your tasks.
 
 ## Development and contribution
 To compile source code see link
