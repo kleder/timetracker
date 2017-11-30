@@ -28,10 +28,15 @@ export class HomeComponent implements OnInit {
   ) {
    }
 
-  ngOnInit() {
+  async ngOnInit() {
+    var current = await this.account.Current();
+    if (current!= undefined){
+      this.router.navigate(['/boards'], { queryParams: {isLogged: false} });
+    }
     this.activatedRoute
     .queryParams
-    .subscribe(async params => {})
+    .subscribe(async params => { })
+
   }
 
   public login = () => {
