@@ -16,10 +16,10 @@ export class DatabaseService {
     this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
   }
 
-  public getAllItems = () => {
+  public async getAllItems() : Promise<any[]> {
     let that = this
     console.log("dbPath", dbPath)
-    return new Promise(resolve => {
+    return new Promise<any[]>((resolve, reject) => {
       this.loader = true
       this.db.serialize(() => {
         that.db.all('SELECT * FROM `tasks`', function(err, rows) {
@@ -27,7 +27,7 @@ export class DatabaseService {
           if (err) {
               that.loader = false   
               console.log("err: ", err)
-              resolve(err)
+              reject(err)
             } else {
               resolve(rows)
             }
