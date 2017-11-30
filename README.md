@@ -11,7 +11,7 @@ The windows (x64) and Mac binaries are avaible on [Release](https://github.com/k
 
 # Compilation
 To compile source code see link
- [Development](https://github.com/kleder/timetracker/docs/readme.md)
+ [Development](docs/readme.md)
 
 # Getting started
 To get access token and run App see link
