@@ -1,4 +1,4 @@
-# Development
+# Contributing
 
 For development we recommended to install last available version of Visual Studio Code.
 
@@ -15,6 +15,7 @@ Enter command:
  ```sh
 npm install
 ```
+
 ### 1. Building versions
 To build Windows version (x64) run:
 ```sh
@@ -35,3 +36,4 @@ To run application enter and run:
 ```sh
 npm run start
 ```
+
