@@ -4,6 +4,8 @@ matrix:
     env: TARGET=linux
   - os: osx
     env: TARGET=mac
+  - os: linux
+    env: TARGET=win
 
 language: node_js
 
@@ -15,6 +17,7 @@ script:
   - npm --version
   - npm install
   - npm run electron:$TARGET
+  - zip -r build.zip app-builds/Trec-*-x64/
 
 cache:
   directories:
@@ -24,3 +27,11 @@ notifications:
   email:
     on_success: never
     on_failure: change
+
+deploy:
+  provider: releases
+  api_key: $GITHABTOKEN
+  file: build.zip
+  skip_cleanup: true
+  on:
+    tags: true
