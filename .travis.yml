@@ -4,8 +4,6 @@ matrix:
     env: TARGET=linux
   - os: osx
     env: TARGET=mac
-  - os: linux
-    env: TARGET=win
 
 language: node_js
 
