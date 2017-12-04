@@ -68,13 +68,14 @@ export class TimerService {
 
   public shouldAddAfkTime(r) {
     if (!r) {
-      this.currentTime = this.updateTime()
+      this.currentTime = this.updateTime(this.currentTime)
+      this.currentIssue.todaysTime = this.updateTime(this.currentIssue.todaysTime)
     } 
     document.getElementById('afk-notification').style.display = "none"
   }
 
-  public updateTime() {
-    let updatedTime = this.currentTime - Math.round(this.notificationTime)
+  public updateTime(time) {
+    let updatedTime = time - Math.round(this.notificationTime)
     console.log("updated time: " + updatedTime)
     return updatedTime
   }
