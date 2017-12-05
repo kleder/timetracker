@@ -12,6 +12,7 @@ export class TimerService {
   public idleTimer: any
   public afkTime: number
   public notificationTime: number
+  public stoppedTime: number
 
   constructor(
     public dataService: DataService
@@ -37,11 +38,14 @@ export class TimerService {
   }
 
   public stopIssueTimer() {
-    let stoppedTime = this.currentTime
+    this.stoppedTime = this.currentTime
+    if (this.stoppedTime < 60) {
+      this.showModal()
+    }
     this.currentTime = undefined
     this.currentIssueId = undefined
     clearInterval(this.issueTimer)
-    return stoppedTime
+    return this.stoppedTime
   }
 
   public startidleTime(min) {
@@ -68,13 +72,14 @@ export class TimerService {
 
   public shouldAddAfkTime(r) {
     if (!r) {
-      this.currentTime = this.updateTime()
+      this.currentTime = this.updateTime(this.currentTime)
+      this.currentIssue.todaysTime = this.updateTime(this.currentIssue.todaysTime)
     } 
     document.getElementById('afk-notification').style.display = "none"
   }
 
-  public updateTime() {
-    let updatedTime = this.currentTime - Math.round(this.notificationTime)
+  public updateTime(time) {
+    let updatedTime = time - Math.round(this.notificationTime)
     console.log("updated time: " + updatedTime)
     return updatedTime
   }
@@ -87,6 +92,10 @@ export class TimerService {
     setTimeout(function() { 
       currentItem.className = currentItem.className.replace("fade-out", "hidden")
     }, 500);
+  }
+
+  public showModal() {
+    document.getElementById('modal').style.display = "block"
   }
 
 }
