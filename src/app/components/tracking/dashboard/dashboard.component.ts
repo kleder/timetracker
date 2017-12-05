@@ -178,6 +178,7 @@ export class DashboardComponent implements OnInit {
     if (action == 'remove') {
       this.databaseService.deleteItem(item)
       this.hideUnstoppedNotification()
+      this.dataService.timeSavedNotification('Your tracking has been removed!')      
     }
     if (action == 'resume') {
       this.agiles.filter(agile => {

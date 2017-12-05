@@ -30,7 +30,7 @@
     </div>
     <div id="afk-notification" *ngIf="timerService.currentIssueId">
         <div class="afk-notification__text">
-            <span>You were afk <strong>{{ timerService.notificationTime | secondsToTime }}. </strong>What should I do?</span>            
+            <span>You were inactive for <strong>{{ timerService.notificationTime | secondsToTime }}. </strong>What should I do?</span>            
         </div>
         <div class="afk-notification__action">
             <button class="danger" (click)="timerService.shouldAddAfkTime(false)">Remove</button>
