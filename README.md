@@ -4,6 +4,7 @@
 
 T-Rec is a desktop time recording app that helps you log your work time into Youtrack. Recorded time entries are automatically synced to InCloud or Standalone Youtrack. 
 
+
 ## Features 
 * record time you spend on tasks assigned to you in youtrack
 * track time of your tasks from multiple agile boards  
@@ -33,7 +34,7 @@ Once you run T-rec add Youtrack account by entering your Youtrack URL and person
 Then select boards you'd like to work with. Finaly you may start recording the work you do with your tasks
 
 ## Development and contribution
-To compile source code see [CONTRIBUTING](CONTRIBUTING.md) information
+To compile source code see [CONTRIBUTING](CONTRIBUTING.md) file
 
 ## License
 Apache 2.0
