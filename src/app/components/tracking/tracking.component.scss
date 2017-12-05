@@ -99,13 +99,15 @@
     button {
         &.danger {
             background-color: $record-color;
+            color: $white !important;
         }
         &.positive {
             background-color: $normal;
-            color: $issue-font-color;
+            color: $dark !important
         }
         &.info {
             background-color: #38b4e7;
+            color: $white !important;            
         }
     }
     #current-item {
@@ -278,18 +280,86 @@
             to {bottom: -40px; }
         }
     }
-    #unstopped-item {
+    #modal {
         display: none;
-        padding: 15px;
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin: 0 auto;
-        width: 100%;
-        height: 70px;
-        background-color: white;
-        border: 1px solid #000000;
-        border-radius: 2px;
+        i {
+            float: right;
+            display: inline-block;
+            margin-top: -18px;
+            margin-right: -18px;
+        }
+        .modal__backdrop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            cursor: pointer;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 10000 !important;
+        }
+        .modal__content {
+            position: fixed;
+            top: 230px;
+            right: 0;
+            left: 0;
+            margin: 0 auto;
+            height: 148px;
+            width: 300px;
+            box-sizing: border-box;
+            text-align: center;
+            padding: 24px;
+            z-index: 10000;
+            background-color: #3b3e42;
+            color: $white;
+            font-family: 'Montserrat', sans-serif;           
+            border-radius: 4px;
+            box-shadow: 0px 16px 16px 0px rgba(0,0,0,0.06);
+            .modal__text {
+                padding-bottom: 14px;
+                font-size: 14px;
+            }
+            .modal__interaction {
+                width: 230px;
+                padding: 0 7px;
+                margin: 0 auto;
+                input {
+                    -webkit-appearance: none;
+                    margin: 0;
+                    margin: 7px 10px 0 22px; 
+                    height: 16px;
+                    width: 16px;
+                    background-color: transparent;
+                    border: 1px solid white;
+                    border-radius: 2px;
+                    vertical-align: middle;
+                    outline: none;
+                    float: left;
+                    &:checked {
+                      background-color: $white;
+                    }
+                }
+                label {
+                    font-size: 12px;
+                    line-height: 16px;
+                    float: left;
+                    width: 160px;
+                    text-align: left;
+                }
+            }
+            .unstopped-item {
+                button {
+                    display: inline-block;
+                    width: 60px;
+                    height: 22px;
+                    border: 0px solid #ffffff;
+                    border-radius: 2px;
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: 12px;
+                    font-weight: 500;
+                    margin: 0 2px;
+                }
+            }
+        }
     }
 }

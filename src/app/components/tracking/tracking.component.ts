@@ -21,7 +21,8 @@ export class TrackingComponent implements OnDestroy, OnInit {
   public notificationText: string
   alive: boolean = true;
   public agilesStates: Array<any>
-  
+  public hideHints: boolean
+
   constructor(
     public timerService: TimerService,
     public dataService: DataService,
@@ -73,7 +74,7 @@ export class TrackingComponent implements OnDestroy, OnInit {
     this.dataService.currentUnstoppedItem.takeWhile(() => this.alive).subscribe(data => {
       this.unstoppedItem = data
       if (Object.keys(this.unstoppedItem).length != 0) {
-        this.showUnstoppedItem()
+        this.showModal()
       }
       console.log("unstoppedItem observble", this.unstoppedItem)
     })
@@ -118,19 +119,23 @@ export class TrackingComponent implements OnDestroy, OnInit {
 
   public stopTracking = (issue) => {
     this.timerService.stopTrackingNotifications()
-    console.log("issue in tracking comp", issue)
-    // sendToApi
-    this.sendWorkItems(this.timerService.currentIssueId, {date: this.timerService.startDate, duration: this.timerService.currentTime })
-    // stop issueTimer && saveInDb 
-    this.databaseService.stopItem(this.timerService.stopIssueTimer(), this.timerService.startDate)
+    let stoppedTime = this.timerService.stopIssueTimer()
+    console.log("this.stoppedTime", stoppedTime)
     // stop idleTimer
     this.timerService.stopIdleTime() 
+    if (stoppedTime >= 60) {
+      console.log("issue in tracking comp", issue)
+      // sendToApi
+      this.sendWorkItems(this.timerService.currentIssueId, {date: this.timerService.startDate, duration: this.timerService.currentTime })
+      // stop issueTimer && saveInDb 
+      this.databaseService.stopItem(stoppedTime, this.timerService.startDate)
+    }
   }
 
   public sendWorkItems = (issueId, item) => {
     let that = this
     console.log("issueId", issueId)
-    this.api.createNewWorkItem(item, issueId).then(      
+    this.api.createNewWorkItem(item, issueId).then(
       response => {
         if (response["ok"]) {
           console.log("ok")
@@ -156,14 +161,6 @@ export class TrackingComponent implements OnDestroy, OnInit {
     document.getElementById('afk-notification').style.display = "unset"
   }
 
-  public showUnstoppedItem() {
-    document.getElementById('unstopped-item').style.display = "unset"
-  }
-
-  public hideUnstoppedNotification() {
-    document.getElementById('unstopped-item').style.display = "none"
-  }
-
   public timeSavedNotification(text: string) {
     console.log("in timeSavedNotification", text)
     let that = this
@@ -175,6 +172,19 @@ export class TrackingComponent implements OnDestroy, OnInit {
         element.className = element.className.replace("show", "")
       }, 2500);
     }, 300)
+  }
+
+  public changeHintVisibility(hideHint) {
+    this.hideHints = hideHint
+    console.log(this.hideHints)
+  }
+
+  public showModal() {
+    document.getElementById('modal').style.display = "block"
+  }
+
+  public hideModal() {
+    document.getElementById('modal').style.display = "none"
   }
 
 }

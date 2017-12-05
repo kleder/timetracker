@@ -167,17 +167,13 @@ export class DashboardComponent implements OnInit {
     return issue.field.Priority[0].toLowerCase()
   }
 
-  public showUnstoppedItem() {
-    document.getElementById('unstopped-item').style.display = "unset"
-  }
-
   public manageUnstoppedItem = (item, action) => {
     console.log("manageUnstoppedItem", item)
     console.log('action', action)
     item.id = item.issueid
     if (action == 'remove') {
       this.databaseService.deleteItem(item)
-      this.hideUnstoppedNotification()
+      this.hideModal()
       this.dataService.timeSavedNotification('Your tracking has been removed!')      
     }
     if (action == 'resume') {
@@ -189,7 +185,7 @@ export class DashboardComponent implements OnInit {
               unstoppedIssue.date = item.date
               console.log(unstoppedIssue)
               this.startTracking(unstoppedIssue, item.duration)
-              this.hideUnstoppedNotification()
+              this.hideModal()
             }
           })
         }
@@ -197,12 +193,12 @@ export class DashboardComponent implements OnInit {
     }    
     if (action == 'add') {
       this.sendWorkItems(item.issueid, {date: item.date, duration: item.duration})
-      this.hideUnstoppedNotification()
+      this.hideModal()
     }
   }
 
-  public hideUnstoppedNotification() {
-    document.getElementById('unstopped-item').style.display = "none"
+  public hideModal() {
+    document.getElementById('modal').style.display = "none"
   }
 
   public convertEstimate = (est) => {
@@ -252,20 +248,18 @@ export class DashboardComponent implements OnInit {
     console.log("this.timerService.currentTime", this.timerService.currentTime)
     if (this.timerService.currentTime != undefined) {
       let currentId = this.timerService.currentIssueId
+      let startDate = this.timerService.startDate
+      let currentTime = this.timerService.currentTime
+      let stoppedTime = this.timerService.stopIssueTimer()
       this.timerService.stopTrackingNotifications()
-      // sendToApi
-      this.sendWorkItems(this.timerService.currentIssueId, {date: this.timerService.startDate, duration: this.timerService.currentTime })
-      // stop issueTimer && saveInDb 
-      this.databaseService.stopItem(this.timerService.stopIssueTimer(), this.timerService.startDate)
-      // stop idleTimer
       this.timerService.stopIdleTime() 
-        // this.dataService.agilesRefresh.subscribe(shouldRefresh => {
-        //   if (shouldRefresh) {
-        //     console.log("shouldRefresh", shouldRefresh)
-        //     this.getAllAgiles()
-        //     this.getItemsFromDb()
-        //   }
-        // })
+      if (stoppedTime >= 60) {
+        // sendToApi
+        this.sendWorkItems(currentId, {date: startDate, duration: currentTime })
+        // stop issueTimer && saveInDb 
+        this.databaseService.stopItem(stoppedTime, startDate)
+        // stop idleTimer
+      }
       if (issue.id == currentId) {
         // this.timerService.currentIssueId = undefined
         issue.time = 0

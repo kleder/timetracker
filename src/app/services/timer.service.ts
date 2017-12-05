@@ -12,6 +12,7 @@ export class TimerService {
   public idleTimer: any
   public afkTime: number
   public notificationTime: number
+  public stoppedTime: number
 
   constructor(
     public dataService: DataService
@@ -37,11 +38,14 @@ export class TimerService {
   }
 
   public stopIssueTimer() {
-    let stoppedTime = this.currentTime
+    this.stoppedTime = this.currentTime
+    if (this.stoppedTime < 60) {
+      this.showModal()
+    }
     this.currentTime = undefined
     this.currentIssueId = undefined
     clearInterval(this.issueTimer)
-    return stoppedTime
+    return this.stoppedTime
   }
 
   public startidleTime(min) {
@@ -88,6 +92,10 @@ export class TimerService {
     setTimeout(function() { 
       currentItem.className = currentItem.className.replace("fade-out", "hidden")
     }, 500);
+  }
+
+  public showModal() {
+    document.getElementById('modal').style.display = "block"
   }
 
 }
