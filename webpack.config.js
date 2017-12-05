@@ -224,7 +224,8 @@ module.exports = {
     "util": "require('util')",
     "zlib": "require('zlib')",
     "idle": "require('@paulcbetts/system-idle-time')",
-    "sqlite3": "require('sqlite3')"
+    "sqlite3": "require('sqlite3')",
+    "electron-notifications": "require('electron-notifications')"
   },
   "resolve": {
     "extensions": [
