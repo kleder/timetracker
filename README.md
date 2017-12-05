@@ -7,6 +7,7 @@ Timesheet app for tracking work in Youtrack. Use the timer to log task times. Al
 This is desktop client used to recording work time and sending it to your youtrack instance.
 
 *This app can record your time and save it youtrack work item.
+
 *This app detecting your idle time and allow you to decide what to do with it.
 
 [![Build Status](https://travis-ci.org/kleder/timetracker.svg?branch=master)](https://travis-ci.org/kleder/timetracker)
@@ -18,13 +19,13 @@ The windows (x64) and Mac binaries are avaible on [Release](https://github.com/k
 
 ### Obtain youtrack token for app 
 
-For using the T-Rec app you need to obtain the permament token for your personal youtrack account. Please fallow this instruction to get one https://www.jetbrains.com/help/youtrack/standalone/Manage-Permanent-Token.html
+For using the T-Rec app you need to obtain the permament token for your personal youtrack account. Please follow this instruction to get one: https://www.jetbrains.com/help/youtrack/standalone/Manage-Permanent-Token.html
 
-If you don't see the "New Token" button make shure that you have **Create Service** privileges in one of your youtrack roles.  
+If you don't see the "New Token" button make sure that you have **Create Service** privileges in one of your youtrack roles.  
 
 ### Before run
 
-Before first run of app please assign task to you in youtrack and group it in some agile board inside sprint fallowing this sprint https://www.jetbrains.com/help/youtrack/standalone/Agile-Board.html
+Before first run of app please assign task to you in youtrack and group it in some agile board inside sprint. Please follow this instruction to get more info: https://www.jetbrains.com/help/youtrack/standalone/Agile-Board.html
 
 ### First run
 
