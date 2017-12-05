@@ -241,7 +241,7 @@ export class DashboardComponent implements OnInit {
     )
   }
 
-  public startTracking(issue, startTime = 0, idle = 5) {
+  public startTracking(issue, startTime = 0, idle = 60*5) {
     let startDate = issue.date || Date.now()
     console.log("in start tracking", issue)
     console.log("startTime", startTime)

@@ -5,8 +5,10 @@ import { TimerService } from '../../services/timer.service'
 import { DataService } from '../../services/data.service'
 import { DatabaseService } from '../../services/database.service'
 import { ApiService } from '../../services/api.service'
+import { SecondsToTimePipe } from '../../pipes/seconds-to-time.pipe'
 
 import { Router } from '@angular/router';
+const notifier = require('electron-notifications')
 
 @Component({
   selector: 'app-tracking',
@@ -22,6 +24,7 @@ export class TrackingComponent implements OnDestroy, OnInit {
   alive: boolean = true;
   public agilesStates: Array<any>
   public hideHints: boolean
+  secondsToTimePipe = new SecondsToTimePipe()
 
   constructor(
     public timerService: TimerService,
@@ -48,7 +51,7 @@ export class TrackingComponent implements OnDestroy, OnInit {
       console.log(data)
       this.notificationTime = data
       if (this.notificationTime != undefined) {
-        this.showAfkNotification()
+        this.showInactiveNotification()
       }
     })
   }
@@ -115,6 +118,7 @@ export class TrackingComponent implements OnDestroy, OnInit {
     this.unstoppedItem.action = action
     console.log("in tracking", action)
     this.dataService.manageUnstoppedItem(this.unstoppedItem)
+    this.unstoppedItem = undefined
   }
 
   public stopTracking = (issue) => {
@@ -157,8 +161,25 @@ export class TrackingComponent implements OnDestroy, OnInit {
     this.router.navigateByUrl('');    
   }
 
-  public showAfkNotification() {
-    document.getElementById('afk-notification').style.display = "unset"
+  public showInactiveNotification() {
+    const notification = notifier.notify('You were inactive', {
+      message: 'What should I do with ' + this.secondsToTimePipe.transform(this.timerService.notificationTime) + '?',
+      buttons: ['Add', 'Remove'],
+      // icon: '',
+      duration: 30000
+    })
+    
+    notification.on('swipedRight', () => {
+      notification.close()
+    })
+
+    notification.on('buttonClicked', (text, buttonIndex, options) => {
+      if (text === 'Remove') {
+        this.timerService.shouldAddAfkTime(false)
+      }
+      notification.close()
+    })
+
   }
 
   public timeSavedNotification(text: string) {

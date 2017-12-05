@@ -48,6 +48,7 @@
     "@angular/router": "4.4.3",
     "@paulcbetts/system-idle-time": "git+https://github.com/paulcbetts/node-system-idle-time.git",
     "core-js": "2.4.1",
+    "electron-notifications": "^1.0.0",
     "enhanced-resolve": "3.3.0",
     "font-awesome": "^4.7.0",
     "ionicons": "^3.0.0",

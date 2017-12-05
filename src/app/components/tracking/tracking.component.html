@@ -51,7 +51,7 @@
                     <label>Lesson learnt! Don’t show this message again.</label>
                 </div>
             </div>
-            <div class="unstopped-item" *ngIf="unstoppedItem.duration">
+            <div class="unstopped-item" *ngIf="unstoppedItem?.duration">
                 <div class="modal__text">
                     <span>You have not stopped working on the {{ unstoppedItem.issueid }} issue. What should I do with {{ unstoppedItem.duration | secondsToTime }}?</span>
                 </div>
