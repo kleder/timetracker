@@ -116,16 +116,6 @@ try {
       },
     ]
 
-    globalShortcut.register('CommandOrControl+C', () => {
-      console.log('CommandOrControl+X is pressed')
-      // clipboard.writeText(text)
-    })
-
-    globalShortcut.register('CommandOrControl+V', () => {
-      console.log('CommandOrControl+V is pressed')
-      clipboard.readText()
-    })
-
     if (process.platform == 'darwin') {
       console.log('done')
       mainMenuTemplate.unshift({})
@@ -148,6 +138,17 @@ try {
 
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
     Menu.setApplicationMenu(mainMenu)
+
+    const menu = Menu.buildFromTemplate( [ 
+    { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" },
+    { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
+    { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
+    { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload" },
+   ] );
+
+   mainWindow.on('contextmenu', (e) => {
+      menu.popup(electron.remote.getCurrentWindow())
+    })
 
     // trayIcon.on('click', () => {
     //   mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
