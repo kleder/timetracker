@@ -80,7 +80,8 @@ try {
     mainWindow = new BrowserWindow({
       width: 400,
       height: 650,
-      title: 'Kleder Track App'
+      title: 'T-Rec App',
+      resizable: false
     })
     
     mainWindow.loadURL(url.format({
@@ -97,7 +98,7 @@ try {
     
     const mainMenuTemplate:Array<any> = [
       {
-        label: "Kleder Track App",
+        label: "T-Rec App",
         submenu: [
           {
             label: 'About authors..'
@@ -114,13 +115,9 @@ try {
       {
         label: "Edit",
         submenu: [
-          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-          { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-          { type: "separator" },
           { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
           { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
           { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-          { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
         ]
       },
       // {
@@ -147,20 +144,20 @@ try {
       mainMenuTemplate.unshift({})
     }
   
-    if (process.env.NODE_ENV !== 'production') {
-      // mainWindow.webContents.openDevTools();
-      mainMenuTemplate.push({
-          label: 'Dev Tools',
-          submenu: [
-              {
-                  label: 'Toggle DevTools',
-                  click() {
-                      mainWindow.toggleDevTools()
-                  }
-              }
-          ]
-      })
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //   // mainWindow.webContents.openDevTools();
+    //   mainMenuTemplate.push({
+    //       label: 'Dev Tools',
+    //       submenu: [
+    //           {
+    //               label: 'Toggle DevTools',
+    //               click() {
+    //                   mainWindow.toggleDevTools()
+    //               }
+    //           }
+    //       ]
+    //   })
+    // }
 
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
     Menu.setApplicationMenu(mainMenu)

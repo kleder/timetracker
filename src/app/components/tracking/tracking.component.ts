@@ -23,8 +23,10 @@ export class TrackingComponent implements OnDestroy, OnInit {
   public notificationText: string
   alive: boolean = true;
   public agilesStates: Array<any>
-  public hideHints: boolean
+  public hintsCheckbox: boolean
+  public hideHints: number
   secondsToTimePipe = new SecondsToTimePipe()
+  public dbVariables: object
 
   constructor(
     public timerService: TimerService,
@@ -40,6 +42,7 @@ export class TrackingComponent implements OnDestroy, OnInit {
     this.subscribeUnstoppedItem()
     this.subscribeNotification()
     this.subscribeAgilesStates()
+    this.getVariables()
   }
 
   ngOnDestroy() {
@@ -99,11 +102,9 @@ export class TrackingComponent implements OnDestroy, OnInit {
       if (Object.keys(currentAgile).length > 0) {
         this.agilesStates.push(currentAgile)
       }
-
       this.agilesStates.forEach(agile => {
        (agile.name == currentAgile["name"])? agile.state = currentAgile["state"] : ""
       })
-
       this.agilesStates = this.agilesStates.filter((thing, index, self) => 
         index === self.findIndex((t) => (
           t.name === thing.name
@@ -167,19 +168,16 @@ export class TrackingComponent implements OnDestroy, OnInit {
       buttons: ['Add', 'Remove'],
       // icon: '',
       duration: 30000
-    })
-    
+    })   
     notification.on('swipedRight', () => {
       notification.close()
     })
-
     notification.on('buttonClicked', (text, buttonIndex, options) => {
       if (text === 'Remove') {
         this.timerService.shouldAddAfkTime(false)
       }
       notification.close()
     })
-
   }
 
   public timeSavedNotification(text: string) {
@@ -195,9 +193,21 @@ export class TrackingComponent implements OnDestroy, OnInit {
     }, 300)
   }
 
+  public getVariables() {
+    this.databaseService.getVariables().then(data => {
+      console.log("data", data)
+      if (data) {
+        this.hideHints = parseInt(data["value"])
+        this.dataService.sendHideHints(this.hideHints)
+        console.log("this.hideHints", this.hideHints)
+      }
+    })
+  }
+
   public changeHintVisibility(hideHint) {
-    this.hideHints = hideHint
-    console.log(this.hideHints)
+    (hideHint)? hideHint = 1: hideHint = 0
+    this.databaseService.updateVariable({name: 'hide_hints', value: hideHint})
+    console.log("changeHintVisibility", hideHint)
   }
 
   public showModal() {
@@ -206,6 +216,7 @@ export class TrackingComponent implements OnDestroy, OnInit {
 
   public hideModal() {
     document.getElementById('modal').style.display = "none"
+    this.getVariables()
   }
 
 }

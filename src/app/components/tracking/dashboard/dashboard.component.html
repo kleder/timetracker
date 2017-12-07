@@ -14,7 +14,7 @@
             <span class="project-list__type">{{ issue.field.Type[0] }}</span> 
             <span class="project-list__priority" [ngClass]="priorityClass(issue)">{{ issue.field.Priority[0] }}</span>
             <span class="project-list__description" *ngIf="issue.hasDescription">
-              <i class="fa fa-align-left" aria-hidden="true" title="Issue has description"></i>
+              <i class="fa fa-align-left" aria-hidden="true" title="{{ issue.field.description }}"></i>
             </span>
             <span class="project-list__comments" *ngIf="issue.hasComment" title="Issue has {{ issue.hasComment }} comment(s)">
               <i class="fa fa-comment-o" aria-hidden="true"></i>{{ issue.hasComment }}

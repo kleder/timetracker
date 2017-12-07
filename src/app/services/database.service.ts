@@ -27,6 +27,8 @@ export class DatabaseService {
       if (data == null){
         this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT )");
         this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
+        this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");        
+        this.variablesInit()
       }
     })
   }
@@ -167,5 +169,40 @@ export class DatabaseService {
     })
   }
 
+  public variablesInit = () => {
+    this.saveVariable({name: 'hide_hints', value: 0})    
+  }
+
+  public saveVariable = (variable) => {
+    this.db.serialize(() => {
+      let stmt = this.db.prepare("INSERT OR IGNORE INTO `variables` (`name`, `value`) VALUES ('" + variable.name + "','" + variable.value + "')");
+      stmt.run()
+      stmt.finalize()
+    });
+  }
+  
+  public updateVariable = (variable) => {
+    let that = this
+    this.db.serialize(() => {
+      let stmt = that.db.prepare("UPDATE `variables` SET `value` = '" + variable.value + "' WHERE `name` = '" + variable.name + "'")
+      stmt.run()
+      stmt.finalize()
+    });
+  }
+  
+  public getVariables = () => {
+    let that = this
+    return new Promise<any[]>((resolve, reject) => {
+      this.db.serialize(() => {
+        that.db.get('SELECT * FROM `variables`', function(err, row) {
+          if (err) {
+              reject(err)
+            } else {
+              resolve(row)
+            }
+        })
+      })
+    })
+  }
 }
 
