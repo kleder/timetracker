@@ -1,5 +1,7 @@
 //handle setupevents as quickly as possible
 const electron = require("electron")
+const { globalShortcut, clipboard } = require("electron")
+
 import {SquirrelEvent} from './src/SquirrelEvent';
 
 const events = new SquirrelEvent();
@@ -112,32 +114,17 @@ try {
           }
         ]
       },
-      {
-        label: "Edit",
-        submenu: [
-          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-        ]
-      },
-      // {
-      //   label: "Options",
-      //   submenu: [
-      //     {
-      //       label: 'Option 1',
-      //       click() {
-      //         this.createAddWindow('option-1')
-      //       }
-      //     },
-      //     {
-      //       label: 'Option 2',
-      //       click() {
-      //         this.createAddWindow('option-2')
-      //       }
-      //     },
-      //   ]
-      // }
     ]
+
+    globalShortcut.register('CommandOrControl+C', () => {
+      console.log('CommandOrControl+X is pressed')
+      // clipboard.writeText(text)
+    })
+
+    globalShortcut.register('CommandOrControl+V', () => {
+      console.log('CommandOrControl+V is pressed')
+      clipboard.readText()
+    })
 
     if (process.platform == 'darwin') {
       console.log('done')
