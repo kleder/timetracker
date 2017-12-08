@@ -13,11 +13,15 @@ export class TimerService {
   public afkTime: number
   public notificationTime: number
   public stoppedTime: number
+  public hideHints: number
 
   constructor(
     public dataService: DataService
   ) { 
     this.currentTime = undefined
+    this.dataService.hideHints.subscribe(data => {
+      this.hideHints = data
+    })
   }
 
   public turnTimer(issue, startDate, startTime:number=0) {
@@ -39,7 +43,7 @@ export class TimerService {
 
   public stopIssueTimer() {
     this.stoppedTime = this.currentTime
-    if (this.stoppedTime < 60) {
+    if (this.stoppedTime < 60 && !this.hideHints) {
       this.showModal()
     }
     this.currentTime = undefined
@@ -95,7 +99,7 @@ export class TimerService {
   }
 
   public showModal() {
-    document.getElementById('modal').style.display = "block"
+      document.getElementById('modal').style.display = "block"
   }
 
 }

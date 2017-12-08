@@ -1,5 +1,6 @@
 //handle setupevents as quickly as possible
 const electron = require("electron")
+
 import {SquirrelEvent} from './src/SquirrelEvent';
 
 const events = new SquirrelEvent();
@@ -80,7 +81,8 @@ try {
     mainWindow = new BrowserWindow({
       width: 400,
       height: 650,
-      title: 'Kleder Track App'
+      title: 'T-Rec App',
+      resizable: false
     })
     
     mainWindow.loadURL(url.format({
@@ -97,7 +99,7 @@ try {
     
     const mainMenuTemplate:Array<any> = [
       {
-        label: "Kleder Track App",
+        label: "T-Rec App",
         submenu: [
           {
             label: 'About authors..'
@@ -111,35 +113,6 @@ try {
           }
         ]
       },
-      {
-        label: "Edit",
-        submenu: [
-          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-          { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-          { type: "separator" },
-          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-          { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-        ]
-      },
-      // {
-      //   label: "Options",
-      //   submenu: [
-      //     {
-      //       label: 'Option 1',
-      //       click() {
-      //         this.createAddWindow('option-1')
-      //       }
-      //     },
-      //     {
-      //       label: 'Option 2',
-      //       click() {
-      //         this.createAddWindow('option-2')
-      //       }
-      //     },
-      //   ]
-      // }
     ]
 
     if (process.platform == 'darwin') {
@@ -147,23 +120,34 @@ try {
       mainMenuTemplate.unshift({})
     }
   
-    if (process.env.NODE_ENV !== 'production') {
-      // mainWindow.webContents.openDevTools();
-      mainMenuTemplate.push({
-          label: 'Dev Tools',
-          submenu: [
-              {
-                  label: 'Toggle DevTools',
-                  click() {
-                      mainWindow.toggleDevTools()
-                  }
-              }
-          ]
-      })
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //   // mainWindow.webContents.openDevTools();
+    //   mainMenuTemplate.push({
+    //       label: 'Dev Tools',
+    //       submenu: [
+    //           {
+    //               label: 'Toggle DevTools',
+    //               click() {
+    //                   mainWindow.toggleDevTools()
+    //               }
+    //           }
+    //       ]
+    //   })
+    // }
 
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
     Menu.setApplicationMenu(mainMenu)
+
+    const menu = Menu.buildFromTemplate( [ 
+    { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" },
+    { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
+    { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
+    { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload" },
+   ] );
+
+   mainWindow.on('contextmenu', (e) => {
+      menu.popup(electron.remote.getCurrentWindow())
+    })
 
     // trayIcon.on('click', () => {
     //   mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()

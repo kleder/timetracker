@@ -29,6 +29,9 @@ export class DataService {
   private currentAgilesVisibility = new BehaviorSubject<Array<any>>([])
   currentAgilesStates = this.currentAgilesVisibility.asObservable()
 
+  private shouldHideHints = new BehaviorSubject<number>(0)
+  hideHints = this.shouldHideHints.asObservable()
+
   constructor() { }
 
   sentNotificationTime(data: number) {
@@ -67,6 +70,10 @@ export class DataService {
 
   sendCurrentAgilesVisibility(data: Array<any>) {
     this.currentAgilesVisibility.next(data)
+  }
+
+  sendHideHints(data: number) {
+    this.shouldHideHints.next(data)
   }
 
 }
