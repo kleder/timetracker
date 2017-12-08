@@ -1,6 +1,6 @@
 //handle setupevents as quickly as possible
 const electron = require("electron")
-const { globalShortcut, clipboard } = require("electron")
+const { clipboard } = require("electron")
 
 import {SquirrelEvent} from './src/SquirrelEvent';
 
