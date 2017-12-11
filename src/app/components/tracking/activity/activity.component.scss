@@ -2,6 +2,7 @@
 
 .container {
     padding: 5px 10px;
+    cursor: default;    
     .record-list__item {
         background-color: $issue-bg-color;
         border: 0px solid $issue-bg-color;

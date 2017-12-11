@@ -6,6 +6,7 @@
   box-sizing: border-box;
   padding: 0 15px 79px;
   background: $dark;
+  cursor: default;  
   form {
     padding-top: 97px;
     .title {
@@ -45,6 +46,7 @@
         font-size: 14px;
         font-weight: 400;
         text-align: left;
+        cursor: text;
         &.email, &.password {
           border-bottom: 2px solid $border-color;
         }
