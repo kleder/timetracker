@@ -138,21 +138,23 @@ try {
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
     Menu.setApplicationMenu(mainMenu)
 
-    const menu = Menu.buildFromTemplate( [ 
-    { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" },
-    { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
-    { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
-    { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload" },
-   ] );
-
-   mainWindow.on('contextmenu', (e) => {
-      menu.popup(electron.remote.getCurrentWindow())
-    })
+    mainWindow.webContents.on('context-menu', (e, props) => {
+      const InputMenu = Menu.buildFromTemplate([    
+        { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" },
+        { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
+        { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
+        { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload" },
+      ]);
+      const { inputFieldType } = props;
+      if (inputFieldType === 'plainText') {
+        InputMenu.popup(mainWindow);
+      }
+    });
 
     // trayIcon.on('click', () => {
     //   mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
     // })
-    
+
   });
   
   // Quit when all windows are closed.

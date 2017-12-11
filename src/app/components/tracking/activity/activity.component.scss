@@ -51,6 +51,7 @@
                 background: none;
                 border: none;
                 color: $record-color;
+                cursor: pointer;                                    
                 &:hover {
                     background-color: $record-color;
                     color: $white;

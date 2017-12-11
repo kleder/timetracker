@@ -11,8 +11,9 @@
         <div class="project-list__item" *ngFor="let issue of agile.issues" [ngClass]="priorityClass(issue)" [ngClass]="issue.id == timerService.currentIssueId? 'recording' : ''">
           <div class="project-list__header">
             <span class="project-list__id">{{ issue.id }}</span> 
-            <span class="project-list__type">{{ issue.field.Type[0] }}</span> 
             <span class="project-list__priority" [ngClass]="priorityClass(issue)">{{ issue.field.Priority[0] }}</span>
+            <span class="project-list__state">{{ issue.field.State[0] }}</span>
+            <span class="project-list__type">{{ issue.field.Type[0] }}</span>
             <span class="project-list__description" *ngIf="issue.hasDescription">
               <i class="fa fa-align-left" aria-hidden="true" title="{{ issue.field.description }}"></i>
             </span>
