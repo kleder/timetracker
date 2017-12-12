@@ -1,9 +1,9 @@
 @import "../../../theme/colors.scss";
 
-.container {
+.record-list {
     padding: 5px 10px;
-    cursor: default;    
-    .record-list__item {
+    cursor: default;
+    &__item {
         background-color: $issue-bg-color;
         border: 0px solid $issue-bg-color;
         border-radius: 4px;
@@ -51,12 +51,12 @@
                 float: right;
                 background: none;
                 border: none;
-                color: $record-color;
+                color: $custom-red;
                 cursor: pointer;                                    
                 &:hover {
-                    background-color: $record-color;
+                    background-color: $custom-red;
                     color: $white;
-                    border: 0px solid $record-color;
+                    border: 0px solid $custom-red;
                     border-radius: 2px;
                 }
                 .fa-circle {
@@ -65,9 +65,9 @@
                     vertical-align: middle;
                 }
                 &.recording {
-                    background-color: $record-color;
+                    background-color: $custom-red;
                     color: $white;
-                    border: 0px solid $record-color;
+                    border: 0px solid $custom-red;
                     border-radius: 2px;
                     .fa-square {
                         padding-right: 4px;
@@ -79,6 +79,42 @@
                     outline: none;
                 }
             }
+        }
+    }
+    &--empty {
+        padding: 52px 22px 20px;
+        text-align: center;
+        img {
+            margin-bottom: 14px;
+            width: 84px;
+        }
+        .record-list__title {
+            margin-bottom: 27px;
+            font-family: 'Montserrat', sans-serif;
+            color:  $white;
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 44px;
+        }
+        .record-list__text {
+            margin-bottom: 41px;
+            font-family: 'Montserrat', sans-serif;
+            color:  $font-grey;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 24px
+        }
+        button {
+            padding: 16px 30px;
+            color: $white;
+            background-color: $custom-red;
+            border: 0;
+            border-radius: 2px;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            outline: none;
+            cursor: pointer;
         }
     }
 }

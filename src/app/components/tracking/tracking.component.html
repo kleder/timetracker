@@ -16,19 +16,19 @@
     </div>
     <div id="current-item">
         <div class="current-item__container" *ngIf="timerService.currentIssueId">
-            <div class="current-item__header">
-                <span class="current-item__summary">{{ timerService.currentIssue.field.summary }}</span>
-                <span class="current-item__duration">{{ timerService.currentTime | secondsToTime }}</span>
-            </div>
             <div class="current-item__content">
-                <span class="current-item__todays-time">TODAY: {{ timerService.currentIssue.todaysTime | secondsToTime }}</span>
-                <button class="current-item__record" (click)="stopTracking(timerService.currentIssue)">
+                <span class="current-item__summary">{{ timerService.currentIssue.field.summary }}</span>                    
+                <span class="current-item__duration">{{ timerService.currentTime | secondsToTime }}</span>                    
+                <span class="current-item__todays-time">TODAY: {{ timerService.currentIssue.todaysTime | secondsToTime }}</span>  
+            </div>
+            <div class="current-item__record">
+                <button (click)="stopTracking(timerService.currentIssue)">
                     <span><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
-                </button>    
+                </button>  
             </div>
         </div>
     </div>
-    <div id="afk-notification" *ngIf="timerService.currentIssueId">
+    <!-- <div id="afk-notification" *ngIf="timerService.currentIssueId">
         <div class="afk-notification__text">
             <span>You were inactive for <strong>{{ timerService.notificationTime | secondsToTime }}. </strong>What should I do?</span>            
         </div>
@@ -36,7 +36,7 @@
             <button class="danger" (click)="timerService.shouldAddAfkTime(false)">Remove</button>
             <button class="positive" (click)="timerService.shouldAddAfkTime(true)">Add</button>
         </div>
-    </div>
+    </div> -->
     <div id="default-notification">
         <span>{{ notificationText }}</span>
     </div>

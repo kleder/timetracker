@@ -29,7 +29,10 @@
             <span class="project-list__summary">{{ issue.field.summary }}</span>
           </div>
         </div>
-        <div *ngIf="agile?.issues == 0" class="project-list__issues--empty">You don't have issues here.</div>
+        <div *ngIf="agile?.issues == 0" class="project-list__issues--empty">
+          <span>No tasks on this board for you..</span>
+          <button>REFRESH</button>
+        </div>
       </div>
     </div>
     <div class="loader">

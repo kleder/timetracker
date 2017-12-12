@@ -1,17 +1,16 @@
-<div class="container">
+<div class="add-account">
     <form>
-        <div class="title">Sign in to an account</div>
-        <div class="you-track-form">
-            <label>{{ 'url' | uppercase }}</label>
-            <!-- <label class="example">For example: https://YOUR_COMPANY.myjetbrains.com/youtrack</label>-->
-            <input [(ngModel)]="youTrackName" name="youTrackName" placeholder="https://COMPANY.myjetbrains.com/youtrack" onfocus="this.placeholder=''" onblur="this.placeholder='https://COMPANY.myjetbrains.com/youtrack'" type="text" required>
-            <label>{{ 'token' | uppercase }}</label>            
-            <input class="email" [(ngModel)]="token" name="token" placeholder="permament token" onfocus="this.placeholder=''" onblur="this.placeholder='permament token'" type="text" required>
-            <div *ngIf="!correctLoginData" class="error">
-                <span>Incorrect username or password</span>
+        <div class="add-account__title">Add new account</div>
+        <div class="add-account__form">
+            <input [(ngModel)]="accountName" name="accountName" placeholder="Custom name for the account" onfocus="this.placeholder=''" onblur="this.placeholder='Custom name for the account'" type="text">
+            <input [(ngModel)]="youTrackUrl" name="youTrackUrl" placeholder="YouTrack home URL" onfocus="this.placeholder=''" onblur="this.placeholder='YouTrack home URL'" type="text" required>
+            <input class="email" [(ngModel)]="token" name="token" placeholder="Token" onfocus="this.placeholder=''" onblur="this.placeholder='Token'" type="text" required>
+            <div *ngIf="!correctLoginData" class="add-account__error">
+                <span>Error occured! Incorrect URL or Token</span>
             </div>
-            <button (click)="login()" type="submit">Add account</button>
+            <button (click)="login()" type="submit">ADD ACCOUNT</button>
         </div>
+        <div class="add-account__hint">How to obtain a new permament token? <a href="#">Click here</a></div>
     </form>
     <div class="loader">
         <ngx-loading [show]="loader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>

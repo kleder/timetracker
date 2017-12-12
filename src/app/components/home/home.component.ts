@@ -17,7 +17,8 @@ export class HomeComponent implements OnInit {
   
   public correctLoginData = true;
   public loader = false;
-  public youTrackName = "";
+  public accountName = ""
+  public youTrackUrl = "";
   public token = "";
 
   constructor(
@@ -43,7 +44,7 @@ export class HomeComponent implements OnInit {
 
   public login = () => {
     this.loader = true;
-    var account = this.account.add(this.youTrackName, this.token);
+    var account = this.account.add(this.youTrackUrl, this.token);
     this.account.user(account).then(
       data => {
         this.loader = false;
