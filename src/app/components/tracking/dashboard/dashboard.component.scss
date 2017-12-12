@@ -2,6 +2,7 @@
 
 .container {
     padding: 10px;
+    cursor: default;    
     .project-list {
         color: $white;
         &__agile {
@@ -9,6 +10,7 @@
             margin-bottom: 12px;
             border-bottom: 1px solid $border-color;
             letter-spacing: 1px;
+            cursor: pointer;
             &:hover {
                 .project-list__title {
                     text-decoration: underline;
@@ -61,6 +63,9 @@
                 &.major {
                     border-left: 4px solid $major;
                 }
+                &.minor {
+                    border-left: 4px solid $minor;
+                }
                 .project-list__header {
                     color: $issue-font-color;
                     font-size: 10px;
@@ -68,19 +73,15 @@
                     text-align: left;
                     font-weight: 400;
                     padding-bottom: 11px;
-                    .project-list__id, .project-list__type, .project-list__priority, .project-list__description, .project-list__comments, .project-list__record {
+                    .project-list__id, .project-list__priority, .project-list__state, .project-list__type, .project-list__description, .project-list__comments, .project-list__record {
                         display: inline-block;
                     }
                     .project-list__id {
                         width: 50px;
                         padding-right: 5px;
                     }
-                    .project-list__type {
-                        width: 33px;
-                        padding-right: 5px;
-                    }
                     .project-list__priority {
-                        width: 50px;
+                        width: 46px;
                         padding-right: 5px;
                         &.normal {
                             color: $normal;
@@ -88,6 +89,17 @@
                         &.major {
                             color: $major;
                         }
+                        &.minor {
+                            color: $minor;
+                        }
+                    }
+                    .project-list__state {
+                        width: 54px;
+                        padding-right: 5px;
+                    }
+                    .project-list__type {
+                        width: 33px;
+                        padding-right: 5px;
                     }
                     .project-list__description {
                         width: 19px;
@@ -106,6 +118,7 @@
                         background: none;
                         border: none;
                         color: $record-color;
+                        cursor: pointer;                                        
                         &:hover {
                             background-color: $record-color;
                             color: $white;
