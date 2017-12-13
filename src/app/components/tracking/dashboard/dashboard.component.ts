@@ -6,6 +6,7 @@ import { DatabaseService } from '../../../services/database.service'
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { HttpService } from '../../../services/http.service'
 import { WorkItemData } from 'app/models/RemoteAccount';
+import { shell } from 'electron';
 
 const electron = require('electron')
 const ipc = electron.ipcRenderer
@@ -65,6 +66,11 @@ export class DashboardComponent implements OnInit {
     // this.getItemsFromDb()
   }
   
+  public async openInBrowser(url : string){
+    var account = await this.api.accounts.Current();
+    shell.openExternal(account.url + url);
+  }
+
   public getItemsFromDb() {
     let that = this
     this.totalTimes = {}
