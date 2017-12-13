@@ -1,0 +1,36 @@
+<div class="header">
+    <div class="header__options">
+        <i class="fa fa-bars" aria-hidden="true" (click)="showMenu()"></i>
+        <img class="header__logo" src="../../../assets/logo.png" alt="logo">
+    </div>
+</div>
+
+<div id="menu">
+    <button class="menu__close" (click)="hideMenu()">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+    <div class="menu__content">
+        <button class="menu__add-account">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <span>Add new account</span>
+        </button>
+        <div class="menu__accounts">
+            <div class="menu__title">SWITCH ACCOUNTS</div>
+        <ul>
+            <li>
+                <input type="checkbox" name="checked">
+                <label>Kleder</label>
+            </li>
+            <li>
+                <input type="checkbox" name="checked">
+                <label>Kleder</label>
+            </li>
+        </ul>
+        </div>
+        <ul class="menu__pages">
+            <li>About</li>
+            <li>License</li>
+        </ul>
+    </div>
+    <div class="menu__footer"></div>
+</div>

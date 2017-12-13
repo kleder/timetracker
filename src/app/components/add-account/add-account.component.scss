@@ -1,0 +1,96 @@
+@import "../../theme/colors.scss";
+
+.add-account{
+  height: 100%; 
+  box-sizing: border-box;
+  padding: 0 15px 79px;
+  background-color: $menu-color;   
+  cursor: default;  
+  padding-top: 97px;
+  &__title {
+    padding-bottom: 35px;
+    font-family: 'Montserrat', sans-serif;
+    color: $white;
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 3px;
+  }
+  &__form {
+    font-size: 20px;
+    input {
+      padding: 14px 17px;
+      margin: 16px 0;
+      width: 100%;
+      display: block;
+      background: none;
+      border: 1px solid $font-grey;
+      border-radius: 4px;
+      outline: 0;
+      font-family: 'Montserrat', sans-serif;
+      color: $font-grey;
+      font-size: 14px;
+      font-weight: 400;
+      text-align: left;
+      box-sizing: border-box;
+      cursor: text;
+      &.email, &.password {
+        border-bottom: 2px solid $border-color;
+      }
+    }
+    button {
+      display: block;
+      padding: 19px 0;
+      margin: 32px auto 0;
+      width: 100%;
+      border: 0px solid $white;
+      border-radius: 2px;
+      background-color:  $custom-red;
+      font-family: 'Montserrat', sans-serif;
+      color:  $white;
+      letter-spacing: 2px;
+      font-size: 14px;
+      font-weight: 400;
+      text-align: center;
+      cursor: pointer;        
+    }
+  }
+  &__error {
+    position: absolute;
+    left: 0;
+    right: 0;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    color: $custom-red;
+  }
+  &__hint {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 33px;
+    font-family: 'Montserrat', sans-serif;    
+    color: $font-grey;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 12px;
+    a {
+      color: $white;
+    }    
+  }
+}
+*::-webkit-input-placeholder {
+  color: $issue-font-color;
+}
+*:-moz-placeholder {
+  /* FF 4-18 */
+  color: $issue-font-color;
+}
+*::-moz-placeholder {
+  /* FF 19+ */
+  color: $issue-font-color;
+}
+*:-ms-input-placeholder {
+  /* IE 10+ */
+  color: $issue-font-color;
+}

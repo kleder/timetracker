@@ -1,8 +1,8 @@
-import { HomeComponent } from './components/home/home.component';
 import { BoardsChoiceComponent } from './components/boards-choice/boards-choice.component';
 import { TrackingComponent } from './components/tracking/tracking.component';
 import { DashboardComponent } from './components/tracking/dashboard/dashboard.component';
 import { ActivityComponent } from './components/tracking/activity/activity.component';
+import { AddAccountComponent } from './components/add-account/add-account.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -12,8 +12,8 @@ import { ApiService } from './services/api.service'
 const routes: Routes = [
     {
         path: '',
-        component: HomeComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        component: AddAccountComponent
     },
     {
         path: 'boards',

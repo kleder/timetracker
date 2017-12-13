@@ -82,7 +82,7 @@ try {
       width: 400,
       height: 650,
       title: 'T-Rec App',
-      resizable: true
+      // resizable: false
     })
     
     mainWindow.loadURL(url.format({

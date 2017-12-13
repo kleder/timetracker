@@ -9,7 +9,6 @@ import { ApiService } from 'app/services/api.service';
 
 @Injectable()
 export class AccountService {
-  title = `Kleder Track App`;
 
   private currentAccount: RemoteAccount;
 
@@ -17,8 +16,9 @@ export class AccountService {
     private databaseService: DatabaseService
   ) { }
 
-  public add(url: string, token: string): RemoteAccount {
+  public add(name: string, url: string, token: string): RemoteAccount {
     var account = new RemoteAccount();
+    account.name = name;
     account.url = url;
     account.token = token;
     this.databaseService.addAccount(account);

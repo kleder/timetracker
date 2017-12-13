@@ -31,7 +31,8 @@ export class HttpService extends Http {
     this.remoteAccount = remoteAccount;
   }
 
-  get(url: string, options?: RequestOptionsArgs): Observable<any> { 
+  get(url: string, options?: RequestOptionsArgs): Observable<any> {
+    this.loader = true
     return super.get(this.getFullUrl(url), this.getOptions(options));
   }
 

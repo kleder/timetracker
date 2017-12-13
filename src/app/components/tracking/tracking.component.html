@@ -1,34 +1,28 @@
 <div class="container">
-    <div class="header">
-        <div class="header__options">
-            <i class="fa fa-bars" aria-hidden="true" (click)="chooseAgiles()"></i>
-            <i class="fa fa-sign-out" aria-hidden="true" (click)=logOut()></i>  
-        </div>
-        <div class="header__menu">      
-            <ul>
-                <li routerLink="dashboard" routerLinkActive="active">Boards</li>
-                <li routerLink="activity" routerLinkActive="active">Records</li>
-            </ul>
-        </div>
+    <div class="menu">      
+        <ul>
+            <li routerLink="dashboard" routerLinkActive="active">Boards</li>
+            <li routerLink="activity" routerLinkActive="active">Records</li>
+        </ul>
     </div>
     <div id="content" class="content">
         <router-outlet></router-outlet>
     </div>
     <div id="current-item">
         <div class="current-item__container" *ngIf="timerService.currentIssue?.issueId">
-            <div class="current-item__header">
+            <div class="current-item__content">
                 <span class="current-item__summary">{{ timerService.currentIssue.summary }}</span>
                 <span class="current-item__duration">{{ timerService.currentIssue.duration | secondsToTime }}</span>
-            </div>
-            <div class="current-item__content">
                 <span class="current-item__todays-time">TODAY: {{ timerService.currentIssue.recordedTime | secondsToTime }}</span>
                 <button class="current-item__record" (click)="stopTracking()">
+            <div class="current-item__record">
+                <button (click)="stopTracking(timerService.currentIssue)">
                     <span><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
-                </button>    
+                </button>  
             </div>
         </div>
     </div>
-    <div id="afk-notification" *ngIf="timerService.currentIssue">
+    <!-- <div id="afk-notification" *ngIf="timerService.currentIssueId">
         <div class="afk-notification__text">
             <span>You were inactive for <strong>{{ timerService.notificationTime | secondsToTime }}. </strong>What should I do?</span>            
         </div>
@@ -36,7 +30,7 @@
             <button class="danger" (click)="timerService.shouldAddAfkTime(false)">Remove</button>
             <button class="positive" (click)="timerService.shouldAddAfkTime(true)">Add</button>
         </div>
-    </div>
+    </div> -->
     <div id="default-notification">
         <span>{{ notificationText }}</span>
     </div>
