@@ -5,6 +5,7 @@ import { DataService } from '../../../services/data.service'
 import { DatabaseService } from '../../../services/database.service'
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { HttpService } from '../../../services/http.service'
+import { WorkItemData } from 'app/models/RemoteAccount';
 
 const electron = require('electron')
 const ipc = electron.ipcRenderer
@@ -71,7 +72,7 @@ export class DashboardComponent implements OnInit {
       console.log("resolve from db", data)
       this.allItemsFromDb = data
       this.allItemsFromDb.forEach(function(row) {
-        if (that.timerService.currentIssueId == undefined && row.status == "start" && row.published == 0 && row.duration > 0) {
+        if (that.timerService.currentIssue == undefined && row.status == "start" && row.published == 0 && row.duration > 0) {
           that.dataService.sendUnstoppedItem(row)
           that.dataService.choosenAction.subscribe(itemWithAction => {
             that.manageUnstoppedItem(itemWithAction, itemWithAction["action"])
@@ -183,8 +184,9 @@ export class DashboardComponent implements OnInit {
             if (issue.id == item.issueid) {
               let unstoppedIssue = issue
               unstoppedIssue.date = item.date
+              unstoppedIssue.duration = item.duration
               console.log(unstoppedIssue)
-              this.startTracking(unstoppedIssue, item.duration)
+              this.sendWorkItems(unstoppedIssue)
               this.hideModal()
             }
           })
@@ -192,7 +194,7 @@ export class DashboardComponent implements OnInit {
       })
     }    
     if (action == 'add') {
-      this.sendWorkItems(item.issueid, {date: item.date, duration: item.duration})
+      this.sendWorkItems({date: item.date, duration: item.duration, issueId: item.id, startDate: item.date, summary: item.summary, recordedTime: 0})
       this.hideModal()
     }
   }
@@ -212,22 +214,30 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  public sendWorkItems = (issueId, item) => {
-    console.log("issueId", issueId)
-    this.api.createNewWorkItem(item, issueId).then(
-      response => {
-        if (response["ok"]) {
-          console.log("ok")
+  public startTracking(issue: any) {
+    var item = new WorkItemData;
+    item.issueId = issue.id;
+    item.duration = 0;
+    item.date = Date.now();
+    item.startDate = Date.now();
+    item.summary = issue.field.summary;
+    item.agile = issue.field.sprint[0].id.split(':')[0]
+    console.log("summary", issue.field)
+    this.timerService.startItem(item);
+  }
+
+  public sendWorkItems = (item: WorkItemData) => {
+    this.timerService.startItem(item).then(
+      (response) => {
           this.dataService.timeSavedNotification('Your tracking has been saved!')
           this.dataService.timeSavedNotification('')
           this.databaseService.setIsPublished(item.date)
           this.databaseService.setIsStopped(item.date)
-        }
-        else {
+        },
+      (err) => {
           this.dataService.timeSavedNotification('An error occured.')
           this.dataService.timeSavedNotification('')          
         }
-      }
     )
   }
 
@@ -240,45 +250,4 @@ export class DashboardComponent implements OnInit {
       }
     )
   }
-
-  public startTracking(issue, startTime = 0, idle = 60*5) {
-    let startDate = issue.date || Date.now()
-    console.log("in start tracking", issue)
-    console.log("startTime", startTime)
-    console.log("this.timerService.currentTime", this.timerService.currentTime)
-    if (this.timerService.currentTime != undefined) {
-      let currentId = this.timerService.currentIssueId
-      let startDate = this.timerService.startDate
-      let currentTime = this.timerService.currentTime
-      let stoppedTime = this.timerService.stopIssueTimer()
-      this.timerService.stopTrackingNotifications()
-      this.timerService.stopIdleTime() 
-      if (stoppedTime >= 60) {
-        // sendToApi
-        this.sendWorkItems(currentId, {date: startDate, duration: currentTime })
-        // stop issueTimer && saveInDb 
-        this.databaseService.stopItem(stoppedTime, startDate)
-        // stop idleTimer
-      }
-      if (issue.id == currentId) {
-        // this.timerService.currentIssueId = undefined
-        issue.time = 0
-        return false
-      }
-    }
-    // count
-    this.currentIssueId = issue.id
-    this.timerService.turnTimer(issue, startDate, startTime)
-    this.timerService.startidleTime(idle)
-    if (!issue.date) {
-      console.log("start item")
-      this.databaseService.startItem(issue, startDate)
-    } else {
-      console.log("update item", issue)
-      console.log("startTime", startTime)
-      this.databaseService.updateDuration(startTime, startDate)
-      issue.date = undefined
-    }
-  }
-
 }

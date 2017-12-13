@@ -1,71 +1,67 @@
 import { Injectable } from '@angular/core';
 const idle = require('idle');
 import { DataService } from '../services/data.service'
+import { ApiService } from 'app/services/api.service';
+import { DatabaseService } from 'app/services/database.service';
+import { WorkItemData } from 'app/models/RemoteAccount';
 
 @Injectable()
 export class TimerService {
-  public currentIssue: any
-  public currentIssueId: string
-  public startDate: number
-  public currentTime: number
+  public currentIssue?: WorkItemData
   public issueTimer: any
   public idleTimer: any
   public afkTime: number
   public notificationTime: number
-  public stoppedTime: number
   public hideHints: number
 
   constructor(
-    public dataService: DataService
-  ) { 
-    this.currentTime = undefined
+    public dataService: DataService,
+    public api: ApiService,
+    public databaseService: DatabaseService
+  ) {
     this.dataService.hideHints.subscribe(data => {
       this.hideHints = data
     })
   }
 
-  public turnTimer(issue, startDate, startTime:number=0) {
+  public turnTimer(issue) {
     this.currentIssue = issue
-    this.currentIssueId = issue.id
-    this.startDate = startDate
-    this.currentTime = startTime
 
-    this.issueTimer = setInterval(() => { 
-      this.currentTime++
-      this.currentIssue.todaysTime++
-      this.dataService.sentIssueData(
-        { 
-          currentTime: this.currentTime, 
-          startDate: startDate
-        })
+    this.issueTimer = setInterval(() => {
+      if (this.currentIssue) {
+        this.currentIssue.duration++;
+        this.currentIssue.recordedTime++;
+        this.dataService.sentIssueData(
+          {
+            currentTime: this.currentIssue.duration,
+            startDate: this.currentIssue.date
+          })
+      }
     }, 1000);
   }
 
   public stopIssueTimer() {
-    this.stoppedTime = this.currentTime
-    if (this.stoppedTime < 60 && !this.hideHints) {
+    var stoppedTime = this.currentIssue.duration
+    if (stoppedTime < 60 && !this.hideHints) {
       this.showModal()
     }
-    this.currentTime = undefined
-    this.currentIssueId = undefined
+    this.currentIssue = undefined
     clearInterval(this.issueTimer)
-    return this.stoppedTime
+    return stoppedTime
   }
 
   public startidleTime(min) {
     this.idleTimer = setInterval(() => {
-      let seconds = idle.getIdleTime()/1000
+      let seconds = idle.getIdleTime() / 1000
       if (seconds < 1 && this.afkTime > min) {
         this.notificationTime = Math.round(this.afkTime)
         this.dataService.sentNotificationTime(this.notificationTime)
       }
       this.afkTime = seconds
-      console.log("current afk: ", seconds)
     }, 1000);
   }
 
-  public stopIdleTime () {
-    console.log('stop idle timer')
+  public stopIdleTime() {
     clearInterval(this.idleTimer)
     this.afkTime = 0
   }
@@ -76,30 +72,65 @@ export class TimerService {
 
   public shouldAddAfkTime(r) {
     if (!r) {
-      this.currentTime = this.updateTime(this.currentTime)
-      this.currentIssue.todaysTime = this.updateTime(this.currentIssue.todaysTime)
-    } 
+      this.updateTime()
+    }
     document.getElementById('afk-notification').style.display = "none"
   }
 
-  public updateTime(time) {
-    let updatedTime = time - Math.round(this.notificationTime)
-    console.log("updated time: " + updatedTime)
-    return updatedTime
+  public updateTime() {
+    this.currentIssue.duration -= Math.round(this.notificationTime)
   }
 
   public stopTrackingNotifications() {
-    let currentItem = document.getElementById('current-item') 
+    let currentItem = document.getElementById('current-item')
     let content = document.getElementById('content')
     currentItem.className = "fade-out"
     content.className = content.className.replace("decrease", "increase")
-    setTimeout(function() { 
+    setTimeout(function () {
       currentItem.className = currentItem.className.replace("fade-out", "hidden")
     }, 500);
   }
 
   public showModal() {
-      document.getElementById('modal').style.display = "block"
+    document.getElementById('modal').style.display = "block"
   }
+
+
+  public async startItem(issue: WorkItemData): Promise<any> {
+    if (this.currentIssue != undefined) {
+      await this.stopItem();
+    }
+    issue.recordedTime = await this.databaseService.getRecordedTime(issue.issueId)
+    return new Promise((resolve => {
+      this.turnTimer(issue)
+      this.startidleTime(60 * 5)
+      this.databaseService.startItem(issue)
+      resolve(issue);
+    }))
+
+  }
+
+  public stopItem(): Promise<any> {
+    let issue = this.currentIssue;
+    console.log(issue)
+    let stoppedTime = this.stopIssueTimer()
+    if (stoppedTime >= 60) {
+      // sendToApi
+      //this.sendWorkItems(this.currentIssueId, {date: startDate, duration: this.currentTime })
+
+      return this.api.createNewWorkItem(issue).then(
+        data => {
+          this.stopTrackingNotifications()
+          this.stopIdleTime()
+          // stop issueTimer && saveInDb 
+          this.databaseService.stopItem(stoppedTime, issue.startDate)
+        }
+      )
+    }
+    return new Promise<any>((resolve, reject) => {
+      reject("To small amount of data");
+    })
+  }
+
 
 }
