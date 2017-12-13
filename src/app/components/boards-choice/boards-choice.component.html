@@ -13,13 +13,16 @@
       <img src="../../../assets/skull.png" alt="skull">
       <div class="board-choice__title">No boards found..</div>
       <div class="board-choice__text">It looks like you need to create agile board or your sprint is not scheduled correctly.</div>
-      <button type="submit">REFRESH</button>        
+      <button type="submit" (click)="getAllAgiles()">REFRESH</button>        
       </div>
   </ng-template>
   <div class="loader">
-    <ngx-loading [show]="httpService.loader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
-  </div>
+      <ngx-loading [show]="httpService.loader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+    </div>
   <div id="default-notification">
     <span>{{ notificationText }}</span>
+    <!-- <div class="close">
+      <button (click)="closeNotification()">X</button>
+    </div> -->
   </div>
 </div>

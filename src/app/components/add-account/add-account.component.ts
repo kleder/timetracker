@@ -8,28 +8,22 @@ import { AccountService } from '../../services/account.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-add-account',
+  templateUrl: './add-account.component.html',
+  styleUrls: ['./add-account.component.scss']
 })
-export class HomeComponent implements OnInit {
-  title = `Kleder Track App`;
-  
+export class AddAccountComponent implements OnInit {
   public correctLoginData = true;
   public loader = false;
-  public accountName = ""
+  public name = ""
   public youTrackUrl = "";
   public token = "";
-
   constructor(
     public http: Http,
     public account: AccountService,
     public router: Router, 
-    public activatedRoute: ActivatedRoute   
-  ) {
-    console.log("Home")
-    console.log(process.env)
-   }
+    public activatedRoute: ActivatedRoute  
+  ) { }
 
   async ngOnInit() {
     var current = await this.account.Current();
@@ -44,7 +38,7 @@ export class HomeComponent implements OnInit {
 
   public login = () => {
     this.loader = true;
-    var account = this.account.add(this.youTrackUrl, this.token);
+    var account = this.account.add(this.name, this.youTrackUrl, this.token);
     this.account.user(account).then(
       data => {
         this.loader = false;
@@ -58,7 +52,7 @@ export class HomeComponent implements OnInit {
   }
 
   goToBoard() {
-    this.router.navigate(['/boards'], { queryParams: {isLogged: true} });
+    this.router.navigate(['/boards'], { queryParams: {isLogged: true, name: this.name} });
   }
 
 }

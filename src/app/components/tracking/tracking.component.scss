@@ -3,64 +3,46 @@
     height: 100%;
     overflow: hidden;
     cursor: default;    
-    .header {
-        position: fixed;
-        top: 0;
-        height: 127px;
+    .menu {
+        margin-top: 72px;
         width: 100%;
         background-color: $menu-color;
-        &__options {
-            padding: 32px 15px;
-            color: $white;
-            i {
-                cursor: pointer;
-                &.fa-bars {
-                    float: left;
+        ul {
+            padding: 0px 30px;
+            margin: 0;
+            margin-top: -10px;
+            li {
+                display: block;
+                float: left;
+                width: 50%;
+                padding: 13px;
+                color: $white;
+                list-style: none;
+                text-align: center;
+                font-family: 'Montserrat', sans-serif;
+                border-top: 0;
+                box-sizing: border-box;
+                cursor: pointer;                                 
+                &.active {
+                    border-bottom: 2px solid $custom-red; 
                 }
-                &.fa-sign-out {
-                    float: right;
+                &:focus {
+                    outline: none;
                 }
-            }
-        }
-        &__menu {
-            width: 100%;
-            background-color: $menu-color;
-            ul {
-                padding: 16px 30px;
-                margin: 0;
-                li {
-                    display: block;
-                    float: left;
-                    width: 50%;
-                    padding: 13px;
-                    color: $white;
-                    list-style: none;
-                    text-align: center;
-                    font-family: 'Montserrat', sans-serif;
-                    border-top: 0;
-                    box-sizing: border-box;
-                    cursor: pointer;                                 
-                    &.active {
-                        border-bottom: 2px solid $custom-red; 
-                    }
-                    &:focus {
-                        outline: none;
-                    }
-                    a {
-                        text-decoration: none;
-                        color: #000000;
-                    }
+                a {
+                    text-decoration: none;
+                    color: #000000;
                 }
             }
         }
     }
     .content {
-        margin-top: 127px;
+        // margin-top: 127px;
         padding: 20px 10px;
         float: left;
         width: 100%;
-        min-height: calc(100% - 127px);
-        height: calc(100% - 127px);
+        min-height: calc(100% - 107px);
+        height: calc(100% - 107px);
         background-color: $content-color;
         box-sizing: border-box;
         overflow: auto;
@@ -73,32 +55,32 @@
         &.increase {
             -webkit-animation: increase 0.2s;
             animation: increase 0.2s;
-            min-height: calc(100% - 127px);
-            height: calc(100% - 127px);
+            min-height: calc(100% - 107px);
+            height: calc(100% - 107px);
         }
         @-webkit-keyframes decrease {
-            from {        min-height: calc(100% - 127px);
-                height: calc(100% - 127px);} 
+            from {        min-height: calc(100% - 107px);
+                height: calc(100% - 107px);} 
             to {            min-height: calc(100% - 218px);
                 height: calc(100% - 218px); }
         }
         @keyframes decrease {
-            from {        min-height: calc(100% - 127px);
-                height: calc(100% - 127px);} 
+            from {        min-height: calc(100% - 107px);
+                height: calc(100% - 107px);} 
             to {            min-height: calc(100% - 218px);
                 height: calc(100% - 218px); }
         }
         @-webkit-keyframes increase {
             from {        min-height: calc(100% - 218px);
                 height: calc(100% - 218px);} 
-            to {                min-height: calc(100% - 127px);
-                height: calc(100% - 127px);         }
+            to {                min-height: calc(100% - 107px);
+                height: calc(100% - 107px); }
         }
         @keyframes increase {
             from {        min-height: calc(100% - 218px);
                 height: calc(100% - 218px);} 
-            to {             min-height: calc(100% - 127px);
-                height: calc(100% - 127px); }
+            to {             min-height: calc(100% - 107px);
+                height: calc(100% - 107px); }
         }
     }
     button {

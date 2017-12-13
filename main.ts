@@ -82,7 +82,7 @@ try {
       width: 400,
       height: 650,
       title: 'T-Rec App',
-      resizable: false
+      // resizable: false
     })
     
     mainWindow.loadURL(url.format({
@@ -120,20 +120,20 @@ try {
       mainMenuTemplate.unshift({})
     }
   
-    // if (process.env.NODE_ENV !== 'production') {
-    //   // mainWindow.webContents.openDevTools();
-    //   mainMenuTemplate.push({
-    //       label: 'Dev Tools',
-    //       submenu: [
-    //           {
-    //               label: 'Toggle DevTools',
-    //               click() {
-    //                   mainWindow.toggleDevTools()
-    //               }
-    //           }
-    //       ]
-    //   })
-    // }
+    if (process.env.NODE_ENV !== 'production') {
+      // mainWindow.webContents.openDevTools();
+      mainMenuTemplate.push({
+          label: 'Dev Tools',
+          submenu: [
+              {
+                  label: 'Toggle DevTools',
+                  click() {
+                      mainWindow.toggleDevTools()
+                  }
+              }
+          ]
+      })
+    }
 
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
     Menu.setApplicationMenu(mainMenu)

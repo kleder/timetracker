@@ -15,7 +15,8 @@ export class BoardsChoiceComponent implements OnInit {
   public agiles: any
   public notificationText: string
   private justLoggedIn: boolean
-  private remoteAccount: RemoteAccount 
+  private remoteAccount: RemoteAccount
+  public accountName: string  
   constructor(
     public router: Router,
     private dataService: DataService,
@@ -31,16 +32,20 @@ export class BoardsChoiceComponent implements OnInit {
     .queryParams
     .subscribe(async params => {
       this.justLoggedIn = (params['isLogged'])
+      this.accountName = (params['name'])
       this.getAllAgiles()
     });
   }
 
   public getAllAgiles() {
+    console.log('getAllAgiles()')
     this.api.getAllAgiles().then(
       data => {
+        this.httpService.loader = false
         this.agiles = data
         if (this.justLoggedIn) {
-          this.welcomeNotification()          
+          this.welcomeNotification()
+          this.justLoggedIn = false   
         }
       }
     )
@@ -59,13 +64,18 @@ export class BoardsChoiceComponent implements OnInit {
   public welcomeNotification() {
     let that = this
     setTimeout(function() { 
-      that.notificationText = "You’re in! Select agile boards."
+      that.notificationText = "Account " + that.accountName + " is synced!"
       let element = document.getElementById("default-notification")
       element.className = "show";
       setTimeout(function() { 
         element.className = element.className.replace("show", "")
       }, 2500);
     }, 300)
+  }
+
+  public closeNotification() {
+    let element = document.getElementById("default-notification")
+    element.className = element.className.replace("show", "")    
   }
   
 }

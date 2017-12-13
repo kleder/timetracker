@@ -1,11 +1,10 @@
 @import "../../theme/colors.scss";
 
 .add-account{
-  background-color: $menu-color; 
   height: 100%; 
   box-sizing: border-box;
   padding: 0 15px 79px;
-  background: $dark;
+  background-color: $menu-color;   
   cursor: default;  
   padding-top: 97px;
   &__title {

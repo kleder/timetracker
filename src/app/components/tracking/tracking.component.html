@@ -1,15 +1,9 @@
 <div class="container">
-    <div class="header">
-        <div class="header__options">
-            <i class="fa fa-bars" aria-hidden="true" (click)="chooseAgiles()"></i>
-            <i class="fa fa-sign-out" aria-hidden="true" (click)=logOut()></i>  
-        </div>
-        <div class="header__menu">      
-            <ul>
-                <li routerLink="dashboard" routerLinkActive="active">Boards</li>
-                <li routerLink="activity" routerLinkActive="active">Records</li>
-            </ul>
-        </div>
+    <div class="menu">      
+        <ul>
+            <li routerLink="dashboard" routerLinkActive="active">Boards</li>
+            <li routerLink="activity" routerLinkActive="active">Records</li>
+        </ul>
     </div>
     <div id="content" class="content">
         <router-outlet></router-outlet>

@@ -1,0 +1,117 @@
+@import "../../theme/colors.scss";
+.header {
+  position: fixed;
+  top: 0;
+  height: 72px;
+  width: 100%;
+  background-color: $menu-color;
+  &__options {
+    padding: 28px 20px;
+    color: $white;
+    i {
+        cursor: pointer;
+        &.fa-bars {
+            float: left;
+        }
+    }
+    .header__logo {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 72px;
+    }
+  }
+}
+#menu, .menu {
+    visibility: hidden;
+    padding: 28px 22px;
+    position: fixed;
+    top: 0;
+    background-color: $content-color;
+    width: 84%;
+    height: 100%;
+    box-sizing: border-box;
+    &__close, &__add-account {
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+        color: $white;
+        outline: none;
+        cursor: pointer;
+    }
+    &__close {
+        font-size: 22px;
+    }
+    &__add-account {
+        margin-top: 30px;
+        padding: 16px 21px 19px 14px;
+        border: 1px solid $font-grey;
+        font-family: 'Montserrat', sans-serif;        
+        font-size: 16px;
+        font-weight: 400;       
+        i {
+            margin-right: 14px;
+        }
+    }
+    &__accounts {
+        margin-top: 38px;
+        .menu__title {
+            font-family: 'Montserrat', sans-serif;        
+            color:  $font-grey;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        ul {
+            margin-top: 32px;
+            padding-left: 5px;
+            list-style: none;
+            li {
+                margin-left: 32px;
+                padding: 15px 0;
+                border-bottom: 1px solid $border-color;
+                &:last-child {
+                    border-bottom: 0;
+                }
+                input {
+                    -webkit-appearance: none;
+                    margin-left: -32px;
+                    position: absolute;
+                    width: 80%;
+                    height: 20px;
+                    margin: 0;
+                    z-index: 1000;
+                    border-radius: 2px;
+                    vertical-align: middle;
+                    outline: none;
+                    cursor: pointer;
+                    &:checked {
+                      &:before {
+                        content: "\2714";
+                        font-size: 18px;
+                        position: absolute;
+                        top: -2px;
+                        left: 0;
+                        color: $custom-red;
+                      }
+                    }
+                    &:checked + label {
+                      color: $white;
+                    }
+                }
+                label {
+                    font-family: 'Montserrat', sans-serif;        
+                    color:  $white;
+                    font-size: 16px;
+                    font-weight: 400;
+                    line-height: 20px;
+                }
+                i {
+                    padding-right: 16px;
+                    color: $custom-red;
+                }
+            }        
+        }
+    }
+    
+}

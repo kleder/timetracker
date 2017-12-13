@@ -26,7 +26,7 @@ export class DatabaseService {
     this.db = new sqlite3.Database(dbPath, (data) => {
       if (data == null){
         this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT )");
-        this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
+        this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT)");
         this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");        
         this.variablesInit()
       }
@@ -155,7 +155,7 @@ export class DatabaseService {
 
   public addAccount = (item : RemoteAccount) => {
     this.db.serialize(() => {
-      let stmt = this.db.prepare("INSERT INTO `account` (`url`, `token`) VALUES ('" + item.url + "','" + item.token + "')");
+      let stmt = this.db.prepare("INSERT INTO `account` (`name`, `url`, `token`) VALUES ('" + item.name + "','" + item.url + "','" + item.token + "')");
       stmt.run()
       stmt.finalize()
     });

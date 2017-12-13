@@ -121,6 +121,7 @@ export class DashboardComponent implements OnInit {
   public getIssuesByAgile(agileName, index, after=0, max=10) {
     this.api.getIssuesByAgile(agileName).then(
       data => {
+          this.httpService.loader = false
           this.issues = data
           this.prepareIssues(this.issues, agileName, index)
       }
