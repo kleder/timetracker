@@ -33,10 +33,12 @@ export class HeaderComponent implements OnInit {
   }
 
   showMenu() {
-    document.getElementById('menu').style.visibility = 'visible'
+    document.getElementById('menu').className = "show";
+    document.getElementById('backdrop').className = "show";
   }
 
   hideMenu() {
-    document.getElementById('menu').style.visibility = 'hidden'
+    document.getElementById('menu').className = document.getElementById('menu').className.replace("show", "hide")
+    document.getElementById('backdrop').className = document.getElementById('backdrop').className.replace("show", "hide")
   }
 }
