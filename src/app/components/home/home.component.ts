@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 import { AccountService } from '../../services/account.service';
 
 import { Router, ActivatedRoute } from '@angular/router';
+import { RemoteAccount } from 'app/models/RemoteAccount';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit {
     public http: Http,
     public account: AccountService,
     public router: Router, 
-    public activatedRoute: ActivatedRoute   
+    public activatedRoute: ActivatedRoute,
+    public apiService: ApiService
   ) {
     console.log("Home")
     console.log(process.env)
@@ -43,9 +45,12 @@ export class HomeComponent implements OnInit {
 
   public login = () => {
     this.loader = true;
-    var account = this.account.add(this.youTrackName, this.token);
-    this.account.user(account).then(
+    var account = new RemoteAccount;
+    account.token = this.token;
+    account.url = this.youTrackName;
+    this.apiService.getCurrentUser(account).then(
       data => {
+        this.account.add(account.url, account.token);
         this.loader = false;
         this.goToBoard()
       }, error => {
