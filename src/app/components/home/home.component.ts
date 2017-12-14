@@ -43,11 +43,12 @@ export class HomeComponent implements OnInit {
 
   }
 
-  public login = () => {
+  public login = async () => {
     this.loader = true;
     var account = new RemoteAccount;
     account.token = this.token;
     account.url = this.youTrackName;
+    awiat = this.apiService.UseAccount(account);
     this.apiService.getCurrentUser(account).then(
       data => {
         this.account.add(account.url, account.token);
