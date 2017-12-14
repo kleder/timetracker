@@ -44,4 +44,15 @@ export class HeaderComponent implements OnInit {
     document.getElementById('menu').className = document.getElementById('menu').className.replace("show", "hide")
     document.getElementById('backdrop').className = document.getElementById('backdrop').className.replace("show", "hide")      
   }
+
+  showEditAccount() {
+    document.getElementById('edit-account').className = "show";
+  }
+
+  hideEditAccount() {
+    document.getElementById('edit-account').className = document.getElementById('edit-account').className.replace("show", "hide")
+    
+  }
+
+
 }

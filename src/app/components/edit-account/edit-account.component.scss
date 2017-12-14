@@ -1,0 +1,171 @@
+@import "../../theme/colors.scss";
+
+.container {
+    height: 100%;
+    .edit-account__header {
+        padding: 29px 16px;
+        background-color: $menu-color;    
+        .edit-account__back {
+            padding: 0;
+            position: absolute;
+            margin-top: -4px;
+            background-color: transparent;
+            border: 0;
+            font-size: 19px;
+            color: $white;
+            outline: none;
+            cursor: pointer;
+            font-size: 22px;
+        }
+        .edit-account__title {
+            font-family: 'Montserrat', sans-serif;        
+            color:  $white;
+            font-size: 16px;
+            line-height: 14px;
+            font-weight: 400;
+            text-align: center;
+        }
+    }
+    .edit-account__content {
+        padding: 38px 17px;
+        height: calc(100% - 72px);
+        background-color: $content-color;
+        overflow: auto;
+        .edit-account__title {
+            font-family: 'Montserrat', sans-serif;        
+            color:  $font-grey;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            cursor: default;            
+        }
+        .edit-account__form {
+            margin: 23px 0 30px;
+            .edit-account__title {
+                margin-bottom: 15px;
+            }
+            label, input {
+                display: block;
+            }
+            label {
+                margin-bottom: 7px;
+                font-family: 'Montserrat', sans-serif;        
+                color:  $white;
+                font-size: 12px;
+                font-weight: 400;
+            }
+            input {
+                padding: 16px;
+                width: 100%;
+                background-color: transparent;
+                margin-bottom: 14px;
+                line-height: 16px;
+                font-family: 'Montserrat', sans-serif;        
+                color:  $white;
+                font-size: 12px;
+                border: 2px solid $font-grey;
+                border-radius: 2px;
+                box-sizing: border-box;
+                cursor: text;
+                outline: none;
+                &:last-of-type {
+                    margin-bottom: 24px;
+                }
+            }
+        }
+        .edit-account__boards {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid $border-color;
+            .edit-account__item {
+                position: relative;
+                margin: 16px 0;    
+                height: 48px;
+                background: transparent;
+                border: 2px solid $font-grey;
+                border-radius: 4px;
+                input {
+                    -webkit-appearance: none;
+                    position: absolute;
+                    width: 100%;
+                    height: 50px;
+                    margin: 0;
+                    z-index: 1000;
+                    border-radius: 2px;
+                    vertical-align: middle;
+                    outline: none;
+                    cursor: pointer;
+                    &:checked {
+                        &:before {
+                        content: "\2714";
+                        font-size: 22px;
+                        position: absolute;
+                        top: 12px; 
+                        left: 17px;
+                        color: $custom-red;
+                        }
+                    }
+                    &:checked + label {
+                        color: $white;
+                    }
+                }
+                label {
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    text-align: center;
+                    padding: 19px 0;
+                    font-family: 'Montserrat', sans-serif;
+                    color: $font-grey;
+                    font-size: 14px;
+                    line-height: 12px;      
+                    font-weight: 400;
+                    letter-spacing: 2px;
+                }
+                &:last-of-type {
+                    margin-bottom: 32px;
+                }
+            }
+        }
+        .remove-account {
+            margin-bottom: 144px;
+            .btn {
+                i {
+                    font-size: 18px;
+                    padding-right: 10px;
+                    color: $custom-red;
+                }
+            }
+        }
+        .btn {
+            padding: 18px 0;
+            width: 100%;
+            border: 0;
+            border-radius: 2px;                
+            font-family: 'Montserrat', sans-serif;        
+            font-size: 14px;
+            line-height: 12px;
+            font-weight: 400;
+            text-align: center;
+            letter-spacing: 1px;
+            cursor: pointer;
+            outline: none;
+            &--grey {
+                background-color: $font-grey;
+                color: $font-btn-color;                
+            }
+            &--red {
+                background-color: $custom-red;
+                color: $white;   
+            }
+            &--transparent {
+                background-color: transparent;
+                color: $white;
+                border: 2px solid $custom-red;
+            }
+        }
+    }
+}

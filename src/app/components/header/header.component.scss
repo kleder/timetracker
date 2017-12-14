@@ -200,4 +200,28 @@
             left: -84%;
         }
     }
+    #edit-account {
+        position: fixed;
+        bottom: -100%;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 20000;
+        &.show {
+            animation: showEditAccount 1s forwards;
+        }
+        &.hide {
+            animation: hideEditAccount 1s forwards;            
+        }
+    }
+    @keyframes showEditAccount {
+        100% {
+            bottom: 0;
+        }
+    }
+    @keyframes hideEditAccount {
+        100% {
+            bottom: -100%;
+        }
+    }
 }

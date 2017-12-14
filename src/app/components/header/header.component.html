@@ -20,7 +20,7 @@
         <ul>
             <li>
                 <input type="checkbox" name="checked">
-                <button>edit</button>
+                <button (click)="showEditAccount()">edit</button>
                 <label>Kleder</label>
             </li>
             <li>
@@ -41,7 +41,7 @@
         </ul>
         </div>
         <div class="menu__pages">
-            <div class="menu__title">ABOUT</div>        
+            <div class="menu__title">ABOUT</div>
             <ul>
                 <li>About T-REC</li>
                 <li>Privacy policy</li>
@@ -50,4 +50,7 @@
         </div>
     </div>
     <div class="menu__footer">&#169; 2017</div>
+    <div id="edit-account">
+        <app-edit-account></app-edit-account>        
+    </div>
 </div>
