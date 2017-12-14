@@ -12,4 +12,12 @@ export class EditAccountComponent implements OnInit {
   ngOnInit() {
   }
 
+  showEditBoard() {
+    document.getElementById('edit-board').className = "show";
+  }
+
+  hideEditBoard() {
+    document.getElementById('edit-board').className = document.getElementById('edit-board').className.replace("show", "hide")
+  }
+
 }

@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
     document.getElementById('menu').className = "show";
     setTimeout(() => {
       document.getElementById('backdrop').className = "show";      
-    }, 1000)
+    }, 400)
   }
 
   hideMenu() {
@@ -51,7 +51,6 @@ export class HeaderComponent implements OnInit {
 
   hideEditAccount() {
     document.getElementById('edit-account').className = document.getElementById('edit-account').className.replace("show", "hide")
-    
   }
 
 

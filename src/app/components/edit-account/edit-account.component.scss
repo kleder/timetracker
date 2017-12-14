@@ -117,13 +117,22 @@
                     left: 0;
                     right: 0;
                     text-align: center;
-                    padding: 19px 0;
+                    padding: 19px 13px;
                     font-family: 'Montserrat', sans-serif;
                     color: $font-grey;
                     font-size: 14px;
                     line-height: 12px;      
                     font-weight: 400;
                     letter-spacing: 2px;
+                }
+                i {
+                    position: absolute;
+                    top: 15px;
+                    right: 13px;
+                    color: $font-grey;
+                    font-size: 19px;
+                    z-index: 1000;
+                    cursor: pointer;
                 }
                 &:last-of-type {
                     margin-bottom: 32px;
@@ -167,5 +176,29 @@
                 border: 2px solid $custom-red;
             }
         }
+    }
+}
+@keyframes showEditBoard {
+    100% {
+        bottom: 0;
+    }
+}
+@keyframes hideEditBoard {
+    100% {
+        bottom: -100%;
+    }
+}
+#edit-board {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 20000;
+    &.show {
+        animation: showEditBoard .2s forwards;
+    }
+    &.hide {
+        animation: hideEditBoard .2s forwards;            
     }
 }

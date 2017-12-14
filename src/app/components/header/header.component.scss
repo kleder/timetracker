@@ -182,10 +182,10 @@
         font-weight: 400;
     }
     &.show {
-        animation: showMenu 1s forwards;
+        animation: showMenu .5s forwards;
     }
     &.hide {
-        animation: hideMenu 1s backwards;
+        animation: hideMenu .5s backwards;
     }
     @keyframes showMenu {
         100% {
@@ -200,20 +200,6 @@
             left: -84%;
         }
     }
-    #edit-account {
-        position: fixed;
-        bottom: -100%;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 20000;
-        &.show {
-            animation: showEditAccount 1s forwards;
-        }
-        &.hide {
-            animation: hideEditAccount 1s forwards;            
-        }
-    }
     @keyframes showEditAccount {
         100% {
             bottom: 0;
@@ -223,5 +209,19 @@
         100% {
             bottom: -100%;
         }
+    }
+}
+#edit-account {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 20000;
+    &.show {
+        animation: showEditAccount .2s forwards;
+    }
+    &.hide {
+        animation: hideEditAccount .2s forwards;            
     }
 }
