@@ -24,7 +24,7 @@
   }
 }
 #menu, .menu {
-    padding: 24px 22px;
+    padding: 28px 16px;
     position: fixed;
     top: 0;
     left: -100%;
@@ -33,19 +33,21 @@
     height: 100%;
     box-sizing: border-box;
     z-index: 10000;
+    overflow: auto;
     #backdrop {
+        visibility: hidden;        
         position: fixed;
         top: 0;
-        left: -16%;
+        left: 84%;        
         width: 16%;
         height: 100%;
         background-color: $dark;
         opacity: 0.7;
         &.show {
-            animation: showBackdrop 1s forwards;
+            visibility: visible;
         }
         &.hide {
-            animation: hideBackdrop 1s backwards;
+            visibility: hidden;
         }
     }
     &__close, &__add-account {
@@ -61,42 +63,42 @@
     }
     &__add-account {
         margin-top: 30px;
-        padding: 16px 21px 19px 14px;
+        padding: 17px 21px 17px 17px;
         border: 1px solid $font-grey;
         font-family: 'Montserrat', sans-serif;        
         font-size: 16px;
         font-weight: 400;       
         i {
+            float: left;
             margin-right: 14px;
+            font-size: 20px;
         }
     }
     &__accounts {
-        margin-top: 38px;
+        margin-top: 30px;
         .menu__title {
             font-family: 'Montserrat', sans-serif;        
             color:  $font-grey;
             font-size: 12px;
             font-weight: 400;
+            letter-spacing: 1px;
             cursor: default;            
         }
         ul {
-            margin: 17px 0 35px;
-            padding-left: 5px;
+            margin: 4px 0 38px;
+            padding: 0;
             list-style: none;
             li {
                 margin-left: 31px;
                 padding: 15px 0;
                 border-bottom: 1px solid $border-color;
-                &:last-child {
-                    border-bottom: 0;
-                }
                 input {
                     -webkit-appearance: none;
                     margin-top: -15px !important;
                     position: absolute;
-                    width: 76%;
+                    width: 80%;
                     height: 50px;
-                    left: 25px;
+                    left: 16px;
                     margin: 0;
                     z-index: 1000;
                     border-radius: 2px;
@@ -109,7 +111,6 @@
                         font-size: 18px;
                         position: absolute;
                         top: 13px;
-                        left: 2;
                         color: $custom-red;
                       }
                     }
@@ -143,21 +144,42 @@
         }
     }
     &__pages {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        li {
-            padding: 16px 0;
-            border-top: 1px solid $border-color;            
+        .menu__title {
+            padding-bottom: 6px;
             font-family: 'Montserrat', sans-serif;        
-            color:  $white;
-            font-size: 14px;
+            color:  $font-grey;
+            font-size: 12px;
             font-weight: 400;
-            cursor: pointer;
-            &:last-child {
-                border-bottom: 1px solid $border-color;                
+            letter-spacing: 1px;
+            cursor: default;            
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            li {
+                padding: 14px 0;
+                border-top: 1px solid $border-color;            
+                font-family: 'Montserrat', sans-serif;        
+                color:  $white;
+                font-size: 14px;
+                font-weight: 400;
+                cursor: pointer;
+                &:first-child {
+                    border-top: 0;
+                }
+                &:last-child {
+                    border-bottom: 1px solid $border-color;                
+                }
             }
         }
+    }
+    &__footer {
+        margin-top: 36px;
+        font-family: 'Montserrat', sans-serif;        
+        color:  $font-grey;
+        font-size: 14px;
+        font-weight: 400;
     }
     &.show {
         animation: showMenu 1s forwards;
@@ -176,19 +198,6 @@
         }
         100% {
             left: -84%;
-        }
-    }
-    @keyframes showBackdrop {
-        100% {
-            left: 84%;
-        }
-    }
-    @keyframes hideBackdrop {
-        0% {
-            left: 84%;
-        }
-        100% {
-            left: -16%;
         }
     }
 }
