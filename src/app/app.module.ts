@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
+import { HeaderComponent } from './components/header/header.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -28,17 +28,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { HttpService } from './services/http.service';
-import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe'
+import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
+
+import { AddAccountComponent } from './components/add-account/add-account.component';
+import { EditAccountComponent } from './components/edit-account/edit-account.component';
+import { EditBoardComponent } from './components/edit-board/edit-board.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    HeaderComponent,
     TrackingComponent,
     DashboardComponent,
     ActivityComponent,
     BoardsChoiceComponent,
-    SecondsToTimePipe
+    SecondsToTimePipe,
+    AddAccountComponent,
+    EditAccountComponent,
+    EditBoardComponent
   ],
   imports: [
     BrowserModule,

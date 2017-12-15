@@ -1,0 +1,48 @@
+<div class="container">  
+  <div class="edit-account__header">
+    <button class="edit-account__back" (click)="hideMenu()">
+      <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+    </button>
+    <div class="edit-account__title">Edit name</div>
+  </div>
+  <div class="edit-account__content">
+      <div class="edit-account__form">
+        <div class="edit-account__title">EDIT ACCOUNT</div>          
+        <label>Account name</label>
+        <input type="text">
+        <label>Youtrack URL</label>
+        <input type="text">
+        <label>Access token</label>
+        <input type="text">
+        <button class="btn btn--grey" type="submit">SAVE CHANGES</button>
+      </div>
+      <div class="edit-account__boards" *ngIf="agiles?.length !=0; else empty">
+        <span class="edit-account__title">SELECT BOARDS</span>
+        <div class="edit-account__item">
+          <input type="checkbox">
+          <label>board name</label>
+          <i class="fa fa-cog" aria-hidden="true" (click)="showEditBoard()"></i> 
+        </div>
+        <div class="edit-account__item">
+          <input type="checkbox">
+          <label>board name</label>
+          <i class="fa fa-cog" aria-hidden="true" (click)="showEditBoard()"></i>           
+        </div>
+        <div class="edit-account__item">
+          <input type="checkbox">
+          <label>board name</label>
+          <i class="fa fa-cog" aria-hidden="true" (click)="showEditBoard()"></i>           
+        </div>
+        <button class="btn btn--red" type=”submit”>SAVE CHANGES</button>
+      </div>     
+      <div class="remove-account">
+        <button class="btn btn--transparent" type=”submit”>
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          REMOVE ACCOUNT
+        </button>
+      </div>
+  </div>
+</div>
+<div id="edit-board">
+  <app-edit-board></app-edit-board>
+</div>

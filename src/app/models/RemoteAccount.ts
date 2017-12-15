@@ -1,4 +1,5 @@
 export class RemoteAccount {
+  public name : string;
   public url : string;
   public token : string;
 }

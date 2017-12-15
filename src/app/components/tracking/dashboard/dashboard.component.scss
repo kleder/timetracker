@@ -36,13 +36,35 @@
             transition: max-height 0.3s ease-in;
             overflow: hidden;
             &--empty {
-                margin-bottom: 31px;
-                font-family: 'Montserrat', sans-serif;
-                font-size: 11px;
+                margin-bottom: 17px;
+                padding: 11px;
+                height: 15px;
+                background-color: #35343d;
+                border-radius: 4px;
+
+                span {
+                    float: left;
+                    color: $font-grey;
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+                button {
+                    float: right;
+                    margin-right: 2px;
+                    color: $white;
+                    background: transparent;
+                    border: 0;
+                    font-size: 12px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    letter-spacing: 1px;
+                    cursor: pointer;
+                }
             }
             .project-list__item {
                 background-color: $issue-bg-color;
-                border: 0;
+                border: 1px solid $border-color;
                 border-radius: 4px;
                 padding: 11px;
                 margin-bottom: 7px;
@@ -77,12 +99,10 @@
                         display: inline-block;
                     }
                     .project-list__id {
-                        width: 50px;
-                        padding-right: 5px;
+                        padding-right: 14px;
                     }
                     .project-list__priority {
-                        width: 46px;
-                        padding-right: 5px;
+                        padding-right: 17px;
                         &.normal {
                             color: $normal;
                         }
@@ -94,17 +114,14 @@
                         }
                     }
                     .project-list__state {
-                        width: 54px;
-                        padding-right: 5px;
+                        padding-right: 14px;
                     }
                     .project-list__type {
-                        width: 33px;
-                        padding-right: 5px;
+                        padding-right: 15px;
                     }
                     .project-list__description {
-                        width: 19px;
                         font-size: 12px;
-                        padding-right: 5px;
+                        padding-right: 15px;
                     }
                     .project-list__comments {
                         font-size: 12px;
@@ -113,16 +130,19 @@
                         }
                     }
                     .project-list__record {
+                        margin-top: -2px;
+                        // padding: 0 3px 0 0;
                         display: none;
                         float: right;
                         background: none;
                         border: none;
-                        color: $record-color;
+                        color: $custom-red;
                         cursor: pointer;                                        
                         &:hover {
-                            background-color: $record-color;
+                            padding: 2px 6px 3px;                            
+                            background-color: $custom-red;
                             color: $white;
-                            border: 0px solid $record-color;
+                            border: 0px solid $custom-red;
                             border-radius: 2px;
                         }
                         .fa-circle {
@@ -131,9 +151,10 @@
                             vertical-align: middle;
                         }
                         &.recording {
-                            background-color: $record-color;
+                            padding: 2px 6px 3px;
+                            background-color: $custom-red;
                             color: $white;
-                            border: 0px solid $record-color;
+                            border: 0px solid $custom-red;
                             border-radius: 2px;
                             .fa-square {
                                 padding-right: 4px;

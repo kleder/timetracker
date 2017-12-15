@@ -39,7 +39,7 @@ function createWindow(name) {
     // x: 0,
     // y: 0,
     width: 400,
-    height: 650
+    height: 656
   });
 
   // and load the index.html of the app.
@@ -82,7 +82,7 @@ try {
       width: 400,
       height: 650,
       title: 'T-Rec App',
-      resizable: true
+      // resizable: false
     })
     
     mainWindow.loadURL(url.format({

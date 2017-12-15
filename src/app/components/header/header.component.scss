@@ -1,0 +1,227 @@
+@import "../../theme/colors.scss";
+.header {
+  position: fixed;
+  top: 0;
+  height: 72px;
+  width: 100%;
+  background-color: $menu-color;
+  &__options {
+    padding: 28px 20px;
+    color: $white;
+    i {
+        cursor: pointer;
+        &.fa-bars {
+            float: left;
+        }
+    }
+    .header__logo {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 72px;
+    }
+  }
+}
+#menu, .menu {
+    padding: 28px 16px;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    background-color: $content-color;
+    width: 84%;
+    height: 100%;
+    box-sizing: border-box;
+    z-index: 10000;
+    overflow: auto;
+    #backdrop {
+        visibility: hidden;        
+        position: fixed;
+        top: 0;
+        left: 84%;        
+        width: 16%;
+        height: 100%;
+        background-color: $dark;
+        opacity: 0.7;
+        &.show {
+            visibility: visible;
+        }
+        &.hide {
+            visibility: hidden;
+        }
+    }
+    &__close, &__add-account {
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+        color: $white;
+        outline: none;
+        cursor: pointer;
+    }
+    &__close {
+        font-size: 22px;
+    }
+    &__add-account {
+        margin-top: 30px;
+        padding: 17px 21px 17px 17px;
+        border: 1px solid $font-grey;
+        font-family: 'Montserrat', sans-serif;        
+        font-size: 16px;
+        font-weight: 400;       
+        i {
+            float: left;
+            margin-right: 14px;
+            font-size: 20px;
+        }
+    }
+    &__accounts {
+        margin-top: 30px;
+        .menu__title {
+            font-family: 'Montserrat', sans-serif;        
+            color:  $font-grey;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            cursor: default;            
+        }
+        ul {
+            margin: 4px 0 38px;
+            padding: 0;
+            list-style: none;
+            li {
+                margin-left: 31px;
+                padding: 15px 0;
+                border-bottom: 1px solid $border-color;
+                input {
+                    -webkit-appearance: none;
+                    margin-top: -15px !important;
+                    position: absolute;
+                    width: 80%;
+                    height: 50px;
+                    left: 16px;
+                    margin: 0;
+                    z-index: 1000;
+                    border-radius: 2px;
+                    vertical-align: middle;
+                    outline: none;
+                    cursor: pointer;
+                    &:checked {
+                      &:before {
+                        content: "\2714";
+                        font-size: 18px;
+                        position: absolute;
+                        top: 13px;
+                        color: $custom-red;
+                      }
+                    }
+                    &:checked + label {
+                      color: $white;
+                    }
+                }
+                button {
+                    float: right;
+                    font-family: 'Montserrat', sans-serif;        
+                    color:  $font-grey;
+                    font-size: 12px;
+                    font-weight: 400;
+                    background-color: transparent;
+                    border: 0;
+                    outline: none;
+                    cursor: pointer;
+                }
+                label {
+                    font-family: 'Montserrat', sans-serif;        
+                    color:  $white;
+                    font-size: 16px;
+                    font-weight: 400;
+                    line-height: 20px;
+                }
+                i {
+                    padding-right: 16px;
+                    color: $custom-red;
+                }
+            }        
+        }
+    }
+    &__pages {
+        .menu__title {
+            padding-bottom: 6px;
+            font-family: 'Montserrat', sans-serif;        
+            color:  $font-grey;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            cursor: default;            
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            li {
+                padding: 14px 0;
+                border-top: 1px solid $border-color;            
+                font-family: 'Montserrat', sans-serif;        
+                color:  $white;
+                font-size: 14px;
+                font-weight: 400;
+                cursor: pointer;
+                &:first-child {
+                    border-top: 0;
+                }
+                &:last-child {
+                    border-bottom: 1px solid $border-color;                
+                }
+            }
+        }
+    }
+    &__footer {
+        margin-top: 36px;
+        font-family: 'Montserrat', sans-serif;        
+        color:  $font-grey;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    &.show {
+        animation: showMenu .5s forwards;
+    }
+    &.hide {
+        animation: hideMenu .5s backwards;
+    }
+    @keyframes showMenu {
+        100% {
+            left: 0;
+        }
+    }
+    @keyframes hideMenu {
+        0% {
+            left: 0;
+        }
+        100% {
+            left: -84%;
+        }
+    }
+    @keyframes showEditAccount {
+        100% {
+            bottom: 0;
+        }
+    }
+    @keyframes hideEditAccount {
+        100% {
+            bottom: -100%;
+        }
+    }
+}
+#edit-account {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 20000;
+    &.show {
+        animation: showEditAccount .2s forwards;
+    }
+    &.hide {
+        animation: hideEditAccount .2s forwards;            
+    }
+}

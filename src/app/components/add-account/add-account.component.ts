@@ -9,16 +9,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RemoteAccount } from 'app/models/RemoteAccount';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-add-account',
+  templateUrl: './add-account.component.html',
+  styleUrls: ['./add-account.component.scss']
 })
-export class HomeComponent implements OnInit {
-  title = `Kleder Track App`;
-  
+export class AddAccountComponent implements OnInit {
   public correctLoginData = true;
   public loader = false;
-  public youTrackName = "";
+  public name = ""
+  public youTrackUrl = "";
   public token = "";
 
   constructor(
@@ -26,11 +25,9 @@ export class HomeComponent implements OnInit {
     public account: AccountService,
     public router: Router, 
     public activatedRoute: ActivatedRoute,
-    public apiService: ApiService
-  ) {
-    console.log("Home")
-    console.log(process.env)
-   }
+    public apiService: ApiService)
+    {
+    }
 
   async ngOnInit() {
     var current = await this.account.Current();
@@ -45,13 +42,15 @@ export class HomeComponent implements OnInit {
 
   public login = async () => {
     this.loader = true;
-    var account = new RemoteAccount;
-    account.token = this.token;
-    account.url = this.youTrackName;
-    awiat = this.apiService.UseAccount(account);
-    this.apiService.getCurrentUser(account).then(
-      data => {
-        this.account.add(account.url, account.token);
+    var rAccount = new RemoteAccount;
+    rAccount.name = this.name;
+    rAccount.token = this.token;
+    rAccount.url = this.youTrackUrl;
+    console.log('rAccount',rAccount)
+    this.apiService.getCurrentUser(rAccount).then(
+      async (data) => {
+        console.log('rAccount',rAccount)
+        await this.account.add(rAccount.name, rAccount.url, rAccount.token);
         this.loader = false;
         this.goToBoard()
       }, error => {
@@ -63,7 +62,7 @@ export class HomeComponent implements OnInit {
   }
 
   goToBoard() {
-    this.router.navigate(['/boards'], { queryParams: {isLogged: true} });
+    this.router.navigate(['/boards'], { queryParams: {isLogged: true, name: this.name} });
   }
 
 }

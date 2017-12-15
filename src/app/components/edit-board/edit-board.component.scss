@@ -1,0 +1,117 @@
+@import "../../theme/colors.scss";
+.container {
+    height: 100%;
+    .edit-board__header {
+        padding: 29px 16px;
+        background-color: $menu-color;    
+        .edit-board__back {
+            padding: 0;
+            position: absolute;
+            margin-top: -4px;
+            background-color: transparent;
+            border: 0;
+            font-size: 19px;
+            color: $white;
+            outline: none;
+            cursor: pointer;
+            font-size: 22px;
+        }
+        .edit-board__title {
+            font-family: 'Montserrat', sans-serif;        
+            color:  $white;
+            font-size: 16px;
+            line-height: 14px;
+            font-weight: 400;
+            text-align: center;
+        }
+    }
+    .edit-board__content {
+        padding: 38px 17px;
+        height: calc(100% - 72px);
+        background-color: $content-color;
+        overflow: auto;
+        .edit-board__title {
+            font-family: 'Montserrat', sans-serif;        
+            color:  $font-grey;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            cursor: default;            
+        }
+        .edit-board__form {
+            .edit-board__item {
+                margin-top: 16px;
+                margin-bottom: 8px;
+                height: 47px;
+                .edit-board__priority {
+                    float: left;
+                    padding-top: 12px;
+                    .edit-board__color {
+                        float: left;
+                        margin: 5px 10px 0 0;
+                        height: 12px;
+                        width: 11px;
+                        border: 2px solid $font-grey;
+                        border-radius: 50%;
+                        background-color: $white;
+                    }
+                    .edit-board__name {
+                        float: right;
+                        font-family: 'Montserrat', sans-serif;        
+                        color:  $white;;
+                        font-size: 12px;
+                        font-weight: 400;
+                        line-height: 24px;
+                    }
+                }
+                input {
+                    float: right;
+                    margin-bottom: 14px;                    
+                    padding: 13px 8px 15px;
+                    width: 192px;
+                    background-color: transparent;
+                    line-height: 16px;
+                    font-family: 'Montserrat', sans-serif;        
+                    color:  $white;
+                    font-size: 12px;
+                    line-height: 12px;
+                    border: 2px solid $font-grey;
+                    border-radius: 2px;
+                    box-sizing: border-box;
+                    cursor: text;
+                    outline: none;
+                }
+            }
+            .btn {
+                margin-top: 18px;
+            }
+        }
+    }
+}
+.btn {
+    padding: 18px 0;
+    width: 100%;
+    border: 0;
+    border-radius: 2px;                
+    font-family: 'Montserrat', sans-serif;        
+    font-size: 14px;
+    line-height: 12px;
+    font-weight: 400;
+    text-align: center;
+    letter-spacing: 1px;
+    cursor: pointer;
+    outline: none;
+    &--grey {
+        background-color: $font-grey;
+        color: $font-btn-color;                
+    }
+    &--red {
+        background-color: $custom-red;
+        color: $white;   
+    }
+    &--transparent {
+        background-color: transparent;
+        color: $white;
+        border: 2px solid $custom-red;
+    }
+}

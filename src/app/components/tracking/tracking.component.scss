@@ -3,107 +3,89 @@
     height: 100%;
     overflow: hidden;
     cursor: default;    
-    .header {
-        position: fixed;
-        top: 0;
-        height: 127px;
+    .menu {
+        margin-top: 72px;
         width: 100%;
         background-color: $menu-color;
-        &__options {
-            padding: 32px 15px;
-            color: $white;
-            i {
-                cursor: pointer;
-                &.fa-bars {
-                    float: left;
+        ul {
+            padding: 0px 30px;
+            margin: 0;
+            margin-top: -10px;
+            li {
+                display: block;
+                float: left;
+                width: 50%;
+                padding: 13px;
+                color: $white;
+                list-style: none;
+                text-align: center;
+                font-family: 'Montserrat', sans-serif;
+                border-top: 0;
+                box-sizing: border-box;
+                cursor: pointer;                                 
+                &.active {
+                    border-bottom: 2px solid $custom-red; 
                 }
-                &.fa-sign-out {
-                    float: right;
+                &:focus {
+                    outline: none;
                 }
-            }
-        }
-        &__menu {
-            width: 100%;
-            background-color: $menu-color;
-            ul {
-                padding: 16px 15px;
-                margin: 0;
-                li {
-                    display: block;
-                    float: left;
-                    width: 50%;
-                    padding: 13px;
-                    color: $white;
-                    list-style: none;
-                    text-align: center;
-                    font-family: 'Montserrat', sans-serif;
-                    border-top: 0;
-                    box-sizing: border-box;
-                    cursor: pointer;                                 
-                    &.active {
-                        border-bottom: 2px solid $white; 
-                    }
-                    &:focus {
-                        outline: none;
-                    }
-                    a {
-                        text-decoration: none;
-                        color: #000000;
-                    }
+                a {
+                    text-decoration: none;
+                    color: #000000;
                 }
             }
         }
     }
     .content {
-        margin-top: 127px;
+        // margin-top: 127px;
         padding: 20px 10px;
         float: left;
         width: 100%;
-        min-height: calc(100% - 127px);
-        height: calc(100% - 127px);
+        min-height: calc(100% - 107px);
+        height: calc(100% - 107px);
         background-color: $content-color;
         box-sizing: border-box;
         overflow: auto;
         &.decrease {
             -webkit-animation: decrease 0.5s;
             animation: decrease 0.5s;
-            min-height: calc(100% - 271px);
-            height: calc(100% - 271px)
+            min-height: calc(100% - 218px);
+            height: calc(100% - 218px)
         }
         &.increase {
             -webkit-animation: increase 0.2s;
             animation: increase 0.2s;
-            min-height: calc(100% - 127px);
-            height: calc(100% - 127px);
+            min-height: calc(100% - 107px);
+            height: calc(100% - 107px);
         }
         @-webkit-keyframes decrease {
-            from {        min-height: calc(100% - 127px);
-                height: calc(100% - 127px);} 
-            to {            min-height: calc(100% - 271px);
-                height: calc(100% - 271px); }
+            from {        min-height: calc(100% - 107px);
+                height: calc(100% - 107px);} 
+            to {            min-height: calc(100% - 218px);
+                height: calc(100% - 218px); }
         }
         @keyframes decrease {
-            from {        min-height: calc(100% - 127px);
-                height: calc(100% - 127px);} 
-            to {            min-height: calc(100% - 271px);
-                height: calc(100% - 271px); }
+            from {        min-height: calc(100% - 107px);
+                height: calc(100% - 107px);} 
+            to {            min-height: calc(100% - 218px);
+                height: calc(100% - 218px); }
         }
         @-webkit-keyframes increase {
-            from {        min-height: calc(100% - 271px);
-                height: calc(100% - 271px);} 
-            to {                min-height: calc(100% - 127px);
-                height: calc(100% - 127px);         }
+            from {        min-height: calc(100% - 218px);
+                height: calc(100% - 218px);} 
+            to {                min-height: calc(100% - 107px);
+                height: calc(100% - 107px); }
         }
         @keyframes increase {
-            from {        min-height: calc(100% - 271px);
-                height: calc(100% - 271px);} 
-            to {             min-height: calc(100% - 127px);
-                height: calc(100% - 127px); }
+            from {        min-height: calc(100% - 218px);
+                height: calc(100% - 218px);} 
+            to {             min-height: calc(100% - 107px);
+                height: calc(100% - 107px); }
         }
     }
     button {
         &.danger {
-            background-color: $record-color;
+            background-color: $custom-red;
             color: $white !important;
         }
         &.positive {
@@ -122,10 +104,9 @@
         left: 0;
         bottom: 0;
         background-color: $issue-bg-color;
-        border-top: 1px solid $border-color;
-        padding: 41px 15px 27px;
+        border-top: 4px solid $custom-red;
+        padding: 20px 20px 18px;
         box-sizing: border-box;
-        height: 144px;
         &.show {
             visibility: visible;
             -webkit-animation: fadein-current 0.5s;
@@ -140,74 +121,82 @@
             visibility: hidden
         }
         @-webkit-keyframes fadein-current {
-            from {bottom: -144px; } 
+            from {bottom: -91px; } 
             to {bottom: 0; }
         }
         @keyframes fadein-current {
-            from {bottom: -144px; }
+            from {bottom: -91px; }
             to {bottom: 0; }
         }
         @-webkit-keyframes fadeout-current {
             from {bottom: 0; } 
-            to {bottom: -144px;}
+            to {bottom: -91px;}
         }
         @keyframes fadeout-current {
             from {bottom: 0; }
-            to {bottom: -144px;}
+            to {bottom: -91px;}
         }
-        .current-item__header {
-            color: $issue-font-color;
-            font-size: 10px;
+        .current-item__content, .current-item__record {
+            display: inline-block;
+        }
+        .current-item__content {
+            float: left;
+            width: calc(100% - 75px);
             font-family: 'Montserrat', sans-serif;
-            text-align: left;
+            color:  $white;
+            font-size: 14px;
             font-weight: 400;
-            padding-bottom: 21px;
-            .current-item__summary, .current-item__duration, {
+            .current-item__summary {
+                display: block;
+                padding: 0 20px 13px 0;             
+                font-family: 'Montserrat', sans-serif;
+                color:  $white;
+                font-size: 14px;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+            .current-item__duration {
                 display: inline-block;
+                width: 60px;
+                margin-right: 22px;
                 font-family: 'Montserrat', sans-serif;
                 color:  $white;
                 font-size: 14px;
                 font-weight: 600;
             }
-            .current-item__summary {
-                width: 76%;
-                letter-spacing: 1px;
-            }
-            .current-item__duration {
-                float: right;
-            }
-        }
-        .current-item__content {
-            font-family: 'Montserrat', sans-serif;
-            color:  $white;
-            font-size: 14px;
-            font-weight: 400;
-            text-align: left;
             .current-item__todays-time {
                 color: $issue-font-color;
                 font-size: 10px;
                 font-weight: 400;
                 letter-spacing: 1px;
             }
-            .current-item__record {
+        }
+        .current-item__record {
+            margin-top: 4px;
+            button {
+                padding: 7px 13px;
+                font-size: 12px;
                 float: right;
                 background: none;
                 border: none;
-                color: $record-color;
-                background-color: $record-color;
+                color: $custom-red;
+                background-color: $custom-red;
                 color: $white;
-                border: 0px solid $record-color;
+                border: 0px solid $custom-red;
                 border-radius: 2px;
-                cursor: pointer;                                    
-                .fa-square {
-                    padding-right: 4px;
-                    font-size: 6px;
-                    vertical-align: middle;
-                }
-                &:focus {
-                    outline: none;
-                }
-            }
+                cursor: pointer;
+                span {
+                    padding-left: 2px;
+                    .fa-square {
+                        padding: 0 6px 1px 0;
+                        font-size: 7px;
+                        vertical-align: middle;
+                    }
+                    &:focus {
+                        outline: none;
+                    }
+                }                   
+            }               
         }
     }
     #default-notification {
