@@ -30,7 +30,9 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { HttpService } from './services/http.service';
 import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 
-import { AddAccountComponent } from './components/add-account/add-account.component'
+import { AddAccountComponent } from './components/add-account/add-account.component';
+import { EditAccountComponent } from './components/edit-account/edit-account.component';
+import { EditBoardComponent } from './components/edit-board/edit-board.component'
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { AddAccountComponent } from './components/add-account/add-account.compon
     ActivityComponent,
     BoardsChoiceComponent,
     SecondsToTimePipe,
-    AddAccountComponent
+    AddAccountComponent,
+    EditAccountComponent,
+    EditBoardComponent
   ],
   imports: [
     BrowserModule,
