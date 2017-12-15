@@ -19,12 +19,15 @@ export class AddAccountComponent implements OnInit {
   public name = ""
   public youTrackUrl = "";
   public token = "";
+
   constructor(
     public http: Http,
     public account: AccountService,
     public router: Router, 
     public activatedRoute: ActivatedRoute,
-    public apiService: ApiService
+    public apiService: ApiService)
+    {
+    }
 
   async ngOnInit() {
     var current = await this.account.Current();
@@ -39,13 +42,15 @@ export class AddAccountComponent implements OnInit {
 
   public login = () => {
     this.loader = true;
-    var account = new RemoteAccount;
-    account.token = this.token;
-    account.url = this.youTrackName;
-    this.apiService.getCurrentUser(account).then(
-      data => {
-        var account = await this.account.add(account.url, account.token);
-        
+    var rAccount = new RemoteAccount;
+    rAccount.name = this.name;
+    rAccount.token = this.token;
+    rAccount.url = this.youTrackUrl;
+    console.log('rAccount',rAccount)
+    this.apiService.getCurrentUser(rAccount).then(
+      async (data) => {
+        console.log('rAccount',rAccount)
+        await this.account.add(rAccount.name, rAccount.url, rAccount.token);
         this.loader = false;
         this.goToBoard()
       }, error => {

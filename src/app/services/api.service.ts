@@ -18,15 +18,14 @@ export class ApiService {
      this.UseAccount();
   }
 
-  public async UseAccount(remoteAccount?: RemoteAccount): Promise<any> {
-    return new Promise(async (resolve) => {
-      if (remoteAccount == undefined) {
-        var remoteAccount = await this.accounts.Current();
-        console.log(remoteAccount);
-      }
+  public async UseAccount(remoteAccount?: RemoteAccount) {
+    if (remoteAccount == undefined) {
+      var remoteAccount = await this.accounts.Current();      
+    }
+    if (remoteAccount != undefined){
       this.http.UseAccount(remoteAccount);
-      resolve()
-    });
+    }
+    return;
   }
 
   getAllProjects = () => {
@@ -152,16 +151,14 @@ export class ApiService {
     })
   }
 
-  getCurrentUser(remoteAccount: RemoteAccount) {
-    return new Promise<UserData>((resolve, reject) => {
-      this.UseAccount(remoteAccount).then(() =>{
-        this.http.get('/rest/user/current')
+async getCurrentUser(remoteAccount: RemoteAccount) {
+    await this.UseAccount(remoteAccount)
+    this.http.UseAccount(remoteAccount)
+    return this.http.get('/rest/user/current')
           .map(res => res.json())
           .subscribe(
-            data => { resolve(data)},
-            err => { reject(err)} 
-          )
-      });
-    });
+            data => { return data },
+            err => { throw err } 
+          );
   }
 }
