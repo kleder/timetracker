@@ -1,4 +1,3 @@
-import 'zone.js/dist/zone-mix';
 import 'reflect-metadata';
 import 'polyfills';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,6 +18,7 @@ import { DashboardComponent } from './components/tracking/dashboard/dashboard.co
 import { ActivityComponent } from './components/tracking/activity/activity.component';
 import { TrackingComponent } from './components/tracking/tracking.component';
 import { BoardsChoiceComponent } from './components/boards-choice/boards-choice.component';
+import { AboutAuthorsComponent } from './components/about-authors/about-authors.component';
 
 import { DataService } from './services/data.service'
 import { TimerService } from './services/timer.service'
@@ -32,7 +32,7 @@ import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 
 import { AddAccountComponent } from './components/add-account/add-account.component';
 import { EditAccountComponent } from './components/edit-account/edit-account.component';
-import { EditBoardComponent } from './components/edit-board/edit-board.component'
+import { EditBoardComponent } from './components/edit-board/edit-board.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,8 @@ import { EditBoardComponent } from './components/edit-board/edit-board.component
     SecondsToTimePipe,
     AddAccountComponent,
     EditAccountComponent,
-    EditBoardComponent
+    EditBoardComponent,
+    AboutAuthorsComponent
   ],
   imports: [
     BrowserModule,

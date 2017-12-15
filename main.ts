@@ -102,7 +102,16 @@ try {
         label: "T-Rec App",
         submenu: [
           {
-            label: 'About authors..'
+            label: 'About authors..',
+            click(){
+              mainWindow.loadURL(url.format({
+                pathname: path.join(__dirname, 'index.html'),
+                protocol: 'file',
+                slashes: true,
+                icon: __dirname + '/img/icon.ico'
+            }))
+               }
+            
           },
           {
             label: "Quit app",

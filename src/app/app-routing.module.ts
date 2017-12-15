@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AccountService } from './services/account.service'
 import { ApiService } from './services/api.service'
+import { AboutAuthorsComponent } from 'app/components/about-authors/about-authors.component';
 
 const routes: Routes = [
     {
@@ -18,6 +19,10 @@ const routes: Routes = [
     {
         path: 'boards',
         component: BoardsChoiceComponent
+    },
+    {
+        path: 'authors',
+        component: AboutAuthorsComponent
     },
     {
         path: 'tracking',
