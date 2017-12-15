@@ -40,7 +40,7 @@ export class AddAccountComponent implements OnInit {
 
   }
 
-  public login = () => {
+  public login = async () => {
     this.loader = true;
     var rAccount = new RemoteAccount;
     rAccount.name = this.name;
