@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 import { AccountService } from '../../services/account.service';
 
 import { Router, ActivatedRoute } from '@angular/router';
+import { RemoteAccount } from 'app/models/RemoteAccount';
 
 @Component({
   selector: 'app-add-account',
@@ -18,12 +19,15 @@ export class AddAccountComponent implements OnInit {
   public name = ""
   public youTrackUrl = "";
   public token = "";
+
   constructor(
     public http: Http,
     public account: AccountService,
     public router: Router, 
-    public activatedRoute: ActivatedRoute  
-  ) { }
+    public activatedRoute: ActivatedRoute,
+    public apiService: ApiService)
+    {
+    }
 
   async ngOnInit() {
     var current = await this.account.Current();
@@ -36,11 +40,17 @@ export class AddAccountComponent implements OnInit {
 
   }
 
-  public login = () => {
+  public login = async () => {
     this.loader = true;
-    var account = this.account.add(this.name, this.youTrackUrl, this.token);
-    this.account.user(account).then(
-      data => {
+    var rAccount = new RemoteAccount;
+    rAccount.name = this.name;
+    rAccount.token = this.token;
+    rAccount.url = this.youTrackUrl;
+    console.log('rAccount',rAccount)
+    this.apiService.getCurrentUser(rAccount).then(
+      async (data) => {
+        console.log('rAccount',rAccount)
+        await this.account.add(rAccount.name, rAccount.url, rAccount.token);
         this.loader = false;
         this.goToBoard()
       }, error => {

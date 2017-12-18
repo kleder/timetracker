@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { from } from 'rxjs/observable/from';
 import { RemoteAccount, UserData } from 'app/models/RemoteAccount';
 import { access } from 'original-fs';
+import { ApiService } from 'app/services/api.service';
 
 @Injectable()
 export class AccountService {
@@ -12,7 +13,6 @@ export class AccountService {
   private currentAccount: RemoteAccount;
 
   constructor(
-    public http: Http,
     private databaseService: DatabaseService
   ) { }
 
@@ -28,12 +28,6 @@ export class AccountService {
 
   public async get(youtrack: string): Promise<RemoteAccount> {
     return await this.databaseService.getAccount(youtrack);
-  }
-
-  public user(remoteAccount: RemoteAccount): Promise<UserData> {
-    return new Promise<UserData>((resolve) => {
-      resolve(new UserData());
-    });
   }
 
   public async Current(): Promise<RemoteAccount> {

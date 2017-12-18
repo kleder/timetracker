@@ -62,12 +62,12 @@ export class TrackingComponent implements OnDestroy, OnInit {
   subscribeIssueTime() {
     this.dataService.currentIssueTime.takeWhile(() => this.alive).subscribe(data => {
       let issueTime = data["currentTime"]
-      let startDate = data["startDate"]
-      console.log("issueTime", issueTime)
+      //let startDate = data["startDate"]
+      console.log("TAKE", data)
       if (issueTime % 60 === 0) {
-        this.databaseService.updateDuration(Math.round(issueTime), startDate)
+        this.databaseService.updateDuration(Math.round(issueTime), this.timerService.currentIssue.date)
       }
-      if (this.timerService.currentIssueId) {
+      if (this.timerService.currentIssue) {
         let element = document.getElementById('current-item') 
         element.className = "show"
         let content = document.getElementById('content')
@@ -122,31 +122,19 @@ export class TrackingComponent implements OnDestroy, OnInit {
     this.unstoppedItem = undefined
   }
 
-  public stopTracking = (issue) => {
+  public stopTracking = (item) => {
     this.timerService.stopTrackingNotifications()
     let stoppedTime = this.timerService.stopIssueTimer()
     console.log("this.stoppedTime", stoppedTime)
-    // stop idleTimer
-    this.timerService.stopIdleTime() 
-    if (stoppedTime >= 60) {
-      console.log("issue in tracking comp", issue)
-      // sendToApi
-      this.sendWorkItems(this.timerService.currentIssueId, {date: this.timerService.startDate, duration: this.timerService.currentTime })
-      // stop issueTimer && saveInDb 
-      this.databaseService.stopItem(stoppedTime, this.timerService.startDate)
-    }
-  }
-
-  public sendWorkItems = (issueId, item) => {
     let that = this
-    console.log("issueId", issueId)
-    this.api.createNewWorkItem(item, issueId).then(
+    // stop idleTimer
+    this.timerService.stopItem().then(
       response => {
         if (response["ok"]) {
           console.log("ok")
           this.databaseService.setIsPublished(item.date)
           this.databaseService.setIsStopped(item.date)
-            that.timeSavedNotification('Your tracking has been saved!')
+          that.timeSavedNotification('Your tracking has been saved!')
         } else {
           this.timeSavedNotification('An error occured.')
         }

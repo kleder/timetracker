@@ -3,7 +3,10 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { HttpService } from '../services/http.service'
 import { AccountService } from './account.service'
-import { RemoteAccount } from 'app/models/RemoteAccount';
+import { RemoteAccount, UserData, IssueDetails, WorkItemData } from 'app/models/RemoteAccount';
+import { error } from 'util';
+import { reject } from 'q';
+import { resolve } from 'dns';
 @Injectable()
 export class ApiService {
 
@@ -12,18 +15,17 @@ export class ApiService {
     public http: HttpService,
     public accounts: AccountService
   ) {
-    this.UseAccount();
+     this.UseAccount();
   }
 
-  public async UseAccount(remoteAccount?: RemoteAccount): Promise<any> {
-    return new Promise(async (resolve) => {
-      if (remoteAccount == undefined) {
-        var remoteAccount = await this.accounts.Current();
-        console.log(remoteAccount);
-      }
+  public async UseAccount(remoteAccount?: RemoteAccount) {
+    if (remoteAccount == undefined) {
+      var remoteAccount = await this.accounts.Current();      
+    }
+    if (remoteAccount != undefined){
       this.http.UseAccount(remoteAccount);
-      resolve()
-    });
+    }
+    return;
   }
 
   getAllProjects = () => {
@@ -79,7 +81,7 @@ export class ApiService {
   }
 
   getIssue = (issueId) => {
-    return new Promise(resolve => {
+    return new Promise<IssueDetails>(resolve => {
       this.UseAccount().then(() => {
         this.http.get('/rest/issue/' + issueId + '?wikifyDescription=true')
           .map(res => res.json())
@@ -105,20 +107,17 @@ export class ApiService {
     })
   }
 
-  createNewWorkItem = (data, issueId) => {
+  createNewWorkItem = (data : WorkItemData) => {
     let newItem = {
       date: data.date,
       duration: Math.round(data.duration / 60),
-      description: "Added by KlederTrack App",
-      worktype: {
-        name: "Testing"
-      }
+      description: "Added by KlederTrack App"
     }
     console.log(data)
 
     return new Promise(resolve => {
       this.UseAccount().then(() => {
-        this.http.post('/rest/issue/' + issueId + '/timetracking/workitem', newItem)
+        this.http.post('/rest/issue/' + data.issueId + '/timetracking/workitem', newItem)
           .subscribe(data => {
             resolve(data)
           }, error => {
@@ -150,5 +149,16 @@ export class ApiService {
           })
       })
     })
+  }
+
+async getCurrentUser(remoteAccount: RemoteAccount) {
+    await this.UseAccount(remoteAccount)
+    this.http.UseAccount(remoteAccount)
+    return this.http.get('/rest/user/current')
+          .map(res => res.json())
+          .subscribe(
+            data => { return data },
+            err => { throw err } 
+          );
   }
 }
