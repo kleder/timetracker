@@ -31,8 +31,9 @@ import { HttpService } from './services/http.service';
 import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 
 import { AddAccountComponent } from './components/add-account/add-account.component';
+import { MenuComponent } from './components/menu/menu.component'
 import { EditAccountComponent } from './components/edit-account/edit-account.component';
-import { EditBoardComponent } from './components/edit-board/edit-board.component'
+import { EditBoardComponent } from './components/edit-board/edit-board.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { EditBoardComponent } from './components/edit-board/edit-board.component
     BoardsChoiceComponent,
     SecondsToTimePipe,
     AddAccountComponent,
+    MenuComponent,    
     EditAccountComponent,
     EditBoardComponent
   ],
