@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../../services/database.service'
 
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { DataService } from '../../services/data.service'
 
 @Component({
   selector: 'app-menu',
@@ -14,11 +15,20 @@ export class MenuComponent implements OnInit {
   constructor(
     public databaseService: DatabaseService,
     public router: Router,
-    private location: Location
+    private activatedRoute: ActivatedRoute,
+    private dataService: DataService
   ) { }
 
   ngOnInit() {
     this.getAccounts()
+    this.activatedRoute
+    .queryParams
+    .subscribe(params => {
+      let url = params['returnUrl']
+      if (url) {
+        this.dataService.routeBeforeMenu = url.split("?")[0]        
+      }
+    });
   }
 
   public async getAccounts(): Promise<any> {
@@ -32,6 +42,6 @@ export class MenuComponent implements OnInit {
   }
 
   hideMenu() {
-    
+    this.router.navigate([this.dataService.routeBeforeMenu])
   }
 }

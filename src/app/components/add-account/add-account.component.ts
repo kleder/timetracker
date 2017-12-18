@@ -19,6 +19,7 @@ export class AddAccountComponent implements OnInit {
   public name = ""
   public youTrackUrl = "";
   public token = "";
+  public notificationText: string
 
   constructor(
     public http: Http,
@@ -32,7 +33,7 @@ export class AddAccountComponent implements OnInit {
   async ngOnInit() {
     var current = await this.account.Current();
     if (current!= undefined){
-      this.router.navigate(['/boards'], { queryParams: {isLogged: false} });
+      this.router.navigate(['/boards'], { queryParams: {isLogged: false, name: current.name} });
     }
     this.activatedRoute
     .queryParams
@@ -48,17 +49,43 @@ export class AddAccountComponent implements OnInit {
     rAccount.url = this.youTrackUrl;
     console.log('rAccount',rAccount)
     this.apiService.getCurrentUser(rAccount).then(
-      async (data) => {
+      (data) => {
+        console.log("data", data)
         console.log('rAccount',rAccount)
-        await this.account.add(rAccount.name, rAccount.url, rAccount.token);
+        this.account.add(rAccount.name, rAccount.url, rAccount.token);
         this.loader = false;
         this.goToBoard()
-      }, error => {
+      }, (error) => {
+        this.errorHtml()
+        this.errorNotification()
         this.loader = false;
         this.correctLoginData = false;
-        console.log(error)
-      }
-    )
+        }
+    )   
+  }
+
+  public errorHtml() {
+    let url = document.getElementById('add-account__url')
+    let token = document.getElementById('add-account__token')
+    url.className += " add-account__url--error"
+    token.className += " add-account__token--error"
+  }
+
+  public errorNotification() {
+    let that = this
+    setTimeout(function() { 
+      that.notificationText = "Error eccoured! Incorrect URL or token"
+      let element = document.getElementById("default-notification")
+      element.className = "show";
+      setTimeout(function() { 
+        element.className = element.className.replace("show", "")
+      }, 2500);
+    }, 300)
+  }
+
+  public closeNotification() {
+    let element = document.getElementById("default-notification")
+    element.className = element.className.replace("show", "")    
   }
 
   goToBoard() {

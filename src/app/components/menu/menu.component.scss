@@ -49,6 +49,10 @@
             margin-right: 14px;
             font-size: 20px;
         }
+        a {
+            color: $white;
+            text-decoration: none;
+        }
     }
     &__accounts {
         margin-top: 30px;
@@ -61,7 +65,7 @@
             cursor: default;            
         }
         ul {
-            margin: 4px 0 38px;
+            margin-top: 4px;
             padding: 0;
             list-style: none;
             li {
@@ -120,6 +124,7 @@
         }
     }
     &__pages {
+        margin-top: 38px;
         .menu__title {
             padding-bottom: 6px;
             font-family: 'Montserrat', sans-serif;        

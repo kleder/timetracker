@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="kleder-track-content" *ngFor="let agile of agiles; let i=index">
+<div class="container" *ngIf="!httpService.loader else loader">
+  <div class="project" *ngFor="let agile of agiles; let i=index">
     <div class="project-list" *ngIf="agile.checked">
       <div class="project-list__agile" (click)="toggle(i)">
         <h2 class="project-list__title">{{ agile.name }}</h2>
@@ -36,8 +36,29 @@
         </div>
       </div>
     </div>
-    <div class="loader">
-      <ngx-loading [show]="httpService.loader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
-    </div>
   </div>
 </div>
+
+<ng-template #loader>
+  <div class="loading-container">
+    <div class="spinner">
+      <div class="lds-css ng-scope">
+        <div class="lds-spinner" style="height:100%"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+      </div>
+    </div>
+    <div class="loading-container__name"></div>
+    <div class="loading-container__item">
+      <div class="loading-container__title"></div>
+      <div class="loading-container__content"></div>
+    </div>
+    <div class="loading-container__item">
+      <div class="loading-container__title"></div>
+      <div class="loading-container__content"></div>
+    </div>
+    <div class="loading-container__item">
+      <div class="loading-container__title"></div>
+      <div class="loading-container__content"></div>
+    </div>
+  </div>
+</ng-template>

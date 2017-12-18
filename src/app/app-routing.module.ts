@@ -15,8 +15,12 @@ import { ApiService } from './services/api.service'
 const routes: Routes = [
     {
         path: '',
+        redirectTo: 'add-account',
         pathMatch: 'full',
-        component: AddAccountComponent
+    },
+    {
+        path: 'add-account',
+        component: AddAccountComponent,
     },
     {
         path: 'menu',

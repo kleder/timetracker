@@ -4,6 +4,7 @@ import { TimerService } from '../../../services/timer.service'
 import { DataService } from '../../../services/data.service'
 import { ApiService } from '../../../services/api.service'
 import { WorkItemData } from 'app/models/RemoteAccount';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-activity',
@@ -20,7 +21,8 @@ export class ActivityComponent implements OnInit {
     public databaseService: DatabaseService,
     private timerService: TimerService,
     private dataService: DataService,
-    private api: ApiService
+    private api: ApiService,
+    public router: Router
   ) {
     this.todaySummaryItems = []
     this.todayTimes = {}
@@ -98,6 +100,10 @@ export class ActivityComponent implements OnInit {
           this.dataService.timeSavedNotification('')
       }
     )
+  }
+
+  public goToBoards() {
+    this.router.navigate(['../tracking'])
   }
 
 }

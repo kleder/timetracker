@@ -1,6 +1,6 @@
 @import "../../theme/colors.scss";
 
-.add-account{
+.add-account {
   height: 100%; 
   box-sizing: border-box;
   padding: 0 15px 79px;
@@ -24,7 +24,7 @@
       width: 100%;
       display: block;
       background: none;
-      border: 1px solid $font-grey;
+      border: 2px solid $font-grey;
       border-radius: 4px;
       outline: 0;
       font-family: 'Montserrat', sans-serif;
@@ -34,10 +34,13 @@
       text-align: left;
       box-sizing: border-box;
       cursor: text;
-      &.email, &.password {
-        border-bottom: 2px solid $border-color;
+      &.add-account__url, &.add-account__token {
+        &--error {
+          border-color: $input-error;
+        }
       }
     }
+
     button {
       display: block;
       padding: 19px 0;
@@ -77,6 +80,57 @@
     a {
       color: $white;
     }    
+  }
+  #default-notification {
+    visibility: hidden;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    padding: 19px 19px 16px;
+    text-align: left;
+    box-sizing: border-box;
+    background-color: $input-error;
+    border-top: 1px solid $border-color;
+    &.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.2s;
+        animation: fadein 0.5s, fadeout 0.5s 2.2s;
+    }
+    span {
+        float: left;
+        color: $white;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 12px;
+        line-height: 12px;
+        letter-spacing: 1px;
+    }
+    .close {
+      float: right;      
+      button {
+        background: transparent;
+        border: 0;
+        outline: none;
+        cursor: pointer;
+      }
+    }
+    @-webkit-keyframes fadein {
+        from {bottom: -55px; } 
+        to {bottom: 0; }
+    }
+    @keyframes fadein {
+        from {bottom: -55px; }
+        to {bottom: 0; }
+    }
+    @-webkit-keyframes fadeout {
+        from {bottom: 0; } 
+        to {bottom: -55px;  }
+    }
+    @keyframes fadeout {
+        from {bottom: 0; }
+        to {bottom: -55px; }
+    }
   }
 }
 *::-webkit-input-placeholder {

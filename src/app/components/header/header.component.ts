@@ -28,4 +28,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {    
   }
 
+  showMenu() {
+    this.router.navigate(["/menu"], { queryParams: { returnUrl: this.router.url } })
+  }
+
 }

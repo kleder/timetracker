@@ -151,14 +151,19 @@ export class ApiService {
     })
   }
 
-async getCurrentUser(remoteAccount: RemoteAccount) {
-    await this.UseAccount(remoteAccount)
+  getCurrentUser(remoteAccount: RemoteAccount) {
+    this.UseAccount(remoteAccount)
     this.http.UseAccount(remoteAccount)
-    return this.http.get('/rest/user/current')
-          .map(res => res.json())
-          .subscribe(
-            data => { return data },
-            err => { throw err } 
-          );
+    return new Promise((resolve, reject) => {
+      this.http.get('/rest/user/current')
+        .map(res => res.json())
+        .subscribe(data => { 
+          resolve(data) 
+        }, error => {
+          reject(error) 
+        } 
+      );
+    })
   }
+
 }
