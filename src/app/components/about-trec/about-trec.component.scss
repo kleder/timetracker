@@ -1,0 +1,20 @@
+@import "../../theme/colors.scss";
+
+.about-trec {
+  height: 100%; 
+  box-sizing: border-box;
+  padding: 0 15px 79px;
+  background-color: $menu-color;   
+  cursor: default;  
+  padding-top: 97px;
+  &__title {
+    padding-bottom: 35px;
+    font-family: 'Montserrat', sans-serif;
+    color: $white;
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 3px;
+  }
+  
+}

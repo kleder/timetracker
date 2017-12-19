@@ -24,10 +24,6 @@ export class TimerService {
     this.dataService.hideHints.subscribe(data => {
       this.hideHints = data
     })
-  }
-
-  public turnTimer(issue) {
-    this.currentIssue = issue
 
     this.issueTimer = setInterval(() => {
       if (this.currentIssue) {
@@ -40,20 +36,33 @@ export class TimerService {
           })
       }
     }, 1000);
+
+    this.startidleTime(60 * 5)
+  }
+
+  public turnTimer(issue) {
+    this.currentIssue = issue
   }
 
   public stopIssueTimer() {
+    if (this.currentIssue == undefined){
+      return 0;
+    }
+
     var stoppedTime = this.currentIssue.duration
     if (stoppedTime < 60 && !this.hideHints) {
       this.showModal()
     }
     this.currentIssue = undefined
-    clearInterval(this.issueTimer)
     return stoppedTime
   }
 
   public startidleTime(min) {
     this.idleTimer = setInterval(() => {
+      if (this.currentIssue == undefined){
+        return;
+      }
+
       let seconds = idle.getIdleTime() / 1000
       if (seconds < 1 && this.afkTime > min) {
         this.notificationTime = Math.round(this.afkTime)
@@ -64,7 +73,6 @@ export class TimerService {
   }
 
   public stopIdleTime() {
-    clearInterval(this.idleTimer)
     this.afkTime = 0
   }
 
@@ -105,7 +113,6 @@ export class TimerService {
     issue.recordedTime = await this.databaseService.getRecordedTime(issue.issueId)
     return new Promise((resolve => {
       this.turnTimer(issue)
-      this.startidleTime(60 * 5)
       this.databaseService.startItem(issue)
       resolve(issue);
     }))
@@ -117,9 +124,6 @@ export class TimerService {
     console.log(issue)
     let stoppedTime = this.stopIssueTimer()
     if (stoppedTime >= 60) {
-      // sendToApi
-      //this.sendWorkItems(this.currentIssueId, {date: startDate, duration: this.currentTime })
-
       return this.api.createNewWorkItem(issue).then(
         data => {
           this.stopIdleTime()

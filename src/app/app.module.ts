@@ -1,4 +1,3 @@
-import 'zone.js/dist/zone-mix';
 import 'reflect-metadata';
 import 'polyfills';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,6 +18,7 @@ import { DashboardComponent } from './components/tracking/dashboard/dashboard.co
 import { ActivityComponent } from './components/tracking/activity/activity.component';
 import { TrackingComponent } from './components/tracking/tracking.component';
 import { BoardsChoiceComponent } from './components/boards-choice/boards-choice.component';
+import { AboutTrecComponent } from './components/about-trec/about-trec.component';
 
 import { DataService } from './services/data.service'
 import { TimerService } from './services/timer.service'
@@ -51,7 +51,8 @@ import { ToasterService } from './services/toaster.service'
     MenuComponent,    
     EditAccountComponent,
     EditBoardComponent,
-    ChangeAccountTokenComponent
+    ChangeAccountTokenComponent,
+    AboutTrecComponent
   ],
   imports: [
     BrowserModule,

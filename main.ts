@@ -2,6 +2,7 @@
 const electron = require("electron")
 
 import {SquirrelEvent} from './src/SquirrelEvent';
+import { dirname } from 'path';
 
 const events = new SquirrelEvent();
 if (events.handleSquirrelEvent(electron.app)) {
@@ -82,7 +83,8 @@ try {
       width: 400,
       height: 650,
       title: 'T-Rec App',
-      // resizable: false
+      frame: false,
+      icon: __dirname + '/assets/skull.png'
     })
     
     mainWindow.loadURL(url.format({
@@ -96,59 +98,29 @@ try {
     mainWindow.on('closed', function() {
         app.quit()
     })
-    
-    const mainMenuTemplate:Array<any> = [
-      {
-        label: "T-Rec App",
-        submenu: [
-          {
-            label: 'About authors..'
-          },
-          {
-            label: "Quit app",
-            accelerator: process.platform == 'darwin' ? 'Command+Q': 'Ctrl+Q',
-            click() {
-              app.quit()
-            }
-          }
-        ]
-      },
-    ]
-
-    if (process.platform == 'darwin') {
-      console.log('done')
-      mainMenuTemplate.unshift({})
-    }
-  
-    if (process.env.NODE_ENV !== 'production') {
-      // mainWindow.webContents.openDevTools();
-      mainMenuTemplate.push({
-          label: 'Dev Tools',
-          submenu: [
-              {
-                  label: 'Toggle DevTools',
-                  click() {
-                      mainWindow.toggleDevTools()
-                  }
-              }
-          ]
-      })
-    }
-
-    const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
-    Menu.setApplicationMenu(mainMenu)
 
     mainWindow.webContents.on('context-menu', (e, props) => {
       const InputMenu = Menu.buildFromTemplate([    
         { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" },
         { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
         { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
-        { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload" },
+        { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload"},
+        { label: 'Toggle DevTools',
+        click() {
+            mainWindow.toggleDevTools()
+        }},
+        {
+          label: "Quit app",
+          accelerator: process.platform == 'darwin' ? 'Command+Q': 'Ctrl+Q',
+          click() {
+            app.quit()
+          }
+        }
       ]);
       const { inputFieldType } = props;
-      if (inputFieldType === 'plainText') {
-        InputMenu.popup(mainWindow);
-      }
+      
+        InputMenu.popup(mainWindow, props);
+      
     });
 
     // trayIcon.on('click', () => {

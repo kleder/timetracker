@@ -1,5 +1,6 @@
 @import "../../theme/colors.scss";
 .header {
+  -webkit-app-region: drag;  
   position: fixed;
   top: 0;
   height: 72px;
@@ -11,9 +12,11 @@
     i {
         color: $white;
         cursor: pointer;
+        -webkit-app-region: no-drag;  
         &.fa-bars {
             float: left;
         }
+        
     }
     .header__logo {
         position: absolute;
