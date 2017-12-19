@@ -1,5 +1,6 @@
 @import "../../theme/colors.scss";
 .header {
+  -webkit-app-region: drag;  
   position: fixed;
   top: 0;
   height: 72px;
