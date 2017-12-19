@@ -34,7 +34,7 @@ import { AddAccountComponent } from './components/add-account/add-account.compon
 import { MenuComponent } from './components/menu/menu.component'
 import { EditAccountComponent } from './components/edit-account/edit-account.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
-import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
