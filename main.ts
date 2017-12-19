@@ -2,6 +2,7 @@
 const electron = require("electron")
 
 import {SquirrelEvent} from './src/SquirrelEvent';
+import { dirname } from 'path';
 
 const events = new SquirrelEvent();
 if (events.handleSquirrelEvent(electron.app)) {
@@ -82,8 +83,8 @@ try {
       width: 400,
       height: 650,
       title: 'T-Rec App',
-      frame: false
-      // resizable: false
+      frame: false,
+      icon: __dirname + '/assets/skull.png'
     })
     
     mainWindow.loadURL(url.format({
