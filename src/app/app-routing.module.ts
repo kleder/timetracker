@@ -6,12 +6,12 @@ import { AddAccountComponent } from './components/add-account/add-account.compon
 import { MenuComponent } from './components/menu/menu.component';
 import { EditAccountComponent } from './components/edit-account/edit-account.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
+import { AboutTrecComponent } from './components/about-trec/about-trec.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AccountService } from './services/account.service'
 import { ApiService } from './services/api.service'
-import { AboutTrecComponent } from 'app/components/about-trec/about-trec.component';
 
 const routes: Routes = [
     {
@@ -40,7 +40,7 @@ const routes: Routes = [
         component: BoardsChoiceComponent
     },
     {
-        path: 'authors',
+        path: 'about-trec',
         component: AboutTrecComponent
     },
     {
