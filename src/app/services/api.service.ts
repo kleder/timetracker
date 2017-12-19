@@ -111,7 +111,7 @@ export class ApiService {
     let newItem = {
       date: data.date,
       duration: Math.round(data.duration / 60),
-      description: "Added by KlederTrack App"
+      description: "Added by T-Rec App"
     }
     console.log(data)
 
