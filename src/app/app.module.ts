@@ -34,6 +34,9 @@ import { AddAccountComponent } from './components/add-account/add-account.compon
 import { MenuComponent } from './components/menu/menu.component'
 import { EditAccountComponent } from './components/edit-account/edit-account.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
+import { ChangeAccountTokenComponent } from './components/change-account-token/change-account-token.component';
+
+import { ToasterService } from './services/toaster.service'
 
 @NgModule({
   declarations: [
@@ -47,7 +50,8 @@ import { EditBoardComponent } from './components/edit-board/edit-board.component
     AddAccountComponent,
     MenuComponent,    
     EditAccountComponent,
-    EditBoardComponent
+    EditBoardComponent,
+    ChangeAccountTokenComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +74,8 @@ import { EditBoardComponent } from './components/edit-board/edit-board.component
     DataService,
     TimerService,
     DatabaseService,
-    HttpService
+    HttpService,
+    ToasterService
   ],
   bootstrap: [AppComponent]
 })
