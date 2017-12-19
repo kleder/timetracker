@@ -1,0 +1,16 @@
+<div class="container">  
+  <div class="change-account-token__header">
+    <a class="change-account-token__back" (click)="goBack()">
+      <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+    </a>
+    <div class="change-account-token__title">Edit {{ accountName || 'unnamed account' }} token</div>
+  </div>
+  <div class="change-account-token__content">
+      <div class="change-account-token__form">
+        <div class="change-account-token__title">CHANGE TOKEN</div>          
+        <label>New access token</label>
+        <input [(ngModel)]="newToken" name="newToken" type="text">
+        <button class="btn btn--grey" type="submit" (click)="changeToken(accountId, newToken)">SAVE NEW TOKEN</button>
+      </div>
+  </div>
+</div>

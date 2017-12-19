@@ -6,6 +6,7 @@ import { AddAccountComponent } from './components/add-account/add-account.compon
 import { MenuComponent } from './components/menu/menu.component';
 import { EditAccountComponent } from './components/edit-account/edit-account.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
+import { ChangeAccountTokenComponent } from './components/change-account-token/change-account-token.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -29,6 +30,10 @@ const routes: Routes = [
     {
         path: 'edit-account',
         component: EditAccountComponent
+    },
+    {
+        path: 'change-account-token',
+        component: ChangeAccountTokenComponent
     },
     {
         path: 'edit-board',
