@@ -141,16 +141,19 @@
             li {
                 padding: 14px 0;
                 border-top: 1px solid $border-color;            
-                font-family: 'Montserrat', sans-serif;        
-                color:  $white;
                 font-size: 14px;
                 font-weight: 400;
-                cursor: pointer;
                 &:first-child {
                     border-top: 0;
                 }
                 &:last-child {
                     border-bottom: 1px solid $border-color;                
+                }
+                a {
+                    font-family: 'Montserrat', sans-serif;        
+                    color:  $white;
+                    text-decoration: none;
+                    cursor: pointer;
                 }
             }
         }
