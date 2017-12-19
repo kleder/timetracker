@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AboutAuthorsComponent } from './about-authors.component';
+import { AboutAuthorsComponent } from './about-trec.component';
 
 describe('AboutAuthorsComponent', () => {
   let component: AboutAuthorsComponent;

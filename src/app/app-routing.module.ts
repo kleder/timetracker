@@ -11,7 +11,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AccountService } from './services/account.service'
 import { ApiService } from './services/api.service'
-import { AboutAuthorsComponent } from 'app/components/about-authors/about-authors.component';
+import { AboutTrecComponent } from 'app/components/about-trec/about-trec.component';
 
 const routes: Routes = [
     {
@@ -41,7 +41,7 @@ const routes: Routes = [
     },
     {
         path: 'authors',
-        component: AboutAuthorsComponent
+        component: AboutTrecComponent
     },
     {
         path: 'tracking',

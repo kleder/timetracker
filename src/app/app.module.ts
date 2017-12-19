@@ -18,7 +18,7 @@ import { DashboardComponent } from './components/tracking/dashboard/dashboard.co
 import { ActivityComponent } from './components/tracking/activity/activity.component';
 import { TrackingComponent } from './components/tracking/tracking.component';
 import { BoardsChoiceComponent } from './components/boards-choice/boards-choice.component';
-import { AboutAuthorsComponent } from './components/about-authors/about-authors.component';
+import { AboutTrecComponent } from './components/about-trec/about-trec.component';
 
 import { DataService } from './services/data.service'
 import { TimerService } from './services/timer.service'
@@ -48,7 +48,7 @@ import { EditBoardComponent } from './components/edit-board/edit-board.component
     MenuComponent,    
     EditAccountComponent,
     EditBoardComponent,
-    AboutAuthorsComponent
+    AboutTrecComponent
   ],
   imports: [
     BrowserModule,
