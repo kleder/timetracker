@@ -117,9 +117,9 @@ try {
         }
       ]);
       const { inputFieldType } = props;
-      if (inputFieldType === 'plainText') {
-        InputMenu.popup(mainWindow);
-      }
+      
+        InputMenu.popup(mainWindow, props);
+      
     });
 
     // trayIcon.on('click', () => {
