@@ -5,20 +5,70 @@ $fa-font-path: "../../node_modules/font-awesome/fonts";
 body {
   background-color: $dark;
 }
-.wrapper {
-  background: $dark;
+
+#default-notification, .default-notification {
+  visibility: hidden;
   position: fixed;
-  top: 0;
-  height: 100px;
+  bottom: 0;
+  right: 0;
+  left: 0;
   width: 100%;
-  .title {
+  padding: 19px 19px 16px;
+  color: $white;  
+  text-align: left;
+  box-sizing: border-box;
+  z-index: 99999;
+  &--default {
+      background-color: $font-grey;
+  }
+  &--success {
+      background-color: $notification-green;
+  }
+  &--error {
+      background-color: $input-error;
+  } 
+  &.show {
+      visibility: visible;
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.2s;
+      animation: fadein 0.5s, fadeout 0.5s 2.2s;
+  }
+  span {
+      // float: left;
+      color: $white;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      line-height: 12px;
+      letter-spacing: 1px;
+  }
+  .close {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 5px;
-    font-size: 16px;
-    font-family: 'Montserrat', sans-serif;    
-    color: white;
-    text-align: center;
+    top: 18px;
+    right: 19px;    
+    button {
+      background: transparent;
+      color: $white;      
+      border: 0;
+      outline: none;
+      cursor: pointer;
+      i {
+        font-size: 12px;
+      }
+    }
+  }
+  @-webkit-keyframes fadein {
+      from {bottom: -55px; } 
+      to {bottom: 0; }
+  }
+  @keyframes fadein {
+      from {bottom: -55px; }
+      to {bottom: 0; }
+  }
+  @-webkit-keyframes fadeout {
+      from {bottom: 0; } 
+      to {bottom: -55px;  }
+  }
+  @keyframes fadeout {
+      from {bottom: 0; }
+      to {bottom: -55px; }
   }
 }

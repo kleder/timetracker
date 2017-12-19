@@ -1,2 +1,10 @@
 <app-header></app-header>
 <router-outlet></router-outlet>
+<div id="default-notification">
+    <span>{{ toasterService.toasterText }}</span>
+    <div class="close">
+      <button (click)="toasterService.hideToaster()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+    </div>
+</div>

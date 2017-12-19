@@ -6,6 +6,7 @@ import { DataService } from '../../services/data.service'
 import { DatabaseService } from '../../services/database.service'
 import { ApiService } from '../../services/api.service'
 import { SecondsToTimePipe } from '../../pipes/seconds-to-time.pipe'
+import { ToasterService } from '../../services/toaster.service'
 
 import { Router } from '@angular/router';
 const notifier = require('electron-notifications')
@@ -33,14 +34,14 @@ export class TrackingComponent implements OnDestroy, OnInit {
     public dataService: DataService,
     public databaseService: DatabaseService,
     public api: ApiService,
-    public router: Router
+    public router: Router,
+    public toasterService: ToasterService
   ) { }
 
   ngOnInit() {
     this.subscribeNotificationTime()
     this.subscribeIssueTime()
     this.subscribeUnstoppedItem()
-    this.subscribeNotification()
     this.subscribeAgilesStates()
     this.getVariables()
   }
@@ -86,15 +87,6 @@ export class TrackingComponent implements OnDestroy, OnInit {
     })
   }
 
-  public subscribeNotification() {
-    this.dataService.notificationText.takeWhile(() => this.alive).subscribe(text => {
-      console.log("subscribeNotification", text)
-      if (text) {
-        this.timeSavedNotification(text)
-      }
-    })
-  }
-
   public subscribeAgilesStates() {
     let that = this
     this.agilesStates = []
@@ -134,9 +126,9 @@ export class TrackingComponent implements OnDestroy, OnInit {
           console.log("ok")
           this.databaseService.setIsPublished(item.date)
           this.databaseService.setIsStopped(item.date)
-          that.timeSavedNotification('Your tracking has been saved!')
+          this.toasterService.showToaster('Your tracking has been saved!', 'default')
         } else {
-          this.timeSavedNotification('An error occured.')
+          this.toasterService.showToaster('An error occured.', 'error')          
         }
       }
     )
@@ -166,19 +158,6 @@ export class TrackingComponent implements OnDestroy, OnInit {
       }
       notification.close()
     })
-  }
-
-  public timeSavedNotification(text: string) {
-    console.log("in timeSavedNotification", text)
-    let that = this
-    setTimeout(function() { 
-      that.notificationText = text
-      let element = document.getElementById("default-notification")
-      element.className = "show";
-      setTimeout(function() { 
-        element.className = element.className.replace("show", "")
-      }, 2500);
-    }, 300)
   }
 
   public getVariables() {
