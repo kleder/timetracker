@@ -7,6 +7,7 @@ import { AccountService } from '../../services/account.service';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { RemoteAccount } from 'app/models/RemoteAccount';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-add-account',
@@ -14,31 +15,30 @@ import { RemoteAccount } from 'app/models/RemoteAccount';
   styleUrls: ['./add-account.component.scss']
 })
 export class AddAccountComponent implements OnInit {
-  public correctLoginData = true;
   public loader = false;
   public name = ""
   public youTrackUrl = "";
   public token = "";
-  public notificationText: string
 
   constructor(
     public http: Http,
     public account: AccountService,
     public router: Router, 
     public activatedRoute: ActivatedRoute,
-    public apiService: ApiService)
+    public apiService: ApiService,
+    public toasterService: ToasterService
+  )
     {
     }
 
   async ngOnInit() {
     var current = await this.account.Current();
     if (current!= undefined){
-      this.router.navigate(['/boards'], { queryParams: {isLogged: false, name: current.name} });
+      this.router.navigate(['/boards'], { queryParams: {justLoggedIn: false, name: current.name} });
     }
     this.activatedRoute
     .queryParams
     .subscribe(async params => { })
-
   }
 
   public login = async () => {
@@ -57,9 +57,8 @@ export class AddAccountComponent implements OnInit {
         this.goToBoard()
       }, (error) => {
         this.errorHtml()
-        this.errorNotification()
+        this.toasterService.showToaster("Error eccoured! Incorrect URL or token", 'error')        
         this.loader = false;
-        this.correctLoginData = false;
         }
     )   
   }
@@ -71,25 +70,8 @@ export class AddAccountComponent implements OnInit {
     token.className += " add-account__token--error"
   }
 
-  public errorNotification() {
-    let that = this
-    setTimeout(function() { 
-      that.notificationText = "Error eccoured! Incorrect URL or token"
-      let element = document.getElementById("default-notification")
-      element.className = "show";
-      setTimeout(function() { 
-        element.className = element.className.replace("show", "")
-      }, 2500);
-    }, 300)
-  }
-
-  public closeNotification() {
-    let element = document.getElementById("default-notification")
-    element.className = element.className.replace("show", "")    
-  }
-
   goToBoard() {
-    this.router.navigate(['/boards'], { queryParams: {isLogged: true, name: this.name} });
+    this.router.navigate(['/boards'], { queryParams: {justLoggedIn: true, name: this.name} });
   }
 
 }
