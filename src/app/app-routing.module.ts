@@ -3,6 +3,9 @@ import { TrackingComponent } from './components/tracking/tracking.component';
 import { DashboardComponent } from './components/tracking/dashboard/dashboard.component';
 import { ActivityComponent } from './components/tracking/activity/activity.component';
 import { AddAccountComponent } from './components/add-account/add-account.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { EditAccountComponent } from './components/edit-account/edit-account.component';
+import { EditBoardComponent } from './components/edit-board/edit-board.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -13,8 +16,24 @@ import { AboutAuthorsComponent } from 'app/components/about-authors/about-author
 const routes: Routes = [
     {
         path: '',
+        redirectTo: 'add-account',
         pathMatch: 'full',
-        component: AddAccountComponent
+    },
+    {
+        path: 'add-account',
+        component: AddAccountComponent,
+    },
+    {
+        path: 'menu',
+        component: MenuComponent,
+    },
+    {
+        path: 'edit-account',
+        component: EditAccountComponent
+    },
+    {
+        path: 'edit-board',
+        component: EditBoardComponent
     },
     {
         path: 'boards',

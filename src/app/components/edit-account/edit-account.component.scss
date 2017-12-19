@@ -1,6 +1,9 @@
 @import "../../theme/colors.scss";
 
 .container {
+    position: fixed;
+    top: 0;
+    width: 100%;
     height: 100%;
     .edit-account__header {
         padding: 29px 16px;
@@ -186,19 +189,5 @@
 @keyframes hideEditBoard {
     100% {
         bottom: -100%;
-    }
-}
-#edit-board {
-    position: fixed;
-    bottom: -100%;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 20000;
-    &.show {
-        animation: showEditBoard .2s forwards;
-    }
-    &.hide {
-        animation: hideEditBoard .2s forwards;            
     }
 }

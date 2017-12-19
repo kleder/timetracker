@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject'
 
 @Injectable()
 export class DataService {
+  public routeBeforeMenu: string
 
   private notificationTime = new BehaviorSubject<number>(undefined)
   currentNotificationTime = this.notificationTime.asObservable()

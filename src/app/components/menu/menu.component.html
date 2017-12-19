@@ -1,0 +1,35 @@
+<div id="menu">
+  <div id="backdrop"></div>
+  <button class="menu__close" (click)="hideMenu()">
+      <i class="fa fa-times" aria-hidden="true"></i>
+  </button>
+  <div class="menu__content">
+      <button class="menu__add-account">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          <a routerLink="../add-account"><span>Add new account</span></a>
+      </button>
+      <div class="menu__accounts" *ngIf="accounts?.length > 0">
+        <div class="menu__title">SWITCH ACCOUNTS</div>
+        <ul>
+            <li *ngFor="let account of accounts">
+                <input type="checkbox" name="checked">
+                <button (click)="editAccount(account)">edit</button>
+                <label>{{ account.name }}</label>
+            </li>
+        </ul>
+      </div>
+      <div class="menu__pages">
+          <div class="menu__title">ABOUT</div>
+          <ul>
+              <li>About T-REC</li>
+              <li>Privacy policy</li>
+              <li>License</li>
+          </ul>
+      </div>
+  </div>
+  <div class="menu__footer">&#169; 2017</div>
+</div>
+<div id="default-notification">
+    <span>{{ notificationText }}</span>
+</div>
+<router-outlet></router-outlet>
