@@ -28,7 +28,7 @@
             <div class="modal__backdrop"></div>
         </ng-template>
         <div class="modal__content">
-            <div class="record-too-short" *ngIf="timerService.currentIssue?.duration < 60">
+            <div class="record-too-short" *ngIf="timerService.currentIssue && timerService.currentIssue?.duration < 60">
                 <i class="fa fa-times" aria-hidden="true" (click)="hideModal()"></i>
                 <div class="modal__text">It looked like a simple missclick. Records shorter than 1 minute will not be reported.</div>
                 <div class="modal__interaction">
