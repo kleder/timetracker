@@ -132,7 +132,7 @@ export class TimerService {
           this.stopTrackingNotifications()          
           this.toasterService.showToaster('Your tracking has been saved!', 'default')          
         }, err => {
-          this.toasterService.showToaster('An error occured.', 'error')          
+          this.toasterService.showToaster('Can\'t report task to remote service.', 'error')          
         }
       )
     }
