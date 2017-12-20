@@ -122,6 +122,12 @@
                 }
             }        
         }
+        .menu__no-accounts {
+            margin-top: 16px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;     
+            color: $white;            
+        }
     }
     &__pages {
         margin-top: 38px;

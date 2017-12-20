@@ -8,15 +8,18 @@
           <i class="fa fa-plus" aria-hidden="true"></i>
           <a routerLink="../add-account"><span>Add new account</span></a>
       </button>
-      <div class="menu__accounts" *ngIf="accounts?.length > 0">
+      <div class="menu__accounts">
         <div class="menu__title">SWITCH ACCOUNTS</div>
-        <ul>
+        <ul *ngIf="accounts?.length > 0 else noAccounts">
             <li *ngFor="let account of accounts">
                 <input type="checkbox" name="checked">
                 <button (click)="editAccount(account)">edit</button>
                 <label>{{ account.name || 'unnamed account' }} </label>
             </li>
         </ul>
+        <ng-template #noAccounts>
+            <div class="menu__no-accounts">No accounts added</div>
+        </ng-template>
       </div>
       <div class="menu__pages">
           <div class="menu__title">ABOUT</div>
