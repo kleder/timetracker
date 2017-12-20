@@ -67,7 +67,7 @@ export class EditAccountComponent implements OnInit {
     })
   }
 
-  goToChangeToken(token) {
+  goToChangeToken() {
     this.router.navigate(['/change-account-token'], { queryParams: {accountId: this.editingAccount.id, accountName: this.editingAccount.name, accountUrl: this.editingAccount.url } });    
   }
 
