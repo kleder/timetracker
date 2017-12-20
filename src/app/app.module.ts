@@ -1,4 +1,3 @@
-import 'zone.js/dist/zone-mix';
 import 'reflect-metadata';
 import 'polyfills';
 import { BrowserModule } from '@angular/platform-browser';
@@ -7,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
+import { HeaderComponent } from './components/header/header.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -19,6 +18,7 @@ import { DashboardComponent } from './components/tracking/dashboard/dashboard.co
 import { ActivityComponent } from './components/tracking/activity/activity.component';
 import { TrackingComponent } from './components/tracking/tracking.component';
 import { BoardsChoiceComponent } from './components/boards-choice/boards-choice.component';
+import { AboutTrecComponent } from './components/about-trec/about-trec.component';
 
 import { DataService } from './services/data.service'
 import { TimerService } from './services/timer.service'
@@ -28,17 +28,31 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { HttpService } from './services/http.service';
-import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe'
+import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
+
+import { AddAccountComponent } from './components/add-account/add-account.component';
+import { MenuComponent } from './components/menu/menu.component'
+import { EditAccountComponent } from './components/edit-account/edit-account.component';
+import { EditBoardComponent } from './components/edit-board/edit-board.component';
+import { ChangeAccountTokenComponent } from './components/change-account-token/change-account-token.component';
+
+import { ToasterService } from './services/toaster.service'
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    HeaderComponent,
     TrackingComponent,
     DashboardComponent,
     ActivityComponent,
     BoardsChoiceComponent,
-    SecondsToTimePipe
+    SecondsToTimePipe,
+    AddAccountComponent,
+    MenuComponent,    
+    EditAccountComponent,
+    EditBoardComponent,
+    ChangeAccountTokenComponent,
+    AboutTrecComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +75,8 @@ import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe'
     DataService,
     TimerService,
     DatabaseService,
-    HttpService
+    HttpService,
+    ToasterService
   ],
   bootstrap: [AppComponent]
 })

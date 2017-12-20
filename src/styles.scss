@@ -1,15 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./app/theme/colors.scss";
+
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background-color: $menu-color;      
   .splash-screen {
-    height: 100%;
-    background: black;
-    img {
-      width: 100%;
+    &__logo img, &__spinner img {
       position: absolute;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+    }
+    &__logo img {
+      width: 180px;
       top: 210px;
     }
+    &__spinner img{
+      width: 63px;
+      top: 290px;
+      animation: spin 2s linear infinite;      
+    }
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 }

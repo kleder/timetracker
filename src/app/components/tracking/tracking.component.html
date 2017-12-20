@@ -1,62 +1,45 @@
 <div class="container">
-    <div class="header">
-        <div class="header__options">
-            <i class="fa fa-bars" aria-hidden="true" (click)="chooseAgiles()"></i>
-            <i class="fa fa-sign-out" aria-hidden="true" (click)=logOut()></i>  
-        </div>
-        <div class="header__menu">      
-            <ul>
-                <li routerLink="dashboard" routerLinkActive="active">Boards</li>
-                <li routerLink="activity" routerLinkActive="active">Records</li>
-            </ul>
-        </div>
+    <div class="menu">
+        <ul>
+            <li routerLink="dashboard" routerLinkActive="active">Boards</li>
+            <li routerLink="activity" routerLinkActive="active">Records</li>
+        </ul>
     </div>
     <div id="content" class="content">
         <router-outlet></router-outlet>
     </div>
     <div id="current-item">
-        <div class="current-item__container" *ngIf="timerService.currentIssueId">
-            <div class="current-item__header">
-                <span class="current-item__summary">{{ timerService.currentIssue.field.summary }}</span>
-                <span class="current-item__duration">{{ timerService.currentTime | secondsToTime }}</span>
-            </div>
+        <div class="current-item__container" *ngIf="timerService.currentIssue?.issueId">
             <div class="current-item__content">
-                <span class="current-item__todays-time">TODAY: {{ timerService.currentIssue.todaysTime | secondsToTime }}</span>
-                <button class="current-item__record" (click)="stopTracking(timerService.currentIssue)">
+                <span class="current-item__summary">{{ timerService.currentIssue.summary }}</span>
+                <span class="current-item__duration">{{ timerService.currentIssue.duration | secondsToTime }}</span>
+                <span class="current-item__todays-time">TODAY: {{ timerService.currentIssue.recordedTime | secondsToTime }}</span>
+            </div>
+            <div class="current-item__record">
+                <button (click)="stopTracking()">
                     <span><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
-                </button>    
+                </button>
             </div>
         </div>
-    </div>
-    <div id="afk-notification" *ngIf="timerService.currentIssueId">
-        <div class="afk-notification__text">
-            <span>You were inactive for <strong>{{ timerService.notificationTime | secondsToTime }}. </strong>What should I do?</span>            
-        </div>
-        <div class="afk-notification__action">
-            <button class="danger" (click)="timerService.shouldAddAfkTime(false)">Remove</button>
-            <button class="positive" (click)="timerService.shouldAddAfkTime(true)">Add</button>
-        </div>
-    </div>
-    <div id="default-notification">
-        <span>{{ notificationText }}</span>
     </div>
     <div id="modal">
-        <div class="modal__backdrop" *ngIf="timerService.stoppedTime < 60; else notHideable" (click)="hideModal()"></div>
+        <div class="modal__backdrop" *ngIf="timerService.currentIssue?.duration < 60; else notHideable" (click)="hideModal()"></div>
         <ng-template #notHideable>
             <div class="modal__backdrop"></div>
         </ng-template>
         <div class="modal__content">
-            <div class="record-too-short" *ngIf="timerService.stoppedTime < 60">
+            <div class="record-too-short" *ngIf="timerService.currentIssue?.duration < 60">
                 <i class="fa fa-times" aria-hidden="true" (click)="hideModal()"></i>
                 <div class="modal__text">It looked like a simple missclick. Records shorter than 1 minute will not be reported.</div>
-                <div class="modal__interaction">                  
+                <div class="modal__interaction">
                     <input type="checkbox" [(ngModel)]="hintsCheckbox" (ngModelChange)="changeHintVisibility($event)" name="hintsCheckbox">
                     <label>Lesson learnt! Don’t show this message again.</label>
                 </div>
             </div>
             <div class="unstopped-item" *ngIf="unstoppedItem?.duration">
                 <div class="modal__text">
-                    <span>You have not stopped working on the {{ unstoppedItem.issueid }} issue. What should I do with {{ unstoppedItem.duration | secondsToTime }}?</span>
+                    <span>You have not stopped working on the {{ unstoppedItem.issueid }} issue. What should I do with {{ unstoppedItem.duration
+                        | secondsToTime }}?</span>
                 </div>
                 <div class="modal__interaction">
                     <button class="danger" (click)="manageUnstoppedItem('remove')">Remove</button>

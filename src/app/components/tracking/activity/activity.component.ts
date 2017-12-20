@@ -3,6 +3,8 @@ import { DatabaseService } from '../../../services/database.service'
 import { TimerService } from '../../../services/timer.service'
 import { DataService } from '../../../services/data.service'
 import { ApiService } from '../../../services/api.service'
+import { WorkItemData } from 'app/models/RemoteAccount';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-activity',
@@ -19,7 +21,8 @@ export class ActivityComponent implements OnInit {
     public databaseService: DatabaseService,
     private timerService: TimerService,
     private dataService: DataService,
-    private api: ApiService
+    private api: ApiService,
+    public router: Router
   ) {
     this.todaySummaryItems = []
     this.todayTimes = {}
@@ -66,81 +69,41 @@ export class ActivityComponent implements OnInit {
     })
   }
 
-  public startItem(issue, startTime=0) {
-    console.log("start item from activity", issue)
-    let startDate = Date.now()
-    if (this.timerService.currentTime != undefined) {
-      let currentId = this.timerService.currentIssueId
-      let startDate = this.timerService.startDate
-      let currentTime = this.timerService.currentTime
-      let stoppedTime = this.timerService.stopIssueTimer()
-      this.timerService.stopTrackingNotifications()
-      this.timerService.stopIdleTime()
-      if (stoppedTime >= 60) {
-        // sendToApi
-        this.sendWorkItems(currentId, {date: startDate, duration: currentTime })
-        // stop issueTimer && saveInDb 
-        this.databaseService.stopItem(stoppedTime, startDate)
-        // stop idleTimer
-      }
-      if (issue["id"] == currentId) {
-        // this.timerService.currentIssueId = undefined
-        issue["time"] = 0
-        return false
-      }
-    }
-    this.timerService.turnTimer(issue, startDate)
-    this.timerService.startidleTime(60*5)
-    if (!issue.date) {
-      console.log("start item")
-      this.databaseService.startItem(issue, startDate)
-    }
-  }
-
+ 
   public getIssueAndStart(issueId) {
     return new Promise(resolve => {
       this.api.getIssue(issueId).then(issue => {
-        let newIssue = {
-          id: issue["id"],
+        var newIssue : WorkItemData;
+        newIssue = {
+          issueId: issue["id"],
           agile: "",
-          comment: {},
-          entityId: issue["entityId"],
-          jiraId: issue["jiraId"],
-          field: {},
-          tag: issue["tag"],
-          todaysTime: this.todayTimes[issue["id"]]
+          duration: 0,
+          summary: issue.field.find(item => item.name == "summary" ).value,
+          date: Date.now(),
+          startDate: Date.now(),
+          recordedTime: 0
         }
-        issue["comment"].forEach((comm, key) => {
-          newIssue.comment[key] = comm
-        })
-        issue["field"].forEach((field, index) => {
-          newIssue.field[field.name.replace(" ", "")] = field.value
-        })
-        newIssue.agile = newIssue.field["sprint"][0].id.split(":")[0]
-        console.log("newIssue", newIssue)
-        this.startItem(newIssue)
+        this.timerService.startItem(newIssue)
       })
     })
   }
 
   public sendWorkItems = (issueId, item) => {
-    this.api.createNewWorkItem(item, issueId).then(      
-      response => {
-        if (response["ok"]) {
-          console.log("ok")
+    this.timerService.stopItem().then(      
+      (data)  => {
           this.dataService.timeSavedNotification('Your tracking has been saved!')
           this.dataService.timeSavedNotification('')
           this.databaseService.setIsPublished(item.date)
-          this.databaseService.setIsStopped(item.date)
-        } else {
-          console.log(response)
+          this.databaseService.setIsStopped(item.date) 
+      }, (err) =>{
           this.dataService.timeSavedNotification('An error occured.')
           this.dataService.timeSavedNotification('')
-        }
       }
     )
   }
 
+  public goToBoards() {
+    this.router.navigate(['../tracking'])
+  }
+
 }
-
-

@@ -1,22 +1,26 @@
-<div class="container">
-  <div class="kleder-track-content">
-    <div class="record-list">
-      <div class="record-list__item" *ngFor="let record of todaySummaryItems">
-        <div class="record-list__header">
-          <span class="record-list__summary">{{ record.summary }}</span> 
-          <span class="record-list__todays-time">{{ record.todaysTime | secondsToTime}}</span>
-        </div>
-        <div class="record-list__content">
-          <span class="record-list__agile">{{ record.agile }}</span>
-          <button class="record-list__record" [ngClass]="record.id == timerService.currentIssueId? 'recording' : ''" (click)="getIssueAndStart(record.id)">
-            <span *ngIf="record.id == timerService.currentIssueId; else timerOff"><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
-            <ng-template #timerOff><i class="fa fa-circle" aria-hidden="true"></i>REC</ng-template>
-          </button>    
-        </div>            
-      </div>
+<div class="record-list" *ngIf="todaySummaryItems?.length !=0; else empty">
+  <div class="record-list__item" *ngFor="let record of todaySummaryItems">
+    <div class="record-list__header">
+      <span class="record-list__summary">{{ record.summary }}</span> 
+      <span class="record-list__todays-time">{{ record.todaysTime | secondsToTime}}</span>
     </div>
+    <div class="record-list__content">
+      <span class="record-list__agile">{{ record.agile }}</span>
+      <button class="record-list__record" [ngClass]="record.id == timerService.currentIssueId? 'recording' : ''" (click)="getIssueAndStart(record.id)">
+        <span *ngIf="record.id == timerService.currentIssueId; else timerOff"><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
+        <ng-template #timerOff><i class="fa fa-circle" aria-hidden="true"></i>REC</ng-template>
+      </button>    
+    </div>            
   </div>
 </div>
+<ng-template #empty>
+  <div class="record-list--empty" *ngIf="todaySummaryItems?.length == 0">
+    <img src="../../../../assets/dino-foot.png" alt="foot">
+    <div class="record-list__title">You haven't made any time entry yet</div>
+    <div class="record-list__text">Go back to the Boards tab, select the task and hit record.</div>
+    <button (click)="goToBoards()">Boards</button>
+  </div>
+</ng-template>
 <div class="loader">
   <ngx-loading [show]="databaseService.loader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
 </div>

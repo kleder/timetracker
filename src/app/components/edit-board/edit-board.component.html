@@ -1,0 +1,50 @@
+<div class="container">  
+  <div class="edit-board__header">
+    <button class="edit-board__back" (click)="goBack()">
+      <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+    </button>
+    <div class="edit-board__title">Edit {{ boardName }}</div>
+  </div>
+  <div class="edit-board__content">
+      <div class="edit-board__title">SET PRIORITY COLORS</div> 
+      <div class="edit-board__form">
+        <div class="edit-board__item">
+          <div class="edit-board__priority">
+            <div class="edit-board__color"></div>
+            <label class="edit-board__name">Show-stopper</label>
+          </div>
+          <input type="text">
+        </div>
+        <div class="edit-board__item">
+          <div class="edit-board__priority">
+            <div class="edit-board__color"></div>
+            <label class="edit-board__name">Critical</label>
+          </div>
+          <input type="text">
+        </div>
+        <div class="edit-board__item">
+          <div class="edit-board__priority">
+            <div class="edit-board__color"></div>
+            <label class="edit-board__name">Major</label>
+          </div>
+          <input type="text">
+        </div>
+        <div class="edit-board__item">
+          <div class="edit-board__priority">
+            <div class="edit-board__color"></div>
+            <label class="edit-board__name">Normal</label>
+          </div>
+          <input type="text">
+        </div>
+        <div class="edit-board__item">
+          <div class="edit-board__priority">
+            <div class="edit-board__color"></div>
+            <label class="edit-board__name">Minor</label>
+          </div>
+          <input type="text">
+        </div>
+        <button class="btn btn--grey" type="submit">SAVE CHANGES</button>        
+      </div>
+  </div>
+</div>
+    

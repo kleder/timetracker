@@ -36,13 +36,35 @@
             transition: max-height 0.3s ease-in;
             overflow: hidden;
             &--empty {
-                margin-bottom: 31px;
-                font-family: 'Montserrat', sans-serif;
-                font-size: 11px;
+                margin-bottom: 17px;
+                padding: 11px;
+                height: 15px;
+                background-color: #35343d;
+                border-radius: 4px;
+
+                span {
+                    float: left;
+                    color: $font-grey;
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+                button {
+                    float: right;
+                    margin-right: 2px;
+                    color: $white;
+                    background: transparent;
+                    border: 0;
+                    font-size: 12px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    letter-spacing: 1px;
+                    cursor: pointer;
+                }
             }
             .project-list__item {
                 background-color: $issue-bg-color;
-                border: 0;
+                border: 1px solid $border-color;
                 border-radius: 4px;
                 padding: 11px;
                 margin-bottom: 7px;
@@ -77,12 +99,14 @@
                         display: inline-block;
                     }
                     .project-list__id {
-                        width: 50px;
-                        padding-right: 5px;
+                        padding-right: 14px;
+                        cursor: pointer;
+                        &:hover {
+                            text-decoration: underline;
+                        }
                     }
                     .project-list__priority {
-                        width: 46px;
-                        padding-right: 5px;
+                        padding-right: 17px;
                         &.normal {
                             color: $normal;
                         }
@@ -94,17 +118,14 @@
                         }
                     }
                     .project-list__state {
-                        width: 54px;
-                        padding-right: 5px;
+                        padding-right: 14px;
                     }
                     .project-list__type {
-                        width: 33px;
-                        padding-right: 5px;
+                        padding-right: 15px;
                     }
                     .project-list__description {
-                        width: 19px;
                         font-size: 12px;
-                        padding-right: 5px;
+                        padding-right: 15px;
                     }
                     .project-list__comments {
                         font-size: 12px;
@@ -113,16 +134,19 @@
                         }
                     }
                     .project-list__record {
+                        margin-top: -2px;
+                        // padding: 0 3px 0 0;
                         display: none;
                         float: right;
                         background: none;
                         border: none;
-                        color: $record-color;
+                        color: $custom-red;
                         cursor: pointer;                                        
                         &:hover {
-                            background-color: $record-color;
+                            padding: 2px 6px 3px;                            
+                            background-color: $custom-red;
                             color: $white;
-                            border: 0px solid $record-color;
+                            border: 0px solid $custom-red;
                             border-radius: 2px;
                         }
                         .fa-circle {
@@ -131,9 +155,10 @@
                             vertical-align: middle;
                         }
                         &.recording {
-                            background-color: $record-color;
+                            padding: 2px 6px 3px;
+                            background-color: $custom-red;
                             color: $white;
-                            border: 0px solid $record-color;
+                            border: 0px solid $custom-red;
                             border-radius: 2px;
                             .fa-square {
                                 padding-right: 4px;
@@ -155,5 +180,155 @@
                 }
             }
         }
+    }
+}
+.loading-container {
+    padding: 10px;
+    &__name {
+        margin-bottom: 12px;
+        background-color: $border-color;
+        border-radius: 40px;
+        height: 10px;
+        width: 220px;
+    }
+    &__item {
+        margin-bottom: 24px;
+        padding: 12px;
+        width: 100%;
+        background: $empty-bg-color;
+        border-radius: 4px;
+        box-sizing: border-box;
+        .loading-container__title {
+            margin-bottom: 12px;
+            background-color: $border-color;
+            border-radius: 40px;
+            height: 10px;
+            width: 270px;
+        }
+        .loading-container__content {
+            background-color: $border-color;
+            border-radius: 40px;
+            height: 10px;
+            width: 180px;
+        }
+    }
+    .spinner {
+        margin-bottom: 30px;
+        .lds-css {
+            text-align: center;
+        }
+        .lds-spinner {
+            display: inline-block;
+        }
+        @keyframes lds-spinner {
+            0% {
+              opacity: 1;
+            }
+            100% {
+              opacity: 0;
+            }
+          }
+          @-webkit-keyframes lds-spinner {
+            0% {
+              opacity: 1;
+            }
+            100% {
+              opacity: 0;
+            }
+          }
+          .lds-spinner {
+            position: relative;
+          }
+          .lds-spinner div {
+            left: 94px;
+            top: 48px;
+            position: absolute;
+            -webkit-animation: lds-spinner linear 1s infinite;
+            animation: lds-spinner linear 1s infinite;
+            background: #ec4259;
+            width: 12px;
+            height: 24px;
+            border-radius: 40%;
+            -webkit-transform-origin: 6px 52px;
+            transform-origin: 6px 52px;
+          }
+          .lds-spinner div:nth-child(1) {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+            -webkit-animation-delay: -0.916666666666667s;
+            animation-delay: -0.916666666666667s;
+          }
+          .lds-spinner div:nth-child(2) {
+            -webkit-transform: rotate(30deg);
+            transform: rotate(30deg);
+            -webkit-animation-delay: -0.833333333333333s;
+            animation-delay: -0.833333333333333s;
+          }
+          .lds-spinner div:nth-child(3) {
+            -webkit-transform: rotate(60deg);
+            transform: rotate(60deg);
+            -webkit-animation-delay: -0.75s;
+            animation-delay: -0.75s;
+          }
+          .lds-spinner div:nth-child(4) {
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+            -webkit-animation-delay: -0.666666666666667s;
+            animation-delay: -0.666666666666667s;
+          }
+          .lds-spinner div:nth-child(5) {
+            -webkit-transform: rotate(120deg);
+            transform: rotate(120deg);
+            -webkit-animation-delay: -0.583333333333333s;
+            animation-delay: -0.583333333333333s;
+          }
+          .lds-spinner div:nth-child(6) {
+            -webkit-transform: rotate(150deg);
+            transform: rotate(150deg);
+            -webkit-animation-delay: -0.5s;
+            animation-delay: -0.5s;
+          }
+          .lds-spinner div:nth-child(7) {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+            -webkit-animation-delay: -0.416666666666667s;
+            animation-delay: -0.416666666666667s;
+          }
+          .lds-spinner div:nth-child(8) {
+            -webkit-transform: rotate(210deg);
+            transform: rotate(210deg);
+            -webkit-animation-delay: -0.333333333333333s;
+            animation-delay: -0.333333333333333s;
+          }
+          .lds-spinner div:nth-child(9) {
+            -webkit-transform: rotate(240deg);
+            transform: rotate(240deg);
+            -webkit-animation-delay: -0.25s;
+            animation-delay: -0.25s;
+          }
+          .lds-spinner div:nth-child(10) {
+            -webkit-transform: rotate(270deg);
+            transform: rotate(270deg);
+            -webkit-animation-delay: -0.166666666666667s;
+            animation-delay: -0.166666666666667s;
+          }
+          .lds-spinner div:nth-child(11) {
+            -webkit-transform: rotate(300deg);
+            transform: rotate(300deg);
+            -webkit-animation-delay: -0.083333333333333s;
+            animation-delay: -0.083333333333333s;
+          }
+          .lds-spinner div:nth-child(12) {
+            -webkit-transform: rotate(330deg);
+            transform: rotate(330deg);
+            -webkit-animation-delay: 0s;
+            animation-delay: 0s;
+          }
+          .lds-spinner {
+            width: 80px !important;
+            height: 80px !important;
+            -webkit-transform: translate(-40px, -40px) scale(0.4) translate(40px, 40px);
+            transform: translate(-40px, -40px) scale(0.4) translate(40px, 40px);
+          }
     }
 }
