@@ -40,6 +40,12 @@ export class AccountService {
         currentAccount = accounts[0];
       }
     }
+    console.log("currentAccount", currentAccount)
     return new Promise<RemoteAccount>((resolve) => { resolve(currentAccount) });
+  }
+
+  public clearCurrent() {
+    this.currentAccount = undefined
+    return this.currentAccount
   }
 }

@@ -4,6 +4,7 @@ import { DataService } from '../services/data.service'
 import { ApiService } from 'app/services/api.service';
 import { DatabaseService } from 'app/services/database.service';
 import { WorkItemData } from 'app/models/RemoteAccount';
+import { ToasterService } from './toaster.service'
 
 @Injectable()
 export class TimerService {
@@ -17,7 +18,8 @@ export class TimerService {
   constructor(
     public dataService: DataService,
     public api: ApiService,
-    public databaseService: DatabaseService
+    public databaseService: DatabaseService,
+    public toasterService: ToasterService
   ) {
     this.dataService.hideHints.subscribe(data => {
       this.hideHints = data
@@ -124,14 +126,19 @@ export class TimerService {
     if (stoppedTime >= 60) {
       return this.api.createNewWorkItem(issue).then(
         data => {
-          this.stopTrackingNotifications()
           this.stopIdleTime()
           // stop issueTimer && saveInDb 
           this.databaseService.stopItem(stoppedTime, issue.startDate)
+          this.stopTrackingNotifications()          
+          this.toasterService.showToaster('Your tracking has been saved!', 'default')          
+        }, err => {
+          this.toasterService.showToaster('An error occured.', 'error')          
         }
       )
     }
     return new Promise<any>((resolve, reject) => {
+      this.stopTrackingNotifications()                
+      this.toasterService.showToaster('Records shorter than 1 minute will not be reported.', 'error')
       reject("To small amount of data");
     })
   }

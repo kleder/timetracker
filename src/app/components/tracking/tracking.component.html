@@ -14,17 +14,13 @@
                 <span class="current-item__summary">{{ timerService.currentIssue.summary }}</span>
                 <span class="current-item__duration">{{ timerService.currentIssue.duration | secondsToTime }}</span>
                 <span class="current-item__todays-time">TODAY: {{ timerService.currentIssue.recordedTime | secondsToTime }}</span>
-                    <div class="current-item__record">
-                        <button (click)="stopTracking()">
-                            <span><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
-                        </button>
-                    </div>
+            </div>
+            <div class="current-item__record">
+                <button (click)="stopTracking()">
+                    <span><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
+                </button>
             </div>
         </div>
-    </div>
-
-    <div id="default-notification">
-        <span>{{ notificationText }}</span>
     </div>
     <div id="modal">
         <div class="modal__backdrop" *ngIf="timerService.currentIssue?.duration < 60; else notHideable" (click)="hideModal()"></div>

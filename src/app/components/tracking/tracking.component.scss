@@ -49,8 +49,8 @@
         &.decrease {
             -webkit-animation: decrease 0.5s;
             animation: decrease 0.5s;
-            min-height: calc(100% - 218px);
-            height: calc(100% - 218px)
+            min-height: calc(100% - 197px);
+            height: calc(100% - 197px)
         }
         &.increase {
             -webkit-animation: increase 0.2s;
@@ -61,24 +61,24 @@
         @-webkit-keyframes decrease {
             from {        min-height: calc(100% - 107px);
                 height: calc(100% - 107px);} 
-            to {            min-height: calc(100% - 218px);
-                height: calc(100% - 218px); }
+            to {            min-height: calc(100% - 197px);
+                height: calc(100% - 197px); }
         }
         @keyframes decrease {
             from {        min-height: calc(100% - 107px);
                 height: calc(100% - 107px);} 
-            to {            min-height: calc(100% - 218px);
-                height: calc(100% - 218px); }
+            to {            min-height: calc(100% - 197px);
+                height: calc(100% - 197px); }
         }
         @-webkit-keyframes increase {
-            from {        min-height: calc(100% - 218px);
-                height: calc(100% - 218px);} 
+            from {        min-height: calc(100% - 197px);
+                height: calc(100% - 197px);} 
             to {                min-height: calc(100% - 107px);
                 height: calc(100% - 107px); }
         }
         @keyframes increase {
-            from {        min-height: calc(100% - 218px);
-                height: calc(100% - 218px);} 
+            from {        min-height: calc(100% - 197px);
+                height: calc(100% - 197px);} 
             to {             min-height: calc(100% - 107px);
                 height: calc(100% - 107px); }
         }
@@ -105,7 +105,7 @@
         bottom: 0;
         background-color: $issue-bg-color;
         border-top: 4px solid $custom-red;
-        padding: 20px 20px 18px;
+        padding: 16px;
         box-sizing: border-box;
         &.show {
             visibility: visible;
@@ -148,7 +148,7 @@
             font-weight: 400;
             .current-item__summary {
                 display: block;
-                padding: 0 20px 13px 0;             
+                padding: 0 20px 16px 0;             
                 font-family: 'Montserrat', sans-serif;
                 color:  $white;
                 font-size: 14px;
@@ -197,44 +197,6 @@
                     }
                 }                   
             }               
-        }
-    }
-    #default-notification {
-        visibility: hidden;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        width: 100%;
-        padding: 10px 15px;
-        text-align: center;
-        box-sizing: border-box;
-        background-color: $issue-bg-color;
-        border-top: 1px solid $border-color;
-        &.show {
-            visibility: visible;
-            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.2s;
-            animation: fadein 0.5s, fadeout 0.5s 2.2s;
-        }
-        span {
-            color: $white;
-            font-family: 'Montserrat', sans-serif;
-        }
-        @-webkit-keyframes fadein {
-            from {bottom: -40px; } 
-            to {bottom: 0; }
-        }
-        @keyframes fadein {
-            from {bottom: -40px; }
-            to {bottom: 0; }
-        }
-        @-webkit-keyframes fadeout {
-            from {bottom: 0; } 
-            to {bottom: -40px;  }
-        }
-        @keyframes fadeout {
-            from {bottom: 0; }
-            to {bottom: -40px; }
         }
     }
     #modal {

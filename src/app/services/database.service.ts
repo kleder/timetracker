@@ -191,11 +191,51 @@ export class DatabaseService {
     });
   }
 
+  public editAccount = (item) => {
+    return new Promise((resolve, reject) => {
+      this.db.serialize(() => {
+        let stmt = this.db.prepare("UPDATE `account` SET `name` = '" + item.name + "', `url` = '" + item.url + "' WHERE `id` = " + item.id)
+        stmt.run((err) => {
+          if (!err) {
+            resolve(true)
+          } else {
+            reject(err)
+          }
+        })
+        stmt.finalize()  
+      })
+    })
+  }
+
+  public changeAccountToken = (accountId, newToken) => {
+    return new Promise((resolve, reject) => {
+      this.db.serialize(() => {
+        let stmt = this.db.prepare("UPDATE `account` SET `token` = '" + newToken + "' WHERE `id` = " + accountId)
+        stmt.run((err) => {
+          if (!err) {
+            resolve(true)
+          } else {
+            reject(err)
+          }
+        })
+        stmt.finalize()  
+      })
+    })
+  }
+
   public deleteAccount = (id) => {
-    this.db.serialize(() => {
-      let stmt = this.db.prepare("DELETE FROM `account` WHERE `id` = " + id)
-      stmt.run()
-      stmt.finalize()  
+    return new Promise((resolve, reject) => {
+      this.db.serialize(() => {
+        let stmt = this.db.prepare("DELETE FROM `account` WHERE `id` = " + id)
+        stmt.run((err) => {
+          if (!err) {
+            resolve(true)
+          } else {
+            reject(err)
+          }
+        })
+        stmt.finalize()  
+      })
     })
   }
 

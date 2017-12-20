@@ -1,20 +1,35 @@
 @import "../../theme/colors.scss";
+.container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  .about-trec__header {
+    padding: 29px 16px;
+    background-color: $menu-color;    
+    .about-trec__back {
+      padding: 0;
+      position: absolute;
+      margin-top: -4px;
+      background-color: transparent;
+      border: 0;
+      font-size: 19px;
+      color: $white;
+      outline: none;
+      cursor: pointer;
+      font-size: 22px;
+    }
+    .about-trec__title {
+      font-family: 'Montserrat', sans-serif;        
+      color:  $white;
+      font-size: 16px;
+      line-height: 14px;
+      font-weight: 400;
+      text-align: center;
+    }
+  }
+  .about-trec__content {
 
-.about-trec {
-  height: 100%; 
-  box-sizing: border-box;
-  padding: 0 15px 79px;
-  background-color: $menu-color;   
-  cursor: default;  
-  padding-top: 97px;
-  &__title {
-    padding-bottom: 35px;
-    font-family: 'Montserrat', sans-serif;
-    color: $white;
-    font-size: 30px;
-    font-weight: 600;
-    text-align: center;
-    letter-spacing: 3px;
   }
   
 }

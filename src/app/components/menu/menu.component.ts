@@ -4,6 +4,8 @@ import { DatabaseService } from '../../services/database.service'
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { DataService } from '../../services/data.service'
+import { HttpService } from '../../services/http.service'
+import { AccountService } from '../../services/account.service'
 
 @Component({
   selector: 'app-menu',
@@ -16,7 +18,9 @@ export class MenuComponent implements OnInit {
     public databaseService: DatabaseService,
     public router: Router,
     private activatedRoute: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    private accountService: AccountService,
+    private http: HttpService
   ) { }
 
   ngOnInit() {
@@ -34,11 +38,15 @@ export class MenuComponent implements OnInit {
   public async getAccounts(): Promise<any> {
     this.accounts = await this.databaseService.getAccounts();
     console.log("this.accounts", this.accounts)
+    if (this.accounts.length == 0) {
+      this.dataService.routeBeforeMenu = ''
+      this.http.UseAccount(this.accountService.clearCurrent())
+    }
   }
 
   public editAccount(account) {
     console.log("account in editAccount", account)
-    this.router.navigate(['edit-account'], { queryParams: {accountName: account.name, accountUrl: account.url, accountToken: account.token} });
+    this.router.navigate(['edit-account'], { queryParams: {accountId: account.id, accountName: account.name, accountUrl: account.url} });
   }
 
   hideMenu() {

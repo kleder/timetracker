@@ -7,6 +7,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { HttpService } from '../../../services/http.service'
 import { WorkItemData } from 'app/models/RemoteAccount';
 import { shell } from 'electron';
+import { ToasterService } from '../../../services/toaster.service'
 
 const electron = require('electron')
 const ipc = electron.ipcRenderer
@@ -39,7 +40,8 @@ export class DashboardComponent implements OnInit {
     public timerService: TimerService,
     public dataService: DataService,
     public databaseService: DatabaseService,
-    public httpService: HttpService
+    public httpService: HttpService,
+    public toasterService: ToasterService
   ) { 
     this.newItemProperties = {
       date: 0,
@@ -182,7 +184,8 @@ export class DashboardComponent implements OnInit {
     if (action == 'remove') {
       this.databaseService.deleteItem(item)
       this.hideModal()
-      this.dataService.timeSavedNotification('Your tracking has been removed!')      
+      this.toasterService.showToaster('Your tracking has been removed!', 'default')
+      // this.dataService.timeSavedNotification('Your tracking has been removed!')      
     }
     if (action == 'resume') {
       this.agiles.filter(agile => {
@@ -236,15 +239,11 @@ export class DashboardComponent implements OnInit {
   public sendWorkItems = (item: WorkItemData) => {
     this.timerService.startItem(item).then(
       (response) => {
-          this.dataService.timeSavedNotification('Your tracking has been saved!')
-          this.dataService.timeSavedNotification('')
-          this.databaseService.setIsPublished(item.date)
-          this.databaseService.setIsStopped(item.date)
-        },
+        this.databaseService.setIsPublished(item.date)
+        this.databaseService.setIsStopped(item.date)
+      },
       (err) => {
-          this.dataService.timeSavedNotification('An error occured.')
-          this.dataService.timeSavedNotification('')          
-        }
+      }
     )
   }
 
