@@ -1,0 +1,35 @@
+@import "../../theme/colors.scss";
+.container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  .privacy-policy__header {
+    padding: 29px 16px;
+    background-color: $menu-color;    
+    .privacy-policy__back {
+      padding: 0;
+      position: absolute;
+      margin-top: -4px;
+      background-color: transparent;
+      border: 0;
+      font-size: 19px;
+      color: $white;
+      outline: none;
+      cursor: pointer;
+      font-size: 22px;
+    }
+    .privacy-policy__title {
+      font-family: 'Montserrat', sans-serif;        
+      color:  $white;
+      font-size: 16px;
+      line-height: 14px;
+      font-weight: 400;
+      text-align: center;
+    }
+  }
+  .privacy-policy__content {
+
+  }
+  
+}

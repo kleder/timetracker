@@ -8,6 +8,7 @@ import { EditAccountComponent } from './components/edit-account/edit-account.com
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
 import { ChangeAccountTokenComponent } from './components/change-account-token/change-account-token.component';
 import { AboutTrecComponent } from './components/about-trec/about-trec.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -47,6 +48,10 @@ const routes: Routes = [
     {
         path: 'about-trec',
         component: AboutTrecComponent
+    },
+    {
+        path: 'privacy-policy',
+        component: PrivacyPolicyComponent
     },
     {
         path: 'tracking',
