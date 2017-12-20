@@ -1,0 +1,35 @@
+<div id="menu">
+  <div id="backdrop"></div>
+  <button class="menu__close" (click)="hideMenu()">
+      <i class="fa fa-times" aria-hidden="true"></i>
+  </button>
+  <div class="menu__content">
+      <button class="menu__add-account">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          <a routerLink="../add-account"><span>Add new account</span></a>
+      </button>
+      <div class="menu__accounts">
+        <div class="menu__title">SWITCH ACCOUNTS</div>
+        <ul *ngIf="accounts?.length > 0 else noAccounts">
+            <li *ngFor="let account of accounts">
+                <input type="checkbox" name="checked">
+                <button (click)="editAccount(account)">edit</button>
+                <label>{{ account.name || 'unnamed account' }} </label>
+            </li>
+        </ul>
+        <ng-template #noAccounts>
+            <div class="menu__no-accounts">No accounts added</div>
+        </ng-template>
+      </div>
+      <div class="menu__pages">
+          <div class="menu__title">ABOUT</div>
+          <ul>
+              <li><a routerLink="../about-trec">About T-REC</a></li>
+              <li><a>Privacy policy</a></li>
+              <li><a>License</a></li>
+          </ul>
+      </div>
+  </div>
+  <div class="menu__footer">&#169; 2017</div>
+</div>
+<router-outlet></router-outlet>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RemoteAccount } from '../models/RemoteAccount';
+import { RemoteAccount, WorkItemData } from '../models/RemoteAccount';
 import { reject } from 'q';
 import * as fs from "fs";
 import { from } from 'rxjs/observable/from';
@@ -26,10 +26,11 @@ export class DatabaseService {
     this.db = new sqlite3.Database(dbPath, (data) => {
       if (data == null){
         this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT )");
-        this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `url` TEXT, `token` TEXT)");
-        this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");        
+        this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT)");
+        this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");     
         this.variablesInit()
-      }
+      } 
+      this.db.run("ALTER TABLE `tasks` ADD COLUMN Summary TEXT;");     
     })
   }
 
@@ -52,30 +53,59 @@ export class DatabaseService {
     })
   }
 
-  public startItem = (issue, date) => {
+  public startItem = (issue : WorkItemData) => {
     let that = this
     let status = "start"
     let duration = 0
     this.db.serialize(function() {
-      let stmt = that.db.prepare("INSERT INTO `tasks` (`published`, `agile`, `issueid`, `status`, `date`, `duration`, `lastUpdate`) VALUES (0, '" + issue.agile + "', '" + issue.id + "', '" + status + "', '" + date + "', " + duration + ", " + date + ")");
+      let stmt = that.db.prepare("INSERT INTO `tasks` (`published`, `agile`, `issueid`, `status`, `date`, `duration`, `lastUpdate`,`summary`) VALUES (0, '" + issue.agile + "', '" + issue.issueId + "', '" + status + "', '" + issue.date + "', '" + duration + "', '" + issue.date + "','"+ issue.summary +"')");
       stmt.run()
       stmt.finalize()
-      console.log("item started ", stmt)
     });
   }
 
-  public updateDuration = (duration, date) => {
+
+   public getRecordedTime(issueId : string): Promise<number> {
+      var now = new Date();
+      var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    return new Promise<number>((resolve, reject) => {
+      if (issueId == undefined){
+        reject("isseId can't be blank");
+      }
+      this.db.serialize(() => {
+        this.db.get('SELECT SUM(duration) as duration FROM `tasks` where `issueid` = \''+ issueId + "' and `date` > '" + today +"' ", function(err, row) {
+          if (err) {
+              reject(err)
+            } else {
+              if (row)
+                resolve(row['duration'])
+              resolve(0)
+            }
+        })
+      })
+    })
+  }
+
+  public updateDuration = (duration:number, date: number) => {
     let that = this
     console.log("UPDATE // duration: ", duration)
     console.log("date", date)
-    new Promise(resolve => {
+    new Promise((resolve,reject) => {
       this.db.serialize(() => {
-        let stmt = that.db.prepare("UPDATE `tasks` SET `duration` = '" + duration + "', `lastUpdate` = '" + Date.now() + "' WHERE `date` = " + date)
-        stmt.run()
+        let stmt = that.db.prepare("UPDATE `tasks` SET `duration` = '" + duration + "', `lastUpdate` = '" + Date.now() + "' WHERE `date` = '" + date + "'")
+        stmt.run((err)=>{
+          if (!err){
+            console.log("item duration updated ", duration)
+            resolve(true)
+          } else {
+            reject(err)
+          }
+        })
         stmt.finalize()
-        console.log("item duration updated ", duration)
+        
+        
       })
-      resolve(true)
+      
     })
   }
 
@@ -155,17 +185,57 @@ export class DatabaseService {
 
   public addAccount = (item : RemoteAccount) => {
     this.db.serialize(() => {
-      let stmt = this.db.prepare("INSERT INTO `account` (`url`, `token`) VALUES ('" + item.url + "','" + item.token + "')");
+      let stmt = this.db.prepare("INSERT INTO `account` (`name`, `url`, `token`) VALUES ('" + item.name + "','" + item.url + "','" + item.token + "')");
       stmt.run()
       stmt.finalize()
     });
   }
 
+  public editAccount = (item) => {
+    return new Promise((resolve, reject) => {
+      this.db.serialize(() => {
+        let stmt = this.db.prepare("UPDATE `account` SET `name` = '" + item.name + "', `url` = '" + item.url + "' WHERE `id` = " + item.id)
+        stmt.run((err) => {
+          if (!err) {
+            resolve(true)
+          } else {
+            reject(err)
+          }
+        })
+        stmt.finalize()  
+      })
+    })
+  }
+
+  public changeAccountToken = (accountId, newToken) => {
+    return new Promise((resolve, reject) => {
+      this.db.serialize(() => {
+        let stmt = this.db.prepare("UPDATE `account` SET `token` = '" + newToken + "' WHERE `id` = " + accountId)
+        stmt.run((err) => {
+          if (!err) {
+            resolve(true)
+          } else {
+            reject(err)
+          }
+        })
+        stmt.finalize()  
+      })
+    })
+  }
+
   public deleteAccount = (id) => {
-    this.db.serialize(() => {
-      let stmt = this.db.prepare("DELETE FROM `account` WHERE `id` = " + id)
-      stmt.run()
-      stmt.finalize()  
+    return new Promise((resolve, reject) => {
+      this.db.serialize(() => {
+        let stmt = this.db.prepare("DELETE FROM `account` WHERE `id` = " + id)
+        stmt.run((err) => {
+          if (!err) {
+            resolve(true)
+          } else {
+            reject(err)
+          }
+        })
+        stmt.finalize()  
+      })
     })
   }
 
@@ -205,4 +275,3 @@ export class DatabaseService {
     })
   }
 }
-

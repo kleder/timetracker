@@ -5,20 +5,20 @@ import 'rxjs/add/operator/map';
 import { from } from 'rxjs/observable/from';
 import { RemoteAccount, UserData } from 'app/models/RemoteAccount';
 import { access } from 'original-fs';
+import { ApiService } from 'app/services/api.service';
 
 @Injectable()
 export class AccountService {
-  title = `Kleder Track App`;
 
   private currentAccount: RemoteAccount;
 
   constructor(
-    public http: Http,
     private databaseService: DatabaseService
   ) { }
 
-  public add(url: string, token: string): RemoteAccount {
+  public add(name: string, url: string, token: string): RemoteAccount {
     var account = new RemoteAccount();
+    account.name = name;
     account.url = url;
     account.token = token;
     this.databaseService.addAccount(account);
@@ -28,12 +28,6 @@ export class AccountService {
 
   public async get(youtrack: string): Promise<RemoteAccount> {
     return await this.databaseService.getAccount(youtrack);
-  }
-
-  public user(remoteAccount: RemoteAccount): Promise<UserData> {
-    return new Promise<UserData>((resolve) => {
-      resolve(new UserData());
-    });
   }
 
   public async Current(): Promise<RemoteAccount> {
@@ -46,6 +40,12 @@ export class AccountService {
         currentAccount = accounts[0];
       }
     }
+    console.log("currentAccount", currentAccount)
     return new Promise<RemoteAccount>((resolve) => { resolve(currentAccount) });
+  }
+
+  public clearCurrent() {
+    this.currentAccount = undefined
+    return this.currentAccount
   }
 }

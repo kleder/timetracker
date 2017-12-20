@@ -1,0 +1,43 @@
+@import "../../theme/colors.scss";
+.header {
+  -webkit-app-region: drag;  
+  position: fixed;
+  top: 0;
+  height: 72px;
+  width: 100%;
+  background-color: $menu-color;
+  &__options {
+    padding: 28px 20px;
+    color: $white;
+    i {
+        color: $white;
+        cursor: pointer;
+        -webkit-app-region: no-drag;  
+        &.fa-bars {
+            float: left;
+        }
+        
+    }
+    .header__logo {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 72px;
+    }
+  }
+}
+#edit-account {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 20000;
+    &.show {
+        animation: showEditAccount .2s forwards;
+    }
+    &.hide {
+        animation: hideEditAccount .2s forwards;            
+    }
+}

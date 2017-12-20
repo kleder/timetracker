@@ -5,6 +5,7 @@ import { AccountService } from '../../services/account.service';
 import { ApiService } from '../../services/api.service';
 import { HttpService } from '../../services/http.service'
 import { RemoteAccount } from 'app/models/RemoteAccount';
+import { ToasterService } from '../../services/toaster.service'
 
 @Component({
   selector: 'app-boards-choice',
@@ -13,16 +14,17 @@ import { RemoteAccount } from 'app/models/RemoteAccount';
 })
 export class BoardsChoiceComponent implements OnInit {
   public agiles: any
-  public notificationText: string
   private justLoggedIn: boolean
-  private remoteAccount: RemoteAccount 
+  private remoteAccount: RemoteAccount
+  public accountName: string  
   constructor(
     public router: Router,
     private dataService: DataService,
     private auth: AccountService,
     private api: ApiService,
     public httpService: HttpService,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public toasterService: ToasterService
   ) { 
   }
 
@@ -30,17 +32,20 @@ export class BoardsChoiceComponent implements OnInit {
     this.activatedRoute
     .queryParams
     .subscribe(async params => {
-      this.justLoggedIn = (params['isLogged'])
+      this.justLoggedIn = (params['justLoggedIn']) === "true" ? true : false  
+      this.accountName = (params['name'])
       this.getAllAgiles()
     });
   }
 
   public getAllAgiles() {
+    console.log('getAllAgiles()')
     this.api.getAllAgiles().then(
       data => {
+        this.httpService.loader = false
         this.agiles = data
         if (this.justLoggedIn) {
-          this.welcomeNotification()          
+          this.toasterService.showToaster("Account " + this.accountName + " is synced!", "success")
         }
       }
     )
@@ -54,18 +59,6 @@ export class BoardsChoiceComponent implements OnInit {
     })
     this.dataService.sentChosenAgiles(this.agiles)
     this.router.navigateByUrl('/tracking');
-  }
-
-  public welcomeNotification() {
-    let that = this
-    setTimeout(function() { 
-      that.notificationText = "You’re in! Select agile boards."
-      let element = document.getElementById("default-notification")
-      element.className = "show";
-      setTimeout(function() { 
-        element.className = element.className.replace("show", "")
-      }, 2500);
-    }, 300)
   }
   
 }
