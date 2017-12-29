@@ -65,6 +65,7 @@
             .project-list__item {
                 background-color: $issue-bg-color;
                 border: 1px solid $border-color;
+                border-left: 4px solid $border-color;
                 border-radius: 4px;
                 padding: 11px;
                 margin-bottom: 7px;
@@ -78,15 +79,6 @@
                 }
                 &.recording {
                     opacity: 0.7;
-                }
-                &.normal {
-                    border-left: 4px solid $normal;
-                }
-                &.major {
-                    border-left: 4px solid $major;
-                }
-                &.minor {
-                    border-left: 4px solid $minor;
                 }
                 .project-list__header {
                     color: $issue-font-color;

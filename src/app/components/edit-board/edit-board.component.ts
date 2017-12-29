@@ -50,7 +50,7 @@ export class EditBoardComponent implements OnInit {
       }
     }
     boardStates.forEach((state) => {
-      this.databaseService.changeColorStates(state.accountId, state.boardName, state.state, state.hexColor).then(data => {
+      this.databaseService.changeBoardStates(state.accountId, state.boardName, state.state, state.hexColor).then(data => {
         this.toasterService.showToaster('Color has been changed!', 'success')      
       })
     })
