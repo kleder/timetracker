@@ -5,46 +5,23 @@
     </button>
     <div class="edit-board__title">Edit {{ boardName }}</div>
   </div>
-  <div class="edit-board__content">
+  <div class="edit-board__content" *ngIf="boardStates?.length > 0 else noStates">
       <div class="edit-board__title">SET PRIORITY COLORS</div> 
       <div class="edit-board__form">
-        <div class="edit-board__item">
+        <div class="edit-board__item" *ngFor="let state of boardStates">
           <div class="edit-board__priority">
-            <div class="edit-board__color"></div>
-            <label class="edit-board__name">Show-stopper</label>
+            <div class="edit-board__color" [ngStyle]="changeBackground(state.hexColor)"></div>
+            <label class="edit-board__name">{{ state.state }}</label>
           </div>
-          <input type="text">
+          <input type="text" [(ngModel)]="state.hexColor">
         </div>
-        <div class="edit-board__item">
-          <div class="edit-board__priority">
-            <div class="edit-board__color"></div>
-            <label class="edit-board__name">Critical</label>
-          </div>
-          <input type="text">
-        </div>
-        <div class="edit-board__item">
-          <div class="edit-board__priority">
-            <div class="edit-board__color"></div>
-            <label class="edit-board__name">Major</label>
-          </div>
-          <input type="text">
-        </div>
-        <div class="edit-board__item">
-          <div class="edit-board__priority">
-            <div class="edit-board__color"></div>
-            <label class="edit-board__name">Normal</label>
-          </div>
-          <input type="text">
-        </div>
-        <div class="edit-board__item">
-          <div class="edit-board__priority">
-            <div class="edit-board__color"></div>
-            <label class="edit-board__name">Minor</label>
-          </div>
-          <input type="text">
-        </div>
-        <button class="btn btn--grey" type="submit">SAVE CHANGES</button>        
+        <button class="btn btn--grey" type="submit" (click)="updateStatesColors(boardStates)">SAVE CHANGES</button>        
       </div>
-  </div>
+    </div>
+    <ng-template #noStates>
+      <div class="edit-board__content edit-board__content--empty">
+          <div class="edit-board__title">No states</div>
+      </div>
+    </ng-template>
 </div>
     
