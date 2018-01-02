@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/data.service'
 import { HttpService } from '../../services/http.service'
 import { AccountService } from '../../services/account.service'
+import { remote } from 'electron'
 
 @Component({
   selector: 'app-menu',
@@ -68,5 +69,10 @@ export class MenuComponent implements OnInit {
 
   hideMenu() {
     this.router.navigate([this.dataService.routeBeforeMenu])
+  }
+  
+  quit() {
+    var win = remote.getCurrentWindow();
+    win.close();
   }
 }

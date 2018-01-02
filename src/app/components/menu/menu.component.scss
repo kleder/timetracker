@@ -26,7 +26,7 @@
             visibility: hidden;
         }
     }
-    &__close, &__add-account {
+    &__close, &__add-account, &__quit-app {
         padding: 0;
         background-color: transparent;
         border: 0;
@@ -53,6 +53,13 @@
             color: $white;
             text-decoration: none;
         }
+    }
+    &__quit-app {
+        margin-top: 30px;
+        font-family: 'Montserrat', sans-serif;        
+        font-size: 16px;
+        font-weight: 400;       
+        
     }
     &__accounts {
         margin-top: 30px;
