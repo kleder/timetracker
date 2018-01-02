@@ -29,7 +29,9 @@ export class DatabaseService {
         this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT)");
         this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");     
         this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");   
-        this.db.run("CREATE UNIQUE INDEX  BOARDS_INDEX ON boards_states (accountId, boardName, state)");
+        this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
+        this.db.run("CREATE TABLE IF NOT EXISTS `boards_visibility` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `visible` INTEGER)");        
+        this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");        
         this.variablesInit()
       } 
       this.db.run("ALTER TABLE `tasks` ADD COLUMN Summary TEXT;");     
@@ -284,7 +286,6 @@ export class DatabaseService {
       stmt.run()
       stmt.finalize()
     });
-    
   }
 
   public getBoardStates(accountId, boardName) {
@@ -323,6 +324,46 @@ export class DatabaseService {
         stmt.run((err)=>{
           if (!err){
             console.log("Color updated to ", color)
+            resolve(true)
+          } else {
+            reject(err)
+          }
+        })
+        stmt.finalize()
+      });
+    })
+  }
+
+  public initBoardVisibility(accountId, boardName, visibility) {
+    let that = this
+    this.db.serialize(() => {
+      let stmt = that.db.prepare("INSERT OR IGNORE INTO `boards_visibility` (`accountId`, `boardName`, `visible`) VALUES ( '" + accountId + "', '" + boardName + "','" + visibility + "')");
+      stmt.run()
+      stmt.finalize()
+    });
+  }
+
+  public getBoardVisibilities(accountId, boardName) {
+    return new Promise<any[]>((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.all("SELECT * FROM `boards_visibility` WHERE `accountId` = '" + accountId + "' aND `boardName` = '" + boardName + "'", function(err, row) {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(row)
+          }
+        })
+      })
+    })
+  }
+
+  public updateBoardVisibility(accountId, boardName, visibility) {
+    return new Promise<any>((resolve, reject) => {      
+      let that = this
+      this.db.serialize(() => {
+        let stmt = that.db.prepare("UPDATE `boards_visibility` SET `visible` = '" + visibility + "' WHERE `accountId` = '" + accountId + "' AND `boardName` = '" + boardName + "'");
+        stmt.run((err)=>{
+          if (!err){
             resolve(true)
           } else {
             reject(err)

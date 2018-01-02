@@ -9,6 +9,7 @@ import { WorkItemData } from 'app/models/RemoteAccount';
 import { shell } from 'electron';
 import { ToasterService } from '../../../services/toaster.service'
 import { AccountService } from '../../../services/account.service'
+import { Router } from '@angular/router';
 
 const electron = require('electron')
 const ipc = electron.ipcRenderer
@@ -45,7 +46,8 @@ export class DashboardComponent implements OnInit {
     public databaseService: DatabaseService,
     public httpService: HttpService,
     public toasterService: ToasterService,
-    public account: AccountService
+    public account: AccountService,
+    public router: Router
   ) { 
     this.newItemProperties = {
       date: 0,
@@ -64,9 +66,15 @@ export class DashboardComponent implements OnInit {
   }
   
   ngOnInit() {
+    this.init()
+  }
+
+  public init() {
     this.dataService.choosenAgiles.subscribe(data => {
       this.agiles = data
-      // this.getAllAgiles()
+      this.agiles.forEach(agile => {
+        this.getAgileVisibility(agile.name)
+      })
       this.getItemsFromDb()
     })
     this.getAllBoardStates()
@@ -75,6 +83,17 @@ export class DashboardComponent implements OnInit {
   public async openInBrowser(url : string){
     var account = await this.api.accounts.Current();
     shell.openExternal(account.url + url);
+  }
+
+  async getAgileVisibility(boardName) {
+    let account = await this.account.Current()
+    this.databaseService.getBoardVisibilities(account["id"], boardName).then(boardVisibility => {
+      this.agiles.filter(agile => {
+        if (agile.name == boardVisibility[0].boardName) {
+          boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false
+        }
+      })
+    })
   }
 
   public getItemsFromDb() {
@@ -125,9 +144,7 @@ export class DashboardComponent implements OnInit {
       }    
       agile.issues = []
       console.log(agile, index)
-      if (agile.checked) {
-        this.getIssuesByAgile(agile.name, index)
-      }
+      this.getIssuesByAgile(agile.name, index)
     })
   }
 
