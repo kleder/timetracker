@@ -32,20 +32,21 @@ export class AccountService {
 
   public async Current(): Promise<RemoteAccount> {
     var currentAccount: RemoteAccount;
-    if (this.currentAccount != undefined) {
-      currentAccount = this.currentAccount;
-    } else {
-      var accounts = await this.databaseService.getAccounts();
-      if (accounts != undefined && accounts.length > 0) {
-        currentAccount = accounts[0];
-      }
+    var accounts = await this.databaseService.getAccounts();
+    if (accounts != undefined && accounts.length > 0) {
+      accounts.filter(account => {
+        if (account['current'] == 1) {
+          console.log('current', account)
+          currentAccount = account
+        }
+      })
     }
     console.log("currentAccount", currentAccount)
     return new Promise<RemoteAccount>((resolve) => { resolve(currentAccount) });
   }
 
-  public clearCurrent() {
-    this.currentAccount = undefined
-    return this.currentAccount
+  public async destroyCurrent(): Promise<RemoteAccount> {
+    var currentAccount: RemoteAccount = {name: '', url: '', token: ''}
+    return new Promise<RemoteAccount>((resolve) => { resolve(currentAccount) });
   }
 }

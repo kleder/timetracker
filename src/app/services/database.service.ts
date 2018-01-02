@@ -26,7 +26,7 @@ export class DatabaseService {
     this.db = new sqlite3.Database(dbPath, (data) => {
       if (data == null){
         this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT )");
-        this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT)");
+        this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT, `current` INTEGER)");
         this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");     
         this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");   
         this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
@@ -187,11 +187,30 @@ export class DatabaseService {
     })
   }
 
-  public addAccount = (item : RemoteAccount) => {
+  public destroyCurrentAccount = () => {
     this.db.serialize(() => {
-      let stmt = this.db.prepare("INSERT INTO `account` (`name`, `url`, `token`) VALUES ('" + item.name + "','" + item.url + "','" + item.token + "')");
+      let stmt = this.db.prepare("UPDATE `account` SET `current` = 0");
       stmt.run()
       stmt.finalize()
+    })
+  }
+
+  public setCurrentAccount = (accountId) => {
+    this.db.serialize(() => {
+      let stmt = this.db.prepare("UPDATE `account` SET `current` = 1 WHERE `id` = '" + accountId + "'");
+      stmt.run()
+      stmt.finalize()
+    })
+  }
+
+  public addAccount = (item : RemoteAccount) => {
+    this.db.serialize(() => {
+      let stmt = this.db.prepare("UPDATE `account` SET `current` = 0");
+      stmt.run()
+      stmt.finalize()
+      let stmt2 = this.db.prepare("INSERT INTO `account` (`name`, `url`, `token`, `current`) VALUES ('" + item.name + "','" + item.url + "','" + item.token + "', '" + 1 + "')");
+      stmt2.run()
+      stmt2.finalize()
     });
   }
 

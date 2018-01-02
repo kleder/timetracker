@@ -4,15 +4,15 @@
       <i class="fa fa-times" aria-hidden="true"></i>
   </button>
   <div class="menu__content">
-      <button class="menu__add-account">
+      <button class="menu__add-account" (click)="goToAddAccount()">
           <i class="fa fa-plus" aria-hidden="true"></i>
-          <a routerLink="../add-account"><span>Add new account</span></a>
+          <a><span>Add new account</span></a>
       </button>
       <div class="menu__accounts">
         <div class="menu__title">SWITCH ACCOUNTS</div>
         <ul *ngIf="accounts?.length > 0 else noAccounts">
             <li *ngFor="let account of accounts">
-                <input type="checkbox" name="checked">
+                <input type="checkbox" name="current" [(ngModel)]="account.current" (ngModelChange)="setAsCurrent(account)" [disabled]="account.current">
                 <button (click)="editAccount(account)">edit</button>
                 <label>{{ account.name || 'unnamed account' }} </label>
             </li>

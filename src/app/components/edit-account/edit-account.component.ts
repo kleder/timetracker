@@ -33,15 +33,11 @@ export class EditAccountComponent implements OnInit {
     .queryParams
     .subscribe(params => {
       this.editingAccount = {
-        id: params['accountId'],
+        id: parseInt(params['accountId']),
         name: params['accountName'],
         url: params['accountUrl'],
       }
       console.log("this.editingAccount", this.editingAccount)
-      // console.log("params['toastText']", params['toasterText'])
-      // if (params['toasterText']) {
-      //   this.toasterService.showToaster(params['toasterText'], 'success')
-      // }
     });
     this.getAllAgiles()
   }
@@ -97,8 +93,7 @@ export class EditAccountComponent implements OnInit {
   }
 
   async getAgileVisibility(boardName) {
-    let account = await this.account.Current()
-    this.databaseService.getBoardVisibilities(account["id"], boardName).then(boardVisibility => {
+    this.databaseService.getBoardVisibilities(this.editingAccount.id, boardName).then(boardVisibility => {
       this.agiles.filter(agile => {
         if (agile.name == boardVisibility[0].boardName) {
           boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false
@@ -108,16 +103,14 @@ export class EditAccountComponent implements OnInit {
   }
 
   async updateAgileVisibility(agile) {
-    let account = await this.account.Current()
     agile.checked == true? agile.checked = 1 : agile.checked = 0
-    this.databaseService.updateBoardVisibility(account["id"], agile.name, agile.checked)
+    this.databaseService.updateBoardVisibility(this.editingAccount.id, agile.name, agile.checked)
   }
 
   async updateAgilesVisibility() {
-    let account = await this.account.Current()
     this.agiles.forEach(agile => {
       agile.checked == true? agile.checked = 1 : agile.checked = 0
-      this.databaseService.updateBoardVisibility(account["id"], agile.name, agile.checked).then(data => {
+      this.databaseService.updateBoardVisibility(this.editingAccount.id, agile.name, agile.checked).then(data => {
         if (data) {
           this.toasterService.showToaster('Your changes have been saved!', "success")          
         }

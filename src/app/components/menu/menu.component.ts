@@ -40,13 +40,30 @@ export class MenuComponent implements OnInit {
     console.log("this.accounts", this.accounts)
     if (this.accounts.length == 0) {
       this.dataService.routeBeforeMenu = ''
-      this.http.UseAccount(this.accountService.clearCurrent())
     }
+  }
+
+  public goToAddAccount() {
+    this.databaseService.destroyCurrentAccount()
+    this.router.navigate(['../add-account'])
   }
 
   public editAccount(account) {
     console.log("account in editAccount", account)
     this.router.navigate(['edit-account'], { queryParams: {accountId: account.id, accountName: account.name, accountUrl: account.url} });
+  }
+
+  public setAsCurrent(clickedAccount) {
+      console.log("clickedAccount.current", clickedAccount.current)
+      this.accounts.forEach(account => {
+        account['current'] = 0
+        if (account['id'] == clickedAccount.id) {
+          account['current'] = true
+        }
+      })
+      this.databaseService.destroyCurrentAccount()
+      this.databaseService.setCurrentAccount(clickedAccount.id)
+      console.log("accounts", this.accounts)
   }
 
   hideMenu() {
