@@ -7,7 +7,7 @@
             <input id="add-account__token" [(ngModel)]="token" name="token" placeholder="Token" onfocus="this.placeholder=''" onblur="this.placeholder='Token'" type="text" required>
             <button (click)="login()" type="submit">ADD ACCOUNT</button>
         </div>
-        <div class="add-account__hint">How to obtain a new permament token? <a href="#">Click here</a></div>
+        <div class="add-account__hint">How to obtain a new permament token? <a (click)="openInBrowser()">Click here</a></div>
     </form>
     <div class="loader">
         <ngx-loading [show]="loader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>

@@ -79,6 +79,10 @@
     line-height: 12px;
     a {
       color: $white;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
     }    
   }
 }
