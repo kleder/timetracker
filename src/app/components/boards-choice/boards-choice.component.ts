@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 import { HttpService } from '../../services/http.service'
 import { RemoteAccount } from 'app/models/RemoteAccount';
 import { ToasterService } from '../../services/toaster.service'
+import { DatabaseService } from '../../services/database.service'
 
 @Component({
   selector: 'app-boards-choice',
@@ -20,11 +21,12 @@ export class BoardsChoiceComponent implements OnInit {
   constructor(
     public router: Router,
     private dataService: DataService,
-    private auth: AccountService,
+    private account: AccountService,
     private api: ApiService,
     public httpService: HttpService,
     public activatedRoute: ActivatedRoute,
-    public toasterService: ToasterService
+    public toasterService: ToasterService,
+    public databaseService: DatabaseService
   ) { 
   }
 
@@ -44,6 +46,11 @@ export class BoardsChoiceComponent implements OnInit {
       data => {
         this.httpService.loader = false
         this.agiles = data
+        this.agileVisibilityInit(this.agiles).then(() => {
+          this.agiles.forEach(agile => {
+            this.getAgileVisibility(agile.name)
+          })
+        })
         if (this.justLoggedIn) {
           this.toasterService.showToaster("Account " + this.accountName + " is synced!", "success")
         }
@@ -59,6 +66,30 @@ export class BoardsChoiceComponent implements OnInit {
     })
     this.dataService.sentChosenAgiles(this.agiles)
     this.router.navigateByUrl('/tracking');
+  }
+
+  async agileVisibilityInit(agiles) {
+    let account = await this.account.Current()
+    agiles.forEach(agile => {
+      this.databaseService.initBoardVisibility(account["id"], agile.name, 0)
+    })
+  }
+
+  async getAgileVisibility(boardName) {
+    let account = await this.account.Current()
+    this.databaseService.getBoardVisibilities(account["id"], boardName).then(boardVisibility => {
+      this.agiles.filter(agile => {
+        if (agile.name == boardVisibility[0].boardName) {
+          boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false
+        }
+      })
+    })
+  }
+
+  async agileVisibilityUpdate(agile) {
+    let account = await this.account.Current()
+    agile.checked == true? agile.checked = 1 : agile.checked = 0
+    this.databaseService.updateBoardVisibility(account["id"], agile.name, agile.checked)
   }
   
 }

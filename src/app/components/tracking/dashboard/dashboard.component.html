@@ -32,7 +32,7 @@
         </div>
         <div *ngIf="agile?.issues == 0" class="project-list__issues--empty">
           <span>No tasks on this board for you..</span>
-          <button>REFRESH</button>
+          <button (click)="init()">REFRESH</button>
         </div>
       </div>
     </div>

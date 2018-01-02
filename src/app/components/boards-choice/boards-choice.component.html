@@ -2,7 +2,7 @@
   <div class="board-choice__list" *ngIf="agiles?.length !=0; else empty">
     <span class="board-choice__title">Select agile boards</span>
     <div class="board-choice__item" *ngFor="let agile of agiles; let i=index">
-      <input type="checkbox" [(ngModel)]="agile.checked" name="checked">
+      <input type="checkbox" [(ngModel)]="agile.checked" (ngModelChange)="agileVisibilityUpdate(agile)" name="checked">
       <label>{{ agile.name }}</label>
     </div>
     <button type=”submit” (click)="agilesChoose()">SELECT</button>

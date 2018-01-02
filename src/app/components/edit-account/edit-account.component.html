@@ -13,7 +13,7 @@
         <label>Youtrack URL</label>
         <input [(ngModel)]="editingAccount.url" name="url" type="text">
         <button class="btn btn--grey" type="submit" (click)="editNameOrUrl(editingAccount)">SAVE CHANGES</button>
-      </div>
+      </div> 
       <div class="edit-account__change-token">
         <div class="edit-account__title">CHANGE TOKEN</div>          
         <button class="btn btn--grey" type="submit" (click)="goToChangeToken()">CHANGE ACCOUNT TOKEN</button>        
@@ -22,11 +22,11 @@
       
       <div class="edit-account__boards" *ngIf="agiles?.length != 0 else noBoards">
         <div class="edit-account__item" *ngFor="let agile of agiles">
-          <input type="checkbox">
+          <input type="checkbox" [(ngModel)]="agile.checked" name="checked">
           <label>{{ agile.name }}</label>
           <i class="fa fa-cog" aria-hidden="true" (click)="editBoard(agile)"></i> 
         </div>
-        <button class="btn btn--red" type=”submit”>SAVE CHANGES</button>
+        <button class="btn btn--red" type=”submit” (click)="updateAgilesVisibility()">SAVE CHANGES</button>
       </div>
       <ng-template #noBoards>
         <div class="edit-account__no-boards">This account does not have any boards</div>  
