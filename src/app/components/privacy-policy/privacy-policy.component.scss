@@ -28,12 +28,13 @@
     }
   }
   .privacy-policy__content {
-    padding: 38px 17px;
     height: calc(100% - 72px);
     background-color: $content-color;
     font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
     color: $white;
-    padding: 20px 10px;
+    padding: 20px 20px 20px 30px;
+    margin-bottom: 20px;
     overflow: auto;
     font-size: 14px;
   }
