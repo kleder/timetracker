@@ -1,21 +1,22 @@
 @import "../../theme/colors.scss";
 .container {
+  position: fixed;
   width: 100%;
   height: 100%;
   .privacy-policy__header {
     padding: 29px 16px;
     background-color: $menu-color;    
     .privacy-policy__back {
-      padding: 0;
-      position: absolute;
-      margin-top: -4px;
-      background-color: transparent;
-      border: 0;
-      font-size: 19px;
-      color: $white;
-      outline: none;
-      cursor: pointer;
-      font-size: 22px;
+        padding: 0;
+        position: absolute;
+        margin-top: -4px;
+        background-color: transparent;
+        border: 0;
+        font-size: 19px;
+        color: $white;
+        outline: none;
+        cursor: pointer;
+        font-size: 22px;
     }
     .privacy-policy__title {
       font-family: 'Montserrat', sans-serif;        
@@ -27,9 +28,14 @@
     }
   }
   .privacy-policy__content {
+    padding: 38px 17px;
+    height: calc(100% - 72px);
+    background-color: $content-color;
+    font-family: 'Montserrat', sans-serif;
     color: $white;
     padding: 20px 10px;
     overflow: auto;
+    font-size: 14px;
   }
   
 }

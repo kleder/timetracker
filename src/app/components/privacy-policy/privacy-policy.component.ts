@@ -20,7 +20,8 @@ export class PrivacyPolicyComponent implements OnInit {
 
   ngOnInit() {
     }
-  showMenu() {
-    this.router.navigate(["/header"], { queryParams: { returnUrl: this.router.url } })
-    }
+  goBack() {
+    this.router.navigate(['/menu'], { queryParams:{ returnUrl: this.router.url }});        
   }
+  }
+  
