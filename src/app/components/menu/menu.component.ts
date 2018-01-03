@@ -65,6 +65,7 @@ export class MenuComponent implements OnInit {
       this.databaseService.destroyCurrentAccount()
       this.databaseService.setCurrentAccount(clickedAccount.id)
       console.log("accounts", this.accounts)
+      this.hideMenu()
   }
 
   hideMenu() {
