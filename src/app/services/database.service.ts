@@ -34,7 +34,8 @@ export class DatabaseService {
         this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");        
         this.variablesInit()
       } 
-      this.db.run("ALTER TABLE `tasks` ADD COLUMN Summary TEXT;");     
+      this.db.run("ALTER TABLE `tasks` ADD COLUMN Summary TEXT;");  
+      this.db.run("ALTER TABLE `account` ADD COLUMN current INTEGER;");     
     })
   }
 
