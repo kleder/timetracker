@@ -7,5 +7,30 @@
       <div class="about-trec__title">About</div>
     </div>
     <div class="about-trec__content">
+      <img src="../../../assets/logo.png" alt="logo">
+      Kleder &#169; 2018
+      <p>
+        Version <b>{{version.version}}</b> <br> 
+        Commit <b>{{version.revision}}</b> <br> 
+        Branch <b>{{version.branch}}</b> 
+      </p>
+      <p>
+        Special thanks go to:<br><br>
+        Kamil&nbsp;Dobrzyński, 
+        Karol&nbsp;Rycio, 
+        Kasia&nbsp;Sandej, 
+        Michał&nbsp;Kurpis, 
+        Olga&nbsp;Lewandowska, 
+        Rafał&nbsp;Korszuń,  
+        Weronika&nbsp;Cysewska<br><br>
+        Thank you all for your <br>outstanding contribution!<br><br><br><br>
+      </p>
+      <div class="about-trec__social">
+        <a (click)="open('https://www.facebook.com/klederco/')"><i class="fa fa-facebook"></i></a>
+        <a (click)="open('https://www.linkedin.com/company/kleder/')"><i class="fa fa-linkedin"></i></a>
+        <a (click)="open('https://twitter.com/klederco')"><i class="fa fa-twitter"></i></a>
+        <a (click)="open('https://github.com/kleder')"><i class="fa fa-github"></i></a>     
+      </div>
+      <a (click)="open('http://kleder.co')">kleder.co</a>
   </div>
 </div>

@@ -84,7 +84,7 @@ try {
       height: 650,
       title: 'T-Rec App',
       frame: false,
-      icon: __dirname + '/assets/skull.png'
+      icon: __dirname + '/assets/trec-logo.png'
     })
     
     mainWindow.loadURL(url.format({

@@ -29,13 +29,13 @@
     }
   }
   &__content {
-    padding: 10px 32px 10px;
     height: calc(100% - 72px);
     background-color: $content-color;
     font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    color: $white;
     box-sizing: border-box;
+    color: $white;
+    padding: 20px 20px 20px 30px;
+    margin-bottom: 20px;
     overflow: auto;
   }
   
