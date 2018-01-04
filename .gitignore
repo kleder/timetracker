@@ -44,3 +44,4 @@ package-lock.json
 Thumbs.db
 
 *.orig
+src/environments/versions.ts
