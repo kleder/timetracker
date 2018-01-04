@@ -2,7 +2,7 @@
 #menu, .menu {
     padding: 28px 16px;
     position: fixed;
-    top: 0;
+    top: 60px;
     left: 0;
     background-color: $content-color;
     width: 84%;
@@ -13,7 +13,7 @@
     #backdrop {
         visibility: hidden;        
         position: fixed;
-        top: 0;
+        top: 60px;
         left: 84%;        
         width: 16%;
         height: 100%;
@@ -76,36 +76,28 @@
             padding: 0;
             list-style: none;
             li {
-                margin-left: 31px;
-                padding: 15px 0;
-                border-bottom: 1px solid $border-color;
+                position: relative;
+                padding: 15px 0 15px;
+                border-bottom: 1px solid $border-color;                                    
                 input {
                     -webkit-appearance: none;
                     margin-top: -15px !important;
                     position: absolute;
                     width: 80%;
                     height: 50px;
-                    left: 16px;
                     margin: 0;
                     z-index: 1000;
                     border-radius: 2px;
                     vertical-align: middle;
                     outline: none;
-                    cursor: pointer;
-                    &:checked {
-                      &:before {
-                        content: "\2714";
-                        font-size: 18px;
-                        position: absolute;
-                        top: 13px;
+                }
+                &.active {
+                    .menu__name {
                         color: $custom-red;
-                      }
-                    }
-                    &:checked + label {
-                      color: $white;
                     }
                 }
-                button {
+                .menu__edit-account {
+                    visibility: hidden;
                     float: right;
                     font-family: 'Montserrat', sans-serif;        
                     color:  $font-grey;
@@ -116,16 +108,27 @@
                     outline: none;
                     cursor: pointer;
                 }
-                label {
+                .menu__name {
                     font-family: 'Montserrat', sans-serif;        
                     color:  $white;
                     font-size: 16px;
                     font-weight: 400;
                     line-height: 20px;
+                    background: transparent;
+                    border: 0;
+                    cursor: pointer;
                 }
                 i {
                     padding-right: 16px;
                     color: $custom-red;
+                }
+                &:hover {
+                    .menu__edit-account {
+                        visibility: visible;
+                        &:hover {
+                            color: $custom-red;
+                        }
+                    }
                 }
             }        
         }

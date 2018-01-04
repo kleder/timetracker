@@ -11,10 +11,9 @@
       <div class="menu__accounts">
         <div class="menu__title">SWITCH ACCOUNTS</div>
         <ul *ngIf="accounts?.length > 0 else noAccounts">
-            <li *ngFor="let account of accounts">
-                <input type="checkbox" name="current" [(ngModel)]="account.current" (ngModelChange)="setAsCurrent(account)" [disabled]="account.current">
-                <button (click)="editAccount(account)">edit</button>
-                <label>{{ account.name || 'unnamed account' }} </label>
+            <li *ngFor="let account of accounts" [ngClass]="account.current? 'active' : ''">
+                <button class="menu__name" (click)="setAsCurrent(account)">{{ account.name || 'unnamed account' }} </button>
+                <button class="menu__edit-account" (click)="editAccount(account)">edit</button>
             </li>
         </ul>
         <ng-template #noAccounts>

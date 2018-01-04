@@ -37,7 +37,8 @@ import { EditBoardComponent } from './components/edit-board/edit-board.component
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { ChangeAccountTokenComponent } from './components/change-account-token/change-account-token.component';
 
-import { ToasterService } from './services/toaster.service'
+import { ToasterService } from './services/toaster.service';
+import { ToolbarComponent } from './components/toolbar/toolbar.component'
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ToasterService } from './services/toaster.service'
     EditBoardComponent,
     AboutTrecComponent,
     ChangeAccountTokenComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,85 @@
+@import "../../theme/colors.scss";
+.toolbar {
+    position: fixed;
+}
+.toolbar--mac {
+    padding: 18px 16px;
+    left: 0;
+    &:hover {
+        .mac-icon i {
+            visibility: visible;
+        }
+    }
+    .mac-icon {
+        display: inline-block;
+        position: relative;
+        margin-right: 4px;
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+        font-size: 10px;
+        text-align: center;
+        i {
+            visibility: hidden;
+        }
+        &--close {
+            background-color: #fc615d;
+        }
+        &--minimize {
+            background-color: #fec141;                    
+            i {
+                position: relative;
+                font-size: 8px;
+                &:before {
+                    position: absolute;
+                    left: -4px;
+                    top: -10px;
+                }
+            }
+        }
+        &--fullscreen {
+            background-color: #35cb4b;
+            i {
+                position: relative;
+                font-size: 9px;
+                &:before {
+                    position: absolute;
+                    top: -8px;
+                    left: -4px;
+
+                }
+            }
+        }
+    }
+}
+.toolbar--win {
+    padding: 14px 13px;
+    right: 0;
+    .win-icon {
+        display: inline-block;
+        position: relative;
+        height: 12px;
+        width: 12px;
+        color: $font-grey;
+        font-size: 10px;
+        text-align: center;
+        cursor: pointer;
+        &--minimize {
+            margin-right: 17px;
+            i {
+                font-size: 12px;
+            }
+        }
+        &--fullscreen {
+            margin-right: 13px;
+            i {
+                font-size: 14px;
+            }
+        }
+        &--close {
+            i {
+                font-size: 14px;
+            }
+        }
+    }
+}

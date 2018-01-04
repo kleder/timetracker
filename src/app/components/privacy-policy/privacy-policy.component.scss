@@ -1,9 +1,10 @@
 @import "../../theme/colors.scss";
-.container {
+.privacy-policy {
   position: fixed;
+  top: 40px;
   width: 100%;
   height: 100%;
-  .privacy-policy__header {
+  &__header {
     padding: 29px 16px;
     background-color: $menu-color;    
     .privacy-policy__back {
@@ -27,15 +28,15 @@
       text-align: center;
     }
   }
-  .privacy-policy__content {
-    padding: 38px 17px;
+  &__content {
+    padding: 10px 32px 10px;
     height: calc(100% - 72px);
     background-color: $content-color;
     font-family: 'Montserrat', sans-serif;
-    color: $white;
-    padding: 20px 10px;
-    overflow: auto;
     font-size: 14px;
+    color: $white;
+    box-sizing: border-box;
+    overflow: auto;
   }
   
 }
