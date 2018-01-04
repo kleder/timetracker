@@ -1,6 +1,6 @@
 # T-Rec time recording app 
 
-![T-rec image](./src/assets/dino.png)
+![T-rec image](./src/assets/trec-logo.png)
 
 T-Rec is a desktop time recording app that helps you log your work time into Youtrack. Recorded time entries are automatically synced to InCloud or Standalone Youtrack. 
 
