@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 const electron = require("electron")
 const { BrowserWindow } = require("electron")
-const app = electron.app
+const app = electron.remote.app
+const win = electron.remote.getCurrentWindow()
 
 @Component({
   selector: 'app-toolbar',
@@ -17,15 +18,11 @@ export class ToolbarComponent implements OnInit {
   }
 
   closeApp() {
-      electron.remote.app.quit()
+    app.quit()
   }
 
   minimizeApp() {
-      electron.remote.app.hide()
-  }
-
-  fullScreen() {
-
+    app.hide()
   }
 
 }
