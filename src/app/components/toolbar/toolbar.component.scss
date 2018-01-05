@@ -64,6 +64,11 @@
 .toolbar--win {
     padding: 14px 13px;
     right: 0;
+    .header__toolbar {
+        position: fixed;
+        right: 0;
+        padding: 14px 13px;
+    }
     cursor: default;    
     .win-icon {
         display: inline-block;

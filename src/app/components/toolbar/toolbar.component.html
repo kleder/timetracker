@@ -1,24 +1,28 @@
 <div class="toolbar toolbar--mac" *ngIf="isMac else windows">
-    <div class="mac-icon mac-icon--close">
-        <i class="fa fa-times" aria-hidden="true" (click)="closeApp()"></i>                
-    </div>
-    <div class="mac-icon mac-icon--minimize" (click)="minimizeApp()">
-        <i class="fa fa-window-minimize" aria-hidden="true"></i>                
-    </div>
-    <div class="mac-icon mac-icon--fullscreen" (click)="fullScreen()">
-        <i class="fa fa-arrows-alt" aria-hidden="true"></i>                
-    </div>
-</div>
-<ng-template #windows>
-    <div class="toolbar toolbar--win">
-        <div class="win-icon win-icon--minimize" (click)="minimizeApp()">
-            <i class="fa fa-window-minimize" aria-hidden="true"></i>                
-        </div>
-        <div class="win-icon win-icon--fullscreen" (click)="fullScreen()">
-            <i class="fa fa-square" aria-hidden="true"></i>                
-        </div>
-        <div class="win-icon win-icon--close">
+    <div class="header__toolbar">
+        <div class="mac-icon mac-icon--close">
             <i class="fa fa-times" aria-hidden="true" (click)="closeApp()"></i>                
         </div>
+        <div class="mac-icon mac-icon--minimize" (click)="minimizeApp()">
+            <i class="fa fa-window-minimize" aria-hidden="true"></i>                
+        </div>
+        <div class="mac-icon mac-icon--fullscreen" (click)="fullScreen()">
+            <i class="fa fa-arrows-alt" aria-hidden="true"></i>                
+        </div>
     </div>
-</ng-template>
+  </div>
+  <ng-template #windows>
+    <div class="toolbar toolbar--win">
+        <div class="header__toolbar">
+            <div class="win-icon win-icon--minimize" (click)="minimizeApp()">
+                <i class="fa fa-window-minimize" aria-hidden="true"></i>                
+            </div>
+            <div class="win-icon win-icon--fullscreen" (click)="fullScreen()">
+                <i class="fa fa-square" aria-hidden="true"></i>                
+            </div>
+            <div class="win-icon win-icon--close">
+                <i class="fa fa-times" aria-hidden="true" (click)="closeApp()"></i>                
+            </div>
+        </div>
+    </div>
+  </ng-template>
