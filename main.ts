@@ -91,7 +91,7 @@ try {
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file',
         slashes: true,
-        icon: __dirname + '/img/icon.ico'
+        icon: __dirname + '/assets/trec-logo.png'
     }))
     mainWindow.once("ready-to-show", () => { mainWindow.show() })
 

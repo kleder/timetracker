@@ -1,6 +1,11 @@
 @import "../../theme/colors.scss";
 .toolbar {
+    -webkit-app-region: drag;
     position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 40px;
 }
 .toolbar--mac {
     padding: 18px 16px;
