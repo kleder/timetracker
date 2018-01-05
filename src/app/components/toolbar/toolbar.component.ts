@@ -23,7 +23,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   minimizeApp() {
-    app.hide()
+    win.minimize()
   }
 
 }
