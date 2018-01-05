@@ -10,10 +10,10 @@ if (events.handleSquirrelEvent(electron.app)) {
   process.exit;
 }
 
-
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
-// const Tray = electron.Tray
+const Tray = electron.Tray
+var trayIcon = null;
 const Menu = electron.Menu
 const url = require('url')
 const path = require('path')
@@ -21,7 +21,7 @@ const ipcMain = electron.ipcMain
 // const sqlite3 = require('sqlite3').verbose()
 
 let mainWindow, serve;
-// var trayIcon = null;
+
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
@@ -73,11 +73,11 @@ try {
   // app.on('ready', createWindow);
   app.on('ready', () => {
 
-    // const iconName = '../src/assets/cog.png';
-    // const iconPath = path.join(__dirname, iconName);
+    const iconName = './assets/icons/favicon.png';
+    const iconPath = path.join(__dirname, iconName);
   
-    // trayIcon = new Tray(iconPath);
-    // trayIcon.setToolTip('Kleder Track App');
+    trayIcon = new Tray(iconPath);
+    trayIcon.setToolTip('T-Rec App');
 
     mainWindow = new BrowserWindow({
       width: 400,
@@ -123,9 +123,9 @@ try {
       
     });
 
-    // trayIcon.on('click', () => {
-    //   mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
-    // })
+    trayIcon.on('click', () => {
+      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+    })
 
   });
   
@@ -138,13 +138,15 @@ try {
     }
   });
 
-  // app.on('activate', () => {
-  //   // On OS X it's common to re-create a window in the app when the
-  //   // dock icon is clicked and there are no other windows open.
-  //   if (mainWindow === null) {
-  //     this.createWindow();
-  //   }
-  // });
+  app.on('activate', () => {
+    // On OS X it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (mainWindow === null) {
+      this.createWindow();
+    } else {
+      mainWindow.show()
+    }
+  });
 
 } catch (e) {
   // Catch Error
