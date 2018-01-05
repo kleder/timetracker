@@ -10,6 +10,7 @@
 .toolbar--mac {
     padding: 18px 16px;
     left: 0;
+    cursor: default;
     &:hover {
         .mac-icon i {
             visibility: visible;
@@ -29,9 +30,11 @@
         }
         &--close {
             background-color: #fc615d;
+            cursor: default;            
         }
         &--minimize {
-            background-color: #fec141;                    
+            background-color: #fec141; 
+            cursor: default;            
             i {
                 position: relative;
                 font-size: 8px;
@@ -44,6 +47,7 @@
         }
         &--fullscreen {
             background-color: #35cb4b;
+            cursor: not-allowed;
             i {
                 position: relative;
                 font-size: 9px;
@@ -58,11 +62,9 @@
     }
 }
 .toolbar--win {
-    .header__toolbar {
-        position: fixed;
-        right: 0;
-        padding: 14px 13px;
-    }
+    padding: 14px 13px;
+    right: 0;
+    cursor: default;    
     .win-icon {
         display: inline-block;
         position: relative;
@@ -80,11 +82,12 @@
         }
         &--fullscreen {
             margin-right: 13px;
+            cursor: not-allowed;            
             i {
                 font-size: 14px;
             }
         }
-        &--close {
+        &--close {          
             i {
                 font-size: 14px;
             }
