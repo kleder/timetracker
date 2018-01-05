@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+const electron = require("electron")
+const { BrowserWindow } = require("electron")
+const app = electron.app
 
 @Component({
   selector: 'app-toolbar',
@@ -14,11 +17,11 @@ export class ToolbarComponent implements OnInit {
   }
 
   closeApp() {
-     
+      electron.remote.app.quit()
   }
 
   minimizeApp() {
-
+      electron.remote.app.hide()
   }
 
   fullScreen() {
