@@ -61,12 +61,12 @@
     }
 }
 .toolbar--win {
-    -webkit-app-region: no-drag;
     padding: 14px 13px;
     text-align: right;
     cursor: default;  
     box-sizing: border-box;
     .win-icon {
+        -webkit-app-region: no-drag;
         display: inline-block;
         position: relative;
         height: 12px;
