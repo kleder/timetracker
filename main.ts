@@ -3,6 +3,7 @@ const electron = require("electron")
 
 import {SquirrelEvent} from './src/SquirrelEvent';
 import { dirname } from 'path';
+import { last } from '@angular/router/src/utils/collection';
 
 const events = new SquirrelEvent();
 if (events.handleSquirrelEvent(electron.app)) {
@@ -92,7 +93,9 @@ try {
         protocol: 'file',
         slashes: true,
         icon: __dirname + '/assets/trec-logo.png'
-    }))
+        
+    }))    
+  
     mainWindow.once("ready-to-show", () => { mainWindow.show() })
 
     mainWindow.on('closed', function() {
@@ -105,10 +108,10 @@ try {
         { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
         { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
         { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload"},
-        { label: 'Toggle DevTools',
-        click() {
-            mainWindow.toggleDevTools()
-        }},
+        // { label: 'Toggle DevTools',
+        // click() {
+        //     mainWindow.toggleDevTools()
+        // }},
         {
           label: "Quit app",
           accelerator: process.platform == 'darwin' ? 'Command+Q': 'Ctrl+Q',
