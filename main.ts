@@ -127,7 +127,7 @@ try {
     });
 
     trayIcon.on('click', () => {
-      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+      mainWindow.isVisible() ? mainWindow.minimize() : mainWindow.show()
     })
 
   });
