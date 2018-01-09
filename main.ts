@@ -66,18 +66,35 @@ function createWindow(name) {
 }
 
 try {
-
+  
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   // app.on('ready', createWindow);
   app.on('ready', () => {
-
-    const iconName = './assets/icons/favicon.png';
-    const iconPath = path.join(__dirname, iconName);
-  
+    let trayImage = ''
+    if (process.platform == 'darwin') {  
+      trayImage = './assets/tray/osx/icon_tray-normal.png';
+    }
+    else if (process.platform == 'win32') {  
+      trayImage = './assets/tray/win/icon_tray-normal.ico';
+    }
+    const iconPath = path.join(__dirname, trayImage);
     trayIcon = new Tray(iconPath);
     trayIcon.setToolTip('T-Rec App');
+
+
+    // if (process.platform == 'darwin') {  
+    //   trayIcon.setPressedImage(path.join(__dirname, './assets/tray/osx/icon_tray-clicked.png'))
+    // }
+    // else if (process.platform == 'win32') {  
+      // trayIcon.setPressedImage(path.join(__dirname, './assets/tray/win/icon_tray-clicked.png'))
+    // }
+
+
+    ipcMain.on('trayChange', function(ev, iconPath) {
+      trayIcon.setImage(iconPath);
+    });
 
     mainWindow = new BrowserWindow({
       width: 400,

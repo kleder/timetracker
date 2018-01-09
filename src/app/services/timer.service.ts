@@ -5,6 +5,8 @@ import { ApiService } from 'app/services/api.service';
 import { DatabaseService } from 'app/services/database.service';
 import { WorkItemData } from 'app/models/RemoteAccount';
 import { ToasterService } from './toaster.service'
+const ipcRenderer = require('electron').ipcRenderer;
+const path = require('path')
 
 @Injectable()
 export class TimerService {
@@ -110,6 +112,7 @@ export class TimerService {
     if (this.currentIssue != undefined) {
       await this.stopItem();
     }
+    this.trayRecording()
     issue.recordedTime = await this.databaseService.getRecordedTime(issue.issueId)
     return new Promise((resolve => {
       this.turnTimer(issue)
@@ -120,6 +123,7 @@ export class TimerService {
   }
 
   public stopItem(): Promise<any> {
+    this.trayDefault()
     let issue = this.currentIssue;
     console.log(issue)
     let stoppedTime = this.stopIssueTimer()
@@ -142,6 +146,30 @@ export class TimerService {
       reject("To small amount of data");
     })
   }
+
+  public trayRecording() {
+    let iconPath = ''    
+    if (process.platform == 'darwin') {
+      iconPath = path.join(__dirname, './assets/tray/osx/icon_tray-recording.png')
+    }
+    else if (process.platform == 'win32') {
+      // iconPath = path.join(__dirname, './assets/tray/win/win-recording.png')
+    }
+    ipcRenderer.send('trayChange', iconPath);
+  }
+
+  public trayDefault() {
+    let iconPath = ''    
+    if (process.platform == 'darwin') {
+      iconPath = path.join(__dirname, './assets/tray/osx/icon_tray-normal.png')
+    }
+    else if (process.platform == 'win32') {
+      iconPath = path.join(__dirname, './assets/tray/win/win-default.ico')
+    }
+    ipcRenderer.send('trayChange', iconPath); 
+  }
+
+
 
 
 }
