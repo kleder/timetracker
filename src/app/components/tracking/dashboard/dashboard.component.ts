@@ -12,7 +12,6 @@ import { AccountService } from '../../../services/account.service'
 import { Router } from '@angular/router';
 
 const electron = require('electron')
-const ipc = electron.ipcRenderer
 
 @Component({
   selector: 'app-dashboard',
