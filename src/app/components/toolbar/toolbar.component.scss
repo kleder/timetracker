@@ -81,14 +81,8 @@
                 font-size: 12px;
             }
         }
-        &--fullscreen {
-            margin-right: 13px;
-            cursor: not-allowed;            
-            i {
-                font-size: 14px;
-            }
-        }
-        &--close {          
+        &--close { 
+            top: 4px;         
             i {
                 font-size: 14px;
             }

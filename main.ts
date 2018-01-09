@@ -3,6 +3,7 @@ const electron = require("electron")
 
 import {SquirrelEvent} from './src/SquirrelEvent';
 import { dirname } from 'path';
+import { last } from '@angular/router/src/utils/collection';
 
 const events = new SquirrelEvent();
 if (events.handleSquirrelEvent(electron.app)) {
@@ -21,7 +22,7 @@ const ipcMain = electron.ipcMain
 // const sqlite3 = require('sqlite3').verbose()
 
 let mainWindow, serve;
-
+let splash
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
@@ -101,16 +102,35 @@ try {
       height: 650,
       title: 'T-Rec App',
       frame: false,
-      icon: __dirname + '/assets/trec-logo.png'
+      icon: __dirname + '/assets/trec-logo.png',
+      show: false
     })
+
+    splash = new BrowserWindow({
+      width: 400,
+      height: 420,
+      frame: false,
+      alwaysOnTop: true
+    })
+    splash.loadURL(url.format({
+      pathname: path.join(__dirname, 'splash.html'),
+      protocol: 'file',
+      slashes: true,
+    }))
     
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file',
         slashes: true,
-        icon: __dirname + '/assets/trec-logo.png'
-    }))
-    mainWindow.once("ready-to-show", () => { mainWindow.show() })
+        icon: __dirname + '/assets/trec-logo.png'    
+    }))    
+    splash.once("ready-to-show", () => { splash.show()
+    })
+    setTimeout(() => {
+        splash.destroy()
+        mainWindow.show()
+      }, 3000)
+            
 
     mainWindow.on('closed', function() {
         app.quit()
