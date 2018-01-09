@@ -112,7 +112,7 @@ try {
     setTimeout(() => {
         splash.destroy()
         mainWindow.show()
-      }, 8000)
+      }, 3000)
             
 
     mainWindow.on('closed', function() {
