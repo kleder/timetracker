@@ -22,7 +22,7 @@ const ipcMain = electron.ipcMain
 // const sqlite3 = require('sqlite3').verbose()
 
 let mainWindow, serve;
-
+let splash
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
@@ -85,18 +85,34 @@ try {
       height: 650,
       title: 'T-Rec App',
       frame: false,
-      icon: __dirname + '/assets/trec-logo.png'
+      icon: __dirname + '/assets/trec-logo.png',
+      show: false
     })
-    
+
+    splash = new BrowserWindow({
+      width: 400,
+      height: 420,
+      frame: false,
+      alwaysOnTop: true
+    })
+    splash.loadURL(url.format({
+      pathname: path.join(__dirname, 'splash.html'),
+      protocol: 'file',
+      slashes: true,
+    }))
+    splash.toggleDevTools()
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file',
         slashes: true,
-        icon: __dirname + '/assets/trec-logo.png'
-        
+        icon: __dirname + '/assets/trec-logo.png'    
     }))    
+    splash.once("ready-to-show", () => { splash.show() })
   
-    mainWindow.once("ready-to-show", () => { mainWindow.show() })
+    mainWindow.once("ready-to-show", () => {
+      splash.destroy()
+      mainWindow.show()
+    })
 
     mainWindow.on('closed', function() {
         app.quit()
@@ -108,10 +124,10 @@ try {
         { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
         { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
         { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload"},
-        // { label: 'Toggle DevTools',
-        // click() {
-        //     mainWindow.toggleDevTools()
-        // }},
+        { label: 'Toggle DevTools',
+        click() {
+            mainWindow.toggleDevTools()
+        }},
         {
           label: "Quit app",
           accelerator: process.platform == 'darwin' ? 'Command+Q': 'Ctrl+Q',
