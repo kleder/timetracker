@@ -1,35 +1,74 @@
 @import "../../theme/colors.scss";
-.container {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  .about-trec__header {
-    padding: 29px 16px;
-    background-color: $menu-color;    
-    .about-trec__back {
-      padding: 0;
-      position: absolute;
-      margin-top: -4px;
-      background-color: transparent;
-      border: 0;
-      font-size: 19px;
-      color: $white;
-      outline: none;
-      cursor: pointer;
-      font-size: 22px;
-    }
-    .about-trec__title {
-      font-family: 'Montserrat', sans-serif;        
-      color:  $white;
-      font-size: 16px;
-      line-height: 14px;
-      font-weight: 400;
-      text-align: center;
-    }
-  }
-  .about-trec__content {
 
-  }
-  
+.about-trec {
+    position: fixed;
+    top: 40px;
+    width: 100%;
+    height: 100%;
+
+    &__header {
+        padding: 29px 16px;
+        background-color: $menu-color;
+    }
+
+    &__back {
+        padding: 0;
+        position: absolute;
+        margin-top: -4px;
+        background-color: transparent;
+        border: 0;
+        font-size: 19px;
+        color: $white;
+        outline: none;
+        cursor: pointer;
+        font-size: 22px;
+    }
+
+    &__title {
+        font-family: 'Montserrat', sans-serif;
+        color: $white;
+        font-size: 16px;
+        line-height: 14px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    &__content {
+        height: calc(100% - 112px);
+        background-color: $content-color;
+        font-family: 'Montserrat', sans-serif;
+        box-sizing: border-box;
+        color: $white;
+        text-align: center;
+        padding: 20px 20px 30px 20px;
+        margin-bottom: 20px;
+        overflow: auto;
+        font-size: 14px;
+
+        img {
+            max-width: 160px;
+            margin: 20px auto 20px;
+            display: block;
+        }
+
+        p {
+            margin: 36px 0 22px 0;
+        }
+
+        b {
+            color: $custom-red;
+            font-weight: 400;
+        }
+    }
+    &__social {
+      border-top: 1px solid rgba($white, 0.2);
+      padding: 10px 0px 24px;
+      i {
+        margin: 0px 13px;
+      }
+    }
+
+    a {
+      cursor: pointer;
+    }
 }

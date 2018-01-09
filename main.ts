@@ -3,6 +3,7 @@ const electron = require("electron")
 
 import {SquirrelEvent} from './src/SquirrelEvent';
 import { dirname } from 'path';
+import { last } from '@angular/router/src/utils/collection';
 
 const events = new SquirrelEvent();
 if (events.handleSquirrelEvent(electron.app)) {
@@ -10,10 +11,10 @@ if (events.handleSquirrelEvent(electron.app)) {
   process.exit;
 }
 
-
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
-// const Tray = electron.Tray
+const Tray = electron.Tray
+var trayIcon = null;
 const Menu = electron.Menu
 const url = require('url')
 const path = require('path')
@@ -21,7 +22,7 @@ const ipcMain = electron.ipcMain
 // const sqlite3 = require('sqlite3').verbose()
 
 let mainWindow, serve;
-// var trayIcon = null;
+let splash
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
@@ -73,27 +74,46 @@ try {
   // app.on('ready', createWindow);
   app.on('ready', () => {
 
-    // const iconName = '../src/assets/cog.png';
-    // const iconPath = path.join(__dirname, iconName);
+    const iconName = './assets/icons/favicon.png';
+    const iconPath = path.join(__dirname, iconName);
   
-    // trayIcon = new Tray(iconPath);
-    // trayIcon.setToolTip('Kleder Track App');
+    trayIcon = new Tray(iconPath);
+    trayIcon.setToolTip('T-Rec App');
 
     mainWindow = new BrowserWindow({
       width: 400,
       height: 650,
       title: 'T-Rec App',
       frame: false,
-      icon: __dirname + '/assets/skull.png'
+      icon: __dirname + '/assets/trec-logo.png',
+      show: false
     })
+
+    splash = new BrowserWindow({
+      width: 400,
+      height: 420,
+      frame: false,
+      alwaysOnTop: true
+    })
+    splash.loadURL(url.format({
+      pathname: path.join(__dirname, 'splash.html'),
+      protocol: 'file',
+      slashes: true,
+    }))
     
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file',
         slashes: true,
-        icon: __dirname + '/img/icon.ico'
-    }))
-    mainWindow.once("ready-to-show", () => { mainWindow.show() })
+        icon: __dirname + '/assets/trec-logo.png'    
+    }))    
+    splash.once("ready-to-show", () => { splash.show()
+    })
+    setTimeout(() => {
+        splash.destroy()
+        mainWindow.show()
+      }, 3000)
+            
 
     mainWindow.on('closed', function() {
         app.quit()
@@ -123,9 +143,9 @@ try {
       
     });
 
-    // trayIcon.on('click', () => {
-    //   mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
-    // })
+    trayIcon.on('click', () => {
+      mainWindow.isVisible() ? mainWindow.minimize() : mainWindow.show()
+    })
 
   });
   
@@ -138,13 +158,15 @@ try {
     }
   });
 
-  // app.on('activate', () => {
-  //   // On OS X it's common to re-create a window in the app when the
-  //   // dock icon is clicked and there are no other windows open.
-  //   if (mainWindow === null) {
-  //     this.createWindow();
-  //   }
-  // });
+  app.on('activate', () => {
+    // On OS X it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (mainWindow === null) {
+      this.createWindow();
+    } else {
+      mainWindow.show()
+    }
+  });
 
 } catch (e) {
   // Catch Error

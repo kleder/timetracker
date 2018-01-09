@@ -115,9 +115,6 @@ export class TrackingComponent implements OnDestroy, OnInit {
   }
 
   public stopTracking = (item) => {
-    this.timerService.stopTrackingNotifications()
-    let stoppedTime = this.timerService.stopIssueTimer()
-    console.log("this.stoppedTime", stoppedTime)
     let that = this
     // stop idleTimer
     this.timerService.stopItem().then(

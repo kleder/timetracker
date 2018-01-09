@@ -2,7 +2,7 @@
   <div class="board-choice__list" *ngIf="agiles?.length !=0; else empty">
     <span class="board-choice__title">Select agile boards</span>
     <div class="board-choice__item" *ngFor="let agile of agiles; let i=index">
-      <input type="checkbox" [(ngModel)]="agile.checked" name="checked">
+      <input type="checkbox" [(ngModel)]="agile.checked" (ngModelChange)="agileVisibilityUpdate(agile)" name="checked">
       <label>{{ agile.name }}</label>
     </div>
     <button type=”submit” (click)="agilesChoose()">SELECT</button>
@@ -10,7 +10,7 @@
   </div>
   <ng-template #empty>
     <div class="board-choice__list--empty" *ngIf="agiles?.length == 0">
-      <img src="../../../assets/skull.png" alt="skull">
+      <img src="../../../assets/trec-logo.png" alt="skull">
       <div class="board-choice__title">No boards found..</div>
       <div class="board-choice__text">It looks like you need to create agile board or your sprint is not scheduled correctly.</div>
       <button type="submit" (click)="getAllAgiles()">REFRESH</button>        

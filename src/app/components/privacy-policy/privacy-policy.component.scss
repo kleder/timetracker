@@ -1,0 +1,42 @@
+@import "../../theme/colors.scss";
+.privacy-policy {
+  position: fixed;
+  top: 40px;
+  width: 100%;
+  height: 100%;
+  &__header {
+    padding: 29px 16px;
+    background-color: $menu-color;    
+    .privacy-policy__back {
+        padding: 0;
+        position: absolute;
+        margin-top: -4px;
+        background-color: transparent;
+        border: 0;
+        font-size: 19px;
+        color: $white;
+        outline: none;
+        cursor: pointer;
+        font-size: 22px;
+    }
+    .privacy-policy__title {
+      font-family: 'Montserrat', sans-serif;        
+      color:  $white;
+      font-size: 16px;
+      line-height: 14px;
+      font-weight: 400;
+      text-align: center;
+    }
+  }
+  &__content {
+    height: calc(100% - 72px - 40px);
+    background-color: $content-color;
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
+    color: $white;
+    padding: 20px 20px 20px 30px;
+    margin-bottom: 20px;
+    overflow: auto;
+  }
+  
+}

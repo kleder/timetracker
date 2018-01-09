@@ -1,6 +1,6 @@
 {
   "name": "Trec",
-  "version": "1.0.0",
+  "version": "0.8.0",
   "description": "T-rec time tracker is built for speed and live work item update in youtrack system.",
   "homepage": "",
   "author": {
@@ -17,9 +17,10 @@
     "ng": "ng",
     "lint": "ng lint",
     "start": "npm-run-all --parallel webpack:watch electron:serve",
+    "prebuild": "ts-node git.version.ts",
     "webpack:watch": "webpack --watch",
     "start:web": "webpack-dev-server --content-base . --port 4200 --inline",
-    "build:electron:main": "tsc main.ts --outDir dist && copyfiles package.json dist && cd dist && npm install --prod && cd ..",
+    "build:electron:main": "npm run prebuild && tsc main.ts --outDir dist && copyfiles package.json dist && cd dist && npm install --prod && cd ..",
     "build": "webpack --display-error-details && npm run build:electron:main",
     "build:prod": "cross-env NODE_ENV=production npm run build",
     "electron:serve": "npm run build:electron:main && electron ./dist --serve",
@@ -37,30 +38,27 @@
     "electron-rebuild": "electron-rebuild -f -w sqlite3"
   },
   "dependencies": {
+    "@paulcbetts/system-idle-time": "git+https://github.com/paulcbetts/node-system-idle-time.git",
+    "sqlite3": "^3.1.13",
+    "electron-notifications": "^1.0.0"
+  },
+  "devDependencies": {
     "@angular/animations": "^4.4.3",
     "@angular/common": "4.4.3",
-    "@angular/compiler": "4.4.3",
     "@angular/core": "4.4.3",
     "@angular/forms": "4.4.3",
     "@angular/http": "4.4.3",
     "@angular/platform-browser": "^4.4.3",
     "@angular/platform-browser-dynamic": "^4.4.3",
     "@angular/router": "4.4.3",
-    "@paulcbetts/system-idle-time": "git+https://github.com/paulcbetts/node-system-idle-time.git",
     "core-js": "2.4.1",
-    "electron-notifications": "^1.0.0",
-    "enhanced-resolve": "3.3.0",
     "font-awesome": "^4.7.0",
     "ionicons": "^3.0.0",
-    "menubar": "^5.2.3",
-    "ng2-opd-popup": "^1.1.21",
     "ngx-loading": "^1.0.8",
-    "node-loader": "^0.6.0",
     "rxjs": "5.4.3",
-    "sqlite3": "^3.1.13",
-    "zone.js": "0.8.17"
-  },
-  "devDependencies": {
+
+    "zone.js": "0.8.17",
+    "@angular/compiler": "4.4.3",
     "electron-builder": "^19.37.2",
     "electron-squirrel-startup": "^1.0.0",
     "@angular/cli": "1.4.3",

@@ -8,6 +8,7 @@ import { AccountService } from '../../services/account.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RemoteAccount } from 'app/models/RemoteAccount';
 import { ToasterService } from '../../services/toaster.service';
+import { shell } from 'electron';
 
 @Component({
   selector: 'app-add-account',
@@ -34,7 +35,7 @@ export class AddAccountComponent implements OnInit {
   async ngOnInit() {
     var current = await this.account.Current();
     if (current!= undefined){
-      this.router.navigate(['/boards'], { queryParams: {justLoggedIn: false, name: current.name} });
+      this.router.navigate(['/boards'], { queryParams: {justLoggedIn: false, name: current.name, url: current.url} });
     }
     this.activatedRoute
     .queryParams
@@ -68,6 +69,10 @@ export class AddAccountComponent implements OnInit {
     let token = document.getElementById('add-account__token')
     url.className += " add-account__url--error"
     token.className += " add-account__token--error"
+  }
+
+  openInBrowser() {
+    shell.openExternal('https://www.jetbrains.com/help/youtrack/standalone/Manage-Permanent-Token.html');
   }
 
   goToBoard() {

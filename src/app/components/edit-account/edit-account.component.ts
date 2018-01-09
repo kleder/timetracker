@@ -24,7 +24,7 @@ export class EditAccountComponent implements OnInit {
     public api: ApiService,
     public http: HttpService,
     public router: Router,
-    public accounts: AccountService,
+    public account: AccountService,
     public toasterService: ToasterService
   ) { }
 
@@ -33,25 +33,23 @@ export class EditAccountComponent implements OnInit {
     .queryParams
     .subscribe(params => {
       this.editingAccount = {
-        id: params['accountId'],
+        id: parseInt(params['accountId']),
         name: params['accountName'],
         url: params['accountUrl'],
       }
       console.log("this.editingAccount", this.editingAccount)
-      // console.log("params['toastText']", params['toasterText'])
-      // if (params['toasterText']) {
-      //   this.toasterService.showToaster(params['toasterText'], 'success')
-      // }
     });
     this.getAllAgiles()
   }
 
   public getAllAgiles() {
-    console.log('getAllAgiles()')
     this.api.getAllAgiles().then(
       data => {
         this.http.loader = false
         this.agiles = data
+        this.agiles.forEach(agile => {
+          this.getAgileVisibility(agile.name)          
+        })
       }
     )
   }
@@ -92,6 +90,34 @@ export class EditAccountComponent implements OnInit {
 
   public hideModal() {
     document.getElementById('modal').style.display = "none"
+  }
+
+  async getAgileVisibility(boardName) {
+    this.databaseService.getBoardVisibilities(this.editingAccount.id, boardName).then(boardVisibility => {
+      this.agiles.filter(agile => {
+        if (agile.name == boardVisibility[0].boardName) {
+          boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false
+        }
+      })
+    })
+  }
+
+  async updateAgileVisibility(agile) {
+    agile.checked == true? agile.checked = 1 : agile.checked = 0
+    this.databaseService.updateBoardVisibility(this.editingAccount.id, agile.name, agile.checked)
+  }
+
+  async updateAgilesVisibility() {
+    this.agiles.forEach(agile => {
+      agile.checked == true? agile.checked = 1 : agile.checked = 0
+      this.databaseService.updateBoardVisibility(this.editingAccount.id, agile.name, agile.checked).then(data => {
+        if (data) {
+          this.toasterService.showToaster('Your changes have been saved!', "success")          
+        }
+      }, err => {
+        this.toasterService.showToaster('An error occured!', "error")            
+      })
+    })
   }
 
 }

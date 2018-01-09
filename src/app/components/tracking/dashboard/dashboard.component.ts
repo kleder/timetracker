@@ -8,6 +8,8 @@ import { HttpService } from '../../../services/http.service'
 import { WorkItemData } from 'app/models/RemoteAccount';
 import { shell } from 'electron';
 import { ToasterService } from '../../../services/toaster.service'
+import { AccountService } from '../../../services/account.service'
+import { Router } from '@angular/router';
 
 const electron = require('electron')
 const ipc = electron.ipcRenderer
@@ -34,6 +36,8 @@ export class DashboardComponent implements OnInit {
   private allItemsFromDb: any
   public agiles: any
   private totalTimes: object
+  private boardStates: Array<any> = []
+  private issueHexColor: any
 
   constructor(
     public api: ApiService,
@@ -41,7 +45,9 @@ export class DashboardComponent implements OnInit {
     public dataService: DataService,
     public databaseService: DatabaseService,
     public httpService: HttpService,
-    public toasterService: ToasterService
+    public toasterService: ToasterService,
+    public account: AccountService,
+    public router: Router
   ) { 
     this.newItemProperties = {
       date: 0,
@@ -60,17 +66,34 @@ export class DashboardComponent implements OnInit {
   }
   
   ngOnInit() {
+    this.init()
+  }
+
+  public init() {
     this.dataService.choosenAgiles.subscribe(data => {
       this.agiles = data
-      // this.getAllAgiles()
+      this.agiles.forEach(agile => {
+        this.getAgileVisibility(agile.name)
+      })
       this.getItemsFromDb()
     })
-    // this.getItemsFromDb()
+    this.getAllBoardStates()
   }
   
   public async openInBrowser(url : string){
     var account = await this.api.accounts.Current();
     shell.openExternal(account.url + url);
+  }
+
+  async getAgileVisibility(boardName) {
+    let account = await this.account.Current()
+    this.databaseService.getBoardVisibilities(account["id"], boardName).then(boardVisibility => {
+      this.agiles.filter(agile => {
+        if (agile.name == boardVisibility[0].boardName) {
+          boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false
+        }
+      })
+    })
   }
 
   public getItemsFromDb() {
@@ -121,9 +144,7 @@ export class DashboardComponent implements OnInit {
       }    
       agile.issues = []
       console.log(agile, index)
-      if (agile.checked) {
-        this.getIssuesByAgile(agile.name, index)
-      }
+      this.getIssuesByAgile(agile.name, index)
     })
   }
 
@@ -171,10 +192,25 @@ export class DashboardComponent implements OnInit {
     console.log("tempIssues", tempIssues)
     this.agiles[agileIndex].issues = tempIssues
     console.log("prepared agiles", this.agiles)
+
+    this.prepareAndSaveUniqueStates(agileIndex)
   }
 
+  async prepareAndSaveUniqueStates(agileIndex) {
+    let states = []
+    let currentAccount = await this.account.Current()
+    this.agiles[agileIndex].issues.forEach((issue) => {
+      states.push(issue.field.State[0])
+      this.databaseService.saveBoardStates(currentAccount["id"], this.agiles[agileIndex].name, issue.field.Priority[0])
+    })
+  }
+  
   public priorityClass(issue) {
-    return issue.field.Priority[0].toLowerCase()
+    this.boardStates.filter(board => {
+      if (board.boardName == issue.agile && board.state == issue.field.Priority[0]) {
+        return issue.field.Priority[1] = board.hexColor
+      }
+    })
   }
 
   public manageUnstoppedItem = (item, action) => {
@@ -185,7 +221,6 @@ export class DashboardComponent implements OnInit {
       this.databaseService.deleteItem(item)
       this.hideModal()
       this.toasterService.showToaster('Your tracking has been removed!', 'default')
-      // this.dataService.timeSavedNotification('Your tracking has been removed!')      
     }
     if (action == 'resume') {
       this.agiles.filter(agile => {
@@ -256,4 +291,12 @@ export class DashboardComponent implements OnInit {
       }
     )
   }
+
+  async getAllBoardStates() {
+    let account = await this.account.Current()
+    await this.databaseService.getAllBoardStates(account['id']).then(data => {
+      this.boardStates = data
+    })
+  }
+
 }
