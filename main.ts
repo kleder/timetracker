@@ -107,12 +107,13 @@ try {
         slashes: true,
         icon: __dirname + '/assets/trec-logo.png'    
     }))    
-    splash.once("ready-to-show", () => { splash.show() })
-  
-    mainWindow.once("ready-to-show", () => {
-      splash.destroy()
-      mainWindow.show()
+    splash.once("ready-to-show", () => { splash.show()
     })
+    setTimeout(() => {
+        splash.destroy()
+        mainWindow.show()
+      }, 8000)
+            
 
     mainWindow.on('closed', function() {
         app.quit()
