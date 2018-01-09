@@ -100,7 +100,7 @@ try {
       protocol: 'file',
       slashes: true,
     }))
-    splash.toggleDevTools()
+    
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file',
