@@ -153,8 +153,7 @@ export class TimerService {
       iconPath = path.join(__dirname, './assets/tray/osx/icon_tray-recording.png')
     }
     else if (process.platform == 'win32') {
-      // iconPath = path.join(__dirname, './assets/tray/win/win-recording.png')
-    }
+      iconPath = path.join(__dirname, './assets/tray/win/icon_tray-normal.ico')}
     ipcRenderer.send('trayChange', iconPath);
   }
 
