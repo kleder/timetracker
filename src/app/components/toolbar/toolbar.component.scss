@@ -61,30 +61,49 @@
     }
 }
 .toolbar--win {
-    padding: 14px 13px;
-    text-align: right;
-    cursor: default;  
-    box-sizing: border-box;
-    .win-icon {
-        -webkit-app-region: no-drag;
+    padding-top: 30px;
+    cursor: default;
+    position: fixed;
+    display: inline-block;  
+    box-sizing: border-box;  
+    text-align: center;
+
+    .toolbar__logo {
         display: inline-block;
-        position: relative;
-        height: 12px;
-        width: 12px;
+        .logo {
+            width: 72px;
+        }
+    }
+    .toolbar__hamburger {
+        display: inline-block;
+        color: $white;
+        cursor: pointer;
+        -webkit-app-region: no-drag; 
+        float: left; 
+        margin-left: 15px;
+     
+    }
+    .toolbar__icon {
+        -webkit-app-region: no-drag;
+        display: inline-flex;
         color: $font-grey;
         font-size: 10px;
         text-align: center;
-        cursor: pointer;
+        float: right;
+        margin-right: 15px;
         &--minimize {
+
             margin-right: 17px;
             i {
                 font-size: 12px;
+                cursor: pointer;
             }
         }
         &--close { 
-            top: 4px;         
+            position: relative;        
             i {
                 font-size: 14px;
+                cursor: pointer;
             }
         }
     }

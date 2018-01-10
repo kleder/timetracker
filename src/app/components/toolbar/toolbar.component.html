@@ -11,11 +11,19 @@
 </div>
 <ng-template #windows>
     <div class="toolbar toolbar--win">
-        <div class="win-icon win-icon--minimize">
-            <i class="fa fa-window-minimize" aria-hidden="true" (click)="minimizeApp()"></i>                
+        <div class="toolbar__hamburger">
+            <i  class="fa fa-bars" aria-hidden="true" (click)="showMenu()"></i>
         </div>
-        <div class="win-icon win-icon--close">
-            <i class="fa fa-times" aria-hidden="true" (click)="closeApp()"></i>                
+        <div class="toolbar__logo">    
+            <img src="../../../assets/logo.png" class="logo" alt="logo">
+        </div>
+        <div class="toolbar__icon">
+            <div class="toolbar__icon--minimize">
+                <i class="fa fa-window-minimize" aria-hidden="true" (click)="minimizeApp()"></i>                
+            </div>
+            <div class="toolbar__icon--close">
+                <i class="fa fa-times" aria-hidden="true" (click)="closeApp()"></i>                
+            </div>
         </div>
     </div>
 </ng-template>
