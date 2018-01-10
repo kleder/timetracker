@@ -19,6 +19,7 @@ const Menu = electron.Menu
 const url = require('url')
 const path = require('path')
 const ipcMain = electron.ipcMain
+const ipcRenderer = require('electron').ipcRenderer;
 // const sqlite3 = require('sqlite3').verbose()
 
 let mainWindow, serve;
@@ -127,9 +128,9 @@ try {
     splash.once("ready-to-show", () => { splash.show()
     })
     setTimeout(() => {
-        splash.destroy()
-        mainWindow.show()
-      }, 3000)
+      splash.destroy()
+      mainWindow.show()
+    }, 3000)
             
 
     mainWindow.on('closed', function() {
@@ -138,7 +139,11 @@ try {
 
     mainWindow.webContents.on('context-menu', (e, props) => {
       const InputMenu = Menu.buildFromTemplate([    
-        { label: "Cut", accelerator: "CmdOrCtrl+X", role: "cut" },
+        { label: "Cut",
+          submenu: [ {
+            label: "lol",
+            accelerator: "CmdOrCtrl+X", role: "cut" 
+          }] },
         { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
         { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
         { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload"},
@@ -156,9 +161,40 @@ try {
       ]);
       const { inputFieldType } = props;
       
-        InputMenu.popup(mainWindow, props);
+      InputMenu.popup(mainWindow, props);
       
     });
+
+    if (process.platform == 'darwin') {
+      console.log('done')
+      const mainMenuTemplate:Array<any> = [
+        {
+          submenu: [
+            {
+              label: 'About',
+              click() {
+                BrowserWindow.getFocusedWindow().webContents.send('goToAbout');
+              }
+            },
+            {
+              label: "Licenses",
+              click() {
+                BrowserWindow.getFocusedWindow().webContents.send('goToLicenses');
+                
+              }
+            },
+            { 
+              label: 'Toggle DevTools',
+              click() {
+                  mainWindow.toggleDevTools()
+              }
+            },
+          ]
+        },
+      ]
+      const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
+      Menu.setApplicationMenu(mainMenu)
+    }
 
     trayIcon.on('click', () => {
       mainWindow.isMinimized() ? mainWindow.show() : mainWindow.minimize()

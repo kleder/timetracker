@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Router, ActivatedRoute} from '@angular/router';
-import { AccountService } from '../../services/account.service';
+import { Router } from '@angular/router';
+import { DataService } from '../../services/data.service'
 
 @Component({
   selector: 'privacy-policy-trec',
@@ -12,13 +12,16 @@ export class PrivacyPolicyComponent implements OnInit {
 
   constructor(
     public http: Http,
-    public account: AccountService,
     public router: Router,
-    public activatedRoute: ActivatedRoute
+    public dataService: DataService
    ){}
    
 
   ngOnInit() {
+  }
+
+  goBack() {
+    this.router.navigate([this.dataService.routeBeforeMenu], { queryParams: { returnUrl: this.router.url } })
   }
 
 }

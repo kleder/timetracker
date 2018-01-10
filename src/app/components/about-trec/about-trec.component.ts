@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Router, ActivatedRoute} from '@angular/router';
-import { AccountService } from '../../services/account.service';
+import { Router } from '@angular/router';
 import { shell } from 'electron';
 import { versions } from '../../../environments/versions';
+import { DataService } from '../../services/data.service'
 
 @Component({
   selector: 'app-about-trec',
@@ -16,21 +16,20 @@ export class AboutTrecComponent implements OnInit {
 
   constructor(
     public http: Http,
-    public account: AccountService,
     public router: Router,
-    public activatedRoute: ActivatedRoute
+    public dataService: DataService
    ){}
 
    public async open(url : string){
     shell.openExternal(url);
-   }
-  
-   
+   } 
 
   ngOnInit() {
-    }
-  showMenu() {
-    this.router.navigate(["/header"], { queryParams: { returnUrl: this.router.url } })
-    }
+  }
+
+  goBack() {
+    this.router.navigate([this.dataService.routeBeforeMenu], { queryParams: { returnUrl: this.router.url } })
+  }
+
   }
 
