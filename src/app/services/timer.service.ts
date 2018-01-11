@@ -167,8 +167,4 @@ export class TimerService {
     }
     ipcRenderer.send('trayChange', iconPath); 
   }
-
-
-
-
 }

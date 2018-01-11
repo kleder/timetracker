@@ -1,4 +1,7 @@
 <div class="toolbar toolbar--mac" *ngIf="isMac else windows">
+    <div class="toolbar__logo">    
+        <img src="../../../assets/logo.png" class="logo" alt="logo">
+    </div>
     <div class="mac-icon mac-icon--close">
         <i class="fa fa-times" aria-hidden="true" (click)="closeApp()"></i>                
     </div>
