@@ -58,7 +58,7 @@ export class ToolbarComponent implements OnInit {
   
   showMenu() {
       const menu = new Menu()
-
+      let that = this;
       menu.append(new MenuItem({
         label: 'Accounts',
         click() {
@@ -68,19 +68,15 @@ export class ToolbarComponent implements OnInit {
       menu.append(new MenuItem({
         label: 'About',
         click() {
-          console.log("About clicked")
-          let that = this
-          this.electronService.ipcRenderer.on('goToAbout', function(e) {
-            that.dataService.routeBeforeMenu = that.router.url.split('?')[0]
-            that.router.navigate(['/about-trec'])
-          })
-            
+          that.dataService.routeBeforeMenu = that.router.url.split('?')[0]
+          that.router.navigate(['/about-trec'])
         }
       }))
       menu.append(new MenuItem({
         label: 'Licences',
         click() {
-          console.log('Licences clicked')
+          that.dataService.routeBeforeMenu = that.router.url.split('?')[0]
+          that.router.navigate(['/privacy-policy'])
         }
       }))
       menu.append(new MenuItem({
