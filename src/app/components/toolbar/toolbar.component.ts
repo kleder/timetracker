@@ -95,10 +95,10 @@ export class ToolbarComponent implements OnInit {
       
       // InputMenu.popup(mainWindow, props);
 
-      window.addEventListener('contextmenu', (e) => {
-        e.preventDefault()
-        menu.popup(remote.getCurrentWindow())
-      }, false)
+     
+      
+      menu.popup(remote.getCurrentWindow())
+      
   }
 
 
