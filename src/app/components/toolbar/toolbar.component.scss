@@ -5,18 +5,24 @@
     top: 0;
     width: 100%;
     height: 40px;
+    background-color: $menu-color;
 }
 .toolbar--mac {
+    // position: relative;
     padding: 18px 16px;
     text-align: left;
     cursor: default;
+    box-sizing: border-box;
     &:hover {
         .mac-icon i {
             visibility: visible;
         }
     }
     .toolbar__logo {
-        display: inline-block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
         .logo {
             width: 72px;
         }
