@@ -8,7 +8,6 @@
     background-color: $menu-color;
 }
 .toolbar--mac {
-    // position: relative;
     padding: 18px 16px;
     text-align: left;
     cursor: default;
@@ -29,7 +28,6 @@
     }
     .mac-icon {
         display: inline-block;
-        position: relative;
         margin-right: 4px;
         height: 12px;
         width: 12px;
@@ -100,7 +98,6 @@
         display: inline-flex;
         color: $font-grey;
         font-size: 10px;
-        text-align: center;
         float: right;
         margin-right: 15px;
         &--minimize {
