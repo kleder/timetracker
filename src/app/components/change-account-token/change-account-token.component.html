@@ -7,7 +7,10 @@
         <div class="change-account-token__title">CHANGE TOKEN</div>          
         <label>New access token</label>
         <input [(ngModel)]="newToken" name="newToken" type="text">
-        <button class="btn btn--grey" type="submit" (click)="changeToken(accountId, newToken)">SAVE NEW TOKEN</button>
+        <div class="change-account-token__buttons">
+          <button class="btn btn--transparent" type="submit" (click)="goBack()">CANCEL</button>
+          <button class="btn btn--grey" type="submit" (click)="changeToken(accountId, newToken)">SAVE NEW TOKEN</button>
+        </div>
       </div>
   </div>
 </div>

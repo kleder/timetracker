@@ -27,8 +27,7 @@
       text-align: center;
   }
   &__form {
-      padding: 20px 20px 30px 20px;
-
+    padding: 20px 20px 30px 20px;
     font-size: 20px;
     input {
       padding: 14px 17px;
@@ -52,22 +51,15 @@
         }
       }
     }
-
-    button {
-      display: block;
-      padding: 19px 0;
-      margin: 32px auto 0;
-      width: 100%;
-      border: 0px solid $white;
-      border-radius: 2px;
-      background-color:  $custom-red;
-      font-family: 'Montserrat', sans-serif;
-      color:  $white;
-      letter-spacing: 2px;
-      font-size: 14px;
-      font-weight: 400;
-      text-align: center;
-      cursor: pointer;        
+  }
+  &__buttons {
+    cursor: default;
+    .btn {
+        display: inline-block;                    
+        width: calc(50% - 4px);
+        &:nth-child(2) {
+            float: right;
+        }
     }
   }
   &__error {

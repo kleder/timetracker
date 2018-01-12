@@ -68,32 +68,15 @@
                     margin-bottom: 24px;
                 }
             }
-        }
-        .btn {
-            padding: 18px 0;
-            width: 100%;
-            border: 0;
-            border-radius: 2px;                
-            font-family: 'Montserrat', sans-serif;        
-            font-size: 14px;
-            line-height: 12px;
-            font-weight: 400;
-            text-align: center;
-            letter-spacing: 1px;
-            cursor: pointer;
-            outline: none;
-            &--grey {
-                background-color: $font-grey;
-                color: $font-btn-color;                
-            }
-            &--red {
-                background-color: $custom-red;
-                color: $white;   
-            }
-            &--transparent {
-                background-color: transparent;
-                color: $white;
-                border: 2px solid $custom-red;
+            .change-account-token__buttons {
+                cursor: default;
+                .btn {
+                    display: inline-block;                    
+                    width: calc(50% - 4px);
+                    &:nth-child(2) {
+                        float: right;
+                    }
+                }
             }
         }
     }

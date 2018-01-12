@@ -9,7 +9,10 @@
         <input [(ngModel)]="editingAccount.name" name="name" type="text">
         <label>Youtrack URL</label>
         <input [(ngModel)]="editingAccount.url" name="url" type="text">
-        <button class="btn btn--grey" type="submit" (click)="editNameOrUrl(editingAccount)">SAVE CHANGES</button>
+        <div class="edit-account__buttons">
+            <button class="btn btn--transparent" type="submit" routerLink="/switch-account">CANCEL</button>
+            <button class="btn btn--grey" type="submit" (click)="editNameOrUrl(editingAccount)">SAVE CHANGES</button>
+        </div>
       </div> 
       <div class="edit-account__change-token">
         <div class="edit-account__title">CHANGE TOKEN</div>          
@@ -23,8 +26,11 @@
           <label>{{ agile.name }}</label>
           <i class="fa fa-cog" aria-hidden="true" (click)="editBoard(agile)"></i> 
         </div>
-        <button class="btn btn--red" type=”submit” (click)="updateAgilesVisibility()">SAVE CHANGES</button>
-      </div>
+        <div class="edit-account__buttons">
+          <button class="btn btn--transparent" type="submit" routerLink="/switch-account">CANCEL</button>
+          <button class="btn btn--red" type=”submit” (click)="updateAgilesVisibility()">SAVE CHANGES</button>
+        </div>
+        </div>
       <ng-template #noBoards>
         <div class="edit-account__no-boards">This account does not have any boards</div>  
       </ng-template>    

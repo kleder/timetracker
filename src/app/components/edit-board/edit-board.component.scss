@@ -26,6 +26,11 @@
         height: calc(100% - 72px);
         background-color: $content-color;
         overflow: auto;
+        &--empty {
+            .edit-board__title {
+                margin-bottom: 32px;
+            }
+        }
         .edit-board__title {
             font-family: 'Montserrat', sans-serif;        
             color:  $font-grey;
@@ -78,36 +83,19 @@
                     outline: none;
                 }
             }
-            .btn {
-                margin-top: 18px;
+            .edit-board__buttons {
+                display: inline-block;
+                width: 100%;
+                cursor: default;
+                .btn {
+                    display: inline-block;   
+                    margin-top: 18px;                    
+                    width: calc(50% - 4px);
+                    &:nth-child(2) {
+                        float: right;
+                    }
+                }
             }
         }
-    }
-}
-.btn {
-    padding: 18px 0;
-    width: 100%;
-    border: 0;
-    border-radius: 2px;                
-    font-family: 'Montserrat', sans-serif;        
-    font-size: 14px;
-    line-height: 12px;
-    font-weight: 400;
-    text-align: center;
-    letter-spacing: 1px;
-    cursor: pointer;
-    outline: none;
-    &--grey {
-        background-color: $font-grey;
-        color: $font-btn-color;                
-    }
-    &--red {
-        background-color: $custom-red;
-        color: $white;   
-    }
-    &--transparent {
-        background-color: transparent;
-        color: $white;
-        border: 2px solid $custom-red;
     }
 }

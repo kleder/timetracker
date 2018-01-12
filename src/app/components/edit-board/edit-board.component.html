@@ -12,12 +12,16 @@
           </div>
           <input type="text" [(ngModel)]="state.hexColor">
         </div>
-        <button class="btn btn--grey" type="submit" (click)="updateStatesColors(boardStates)">SAVE CHANGES</button>        
+        <div class="edit-board__buttons">
+            <button class="btn btn--transparent" type="submit" (click)="goBack()">CANCEL</button>
+            <button class="btn btn--grey" type="submit" (click)="updateStatesColors(boardStates)">SAVE CHANGES</button>                    
+        </div>
       </div>
     </div>
     <ng-template #noStates>
       <div class="edit-board__content edit-board__content--empty">
           <div class="edit-board__title">No states</div>
+          <button class="btn btn--transparent" type="submit" (click)="goBack()">CANCEL</button>          
       </div>
     </ng-template>
 </div>

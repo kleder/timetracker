@@ -69,6 +69,16 @@
                 }
             }
         }
+        .edit-account__buttons {
+            cursor: default;
+            .btn {
+                display: inline-block;                    
+                width: calc(50% - 4px);
+                &:nth-child(2) {
+                    float: right;
+                }
+            }
+        }
         .edit-account__change-token {
             margin-bottom: 30px;
             .edit-account__title {
@@ -155,33 +165,6 @@
                     padding-right: 10px;
                     color: $custom-red;
                 }
-            }
-        }
-        .btn {
-            padding: 18px 0;
-            width: 100%;
-            border: 0;
-            border-radius: 2px;                
-            font-family: 'Montserrat', sans-serif;        
-            font-size: 14px;
-            line-height: 12px;
-            font-weight: 400;
-            text-align: center;
-            letter-spacing: 1px;
-            cursor: pointer;
-            outline: none;
-            &--grey {
-                background-color: $font-grey;
-                color: $font-btn-color;                
-            }
-            &--red {
-                background-color: $custom-red;
-                color: $white;   
-            }
-            &--transparent {
-                background-color: transparent;
-                color: $white;
-                border: 2px solid $custom-red;
             }
         }
     }
