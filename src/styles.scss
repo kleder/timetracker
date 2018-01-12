@@ -5,7 +5,8 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: $menu-color;      
+  background-color: $menu-color; 
+  overflow: hidden;
   .splash-screen {
     &__logo img, &__spinner, &__trec-logo img{
       position: absolute;

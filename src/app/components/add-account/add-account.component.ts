@@ -10,6 +10,8 @@ import { RemoteAccount } from 'app/models/RemoteAccount';
 import { ToasterService } from '../../services/toaster.service';
 import { shell } from 'electron';
 
+import { DataService } from '../../services/data.service';
+
 @Component({
   selector: 'app-add-account',
   templateUrl: './add-account.component.html',
@@ -20,6 +22,7 @@ export class AddAccountComponent implements OnInit {
   public name = ""
   public youTrackUrl = "";
   public token = "";
+  public firstAccount: boolean
 
   constructor(
     public http: Http,
@@ -27,19 +30,22 @@ export class AddAccountComponent implements OnInit {
     public router: Router, 
     public activatedRoute: ActivatedRoute,
     public apiService: ApiService,
-    public toasterService: ToasterService
+    public toasterService: ToasterService,
+    public dataService: DataService
   )
     {
     }
 
   async ngOnInit() {
-    var current = await this.account.Current();
-    if (current!= undefined){
-      this.router.navigate(['/boards'], { queryParams: {justLoggedIn: false, name: current.name, url: current.url} });
-    }
     this.activatedRoute
     .queryParams
-    .subscribe(async params => { })
+    .subscribe(async params => { 
+      this.firstAccount = params['firstAccount']
+    })
+    var current = await this.account.Current();
+    if (current != undefined && !this.firstAccount){
+      this.router.navigate(['/boards'], { queryParams: {justLoggedIn: false, name: current.name, url: current.url} });
+    }
   }
 
   public login = async () => {
@@ -77,6 +83,10 @@ export class AddAccountComponent implements OnInit {
 
   goToBoard() {
     this.router.navigate(['/boards'], { queryParams: {justLoggedIn: true, name: this.name} });
+  }
+
+  goBack() {
+    this.router.navigate([this.dataService.routeBeforeMenu], { queryParams: { returnUrl: this.router.url } })
   }
 
 }

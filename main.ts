@@ -140,10 +140,9 @@ try {
     mainWindow.webContents.on('context-menu', (e, props) => {
       const InputMenu = Menu.buildFromTemplate([    
         { label: "Cut",
-          submenu: [ {
-            label: "lol",
-            accelerator: "CmdOrCtrl+X", role: "cut" 
-          }] },
+          accelerator: "CmdOrCtrl+X", 
+          role: "cut" 
+        },
         { label: "Copy", accelerator: "CmdOrCtrl+C", role: "copy" },
         { label: "Paste", accelerator: "CmdOrCtrl+V", role: "paste" },
         { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload"},
@@ -171,6 +170,29 @@ try {
         {
           submenu: [
             {
+              label: 'Workspace',
+              click() {
+                BrowserWindow.getFocusedWindow().webContents.send('goToWorkspace');
+              }
+            },
+            {
+              label: 'Accounts',
+              submenu: [
+                {
+                  label: 'Add Account',
+                  click() {
+                    BrowserWindow.getFocusedWindow().webContents.send('goToAddAccount');
+                    
+                  }
+                },
+                { label: 'Switch Account',
+                  click() {
+                    BrowserWindow.getFocusedWindow().webContents.send('goToSwitchAccount');                    
+                  }
+                }
+              ]
+            },
+            {
               label: 'About',
               click() {
                 BrowserWindow.getFocusedWindow().webContents.send('goToAbout');
@@ -189,6 +211,13 @@ try {
                   mainWindow.toggleDevTools()
               }
             },
+            {
+              label: 'Quit',
+              accelerator: 'CmdOrCtrl+Q',
+              click() {
+                app.quit()
+              }
+            }
           ]
         },
       ]

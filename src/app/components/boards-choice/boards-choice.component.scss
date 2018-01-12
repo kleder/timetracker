@@ -1,14 +1,13 @@
 @import "../../theme/colors.scss";
 
 .board-choice {
-  padding-top: 55px;
   height: 100%;
   background-color: $menu-color;
   box-sizing: border-box;
   cursor: default;
   &__list {
-    margin-top: 49px;
-    padding: 0 15px 79px;
+    margin-top: 60px;
+    padding: 70px 15px 79px;
     .board-choice__title {
       display: block;
       padding-bottom: 22px;
@@ -122,7 +121,7 @@
     }
   }
   &__hint {
-    position: fixed;
+    position: absolute;
     left: 0;
     right: 0;
     bottom: 33px;

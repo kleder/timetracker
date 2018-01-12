@@ -3,6 +3,7 @@ import { ElectronService } from './providers/electron.service';
 import { ToasterService } from './services/toaster.service';
 import { Router } from '@angular/router';
 import { DataService } from './services/data.service'
+import { DatabaseService } from './services/database.service'
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ export class AppComponent {
     public electronService: ElectronService,
     public toasterService: ToasterService,
     public router: Router,
-    public dataService: DataService
+    public dataService: DataService,
+    public databaseService: DatabaseService
   ) {
     if (electronService.isElectron()) {
       console.log('Mode electron');
@@ -31,14 +33,21 @@ export class AppComponent {
 
   public menuFunctions() {
     let that = this
+    this.electronService.ipcRenderer.on('goToWorkspace', function(e) {
+      that.router.navigate(['/tracking'])
+    })
+    this.electronService.ipcRenderer.on('goToAddAccount', function(e) {
+      that.router.navigate(['add-account'], { queryParams: {firstAccount: false} })
+    })
+    this.electronService.ipcRenderer.on('goToSwitchAccount', function() {   
+      that.router.navigate(['/switch-account'])
+    })
     this.electronService.ipcRenderer.on('goToAbout', function(e) {
-      that.dataService.routeBeforeMenu = that.router.url.split('?')[0]
       that.router.navigate(['/about-trec'])
     })
     this.electronService.ipcRenderer.on('goToLicenses', function() {   
-      that.dataService.routeBeforeMenu = that.router.url.split('?')[0]
       that.router.navigate(['/privacy-policy'])
-    })
+    }) 
   }
 
 }

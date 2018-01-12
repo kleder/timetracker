@@ -1,8 +1,5 @@
 <div class="container">  
   <div class="edit-board__header">
-    <button class="edit-board__back" (click)="goBack()">
-      <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
-    </button>
     <div class="edit-board__title">Edit {{ boardName }}</div>
   </div>
   <div class="edit-board__content" *ngIf="boardStates?.length > 0 else noStates">

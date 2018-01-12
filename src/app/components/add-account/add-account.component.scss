@@ -3,20 +3,32 @@
 .add-account {
   height: 100%; 
   box-sizing: border-box;
-  padding: 0 15px 79px;
+  margin-top: 60px;
+  width: 100%;
+  height: 100%;
   background-color: $menu-color;   
-  cursor: default;  
-  padding-top: 97px;
+  cursor: default;
+  &__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 140px;
+    margin: 0 auto;
+    padding: 31px 0 2px;
+    background-color: $menu-color;
+  }
   &__title {
-    padding-bottom: 35px;
-    font-family: 'Montserrat', sans-serif;
-    color: $white;
-    font-size: 30px;
-    font-weight: 600;
-    text-align: center;
-    letter-spacing: 3px;
+      font-family: 'Montserrat', sans-serif;
+      color: $white;
+      font-size: 16px;
+      line-height: 16px;
+      font-weight: 400;
+      text-align: center;
   }
   &__form {
+      padding: 20px 20px 30px 20px;
+
     font-size: 20px;
     input {
       padding: 14px 17px;
@@ -67,10 +79,7 @@
     color: $custom-red;
   }
   &__hint {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 33px;
+    margin-top: 100px;
     font-family: 'Montserrat', sans-serif;    
     color: $font-grey;
     text-align: center;

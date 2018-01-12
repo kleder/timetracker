@@ -37,7 +37,8 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { ChangeAccountTokenComponent } from './components/change-account-token/change-account-token.component';
 
 import { ToasterService } from './services/toaster.service';
-import { ToolbarComponent } from './components/toolbar/toolbar.component'
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { SwitchAccountComponent } from './components/switch-account/switch-account.component'
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component'
     AboutTrecComponent,
     ChangeAccountTokenComponent,
     PrivacyPolicyComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    SwitchAccountComponent
   ],
   imports: [
     BrowserModule,

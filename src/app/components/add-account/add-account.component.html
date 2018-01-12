@@ -1,6 +1,8 @@
 <div class="add-account">
-    <form>
+    <div class="add-account__header">
         <div class="add-account__title">Add new account</div>
+    </div>
+    <form class="add-account_content">
         <div class="add-account__form">
             <input [(ngModel)]="name" name="name" placeholder="Custom name for an account" onfocus="this.placeholder=''" onblur="this.placeholder='Custom name for the account'" type="text">
             <input id="add-account__url" [(ngModel)]="youTrackUrl" name="youTrackUrl" placeholder="YouTrack home URL" onfocus="this.placeholder=''" onblur="this.placeholder='YouTrack home URL'" type="text" required>

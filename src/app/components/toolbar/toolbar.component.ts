@@ -42,6 +42,7 @@ export class ToolbarComponent implements OnInit {
     console.log(process.env)
    }
   ngOnInit() {
+    console.log('current route', this.router.url.split('?')[0])
   }
 
   // showMenu() {
@@ -60,22 +61,37 @@ export class ToolbarComponent implements OnInit {
       const menu = new Menu()
       let that = this;
       menu.append(new MenuItem({
-        label: 'Accounts',
+        label: 'Workspace',
         click() {
-          console.log('Accounts clicked')
+          that.router.navigate(['/tracking'])
         }
       }))
       menu.append(new MenuItem({
+          label: 'Accounts',
+          submenu: [
+            {
+              label: 'Add Account',
+              click() {
+                that.router.navigate(['add-account'], { queryParams: {firstAccount: false} })                
+              }
+            },
+            { 
+              label: 'Switch Account',
+              click() {
+                that.router.navigate(['/switch-account'])            
+              }
+            }
+          ]
+        }))
+      menu.append(new MenuItem({
         label: 'About',
         click() {
-          that.dataService.routeBeforeMenu = that.router.url.split('?')[0]
           that.router.navigate(['/about-trec'])
         }
       }))
       menu.append(new MenuItem({
         label: 'Licences',
         click() {
-          that.dataService.routeBeforeMenu = that.router.url.split('?')[0]
           that.router.navigate(['/privacy-policy'])
         }
       }))

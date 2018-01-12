@@ -3,6 +3,7 @@ import { TrackingComponent } from './components/tracking/tracking.component';
 import { DashboardComponent } from './components/tracking/dashboard/dashboard.component';
 import { ActivityComponent } from './components/tracking/activity/activity.component';
 import { AddAccountComponent } from './components/add-account/add-account.component';
+import { SwitchAccountComponent } from './components/switch-account/switch-account.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { EditAccountComponent } from './components/edit-account/edit-account.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
@@ -24,6 +25,10 @@ const routes: Routes = [
     {
         path: 'add-account',
         component: AddAccountComponent,
+    },
+    {
+        path: 'switch-account',
+        component: SwitchAccountComponent,
     },
     {
         path: 'menu',
