@@ -63,6 +63,16 @@ export class ToolbarComponent implements OnInit {
         label: 'Accounts',
         click() {
           console.log('Accounts clicked')
+          that.dataService.routeBeforeMenu = that.router.url.split('?')[0]
+          that.router.navigate(['/add-account'])
+        }
+      }))
+      menu.append(new MenuItem({
+        label: 'Boards',
+        click() {
+          console.log("boards clicked")
+          
+          //that.router.navigate(['/boards-choice'])
         }
       }))
       menu.append(new MenuItem({
