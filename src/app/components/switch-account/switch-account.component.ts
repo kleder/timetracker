@@ -48,6 +48,15 @@ export class SwitchAccountComponent implements OnInit {
     })
     this.databaseService.destroyCurrentAccount()
     this.databaseService.setCurrentAccount(clickedAccount.id)
+    this.goBack()
+  }
+
+  goToAddAccount() {
+    this.router.navigate(['add-account'], { queryParams: {firstAccount: false} })    
+  }
+
+  goBack() {
+    this.router.navigate(['/'])
   }
 
 }

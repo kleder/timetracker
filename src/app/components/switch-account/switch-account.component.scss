@@ -1,5 +1,5 @@
 @import "../../theme/colors.scss";
-.switch-accounts {
+.accounts {
     margin-top: 60px;
     padding: 28px 16px;
     &__header {
@@ -20,71 +20,67 @@
         font-weight: 400;
         text-align: center;
     }
-    ul {
-        margin-top: 4px;
-        padding: 0;
-        list-style: none;
-        li {
-            position: relative;
-            padding: 15px 0 15px;
-            border-bottom: 1px solid $border-color;                                    
-            input {
-                -webkit-appearance: none;
-                margin-top: -15px !important;
-                position: absolute;
-                width: 80%;
-                height: 50px;
-                margin: 0;
-                z-index: 1000;
-                border-radius: 2px;
-                vertical-align: middle;
-                outline: none;
-            }
-            &.active {
-                .menu__name {
-                    color: $custom-red;
+    &__content {
+        .accounts__title {
+            font-family: 'Montserrat', sans-serif;        
+            color:  $font-grey;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            cursor: default;            
+        }
+        ul {
+            margin-top: 4px;
+            padding: 0;
+            list-style: none;
+            li {
+                position: relative;
+                padding: 15px 0 15px;
+                border-bottom: 1px solid $border-color;                                    
+                input {
+                    -webkit-appearance: none;
+                    margin-top: -15px !important;
+                    position: absolute;
+                    width: 80%;
+                    height: 50px;
+                    margin: 0;
+                    z-index: 1000;
+                    border-radius: 2px;
+                    vertical-align: middle;
+                    outline: none;
                 }
-            }
-            .menu__edit-account {
-                visibility: hidden;
-                float: right;
-                font-family: 'Montserrat', sans-serif;        
-                color:  $font-grey;
-                font-size: 12px;
-                font-weight: 400;
-                background-color: transparent;
-                border: 0;
-                outline: none;
-                cursor: pointer;
-            }
-            .menu__name {
-                font-family: 'Montserrat', sans-serif;        
-                color:  $white;
-                font-size: 16px;
-                font-weight: 400;
-                line-height: 20px;
-                background: transparent;
-                border: 0;
-                cursor: pointer;
-            }
-            i {
-                padding-right: 16px;
-                color: $custom-red;
-            }
-            &:hover {
-                .menu__edit-account {
-                    visibility: visible;
-                    &:hover {
+                &.active {
+                    .accounts__name {
                         color: $custom-red;
                     }
                 }
-            }
-        }        
+                .accounts__name {
+                    font-family: 'Montserrat', sans-serif;        
+                    color:  $white;
+                    font-size: 16px;
+                    font-weight: 400;
+                    line-height: 20px;
+                    background: transparent;
+                    border: 0;
+                    cursor: pointer;
+                }
+                i {
+                    padding-right: 16px;
+                    color: $custom-red;
+                }
+            }        
+        }
     }
-    .menu__no-accounts {
+    .accounts__no-accounts {
         margin-top: 16px;
         font-family: 'Montserrat', sans-serif;
         font-size: 12px;     
         color: $white;            
+    }
+    .btn {
+        &:first-of-type {
+            margin-bottom: 8px;
+        }
     }
 }

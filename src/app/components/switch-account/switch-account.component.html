@@ -1,15 +1,19 @@
-<div class="switch-accounts">
-    <div class="switch-accounts__header">
-        <div class="switch-accounts__title">Switch Account</div>
+<div class="accounts">
+    <div class="accounts__header">
+        <div class="accounts__title">Accounts</div>
     </div>
-    <ul *ngIf="accounts?.length > 0 else noAccounts">
-        <li *ngFor="let account of accounts" [ngClass]="account.current? 'active' : ''">
-            <button class="menu__name" (click)="setAsCurrent(account)">{{ account.name || 'unnamed account' }} </button>
-            <button class="menu__edit-account" (click)="editAccount(account)">edit</button>
-        </li>
-    </ul>
-    <ng-template #noAccounts>
-        <div class="switch-accounts__no-accounts">No accounts added</div>
-    </ng-template>
-    <button class="btn btn--transparent" type="submit" routerLink="/">CANCEL</button>    
+    <div class="accounts__content">
+        <ul *ngIf="accounts?.length > 0 else noAccounts">
+            <div class="accounts__title">SET ACTIVE ACCOUNT</div>         
+            <li *ngFor="let account of accounts" [ngClass]="account.current? 'active' : ''">
+                <button class="accounts__name" (click)="setAsCurrent(account)">{{ account.name || 'unnamed account' }} </button>
+                <!-- <button class="menu__edit-account" (click)="editAccount(account)">edit</button> -->
+            </li>
+        </ul>
+        <ng-template #noAccounts>
+            <div class="accounts__no-account">No accounts added</div>
+        </ng-template>
+        <button class="btn btn--red" type="submit" (click)="goToAddAccount()">ADD ACCOUNT</button>    
+        <button class="btn btn--transparent" type="submit" (click)="goBack()">CANCEL</button>
+    </div> 
   </div>
