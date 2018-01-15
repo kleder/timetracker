@@ -17,7 +17,8 @@ export class BoardsChoiceComponent implements OnInit {
   public agiles: any
   private justLoggedIn: boolean
   private remoteAccount: RemoteAccount
-  public accountName: string  
+  public accountName: string
+  public wereAgilesChosen: boolean
   constructor(
     public router: Router,
     private dataService: DataService,
@@ -36,7 +37,7 @@ export class BoardsChoiceComponent implements OnInit {
     .subscribe(async params => {
       this.justLoggedIn = (params['justLoggedIn']) === "true" ? true : false  
       this.accountName = (params['name'])
-      this.getAllAgiles()
+      this.checkAgilesChosen()        
     });
   }
 
@@ -65,6 +66,11 @@ export class BoardsChoiceComponent implements OnInit {
       }
     })
     this.dataService.sentChosenAgiles(this.agiles)
+    this.setAgilesChosen()
+    this.goToWorkspace()
+  }
+
+  public goToWorkspace() {
     this.router.navigateByUrl('/tracking');
   }
 
@@ -90,6 +96,28 @@ export class BoardsChoiceComponent implements OnInit {
     let account = await this.account.Current()
     agile.checked == true? agile.checked = 1 : agile.checked = 0
     this.databaseService.updateBoardVisibility(account["id"], agile.name, agile.checked)
+  }
+
+  async initAgilesChosen() {
+    let account = await this.account.Current()
+    this.databaseService.initAgilesChosen(account["id"])
+  }
+
+  async setAgilesChosen() {
+    let account = await this.account.Current()
+    this.databaseService.setAgilesChosen(account["id"])
+  }
+
+  async checkAgilesChosen() {
+    let account = await this.account.Current()
+    this.databaseService.checkAgilesChosen(account["id"]).then(data => {
+      if (data.length) {
+        data["0"]["afterChoose"]? this.goToWorkspace() : this.getAllAgiles()        
+      } else {
+        this.initAgilesChosen()
+        this.getAllAgiles()   
+      }
+    })
   }
   
 }

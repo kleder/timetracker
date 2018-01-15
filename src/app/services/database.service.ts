@@ -32,6 +32,8 @@ export class DatabaseService {
         this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
         this.db.run("CREATE TABLE IF NOT EXISTS `boards_visibility` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `visible` INTEGER)");        
         this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");        
+        this.db.run("CREATE TABLE IF NOT EXISTS `boards_after_choose` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `afterChoose` INTEGER)");        
+        this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId)");        
         this.variablesInit()
       } 
       this.db.run("ALTER TABLE `tasks` ADD COLUMN Summary TEXT;");  
@@ -377,20 +379,6 @@ export class DatabaseService {
     })
   }
 
-  public getAllBoardsVisibilities(accountId) {
-    return new Promise<any[]>((resolve, reject) => {
-      this.db.serialize(() => {
-        this.db.all("SELECT * FROM `boards_visibility` WHERE `accountId` = '" + accountId + "'", function(err, row) {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(row)
-          }
-        })
-      })
-    })
-  }
-
   public updateBoardVisibility(accountId, boardName, visibility) {
     return new Promise<any>((resolve, reject) => {      
       let that = this
@@ -405,6 +393,38 @@ export class DatabaseService {
         })
         stmt.finalize()
       });
+    })
+  }
+
+  public initAgilesChosen(accountId) {
+    let that = this
+    this.db.serialize(() => {
+      let stmt = that.db.prepare("INSERT OR IGNORE INTO `boards_after_choose` (`accountId`, `afterChoose`) VALUES ( '" + accountId + "', '" + 0 + "')");
+      stmt.run()
+      stmt.finalize()
+    });
+  }
+
+  public setAgilesChosen(accountId) {
+    let that = this
+    this.db.serialize(() => {
+      let stmt = that.db.prepare("UPDATE `boards_after_choose` SET `afterChoose` = '" + 1 + "' WHERE `accountId` = '" + accountId + "'");
+      stmt.run()
+      stmt.finalize()
+    });
+  }
+
+  public checkAgilesChosen(accountId) {
+    return new Promise<any[]>((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.all("SELECT * FROM `boards_after_choose` WHERE `accountId` = '" + accountId + "'", function(err, row) {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(row)
+          }
+        })
+      })
     })
   }
 

@@ -69,11 +69,13 @@ export class DashboardComponent implements OnInit {
   }
 
   public init() {
-    this.dataService.choosenAgiles.subscribe(data => {
-      this.agiles = data
-      this.agiles.forEach(agile => {
-        this.getAgileVisibility(agile.name)
-      })
+    this.api.getAllAgiles().then(
+      data => {
+        this.httpService.loader = false
+        this.agiles = data
+        this.agiles.forEach(agile => {
+          this.getAgileVisibility(agile.name)
+        })
       this.getItemsFromDb()
     })
     this.getAllBoardStates()
