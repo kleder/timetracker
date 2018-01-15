@@ -46,7 +46,7 @@ export class AppComponent {
       that.router.navigate(['/about-trec'])
     })
     this.electronService.ipcRenderer.on('goToLicenses', function() {   
-      that.router.navigate(['/privacy-policy'])
+      that.router.navigate(['/licenses'])
     }) 
   }
 

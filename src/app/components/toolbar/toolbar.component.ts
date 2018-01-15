@@ -92,7 +92,7 @@ export class ToolbarComponent implements OnInit {
       menu.append(new MenuItem({
         label: 'Licences',
         click() {
-          that.router.navigate(['/privacy-policy'])
+          that.router.navigate(['/licenses'])
         }
       }))
       menu.append(new MenuItem({

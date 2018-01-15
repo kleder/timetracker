@@ -4,12 +4,11 @@ import { DashboardComponent } from './components/tracking/dashboard/dashboard.co
 import { ActivityComponent } from './components/tracking/activity/activity.component';
 import { AddAccountComponent } from './components/add-account/add-account.component';
 import { SwitchAccountComponent } from './components/switch-account/switch-account.component';
-import { MenuComponent } from './components/menu/menu.component';
 import { EditAccountComponent } from './components/edit-account/edit-account.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
 import { ChangeAccountTokenComponent } from './components/change-account-token/change-account-token.component';
 import { AboutTrecComponent } from './components/about-trec/about-trec.component';
-import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { LicensesComponent } from './components/licenses/licenses.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -29,10 +28,6 @@ const routes: Routes = [
     {
         path: 'switch-account',
         component: SwitchAccountComponent,
-    },
-    {
-        path: 'menu',
-        component: MenuComponent,
     },
     {
         path: 'edit-account',
@@ -55,8 +50,8 @@ const routes: Routes = [
         component: AboutTrecComponent
     },
     {
-        path: 'privacy-policy',
-        component: PrivacyPolicyComponent
+        path: 'licenses',
+        component: LicensesComponent
     },
     {
         path: 'tracking',

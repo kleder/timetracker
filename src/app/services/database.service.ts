@@ -377,6 +377,20 @@ export class DatabaseService {
     })
   }
 
+  public getAllBoardsVisibilities(accountId) {
+    return new Promise<any[]>((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.all("SELECT * FROM `boards_visibility` WHERE `accountId` = '" + accountId + "'", function(err, row) {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(row)
+          }
+        })
+      })
+    })
+  }
+
   public updateBoardVisibility(accountId, boardName, visibility) {
     return new Promise<any>((resolve, reject) => {      
       let that = this

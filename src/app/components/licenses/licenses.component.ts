@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service'
 
 @Component({
-  selector: 'privacy-policy-trec',
-  templateUrl: './privacy-policy.component.html',
-  styleUrls: ['./privacy-policy.component.scss']
+  selector: 'licenses-trec',
+  templateUrl: './licenses.component.html',
+  styleUrls: ['./licenses.component.scss']
 })
-export class PrivacyPolicyComponent implements OnInit {
+export class LicensesComponent implements OnInit {
 
   constructor(
     public http: Http,
