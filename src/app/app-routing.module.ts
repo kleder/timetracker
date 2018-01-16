@@ -26,7 +26,7 @@ const routes: Routes = [
         component: AddAccountComponent,
     },
     {
-        path: 'switch-account',
+        path: 'accounts',
         component: SwitchAccountComponent,
     },
     {

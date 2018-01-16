@@ -10,7 +10,6 @@ import { webContents } from 'electron';
 import { ElectronService } from 'app/providers/electron.service';
 import { ToasterService } from 'app/services/toaster.service';
 import { DataService } from 'app/services/data.service';
-
 const electron = require("electron")
 const { BrowserWindow } = require("electron")
 const app = electron.remote.app
@@ -19,6 +18,9 @@ const {remote} = require('electron')
 const {Menu, MenuItem} = remote
 
 let mainWindow
+
+import { CustomMenu } from '../../../../src/Menu'
+const newMenu = new CustomMenu();
 
 @Component({
   selector: 'app-toolbar',
@@ -45,73 +47,18 @@ export class ToolbarComponent implements OnInit {
     console.log('current route', this.router.url.split('?')[0])
   }
 
-  // showMenu() {
-  //   this.router.navigate(["/menu"], { queryParams: { returnUrl: this.router.url } })
-  // }
-
   closeApp() {
     app.quit()
   }
 
   minimizeApp() {
-    win.minimize()
+    this.win.minimize()
   }
   
   showMenu() {
-      const menu = new Menu()
-      let that = this;
-      menu.append(new MenuItem({
-        label: 'Workspace',
-        click() {
-          that.router.navigate(['/tracking'])
-        }
-      }))
-      menu.append(new MenuItem({
-          label: 'Accounts',
-          submenu: [
-            {
-              label: 'Add Account',
-              click() {
-                that.router.navigate(['add-account'], { queryParams: {firstAccount: false} })                
-              }
-            },
-            { 
-              label: 'Switch Account',
-              click() {
-                that.router.navigate(['/switch-account'])            
-              }
-            }
-          ]
-        }))
-      menu.append(new MenuItem({
-        label: 'About',
-        click() {
-          that.router.navigate(['/about-trec'])
-        }
-      }))
-      menu.append(new MenuItem({
-        label: 'Licences',
-        click() {
-          that.router.navigate(['/licenses'])
-        }
-      }))
-      menu.append(new MenuItem({
-        label: 'Quit',
-        click() {
-          app.quit()
-        }
-     
-      }))
-
-      // const { inputFieldType } = props;
-      
-      // InputMenu.popup(mainWindow, props);
-
-     
-      
+      const template = newMenu.initMenu(app, remote.getCurrentWindow())
+      const menu = Menu.buildFromTemplate(template)
       menu.popup(remote.getCurrentWindow())
-      
   }
-
 
 }

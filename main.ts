@@ -5,6 +5,9 @@ import {SquirrelEvent} from './src/SquirrelEvent';
 import { dirname } from 'path';
 import { last } from '@angular/router/src/utils/collection';
 
+import { CustomMenu } from './src/Menu'
+const newMenu = new CustomMenu();
+
 const events = new SquirrelEvent();
 if (events.handleSquirrelEvent(electron.app)) {
   // squirrel event handled and app will exit in 1000ms, so don't do anything else
@@ -20,7 +23,6 @@ const url = require('url')
 const path = require('path')
 const ipcMain = electron.ipcMain
 const ipcRenderer = require('electron').ipcRenderer;
-// const sqlite3 = require('sqlite3').verbose()
 
 let mainWindow, serve;
 let splash
@@ -165,64 +167,12 @@ try {
     });
 
     if (process.platform == 'darwin') {
-      console.log('done')
-      const mainMenuTemplate:Array<any> = [
-        {
-          submenu: [
-            {
-              label: 'Workspace',
-              click() {
-                BrowserWindow.getFocusedWindow().webContents.send('goToWorkspace');
-              }
-            },
-            {
-              label: 'Accounts',
-              submenu: [
-                {
-                  label: 'Add Account',
-                  click() {
-                    BrowserWindow.getFocusedWindow().webContents.send('goToAddAccount');
-                    
-                  }
-                },
-                { label: 'Switch Account',
-                  click() {
-                    BrowserWindow.getFocusedWindow().webContents.send('goToSwitchAccount');                    
-                  }
-                }
-              ]
-            },
-            {
-              label: 'About',
-              click() {
-                BrowserWindow.getFocusedWindow().webContents.send('goToAbout');
-              }
-            },
-            {
-              label: "Licenses",
-              click() {
-                BrowserWindow.getFocusedWindow().webContents.send('goToLicenses');
-                
-              }
-            },
-            { 
-              label: 'Toggle DevTools',
-              click() {
-                  mainWindow.toggleDevTools()
-              }
-            },
-            {
-              label: 'Quit',
-              accelerator: 'CmdOrCtrl+Q',
-              click() {
-                app.quit()
-              }
-            }
-          ]
-        },
-      ]
-      const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
-      Menu.setApplicationMenu(mainMenu)
+        var mainMenuTemplate:Array<any> = [ 
+          {
+            submenu: newMenu.initMenu(app, mainWindow)
+          }
+        ]
+        Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate))
     }
 
     trayIcon.on('click', () => {

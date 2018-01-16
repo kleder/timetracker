@@ -24,30 +24,10 @@ export class AppComponent {
       console.log('c', electronService.ipcRenderer);
       // Check if nodeJs childProcess is correctly injected (see externals in webpack.config.js)
       console.log('c', electronService.childProcess);
-
-      this.menuFunctions()
     } else {
       console.log('Mode web');
     }
   }
 
-  public menuFunctions() {
-    let that = this
-    this.electronService.ipcRenderer.on('goToWorkspace', function(e) {
-      that.router.navigate(['/tracking'])
-    })
-    this.electronService.ipcRenderer.on('goToAddAccount', function(e) {
-      that.router.navigate(['add-account'], { queryParams: {firstAccount: false} })
-    })
-    this.electronService.ipcRenderer.on('goToSwitchAccount', function() {   
-      that.router.navigate(['/switch-account'])
-    })
-    this.electronService.ipcRenderer.on('goToAbout', function(e) {
-      that.router.navigate(['/about-trec'])
-    })
-    this.electronService.ipcRenderer.on('goToLicenses', function() {   
-      that.router.navigate(['/licenses'])
-    }) 
-  }
 
 }
