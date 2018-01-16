@@ -1,10 +1,10 @@
-const electron = require("electron")
-const shell = electron.shell
+import { MenuItemConstructorOptions, app, shell } from "electron";
+
 
 export class CustomMenu {
 
   initMenu(app, mainWindow) {
-    let template = [
+    let template : MenuItemConstructorOptions[] = [
       {
         label: 'Workspace',
         click() {
@@ -46,11 +46,11 @@ export class CustomMenu {
           shell.openExternal('https://github.com/kleder/timetracker/issues/new');          
         }
       },
-      {type: 'separator'},
+      { type:'separator' },
       {
         label: 'Quit',
         click() {
-          electron.app.quit()
+          app.quit()
         }
       }
     ]
