@@ -29,7 +29,6 @@ const newMenu = new CustomMenu();
 })
 export class ToolbarComponent implements OnInit {
   public isMac: boolean = (process.platform == 'darwin') ? true : false    
-  private win;
 
   constructor(
     public http: Http,
@@ -52,7 +51,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   minimizeApp() {
-    this.win.minimize()
+    win.minimize()
   }
   
   showMenu() {

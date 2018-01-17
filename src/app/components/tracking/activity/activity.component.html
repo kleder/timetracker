@@ -6,9 +6,9 @@
     </div>
     <div class="record-list__content">
       <span class="record-list__agile">{{ record.agile }}</span>
-      <button class="record-list__record" [ngClass]="record.id == timerService.currentIssueId? 'recording' : ''" (click)="getIssueAndStart(record.id)">
-        <span *ngIf="record.id == timerService.currentIssueId; else timerOff"><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
-        <ng-template #timerOff><i class="fa fa-circle" aria-hidden="true"></i>REC</ng-template>
+      <button class="record-list__record" [ngClass]="record.id == timerService.currentIssue?.issueId ? 'recording' : ''" (click)="getIssueAndStart(record.id)">
+        <span *ngIf="record.id == timerService.currentIssue?.issueId; else timerOff"><span class="trec-icon-stop"></span>STOP</span>
+        <ng-template #timerOff><span class="trec-icon-record"></span>REC</ng-template>
       </button>    
     </div>            
   </div>

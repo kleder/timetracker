@@ -61,6 +61,7 @@
                     font-weight: 400;
                     letter-spacing: 1px;
                     cursor: pointer;
+                    outline: none;
                 }
             }
             .project-list__item {
@@ -117,47 +118,51 @@
                         padding-right: 15px;
                     }
                     .project-list__description {
-                        font-size: 12px;
                         padding-right: 15px;
+                        vertical-align: bottom;
+                        font-size: 12px;
                     }
                     .project-list__comments {
                         font-size: 12px;
-                        i {
-                            padding-right: 4px;
+                        &:before {
+                            vertical-align: middle;
                         }
                     }
                     .project-list__record {
+                        position: relative;
+                        padding: 2px 6px 3px 14px;
                         margin-top: -2px;
-                        // padding: 0 3px 0 0;
                         display: none;
                         float: right;
                         background: none;
                         border: none;
                         color: $custom-red;
-                        cursor: pointer;                                        
+                        cursor: pointer;    
+                        .trec-icon-record {
+                            position: absolute;
+                            top: -5px;
+                            left: -7px;
+                            font-size: 29px;
+                        }                                    
                         &:hover {
-                            padding: 2px 6px 3px;                            
+                            position: relative;
                             background-color: $custom-red;
                             color: $white;
                             border: 0px solid $custom-red;
                             border-radius: 2px;
-                        }
-                        .fa-circle {
-                            font-size: 6px;
-                            padding-right: 4px;
-                            vertical-align: middle;
                         }
                         &.recording {
-                            padding: 2px 6px 3px;
+                            display: unset !important;
                             background-color: $custom-red;
                             color: $white;
                             border: 0px solid $custom-red;
                             border-radius: 2px;
-                            .fa-square {
-                                padding-right: 4px;
-                                font-size: 6px;
-                                vertical-align: middle;
-                            }
+                            .trec-icon-stop {
+                                position: absolute;
+                                top: 3px;
+                                left: 1px;
+                                font-size: 13px;
+                            }       
                         }
                         &:focus {
                             outline: none;

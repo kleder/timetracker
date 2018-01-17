@@ -17,7 +17,7 @@
             </div>
             <div class="current-item__record">
                 <button (click)="stopTracking()">
-                    <span><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
+                    <span class="trec-icon-stop"></span>STOP
                 </button>
             </div>
         </div>
@@ -29,7 +29,7 @@
         </ng-template>
         <div class="modal__content">
             <div class="record-too-short" *ngIf="timerService.currentIssue?.duration < 60">
-                <i class="fa fa-times" aria-hidden="true" (click)="hideModal()"></i>
+                <span class="trec-icon-close" (click)="hideModal()"></span>
                 <div class="modal__text">It looked like a simple missclick. Records shorter than 1 minute will not be reported.</div>
                 <div class="modal__interaction">
                     <input type="checkbox" [(ngModel)]="hintsCheckbox" (ngModelChange)="changeHintVisibility($event)" name="hintsCheckbox">

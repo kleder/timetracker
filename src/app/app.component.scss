@@ -33,7 +33,6 @@ body {
       animation: fadein 0.5s, fadeout 0.5s 2.2s;
   }
   span {
-      // float: left;
       color: $white;
       font-family: 'Montserrat', sans-serif;
       font-size: 12px;
@@ -42,17 +41,18 @@ body {
   }
   .close {
     position: absolute;
-    top: 18px;
-    right: 19px;    
+    top: 16px;
+    right: 13px;    
     button {
-      background: transparent;
-      color: $white;      
-      border: 0;
-      outline: none;
-      cursor: pointer;
-      i {
-        font-size: 12px;
-      }
+        padding: 0;
+        background: transparent;
+        color: $white;      
+        border: 0;
+        outline: none;
+        cursor: pointer;
+        span {
+            font-size: 22px;
+        }
     }
   }
   @-webkit-keyframes fadein {

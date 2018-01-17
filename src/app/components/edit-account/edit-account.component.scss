@@ -137,12 +137,12 @@
                     font-weight: 400;
                     letter-spacing: 2px;
                 }
-                i {
+                .trec-icon-settings {
                     position: absolute;
-                    top: 15px;
+                    top: 13px;
                     right: 13px;
                     color: $font-grey;
-                    font-size: 19px;
+                    font-size: 22px;
                     z-index: 1000;
                     cursor: pointer;
                 }
@@ -160,10 +160,9 @@
         .edit-account__remove-account {
             margin-bottom: 144px;
             .btn {
-                i {
-                    font-size: 18px;
-                    padding-right: 10px;
-                    color: $custom-red;
+                .trec-icon-remove {
+                    font-size: 20px;
+                    vertical-align: sub;
                 }
             }
         }

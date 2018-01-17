@@ -174,7 +174,7 @@
         .current-item__record {
             margin-top: 4px;
             button {
-                padding: 7px 13px;
+                padding: 7px 13px;            
                 font-size: 12px;
                 float: right;
                 background: none;
@@ -186,11 +186,13 @@
                 border-radius: 2px;
                 cursor: pointer;
                 span {
-                    padding-left: 2px;
-                    .fa-square {
-                        padding: 0 6px 1px 0;
-                        font-size: 7px;
-                        vertical-align: middle;
+                    position: relative;
+                    padding-left: 10px;
+                    &:before {
+                        position: absolute;
+                        top: -14px;
+                        left: -9px;
+                        font-size: 19px;
                     }
                     &:focus {
                         outline: none;

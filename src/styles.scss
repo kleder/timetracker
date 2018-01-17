@@ -22,17 +22,28 @@ html, body {
     outline: none;
     &--grey {
         background-color: $font-grey;
-        color: $font-btn-color;                
+        color: $font-btn-color;   
+        &:hover {
+          background-color: $font-btn-color;
+          color: $font-grey;
+        }             
     }
     &--red {
         background-color: $custom-red;
         color: $white;   
+        &:hover {
+          background-color: $white; 
+          color: $custom-red;
+        }       
     }
     &--transparent {
       padding: 16px 0;
       background-color: transparent;
       color: $white;
       border: 2px solid $custom-red;
+      &:hover {
+        border: 2px solid $white;
+      }       
     }
   }
   .splash-screen {
@@ -85,4 +96,97 @@ html, body {
       }
     } 
   }
+}
+@font-face {
+	font-family: 'trec-icons';
+	src: url('assets/icons/trec-icons.eot');
+	src: url('assets/icons/trec-icons.eot') format('embedded-opentype'),
+    	 url('assets/icons/trec-icons.ttf') format('truetype'),
+    	 url('assets/icons/trec-icons.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="trec-icon-"], [class*=" trec-icon-"] {
+	font-family: 'trec-icons' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	display: inline-block;
+ 	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.trec-icon-caret-down:before {
+  content: '\e900';
+}
+
+.trec-icon-caret-up {
+  transform: rotate(180deg);
+  &:before {
+    content: '\e900';
+  }
+}
+
+.trec-icon-check:before {
+  content: '\e901';
+}
+
+.trec-icon-comments:before {
+  content: '\e902';
+}
+
+.trec-icon-description:before {
+  content: '\e903';
+}
+
+.trec-icon-mac-close:before {
+  content: '\e904';
+}
+
+.trec-icon-mac-maximize:before {
+  content: '\e905';
+}
+
+.trec-icon-mac-minimize:before {
+  content: '\e906';
+}
+
+.trec-icon-menu:before {
+  content: '\e907';
+}
+
+.trec-icon-record:before {
+  content: '\e908';
+}
+
+.trec-icon-stop:before {
+  content: '\e909';
+}
+
+.trec-icon-win-close:before {
+  content: '\e90a';
+}
+
+.trec-icon-win-maximize:before {
+  content: '\e90b';
+}
+
+.trec-icon-win-minimize:before {
+  content: '\e90c';
+}
+
+.trec-icon-close:before {
+  content: '\e90a';
+}
+
+.trec-icon-remove:before {
+  content: '\e90d';
+}
+
+.trec-icon-settings:before {
+  content: '\e90e';
 }

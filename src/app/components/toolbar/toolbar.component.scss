@@ -12,11 +12,6 @@
     text-align: left;
     cursor: default;
     box-sizing: border-box;
-    &:hover {
-        .mac-icon i {
-            visibility: visible;
-        }
-    }
     .toolbar__logo {
         position: absolute;
         left: 0;
@@ -26,72 +21,64 @@
             width: 72px;
         }
     }
-    .mac-icon {
-        display: inline-block;
-        margin-right: 4px;
-        height: 12px;
-        width: 12px;
-        border-radius: 50%;
-        font-size: 10px;
-        text-align: center;
-        i {
-            visibility: hidden;
-        }
-        &--close {
-            background-color: #fc615d;
-            cursor: default;            
-        }
-        &--minimize {
-            background-color: #fec141; 
-            cursor: default;            
-            i {
-                position: relative;
-                font-size: 8px;
-                &:before {
-                    position: absolute;
-                    left: -4px;
-                    top: -10px;
-                }
+    .toolbar__icon {
+        position: absolute;
+        &:hover {
+            .mac-icon:before{
+                visibility: visible;
             }
         }
-        &--fullscreen {
-            background-color: #35cb4b;
-            cursor: not-allowed;
-            i {
-                position: relative;
-                font-size: 9px;
-                &:before {
-                    position: absolute;
-                    top: -8px;
-                    left: -4px;
-
-                }
+        .mac-icon {
+            display: inline-block;
+            margin-right: 4px;
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            font-size: 10px;
+            text-align: center;
+            &:before {
+                visibility: hidden;
+            }
+            &--close {
+                background-color: #fc615d;
+                cursor: default;
+                font-size: 12px;
+            }
+            &--minimize {
+                background-color: #fec141; 
+                cursor: default;   
+                font-size: 12px;
+            }
+            &--maximize {
+                background-color: #35cb4b;
+                cursor: not-allowed;
+                font-size: 12px;
             }
         }
     }
 }
 .toolbar--win {
-    padding-top: 30px;
+    padding-top: 15px;
     cursor: default;
     position: fixed;
     display: inline-block;  
     box-sizing: border-box;  
     text-align: center;
-
     .toolbar__logo {
         display: inline-block;
+        margin-top: 17px;
         .logo {
             width: 72px;
         }
     }
-    .toolbar__hamburger {
+    .toolbar__menu {
         display: inline-block;
         color: $white;
         cursor: pointer;
         -webkit-app-region: no-drag; 
         float: left; 
-        margin-left: 15px;
-     
+        margin: 10px 0 0 15px;
+        font-size: 22px;
     }
     .toolbar__icon {
         -webkit-app-region: no-drag;
@@ -101,19 +88,12 @@
         float: right;
         margin-right: 15px;
         &--minimize {
-
-            margin-right: 17px;
-            i {
-                font-size: 12px;
-                cursor: pointer;
-            }
+            margin: 5px 17px 0 0;
+            font-size: 22px;
         }
         &--close { 
-            position: relative;        
-            i {
-                font-size: 14px;
-                cursor: pointer;
-            }
+            position: relative;   
+            font-size: 22px;     
         }
     }
 }

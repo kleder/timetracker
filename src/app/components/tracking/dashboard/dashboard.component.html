@@ -4,7 +4,7 @@
       <div class="project-list__agile" (click)="toggle(i)">
         <h2 class="project-list__title">{{ agile.name }}</h2>
         <div class="project-list__toggle" *ngIf="agile?.issues != 0">
-            <i [ngClass]="agile.visiblityState=='shown'? 'fa fa-angle-down' : 'fa fa-angle-up'" aria-hidden="true"></i>              
+            <i [ngClass]="agile.visiblityState=='shown'? 'fa trec-icon-caret-down' : 'trec-icon-caret-up'" aria-hidden="true"></i>              
         </div>
       </div>
       <div class="project-list__issues" [@visibilityChanged]="agile.visiblityState">
@@ -15,15 +15,14 @@
             <span class="project-list__state" *ngIf="issue.field.State">{{ issue.field.State[0] }}</span>
             <span class="project-list__state" *ngIf="issue.field.Stage">{{ issue.field.Stage[0] }}</span>
             <span class="project-list__type">{{ issue.field.Type[0] }}</span>
-            <span class="project-list__description" *ngIf="issue.hasDescription">
-              <i class="fa fa-align-left" aria-hidden="true" title="{{ issue.field.description }}"></i>
+            <span class="project-list__description trec-icon-description" *ngIf="issue.hasDescription" title="{{ issue.field.description }}">
             </span>
-            <span class="project-list__comments" *ngIf="issue.hasComment" title="Issue has {{ issue.hasComment }} comment(s)">
-              <i class="fa fa-comment-o" aria-hidden="true"></i>{{ issue.hasComment }}
+            <span class="project-list__comments trec-icon-comments" *ngIf="issue.hasComment" title="Issue has {{ issue.hasComment }} comment(s)">
+              {{ issue.hasComment }}
             </span>
             <button class="project-list__record" [ngClass]="issue.id == timerService.currentIssue?.issueId ? 'recording' : ''" (click)="startTracking(issue)">
-              <span *ngIf="issue.id == timerService.currentIssue?.issueId; else timerOff"><i class="fa fa-square" aria-hidden="true"></i>STOP</span>
-              <ng-template #timerOff><i class="fa fa-circle" aria-hidden="true"></i>REC</ng-template> 
+              <span *ngIf="issue.id == timerService.currentIssue?.issueId; else timerOff"><span class="trec-icon-stop"></span>STOP</span>
+              <ng-template #timerOff><span class="trec-icon-record"></span>REC</ng-template> 
             </button>
           </div>
           <div class="project-list__content">
