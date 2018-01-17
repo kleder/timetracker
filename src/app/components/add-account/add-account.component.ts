@@ -55,22 +55,43 @@ export class AddAccountComponent implements OnInit {
     rAccount.token = this.token;
     rAccount.url = this.youTrackUrl;
     console.log('rAccount',rAccount)
+
     this.apiService.getCurrentUser(rAccount).then(
       (data) => {
         console.log("data", data)
         console.log('rAccount',rAccount)
-        this.account.add(rAccount.name, rAccount.url, rAccount.token);
-        this.loader = false;
-        this.goToBoard()
+        if (rAccount.name.length < 3) {
+          this.clearErrorUrlOrToken()
+          this.errorName()
+          this.loader = false;
+        } else {
+          this.account.add(rAccount.name, rAccount.url, rAccount.token);
+          this.loader = false;
+          this.goToBoard()
+        }
       }, (error) => {
-        this.errorHtml()
+        this.errorUrlOrToken()
         this.toasterService.showToaster("Error eccoured! Incorrect URL or token", 'error')        
         this.loader = false;
         }
     )   
+  
   }
 
-  public errorHtml() {
+  public errorName() {
+    let url = document.getElementById('add-account__name')
+    url.className += " add-account__name--error"
+    this.toasterService.showToaster("Error eccoured! The name must be longer than 3 characters.", 'error')   
+  }
+
+  public clearErrorUrlOrToken() {
+    let url = document.getElementById('add-account__url')
+    let token = document.getElementById('add-account__token')
+    url.className = ""
+    token.className = ""
+  }
+
+  public errorUrlOrToken() {
     let url = document.getElementById('add-account__url')
     let token = document.getElementById('add-account__token')
     url.className += " add-account__url--error"
@@ -82,6 +103,7 @@ export class AddAccountComponent implements OnInit {
   }
 
   goToBoard() {
+
     this.router.navigate(['/boards'], { queryParams: {justLoggedIn: true, name: this.name} });
   }
 

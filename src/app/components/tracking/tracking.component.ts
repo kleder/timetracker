@@ -131,12 +131,8 @@ export class TrackingComponent implements OnDestroy, OnInit {
     )
   }
 
-  public chooseAgiles() {
-    this.router.navigateByUrl('/boards');    
-  }
-
-  public logOut() {
-    this.router.navigateByUrl('');    
+  public goToEditAccount() {
+    this.router.navigate(['edit-account'])
   }
 
   public showInactiveNotification() {

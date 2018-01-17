@@ -29,17 +29,17 @@ export class EditAccountComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute
-    .queryParams
-    .subscribe(params => {
-      this.editingAccount = {
-        id: parseInt(params['accountId']),
-        name: params['accountName'],
-        url: params['accountUrl'],
-      }
-      console.log("this.editingAccount", this.editingAccount)
-    });
+    this.getCurrentAccount()
     this.getAllAgiles()
+  }
+
+  async getCurrentAccount() {
+    this.editingAccount = await this.account.Current()
+    console.log("this.editingAccount", this.editingAccount)
+  }
+
+  public backToWorkspace() {
+    this.router.navigate(['tracking'])
   }
 
   public getAllAgiles() {
@@ -75,7 +75,7 @@ export class EditAccountComponent implements OnInit {
 
   public removeAccount(id) {
     this.databaseService.deleteAccount(id).then(data => {
-      this.router.navigate(['menu'])      
+      this.router.navigate(['/accounts']) 
       this.toasterService.showToaster('Account removed!', "success")
     }, err => {
       this.toasterService.showToaster('An error occured!', "error")            

@@ -8,13 +8,13 @@
         width: 100%;
         background-color: $menu-color;
         ul {
-            padding: 0px 30px;
+            padding: 0px 23px 0 30px;
             margin: 0;
             margin-top: -10px;
             li {
                 display: block;
                 float: left;
-                width: 50%;
+                width: 40%;
                 padding: 13px;
                 color: $white;
                 list-style: none;
@@ -22,10 +22,18 @@
                 font-family: 'Montserrat', sans-serif;
                 border-top: 0;
                 box-sizing: border-box;
-                cursor: pointer;                                 
+                cursor: pointer;                            
                 &.active {
                     border-bottom: 2px solid $custom-red; 
                 }
+                &.settings {
+                    float: right;
+                    width: inherit;
+                    padding: 13px 0;
+                    .trec-icon-settings {
+                        font-size: 20px;
+                    }
+                }     
                 &:focus {
                     outline: none;
                 }

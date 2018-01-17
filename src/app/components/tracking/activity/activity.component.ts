@@ -5,6 +5,7 @@ import { DataService } from '../../../services/data.service'
 import { ApiService } from '../../../services/api.service'
 import { WorkItemData } from 'app/models/RemoteAccount';
 import { Router } from '@angular/router';
+import { HttpService } from '../../../services/http.service'
 
 @Component({
   selector: 'app-activity',
@@ -16,13 +17,14 @@ export class ActivityComponent implements OnInit {
   public todaySummaryItems: Array<any>
   private todayTimes: object
   private db: any
-  
+  public loader: boolean = true
   constructor(
     public databaseService: DatabaseService,
     private timerService: TimerService,
     private dataService: DataService,
     private api: ApiService,
-    public router: Router
+    public router: Router,
+    public httpService: HttpService
   ) {
     this.todaySummaryItems = []
     this.todayTimes = {}
@@ -30,7 +32,7 @@ export class ActivityComponent implements OnInit {
 
   ngOnInit() {
     this.databaseService.getAllItems().then(rows => {
-      if (rows) {
+      if (rows) {   
         this.prepareItems(rows)
       }
     })
@@ -44,7 +46,10 @@ export class ActivityComponent implements OnInit {
         todayItems.push(row)
       }
     })
-
+    console.log("todayItems", todayItems)
+    if (todayItems.length == 0) {
+      this.loader = false
+    }
     todayItems.forEach(function(row) {
       if (!that.todayTimes.hasOwnProperty(row.issueid)) {
         that.todayTimes[row.issueid] = row.duration
@@ -64,12 +69,13 @@ export class ActivityComponent implements OnInit {
             todaysTime: this.todayTimes[property]
           }
           console.log("new Issue", newIssue)
-          that.todaySummaryItems.push(newIssue)        
+          that.todaySummaryItems.push(newIssue)
+          that.loader = false    
         })
     })
+
   }
 
- 
   public getIssueAndStart(issueId) {
     return new Promise(resolve => {
       this.api.getIssue(issueId).then(issue => {

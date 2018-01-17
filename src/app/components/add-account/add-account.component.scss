@@ -45,7 +45,7 @@
       text-align: left;
       box-sizing: border-box;
       cursor: text;
-      &.add-account__url, &.add-account__token {
+      &.add-account__name, &.add-account__url, &.add-account__token {
         &--error {
           border-color: $input-error;
         }

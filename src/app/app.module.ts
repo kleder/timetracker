@@ -38,6 +38,7 @@ import { ChangeAccountTokenComponent } from './components/change-account-token/c
 import { ToasterService } from './services/toaster.service';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SwitchAccountComponent } from './components/switch-account/switch-account.component'
+import { MenuService } from './services/menu.service';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { SwitchAccountComponent } from './components/switch-account/switch-accou
     TimerService,
     DatabaseService,
     HttpService,
-    ToasterService
+    ToasterService,
+    MenuService
   ],
   bootstrap: [AppComponent]
 })

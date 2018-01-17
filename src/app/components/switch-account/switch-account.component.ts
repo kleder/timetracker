@@ -4,6 +4,7 @@ import { DataService } from '../../services/data.service'
 import { DatabaseService } from '../../services/database.service'
 import { HttpService } from '../../services/http.service'
 import { AccountService } from '../../services/account.service'
+import { MenuService } from '../../services/menu.service'
 
 @Component({
   selector: 'app-switch-account',
@@ -12,30 +13,35 @@ import { AccountService } from '../../services/account.service'
 })
 export class SwitchAccountComponent implements OnInit {
   public accounts: any  
+  public isCurrentAccountExists: boolean
   constructor(
     public databaseService: DatabaseService,
     public router: Router,
     private activatedRoute: ActivatedRoute,
     private dataService: DataService,
     private accountService: AccountService,
-    private http: HttpService
+    private http: HttpService,
+    private menuService: MenuService
   ) { }
 
   ngOnInit() {
-    this.getAccounts()
+    this.getAccounts().then(() => {
+      console.log("his.isCurrentAccountExists)", this.isCurrentAccountExists)
+      if (!this.isCurrentAccountExists) {
+        this.menuService.enabledWorkspace(false)
+      }
+    })
   }
 
   public async getAccounts(): Promise<any> {
     this.accounts = await this.databaseService.getAccounts();
     console.log("this.accounts", this.accounts)
     if (this.accounts.length == 0) {
-      this.dataService.routeBeforeMenu = ''
+      this.goToAddAccount(true)
     }
-  }
-
-  public editAccount(account) {
-    console.log("account in editAccount", account)
-    this.router.navigate(['edit-account'], { queryParams: {accountId: account.id, accountName: account.name, accountUrl: account.url} });
+    this.accounts.forEach(account => {
+      account.current? this.isCurrentAccountExists = true : ''
+    })    
   }
   
   public setAsCurrent(clickedAccount) {
@@ -46,13 +52,14 @@ export class SwitchAccountComponent implements OnInit {
         account['current'] = true
       }
     })
+    this.menuService.enabledWorkspace(false)
     this.databaseService.destroyCurrentAccount()
     this.databaseService.setCurrentAccount(clickedAccount.id)
     this.goBack()
   }
 
-  goToAddAccount() {
-    this.router.navigate(['add-account'], { queryParams: {firstAccount: false} })    
+  goToAddAccount(arg) {
+    this.router.navigate(['add-account'], { queryParams: {firstAccount: arg} })    
   }
 
   goBack() {

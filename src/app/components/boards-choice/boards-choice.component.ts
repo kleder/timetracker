@@ -7,6 +7,7 @@ import { HttpService } from '../../services/http.service'
 import { RemoteAccount } from 'app/models/RemoteAccount';
 import { ToasterService } from '../../services/toaster.service'
 import { DatabaseService } from '../../services/database.service'
+import { MenuService } from '../../services/menu.service'
 
 @Component({
   selector: 'app-boards-choice',
@@ -27,7 +28,8 @@ export class BoardsChoiceComponent implements OnInit {
     public httpService: HttpService,
     public activatedRoute: ActivatedRoute,
     public toasterService: ToasterService,
-    public databaseService: DatabaseService
+    public databaseService: DatabaseService,
+    public menuService: MenuService    
   ) { 
   }
 
@@ -71,6 +73,7 @@ export class BoardsChoiceComponent implements OnInit {
   }
 
   public goToWorkspace() {
+    this.menuService.enabledWorkspace(true)
     this.router.navigateByUrl('/tracking');
   }
 

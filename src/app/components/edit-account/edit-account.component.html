@@ -1,16 +1,16 @@
 <div class="container">  
   <div class="edit-account__header">
-    <div class="edit-account__title">Edit {{ editingAccount.name || 'unnamed account' }}</div>
+    <div class="edit-account__title" *ngIf="editingAccount?.name.length > 0">Edit {{ editingAccount.name || 'unnamed account' }}</div>
   </div>
   <div class="edit-account__content">
-      <div class="edit-account__form">
+      <div class="edit-account__form" *ngIf="editingAccount?.name.length > 0">
         <div class="edit-account__title">EDIT ACCOUNT</div>          
         <label>Account name</label>
         <input [(ngModel)]="editingAccount.name" name="name" type="text">
         <label>Youtrack URL</label>
         <input [(ngModel)]="editingAccount.url" name="url" type="text">
         <div class="edit-account__buttons">
-            <button class="btn btn--transparent" type="submit" routerLink="/switch-account">CANCEL</button>
+            <button class="btn btn--transparent" type="submit" (click)="backToWorkspace()">CANCEL</button>
             <button class="btn btn--grey" type="submit" (click)="editNameOrUrl(editingAccount)">SAVE CHANGES</button>
         </div>
       </div> 
@@ -27,7 +27,7 @@
           <span class="trec-icon-settings" (click)="editBoard(agile)"></span>
         </div>
         <div class="edit-account__buttons">
-          <button class="btn btn--transparent" type="submit" routerLink="/switch-account">CANCEL</button>
+          <button class="btn btn--transparent" type="submit" routerLink="../tracking">CANCEL</button>
           <button class="btn btn--red" type=”submit” (click)="updateAgilesVisibility()">SAVE CHANGES</button>
         </div>
         </div>
