@@ -26,7 +26,6 @@ export class SwitchAccountComponent implements OnInit {
 
   ngOnInit() {
     this.getAccounts().then(() => {
-      console.log("his.isCurrentAccountExists)", this.isCurrentAccountExists)
       if (!this.isCurrentAccountExists) {
         this.menuService.enabledWorkspace(false)
       }
