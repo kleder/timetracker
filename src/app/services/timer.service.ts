@@ -78,15 +78,10 @@ export class TimerService {
     this.afkTime = 0
   }
 
-  public showNotification() {
-    document.getElementById('afk-notification').style.display = "unset"
-  }
-
   public shouldAddAfkTime(r) {
     if (!r) {
       this.updateTime()
     }
-    document.getElementById('afk-notification').style.display = "none"
   }
 
   public updateTime() {
@@ -109,14 +104,22 @@ export class TimerService {
 
 
   public async startItem(issue: WorkItemData): Promise<any> {
+    console.log("in startItem", issue)
+    console.log("this.currentIssue", this.currentIssue)
     if (this.currentIssue != undefined) {
+      if (issue.issueId == this.currentIssue.issueId) {
+        this.stopItem();
+        return false
+      }
       await this.stopItem();
     }
     this.trayRecording()
     issue.recordedTime = await this.databaseService.getRecordedTime(issue.issueId)
     return new Promise((resolve => {
       this.turnTimer(issue)
-      this.databaseService.startItem(issue)
+      if (!issue.date) {
+        this.databaseService.startItem(issue)        
+      }
       resolve(issue);
     }))
 
@@ -133,6 +136,7 @@ export class TimerService {
           this.stopIdleTime()
           // stop issueTimer && saveInDb 
           this.databaseService.stopItem(stoppedTime, issue.startDate)
+          this.databaseService.setIsPublished(issue.startDate)          
           this.stopTrackingNotifications()          
           this.toasterService.showToaster('Your tracking has been saved!', 'default')          
         }, err => {
