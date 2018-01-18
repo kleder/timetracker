@@ -138,7 +138,7 @@ try {
     mainWindow.on('closed', function() {
         app.quit()
     })
-
+    
     mainWindow.webContents.on('context-menu', (e, props) => {
       const InputMenu = Menu.buildFromTemplate([    
         { label: "Cut",
@@ -172,6 +172,17 @@ try {
             submenu: newMenu.initMenu(app, mainWindow)
           }
         ]
+        mainMenuTemplate.push(
+          {
+            label: 'Edit',
+            submenu: [
+              {role: 'cut'},
+              {role: 'copy'},
+              {role: 'paste'},
+              {role: 'selectall'}
+            ]
+          }
+        )
         Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate))
     }
 

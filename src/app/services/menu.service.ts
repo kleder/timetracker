@@ -30,6 +30,19 @@ export class MenuService {
         submenu: newMenu.initMenu(app, remote.getCurrentWindow())
       }
     ]
+    if (process.platform == 'darwin') {
+      mainMenuTemplate.push(
+        {
+          label: 'Edit',
+          submenu: [
+            {role: 'cut'},
+            {role: 'copy'},
+            {role: 'paste'},
+            {role: 'selectall'}
+          ]
+        }
+      )
+    }
     mainMenuTemplate[0].submenu[0].enabled = arg
     console.log("remote.menuitem", remote.MenuItem[0])
     remote.Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate)) 
