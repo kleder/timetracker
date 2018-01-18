@@ -224,6 +224,7 @@ export class DashboardComponent implements OnInit {
       this.toasterService.showToaster('Your tracking has been removed!', 'default')
     }
     if (action == 'resume') {
+      this.timerService.turnTimer(item);
       this.agiles.filter(agile => {
         if (agile.name == item.agile) {
           agile.issues.filter(issue => {
@@ -232,7 +233,7 @@ export class DashboardComponent implements OnInit {
               unstoppedIssue.date = item.date
               unstoppedIssue.duration = item.duration
               console.log(unstoppedIssue)
-              this.sendWorkItems(unstoppedIssue)
+              this.startTracking(unstoppedIssue, item.duration)
               this.hideModal()
             }
           })
@@ -260,14 +261,16 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  public startTracking(issue: any) {
+  public startTracking(issue: any, duration?) {
+    console.log('issue in start tracking', issue)
     var item = new WorkItemData;
     item.issueId = issue.id;
-    item.duration = 0;
-    item.date = Date.now();
-    item.startDate = Date.now();
+    item.duration = duration || 0;
+    item.date = issue.date || Date.now();
+    item.startDate = issue.startDate || Date.now();
     item.summary = issue.field.summary;
     item.agile = issue.field.sprint[0].id.split(':')[0]
+    console.log("issue.id ", issue.id)
     console.log("summary", issue.field)
     this.timerService.startItem(item);
   }

@@ -35,12 +35,12 @@ export class SwitchAccountComponent implements OnInit {
   public async getAccounts(): Promise<any> {
     this.accounts = await this.databaseService.getAccounts();
     console.log("this.accounts", this.accounts)
+    this.accounts.forEach(account => {
+      account.current? this.isCurrentAccountExists = true : ''
+    })
     if (this.accounts.length == 0) {
       this.goToAddAccount(true)
     }
-    this.accounts.forEach(account => {
-      account.current? this.isCurrentAccountExists = true : ''
-    })    
   }
   
   public setAsCurrent(clickedAccount) {

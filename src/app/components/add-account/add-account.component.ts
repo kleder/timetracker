@@ -11,6 +11,7 @@ import { ToasterService } from '../../services/toaster.service';
 import { shell } from 'electron';
 
 import { DataService } from '../../services/data.service';
+import { MenuService } from '../../services/menu.service'
 
 @Component({
   selector: 'app-add-account',
@@ -31,7 +32,8 @@ export class AddAccountComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public apiService: ApiService,
     public toasterService: ToasterService,
-    public dataService: DataService
+    public dataService: DataService,
+    private menuService: MenuService
   )
     {
     }
@@ -45,6 +47,8 @@ export class AddAccountComponent implements OnInit {
     var current = await this.account.Current();
     if (current != undefined && !this.firstAccount){
       this.router.navigate(['/boards'], { queryParams: {justLoggedIn: false, name: current.name, url: current.url} });
+    } else if (current == undefined)      {
+      this.menuService.enabledWorkspace(false)
     }
   }
 

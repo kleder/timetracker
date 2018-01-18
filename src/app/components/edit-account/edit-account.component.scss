@@ -36,7 +36,7 @@
             cursor: default;            
         }
         .edit-account__form {
-            margin: 23px 0 30px;
+            margin-bottom: 30px;
             .edit-account__title {
                 margin-bottom: 15px;
             }
@@ -109,12 +109,13 @@
                     cursor: pointer;
                     &:checked {
                         &:before {
-                        content: "\2714";
-                        font-size: 22px;
-                        position: absolute;
-                        top: 12px; 
-                        left: 17px;
-                        color: $custom-red;
+                            font-family: 'trec-icons' !important;
+                            content: "\e901";
+                            font-size: 28px;
+                            position: absolute;
+                            top: 11px; 
+                            left: 15px;
+                            color: $custom-red;
                         }
                     }
                     &:checked + label {

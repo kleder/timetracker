@@ -91,11 +91,12 @@
       cursor: pointer;
       &:checked {
         &:before {
-          content: "\2714";
-          font-size: 22px;
+          font-family: 'trec-icons' !important;          
+          content: "\e901";
+          font-size: 28px;
           position: absolute;
-          top: 12px; 
-          left: 17px;
+          top: 11px; 
+          left: 15px;
           color: $custom-red;
         }
       }

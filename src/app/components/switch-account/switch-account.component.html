@@ -13,7 +13,7 @@
             <div class="accounts__no-account">No accounts added</div>
         </ng-template>
         <div class="accounts__buttons">
-            <button [disabled]="!isCurrentAccountExists" class="btn btn--grey" type="submit" (click)="goBack()">CANCEL</button>
+            <button [disabled]="!isCurrentAccountExists" class="btn btn--transparent" type="submit" (click)="goBack()">CANCEL</button>
             <button class="btn btn--red" (click)="goToAddAccount(false)" type="submit">ADD ACCOUNT</button>
         </div>
     </div> 
