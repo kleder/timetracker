@@ -147,11 +147,11 @@ export class DatabaseService {
     });
   }
 
-  public deleteItem = (item) => {
+  public deleteItem = (date) => {
     let that = this
     new Promise(resolve => {
       this.db.serialize(() => {
-        let stmt = that.db.prepare("DELETE FROM `tasks` WHERE `date` = " + item.date)
+        let stmt = that.db.prepare("DELETE FROM `tasks` WHERE `date` = " + date)
         stmt.run()
         stmt.finalize()
       })

@@ -106,9 +106,6 @@ export class DashboardComponent implements OnInit {
       this.allItemsFromDb.forEach(function(row) {
         if (that.timerService.currentIssue == undefined && row.status == "start" && row.published == 0 && row.duration > 0) {
           that.dataService.sendUnstoppedItem(row)
-          that.dataService.choosenAction.subscribe(itemWithAction => {
-            that.manageUnstoppedItem(itemWithAction, itemWithAction["action"])
-          })
         }
         let todayItems = []
         if (new Date(row.date).getDate() == new Date().getDate() && row.status == "stop") {
@@ -212,42 +209,6 @@ export class DashboardComponent implements OnInit {
         return issue.field.Priority[1] = board.hexColor
       }
     })
-  }
-
-  public manageUnstoppedItem = (item, action) => {
-    console.log("manageUnstoppedItem", item)
-    console.log('action', action)
-    item.id = item.issueid
-    if (action == 'remove') {
-      this.databaseService.deleteItem(item)
-      this.hideModal()
-      this.toasterService.showToaster('Your tracking has been removed!', 'default')
-    }
-    if (action == 'resume') {
-      this.timerService.turnTimer(item);
-      this.agiles.filter(agile => {
-        if (agile.name == item.agile) {
-          agile.issues.filter(issue => {
-            if (issue.id == item.issueid) {
-              let unstoppedIssue = issue
-              unstoppedIssue.date = item.date
-              unstoppedIssue.duration = item.duration
-              console.log(unstoppedIssue)
-              this.startTracking(unstoppedIssue, item.duration)
-              this.hideModal()
-            }
-          })
-        }
-      })
-    }    
-    if (action == 'add') {
-      this.sendWorkItems({date: item.date, duration: item.duration, issueId: item.id, startDate: item.date, summary: item.summary, recordedTime: 0})
-      this.hideModal()
-    }
-  }
-
-  public hideModal() {
-    document.getElementById('modal').style.display = "none"
   }
 
   public convertEstimate = (est) => {

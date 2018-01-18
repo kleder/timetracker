@@ -9,7 +9,9 @@ import { SecondsToTimePipe } from '../../pipes/seconds-to-time.pipe'
 import { ToasterService } from '../../services/toaster.service'
 
 import { Router } from '@angular/router';
+import { WorkItemData } from 'app/models/RemoteAccount';
 const notifier = require('electron-notifications')
+const path = require('path')
 
 @Component({
   selector: 'app-tracking',
@@ -108,27 +110,35 @@ export class TrackingComponent implements OnDestroy, OnInit {
   }
 
   public manageUnstoppedItem = (action) => {
-    this.unstoppedItem.action = action
-    console.log("in tracking", action)
-    this.dataService.manageUnstoppedItem(this.unstoppedItem)
+    var item = new WorkItemData;
+    item.issueId = this.unstoppedItem.issueid
+    item.duration = this.unstoppedItem.duration
+    item.date = Date.now();
+    item.startDate = this.unstoppedItem.date,
+    item.summary = this.unstoppedItem.Summary
+    if (action == 'remove') {
+      this.databaseService.deleteItem(item.startDate)
+      this.hideModal()
+      this.toasterService.showToaster('Your tracking has been removed!', 'default')
+    }
+    if (action == 'resume') {
+      this.timerService.startItem(item);
+      this.hideModal()
+      document.getElementById('modal').style.display = "none"
+    }
+    if (action == 'add') {
+      this.api.createNewWorkItem(item).then(data => {
+        this.databaseService.stopItem(item.duration, item.startDate)
+        this.databaseService.setIsPublished(item.startDate)    
+        this.hideModal()             
+        this.toasterService.showToaster('Your tracking has been saved!', 'default')  
+      })      
+    }
     this.unstoppedItem = undefined
   }
 
   public stopTracking = (item) => {
-    let that = this
-    // stop idleTimer
-    this.timerService.stopItem().then(
-      response => {
-        if (response["ok"]) {
-          console.log("ok")
-          this.databaseService.setIsPublished(item.date)
-          this.databaseService.setIsStopped(item.date)
-          this.toasterService.showToaster('Your tracking has been saved!', 'default')
-        } else {
-          this.toasterService.showToaster('An error occured.', 'error')          
-        }
-      }
-    )
+    this.timerService.stopItem()
   }
 
   public goToEditAccount() {
@@ -139,9 +149,9 @@ export class TrackingComponent implements OnDestroy, OnInit {
     const notification = notifier.notify('You were inactive', {
       message: 'What should I do with ' + this.secondsToTimePipe.transform(this.timerService.notificationTime) + '?',
       buttons: ['Add', 'Remove'],
-      // icon: '',
-      duration: 30000
-    })   
+      icon: path.resolve(__dirname, 'assets/icons/favicon.png'),
+      duration: 60000
+    })
     notification.on('swipedRight', () => {
       notification.close()
     })
