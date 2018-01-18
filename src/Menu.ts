@@ -14,16 +14,16 @@ export class CustomMenu {
       {
         label: 'Accounts',
         submenu: [
-          {
-            label: 'Add Account',
-            click() {
-              mainWindow.webContents.executeJavaScript('window.location="#/add-account?firstAccount=false"')
-            }
-          },
           { 
-            label: 'Accounts',
+            label: 'Switch',
             click() {
               mainWindow.webContents.executeJavaScript('window.location="#/accounts"')
+            }
+          },
+          {
+            label: 'Add new',
+            click() {
+              mainWindow.webContents.executeJavaScript('window.location="#/add-account?firstAccount=false"')
             }
           }
         ]

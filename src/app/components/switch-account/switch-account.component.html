@@ -6,14 +6,15 @@
         <ul *ngIf="accounts?.length > 0 else noAccounts">
             <div class="accounts__title">SET ACTIVE ACCOUNT</div>         
             <li *ngFor="let account of accounts" [ngClass]="account.current? 'active' : ''">
-                <button class="accounts__name" (click)="setAsCurrent(account)">{{ account.name || 'unnamed account' }} </button>
-                <!-- <button class="menu__edit-account" (click)="editAccount(account)">edit</button> -->
+                <button class="accounts__name" (click)="setAsCurrent(account)">{{ account.name || 'unnamed account' }} </button>                
             </li>
         </ul>
         <ng-template #noAccounts>
             <div class="accounts__no-account">No accounts added</div>
         </ng-template>
-        <button class="btn btn--red" type="submit" (click)="goToAddAccount(false)">ADD ACCOUNT</button>    
-        <button *ngIf="isCurrentAccountExists" class="btn btn--transparent" type="submit" (click)="goBack()">CANCEL</button>
+        <div class="accounts__buttons">
+            <button [disabled]="!isCurrentAccountExists" class="btn btn--grey" type="submit" (click)="goBack()">CANCEL</button>
+            <button class="btn btn--red" (click)="goToAddAccount(false)" type="submit">ADD ACCOUNT</button>
+        </div>
     </div> 
   </div>

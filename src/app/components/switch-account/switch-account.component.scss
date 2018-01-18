@@ -20,6 +20,16 @@
         font-weight: 400;
         text-align: center;
     }
+    &__buttons {
+        cursor: default;
+        .btn {
+            display: inline-block;                    
+            width: calc(50% - 4px);
+            &:nth-child(2) {
+                float: right;
+            }
+        }
+      }
     &__content {
         .accounts__title {
             font-family: 'Montserrat', sans-serif;        
