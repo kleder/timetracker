@@ -23,7 +23,9 @@
           <label>{{ agile.name }}</label>
           <span class="trec-icon-settings" (click)="editBoard(agile)"></span>
         </div>
-        </div>
+        <button class="btn btn--transparent" type=”submit” (click)="saveChanges(editingAccount)">SAVE CHANGES</button>        
+      </div>
+
       <ng-template #noBoards>
         <div class="edit-account__no-boards">This account does not have any boards</div>  
       </ng-template>    
@@ -32,7 +34,7 @@
             <span class="trec-icon-remove"></span>
             REMOVE ACCOUNT
           </button>
-          <button class="btn btn--transparent" type=”submit” (click)="saveChanges(editingAccount)">SAVE CHANGES</button>        
+            
       </div>
   </div>
 </div>
