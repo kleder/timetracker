@@ -5,9 +5,11 @@
   background-color: $menu-color;
   box-sizing: border-box;
   cursor: default;
+  overflow: auto;
+  max-height: 100%;
   &__list {
     margin-top: 60px;
-    padding: 70px 15px 79px;
+    padding: 38px 15px 40px;
     .board-choice__title {
       display: block;
       padding-bottom: 22px;
@@ -122,10 +124,7 @@
     }
   }
   &__hint {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 33px;
+    margin-top: 40px;
     font-family: 'Montserrat', sans-serif;    
     color: $font-grey;
     text-align: center;

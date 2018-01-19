@@ -43,14 +43,16 @@
   </div>
 </div>
 <div id="modal">
-  <div class="modal__backdrop"></div>
+  <div class="modal__backdrop" (click)="hideModal()"></div>
   <div class="modal__content">
     <div class="modal__text">
       <span>{{ modalText }}</span>
     </div>
     <div class="modal__interaction">
-      <button class="danger" (click)="hideModal()">No</button>
-      <button class="info" (click)="removeAccount(editingAccount.id)">Yes</button>
+      <button class="btn btn--transparent" (click)="hideModal()">No</button>
+    <button class="btn btn--transparent" (click)="removeAccount(editingAccount.id)">
+        <span class="trec-icon-remove"></span>Yes
+    </button>
     </div>
   </div>
 </div>

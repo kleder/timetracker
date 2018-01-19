@@ -159,7 +159,7 @@
             color: $white;            
         }
         .edit-account__remove-account {
-            margin-bottom: 144px;
+            margin-bottom: 50px;
             .btn {
                 .trec-icon-remove {
                     font-size: 20px;
@@ -208,7 +208,7 @@
         text-align: center;
         padding: 24px;
         z-index: 10000;
-        background-color: #3b3e42;
+        background-color: $menu-color;
         color: $white;
         font-family: 'Montserrat', sans-serif;           
         border-radius: 4px;
@@ -221,16 +221,23 @@
             padding: 14px 7px 0;
             margin: 0 auto;
             button {
+                position: relative;
                 display: inline-block;
-                width: 60px;
-                height: 22px;
-                border: 0px solid #ffffff;
-                border-radius: 2px;
-                font-family: 'Montserrat', sans-serif;
-                font-size: 12px;
-                font-weight: 500;
-                margin: 0 2px;
-                cursor: pointer;                                        
+                padding: 0;
+                width: calc(50% - 4px);
+                height: 40px;
+                &:first-of-type {
+                    float: left;
+                }
+                &:last-of-type {
+                    float: right;
+                }
+                .trec-icon-remove {
+                    vertical-align: sub;
+                    margin-right: 2px;
+                    font-size: 24px;
+                    color: $custom-red;
+                }                                      
             }
         }
     }

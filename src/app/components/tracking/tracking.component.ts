@@ -65,7 +65,6 @@ export class TrackingComponent implements OnDestroy, OnInit {
   subscribeIssueTime() {
     this.dataService.currentIssueTime.takeWhile(() => this.alive).subscribe(data => {
       let issueTime = data["currentTime"]
-      //let startDate = data["startDate"]
       console.log("TAKE", data)
       if (issueTime % 60 === 0) {
         this.databaseService.updateDuration(Math.round(issueTime), this.timerService.currentIssue.startDate)

@@ -45,7 +45,6 @@
         }
     }
     .content {
-        // margin-top: 127px;
         padding: 20px 10px;
         float: left;
         width: 100%;
@@ -89,20 +88,6 @@
                 height: calc(100% - 197px);} 
             to {             min-height: calc(100% - 107px);
                 height: calc(100% - 107px); }
-        }
-    }
-    button {
-        &.danger {
-            background-color: $custom-red;
-            color: $white !important;
-        }
-        &.positive {
-            background-color: $normal;
-            color: $dark !important
-        }
-        &.info {
-            background-color: #38b4e7;
-            color: $white !important;            
         }
     }
     #current-item {

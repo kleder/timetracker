@@ -18,13 +18,7 @@ export class MenuService {
   ) { 
   }
 
-  public enabledWorkspace(arg:boolean) {
-    // this.accounts = await this.databaseService.getAccounts();
-    // console.log("this.accounts", this.accounts)
-    // let isCurrentAccountExists
-    // this.accounts.forEach(account => {
-    //   account.current? isCurrentAccountExists = true : ''
-    // })    
+  public enabledWorkspace(arg:boolean) { 
     var mainMenuTemplate:Array<any> = [ 
       {
         submenu: newMenu.initMenu(app, remote.getCurrentWindow())
