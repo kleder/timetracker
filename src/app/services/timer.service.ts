@@ -117,7 +117,7 @@ export class TimerService {
     issue.recordedTime = await this.databaseService.getRecordedTime(issue.issueId)
     return new Promise((resolve => {
       this.turnTimer(issue)
-      if (!issue.date) {
+      if (issue.duration < 60) {
         this.databaseService.startItem(issue)        
       }
       resolve(issue);

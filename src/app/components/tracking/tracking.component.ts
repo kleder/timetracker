@@ -68,7 +68,7 @@ export class TrackingComponent implements OnDestroy, OnInit {
       //let startDate = data["startDate"]
       console.log("TAKE", data)
       if (issueTime % 60 === 0) {
-        this.databaseService.updateDuration(Math.round(issueTime), this.timerService.currentIssue.date)
+        this.databaseService.updateDuration(Math.round(issueTime), this.timerService.currentIssue.startDate)
       }
       if (this.timerService.currentIssue) {
         let element = document.getElementById('current-item') 
