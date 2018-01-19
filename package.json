@@ -1,7 +1,7 @@
 {
-  "name": "Trec",
+  "name": "T-Rec",
   "version": "0.9.5",
-  "description": "T-rec time tracker is built for speed and live work item update in youtrack system.",
+  "description": "T-Rec time tracker is built for speed and live work item update in youtrack system.",
   "homepage": "",
   "author": {
     "name": "Kleder",
