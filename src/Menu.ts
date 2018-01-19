@@ -15,7 +15,7 @@ export class CustomMenu {
         label: 'Accounts',
         submenu: [
           { 
-            label: 'Switch',
+            label: 'Switch account',
             click() {
               mainWindow.webContents.executeJavaScript('window.location="#/accounts"')
             }
@@ -49,6 +49,7 @@ export class CustomMenu {
       { type:'separator' },
       {
         label: 'Quit',
+        accelerator: 'CommandOrControl+Q',
         click() {
           app.quit()
         }

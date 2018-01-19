@@ -48,6 +48,7 @@ export class MenuService {
         {
           label: 'Edit',
           submenu: [
+            {role: 'undo'},
             {role: 'cut'},
             {role: 'copy'},
             {role: 'paste'},
