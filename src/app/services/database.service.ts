@@ -6,7 +6,6 @@ import { from } from 'rxjs/observable/from';
 const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
 
-
 @Injectable()
 export class DatabaseService {
   public loader = false
@@ -25,7 +24,7 @@ export class DatabaseService {
     var dbPath = path.resolve(folder,'database')
     this.db = new sqlite3.Database(dbPath, (data) => {
       if (data == null){
-        this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT )");
+        this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT)");
         this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT, `current` INTEGER)");
         this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");     
         this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");   
@@ -41,12 +40,12 @@ export class DatabaseService {
     })
   }
 
-  public async getAllItems() : Promise<any[]> {
+  public async getAllItems(accountId) : Promise<any[]> {
     let that = this
     return new Promise<any[]>((resolve, reject) => {
       this.loader = true
       this.db.serialize(() => {
-        that.db.all('SELECT * FROM `tasks`', function(err, rows) {
+        that.db.all("SELECT * FROM `tasks` WHERE `accountId` = '" + accountId + "'" , function(err, rows) {
           that.loader = false
           if (err) {
               that.loader = false   
@@ -61,14 +60,14 @@ export class DatabaseService {
   }
 
   public startItem = (issue : WorkItemData) => {
-    let that = this
-    let status = "start"
-    let duration = 0
-    this.db.serialize(function() {
-      let stmt = that.db.prepare("INSERT INTO `tasks` (`published`, `agile`, `issueid`, `status`, `date`, `duration`, `lastUpdate`,`summary`) VALUES (0, '" + issue.agile + "', '" + issue.issueId + "', '" + status + "', '" + issue.date + "', '" + duration + "', '" + issue.date + "','"+ issue.summary +"')");
-      stmt.run()
-      stmt.finalize()
-    });
+      let that = this
+      let status = "start"
+      let duration = 0
+      this.db.serialize(function() {
+        let stmt = that.db.prepare("INSERT INTO `tasks` (`accountId`, `published`, `agile`, `issueid`, `status`, `date`, `duration`, `lastUpdate`,`summary`) VALUES ('" + issue.accountId + "', 0, '" + issue.agile + "', '" + issue.issueId + "', '" + status + "', '" + issue.date + "', '" + duration + "', '" + issue.date + "','"+ issue.summary +"')");
+        stmt.run()
+        stmt.finalize()
+      });
   }
 
 

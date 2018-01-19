@@ -97,10 +97,11 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  public getItemsFromDb() {
+  async getItemsFromDb() {
+    let account = await this.account.Current()    
     let that = this
     this.totalTimes = {}
-    this.databaseService.getAllItems().then(data => {
+    this.databaseService.getAllItems(account["id"]).then(data => {
       console.log("resolve from db", data)
       this.allItemsFromDb = data
       this.allItemsFromDb.forEach(function(row) {
@@ -222,9 +223,11 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  public startTracking(issue: any, duration?) {
+  async startTracking(issue: any, duration?) {
     console.log('issue in start tracking', issue)
+    let account = await this.account.Current()
     var item = new WorkItemData;
+    item.accountId = account["id"],
     item.issueId = issue.id;
     item.duration = duration || 0;
     item.date = issue.date || Date.now();
