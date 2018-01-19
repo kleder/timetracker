@@ -103,6 +103,8 @@ try {
     mainWindow = new BrowserWindow({
       width: 400,
       height: 650,
+      minWidth:400,
+      minHeight: 650,
       title: 'T-Rec App',
       frame: false,
       icon: __dirname + '/assets/trec-logo.png',
@@ -112,6 +114,8 @@ try {
     splash = new BrowserWindow({
       width: 400,
       height: 420,
+      minWidth:400,
+      minHeight: 420,
       frame: false,
       alwaysOnTop: true
     })
