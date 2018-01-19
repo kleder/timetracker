@@ -54,6 +54,7 @@ export class AddAccountComponent implements OnInit {
       this.menuService.enabledWorkspace(false)
       this.getAccounts().then(() => {
         if (this.accounts.length == 0) {
+          this.accounts = false
           this.menuService.enabledWorkspaceAndSwitchAccount(false)        
         }
       })

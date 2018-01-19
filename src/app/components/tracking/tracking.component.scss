@@ -8,13 +8,13 @@
         width: 100%;
         background-color: $menu-color;
         ul {
-            padding: 0px 23px 0 30px;
+            padding: 0px 20px;
             margin: 0;
             margin-top: -10px;
             li {
                 display: block;
                 float: left;
-                width: 40%;
+                width: 47%;
                 padding: 13px;
                 color: $white;
                 list-style: none;
@@ -22,7 +22,10 @@
                 font-family: 'Montserrat', sans-serif;
                 border-top: 0;
                 box-sizing: border-box;
-                cursor: pointer;                            
+                cursor: pointer;  
+                &:hover {
+                    color: $custom-red;
+                }                          
                 &.active {
                     border-bottom: 2px solid $custom-red; 
                 }

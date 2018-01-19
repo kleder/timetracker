@@ -22,7 +22,8 @@ html, body {
     outline: none;
     &--grey {
         background-color: $font-grey;
-        color: $font-btn-color;   
+        color: $font-btn-color;
+        cursor: not-allowed; 
         &:hover {
           background-color: $font-btn-color;
           color: $font-grey;

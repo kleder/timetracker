@@ -11,7 +11,7 @@
         right: 0;
         width: 140px;
         margin: 0 auto;
-        padding: 31px 0 2px;
+        padding: 20px 0 0px;
         background-color: $menu-color;    
         .edit-account__title {
             font-family: 'Montserrat', sans-serif;        
@@ -23,10 +23,20 @@
         }
     }
     .edit-account__content {
+        position: relative;
         padding: 38px 17px;
         height: calc(100% - 72px);
         background-color: $content-color;
         overflow: auto;
+        .edit-account__close {
+            position: absolute;
+            top: 18px;
+            right: 12px;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
+        }
         .edit-account__title {
             font-family: 'Montserrat', sans-serif;        
             color:  $font-grey;
@@ -121,6 +131,9 @@
                     &:checked + label {
                         color: $white;
                     }
+                    &:hover + label {
+                        color: $custom-red;
+                    }
                 }
                 label {
                     display: block;
@@ -146,6 +159,9 @@
                     font-size: 22px;
                     z-index: 1000;
                     cursor: pointer;
+                    &:hover {
+                        color: $white;                        
+                    }
                 }
                 &:last-of-type {
                     margin-bottom: 32px;
@@ -161,9 +177,16 @@
         .edit-account__remove-account {
             margin-bottom: 50px;
             .btn {
+                position: relative;
                 .trec-icon-remove {
+                    position: absolute;
+                    top: 12px;
+                    left: 154px;
                     font-size: 20px;
                     vertical-align: sub;
+                }
+                &:first-of-type {
+                    margin-bottom: 8px;
                 }
             }
         }

@@ -26,6 +26,18 @@
       font-weight: 400;
       text-align: center;
   }
+  &__content {
+    position: relative;
+    .add-account__close {
+        position: absolute;
+        top: -6px;
+        right: 14px;
+        color: white;
+        font-size: 24px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+  }
   &__form {
     padding: 20px 20px 30px 20px;
     font-size: 20px;
@@ -56,9 +68,11 @@
     cursor: default;
     .btn {
         display: inline-block;                    
-        width: calc(50% - 4px);
         &:nth-child(2) {
-            float: right;
+          float: right;
+        }
+        &--center {
+          width: 100%;
         }
     }
   }
@@ -71,7 +85,7 @@
     color: $custom-red;
   }
   &__hint {
-    margin-top: 100px;
+    margin: -8px 0 16px 0;
     font-family: 'Montserrat', sans-serif;    
     color: $font-grey;
     text-align: center;

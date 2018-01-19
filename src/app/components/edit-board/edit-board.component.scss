@@ -11,7 +11,7 @@
         right: 0;
         width: 140px;
         margin: 0 auto;
-        padding: 31px 0 2px;
+        padding: 20px 0 0px;
         background-color: $menu-color;    
         .edit-board__title {
             font-family: 'Montserrat', sans-serif;        
@@ -23,6 +23,7 @@
         }
     }
     .edit-board__content {
+        position: relative;
         padding: 38px 17px;
         max-height: 100%;
         background-color: $content-color;
@@ -32,6 +33,15 @@
             .edit-board__title {
                 margin-bottom: 32px;
             }
+        }
+        .edit-board__close {
+            position: absolute;
+            top: 18px;
+            right: 12px;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
         }
         .edit-board__title {
             font-family: 'Montserrat', sans-serif;        

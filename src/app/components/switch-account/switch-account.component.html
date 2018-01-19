@@ -3,6 +3,7 @@
         <div class="accounts__title">Accounts</div>
     </div>
     <div class="accounts__content">
+        <span *ngIf="isCurrentAccountExists" class="accounts__close trec-icon-close" (click)="goBack()"></span>                  
         <ul *ngIf="accounts?.length > 0 else noAccounts">
             <div class="accounts__title">SET ACTIVE ACCOUNT</div>         
             <li *ngFor="let account of accounts" [ngClass]="account.current? 'active' : ''">
@@ -13,8 +14,7 @@
             <div class="accounts__no-account">No accounts added</div>
         </ng-template>
         <div class="accounts__buttons">
-            <button [disabled]="!isCurrentAccountExists" class="btn btn--transparent" type="submit" (click)="goBack()">CANCEL</button>
-            <button class="btn btn--red" (click)="goToAddAccount(false)" type="submit">ADD ACCOUNT</button>
+            <button class="btn btn--red" (click)="goToAddAccount(false)" type="submit">ADD NEW ACCOUNT</button>
         </div>
     </div> 
   </div>

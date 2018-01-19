@@ -120,4 +120,10 @@ export class EditAccountComponent implements OnInit {
     })
   }
 
+  public saveChanges(account) {
+    this.updateAgilesVisibility()
+    this.editNameOrUrl(account)
+    this.backToWorkspace()
+  }
+
 }

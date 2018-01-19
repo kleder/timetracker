@@ -3,20 +3,17 @@
     <div class="edit-account__title" *ngIf="editingAccount?.name.length > 0">Edit {{ editingAccount.name || 'unnamed account' }}</div>
   </div>
   <div class="edit-account__content">
-      <div class="edit-account__form" *ngIf="editingAccount?.name.length > 0">
+    <span class="edit-account__close trec-icon-close" (click)="backToWorkspace()"></span>
+    <div class="edit-account__form" *ngIf="editingAccount?.name.length > 0">
         <div class="edit-account__title">EDIT ACCOUNT</div>          
         <label>Account name</label>
         <input [(ngModel)]="editingAccount.name" name="name" type="text">
         <label>Youtrack URL</label>
         <input [(ngModel)]="editingAccount.url" name="url" type="text">
-        <div class="edit-account__buttons">
-            <button class="btn btn--transparent" type="submit" (click)="backToWorkspace()">CANCEL</button>
-            <button class="btn btn--grey" type="submit" (click)="editNameOrUrl(editingAccount)">SAVE CHANGES</button>
-        </div>
       </div> 
       <div class="edit-account__change-token">
         <div class="edit-account__title">CHANGE TOKEN</div>          
-        <button class="btn btn--grey" type="submit" (click)="goToChangeToken()">CHANGE ACCOUNT TOKEN</button>        
+        <button class="btn btn--transparent" type="submit" (click)="goToChangeToken()">CHANGE ACCOUNT TOKEN</button>        
       </div>
       <span class="edit-account__title">SELECT BOARDS</span>
       
@@ -26,19 +23,16 @@
           <label>{{ agile.name }}</label>
           <span class="trec-icon-settings" (click)="editBoard(agile)"></span>
         </div>
-        <div class="edit-account__buttons">
-          <button class="btn btn--transparent" type="submit" routerLink="../tracking">CANCEL</button>
-          <button class="btn btn--red" type=”submit” (click)="updateAgilesVisibility()">SAVE CHANGES</button>
-        </div>
         </div>
       <ng-template #noBoards>
         <div class="edit-account__no-boards">This account does not have any boards</div>  
       </ng-template>    
       <div class="edit-account__remove-account">
-        <button class="btn btn--transparent" type=”submit” (click)="showModal('Do you really want to DELETE THIS ACCOUNT?')">
-          <span class="trec-icon-remove"></span>
-          REMOVE ACCOUNT
-        </button>
+          <button class="btn btn--transparent" type=”submit” (click)="showModal('Do you really want to DELETE THIS ACCOUNT?')">
+            <span class="trec-icon-remove"></span>
+            REMOVE ACCOUNT
+          </button>
+          <button class="btn btn--transparent" type=”submit” (click)="saveChanges(editingAccount)">SAVE CHANGES</button>        
       </div>
   </div>
 </div>

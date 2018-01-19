@@ -1,15 +1,15 @@
 <div class="container">  
   <div class="change-account-token__header">
-    <div class="change-account-token__title">Edit {{ accountName || 'unnamed account' }} token</div>
+    <div class="change-account-token__title">Edit {{ accountName || 'unnamed account' }} Token</div>
   </div>
   <div class="change-account-token__content">
+      <span class="change-account__close trec-icon-close" (click)="goBack()"></span>      
       <div class="change-account-token__form">
         <div class="change-account-token__title">CHANGE TOKEN</div>          
         <label>New access token</label>
         <input [(ngModel)]="newToken" name="newToken" type="text">
         <div class="change-account-token__buttons">
-          <button class="btn btn--transparent" type="submit" (click)="goBack()">CANCEL</button>
-          <button class="btn btn--grey" type="submit" (click)="changeToken(accountId, newToken)">SAVE NEW TOKEN</button>
+          <button class="btn btn--transparent" type="submit" (click)="changeToken(accountId, newToken)">SAVE NEW TOKEN</button>
         </div>
       </div>
   </div>
