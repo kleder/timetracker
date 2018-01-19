@@ -50,13 +50,19 @@ export class TimerService {
     if (this.currentIssue == undefined){
       return 0;
     }
-
     var stoppedTime = this.currentIssue.duration
-    if (stoppedTime < 60 && !this.hideHints) {
-      this.showModal()
+    if (stoppedTime <= 10) {
+      this.currentIssue = undefined      
+      return 0
     }
+    if (stoppedTime <= 10 && !this.hideHints) {
+      this.showModal()
+    } else if (stoppedTime > 10 && stoppedTime < 60) {
+      this.currentIssue = undefined      
+      return stoppedTime = 60
+    } 
     this.currentIssue = undefined
-    return stoppedTime
+    return Math.ceil(stoppedTime/60)*60
   }
 
   public startidleTime(min) {
@@ -129,13 +135,13 @@ export class TimerService {
     this.trayDefault()
     let issue = this.currentIssue;
     console.log(issue)
-    let stoppedTime = this.stopIssueTimer()
-    if (stoppedTime >= 60) {
+    issue.duration = this.stopIssueTimer()
+    if (issue.duration >= 60) {
       return this.api.createNewWorkItem(issue).then(
         data => {
           this.stopIdleTime()
           // stop issueTimer && saveInDb 
-          this.databaseService.stopItem(stoppedTime, issue.startDate)
+          this.databaseService.stopItem(issue.duration, issue.startDate)
           this.databaseService.setIsPublished(issue.startDate)          
           this.stopTrackingNotifications()          
           this.toasterService.showToaster('Your tracking has been saved!', 'default')          
@@ -146,7 +152,7 @@ export class TimerService {
     }
     return new Promise<any>((resolve, reject) => {
       this.stopTrackingNotifications()                
-      this.toasterService.showToaster('Records shorter than 1 minute will not be reported.', 'error')
+      this.toasterService.showToaster('Records shorter than 10 seconds will not be reported.', 'error')
       reject("To small amount of data");
     })
   }
