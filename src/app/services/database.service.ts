@@ -23,20 +23,18 @@ export class DatabaseService {
     }
     var dbPath = path.resolve(folder,'database')
     this.db = new sqlite3.Database(dbPath, (data) => {
-      if (data == null){
-        this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT)");
+
+      if (data == null){ 
+        this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT, `Summary` TEXT)");
         this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT, `current` INTEGER)");
         this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");     
         this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");   
         this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
         this.db.run("CREATE TABLE IF NOT EXISTS `boards_visibility` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `visible` INTEGER)");        
         this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");        
-        this.db.run("CREATE TABLE IF NOT EXISTS `boards_after_choose` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `afterChoose` INTEGER)");        
-        this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId)");        
-        this.variablesInit()
+        this.db.run("CREATE TABLE IF NOT EXISTS `boards_after_choose` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `afterChoose` INTEGER)");                     
+        this.variablesInit() 
       } 
-      this.db.run("ALTER TABLE `tasks` ADD COLUMN Summary TEXT;");  
-      this.db.run("ALTER TABLE `account` ADD COLUMN current INTEGER;");     
     })
   }
 
