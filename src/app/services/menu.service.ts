@@ -11,6 +11,7 @@ const app = remote.app
 @Injectable()
 export class MenuService {
   accounts
+  mainMenuTemplate:Array<any>
   constructor(
     private accountService: AccountService,
     public databaseService: DatabaseService,
@@ -19,13 +20,33 @@ export class MenuService {
   }
 
   public enabledWorkspace(arg:boolean) { 
-    var mainMenuTemplate:Array<any> = [ 
+    this.mainMenuTemplate = [ 
       {
         submenu: newMenu.initMenu(app, remote.getCurrentWindow())
       }
     ]
+    this.addEditMenu()
+    this.mainMenuTemplate[0].submenu[0].enabled = arg
+    console.log("remote.menuitem", remote.MenuItem[0])
+    remote.Menu.setApplicationMenu(Menu.buildFromTemplate(this.mainMenuTemplate)) 
+  }
+
+  public enabledWorkspaceAndSwitchAccount(arg:boolean) { 
+    this.mainMenuTemplate = [ 
+      {
+        submenu: newMenu.initMenu(app, remote.getCurrentWindow())
+      }
+    ]
+    this.addEditMenu()
+    console.log("this.mainMenuTemplate[1]", this.mainMenuTemplate[0].submenu[1].submenu[0])
+    this.mainMenuTemplate[0].submenu[0].enabled = arg    
+    this.mainMenuTemplate[0].submenu[1].submenu[0].enabled = arg
+    remote.Menu.setApplicationMenu(Menu.buildFromTemplate(this.mainMenuTemplate)) 
+  }
+
+  public addEditMenu() {
     if (process.platform == 'darwin') {
-      mainMenuTemplate.push(
+      this.mainMenuTemplate.push(
         {
           label: 'Edit',
           submenu: [
@@ -37,9 +58,6 @@ export class MenuService {
         }
       )
     }
-    mainMenuTemplate[0].submenu[0].enabled = arg
-    console.log("remote.menuitem", remote.MenuItem[0])
-    remote.Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate)) 
   }
   
 }

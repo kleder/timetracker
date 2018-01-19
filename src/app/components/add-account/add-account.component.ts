@@ -12,6 +12,7 @@ import { shell } from 'electron';
 
 import { DataService } from '../../services/data.service';
 import { MenuService } from '../../services/menu.service'
+import { DatabaseService } from '../../services/database.service'
 
 @Component({
   selector: 'app-add-account',
@@ -23,7 +24,8 @@ export class AddAccountComponent implements OnInit {
   public name = ""
   public youTrackUrl = "";
   public token = "";
-  public firstAccount: boolean
+  public firstAccount: boolean;
+  public accounts
 
   constructor(
     public http: Http,
@@ -33,7 +35,8 @@ export class AddAccountComponent implements OnInit {
     public apiService: ApiService,
     public toasterService: ToasterService,
     public dataService: DataService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private databaseService: DatabaseService
   )
     {
     }
@@ -47,8 +50,13 @@ export class AddAccountComponent implements OnInit {
     var current = await this.account.Current();
     if (current != undefined && !this.firstAccount){
       this.router.navigate(['/boards'], { queryParams: {justLoggedIn: false, name: current.name, url: current.url} });
-    } else if (current == undefined)      {
+    } else if (current == undefined) {
       this.menuService.enabledWorkspace(false)
+      this.getAccounts().then(() => {
+        if (this.accounts.length == 0) {
+          this.menuService.enabledWorkspaceAndSwitchAccount(false)        
+        }
+      })
     }
   }
 
@@ -79,7 +87,11 @@ export class AddAccountComponent implements OnInit {
         this.loader = false;
         }
     )   
-  
+  }
+
+  public async getAccounts(): Promise<any> {
+    this.accounts = await this.databaseService.getAccounts();
+    console.log("this.accounts", this.accounts)
   }
 
   public errorName() {
