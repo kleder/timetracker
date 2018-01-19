@@ -15,7 +15,7 @@ script:
   - npm --version
   - npm install
   - npm run electron:$TARGET
-  - zip -r build.zip app-builds/Trec-*-x64/
+  - zip -r build.zip app-builds/T-Rec-*/
 
 cache:
   directories:
