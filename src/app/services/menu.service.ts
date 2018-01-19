@@ -27,7 +27,6 @@ export class MenuService {
     ]
     this.addEditMenu()
     this.mainMenuTemplate[0].submenu[0].enabled = arg
-    console.log("remote.menuitem", remote.MenuItem[0])
     remote.Menu.setApplicationMenu(Menu.buildFromTemplate(this.mainMenuTemplate)) 
   }
 
