@@ -3,7 +3,7 @@
         <div class="add-account__title">Add new account</div>
     </div>
     <div class="add-account__content">
-        <span *ngIf="!accounts" class="add-account__close trec-icon-close" routerLink="/accounts"></span>                
+        <span *ngIf="accounts?.length > 0" class="add-account__close trec-icon-close" routerLink="/accounts"></span>                
         <form #formCtrl="ngForm">
             <div class="add-account__form">
                 <input id="add-account__name" [(ngModel)]="name" name="name" placeholder="Custom name for an account" onfocus="this.placeholder=''" onblur="this.placeholder='Custom name for the account'" type="text" required>
