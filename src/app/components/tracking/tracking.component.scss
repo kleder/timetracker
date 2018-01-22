@@ -69,8 +69,8 @@
         &.decrease {
             -webkit-animation: decrease 0.5s;
             animation: decrease 0.5s;
-            min-height: calc(100% - 197px);
-            height: calc(100% - 197px)
+            min-height: calc(100% - 209px);
+            height: calc(100% - 209px)
         }
         &.increase {
             -webkit-animation: increase 0.2s;
@@ -81,24 +81,24 @@
         @-webkit-keyframes decrease {
             from {        min-height: calc(100% - 107px);
                 height: calc(100% - 107px);} 
-            to {            min-height: calc(100% - 197px);
-                height: calc(100% - 197px); }
+            to {            min-height: calc(100% - 209px);
+                height: calc(100% - 209px); }
         }
         @keyframes decrease {
             from {        min-height: calc(100% - 107px);
                 height: calc(100% - 107px);} 
-            to {            min-height: calc(100% - 197px);
-                height: calc(100% - 197px); }
+            to {            min-height: calc(100% - 209px);
+                height: calc(100% - 209px); }
         }
         @-webkit-keyframes increase {
-            from {        min-height: calc(100% - 197px);
-                height: calc(100% - 197px);} 
+            from {        min-height: calc(100% - 209px);
+                height: calc(100% - 209px);} 
             to {                min-height: calc(100% - 107px);
                 height: calc(100% - 107px); }
         }
         @keyframes increase {
-            from {        min-height: calc(100% - 197px);
-                height: calc(100% - 197px);} 
+            from {        min-height: calc(100% - 209px);
+                height: calc(100% - 209px);} 
             to {             min-height: calc(100% - 107px);
                 height: calc(100% - 107px); }
         }
