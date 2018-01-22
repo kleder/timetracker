@@ -10,11 +10,12 @@ T-Rec is a desktop time recording app that helps you log your work time into You
 * track time of your tasks from multiple agile boards  
 * detect your idle time and decide what to do with it
 * autosync with youtrack
+* work with many youtrack instances
 
 [![Build Status](https://travis-ci.org/kleder/timetracker.svg?branch=master)](https://travis-ci.org/kleder/timetracker)
 
 ## Downloads 
-The Windows (x64) and Mac binaries are avaible on [Release](https://github.com/kleder/timetracker/releases) page.
+The Windows (x64)/ Linux (x64) and Mac binaries are avaible on [Release](https://github.com/kleder/timetracker/releases/tag/v1.0.0) page.
 
 ## Getting started
 
