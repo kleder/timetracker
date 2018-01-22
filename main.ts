@@ -77,7 +77,7 @@ try {
   // app.on('ready', createWindow);
   app.on('ready', () => {
     let trayImage = ''
-    if (process.platform == 'darwin') {  
+    if (process.platform == 'darwin' || process.platform == 'linux') {  
       trayImage = './assets/tray/osx/icon_tray-normal.png';
     }
     else if (process.platform == 'win32') {  
@@ -111,6 +111,8 @@ try {
       show: false
     })
 
+    
+
     splash = new BrowserWindow({
       width: 400,
       height: 420,
@@ -123,6 +125,7 @@ try {
       pathname: path.join(__dirname, 'splash.html'),
       protocol: 'file',
       slashes: true,
+      icon: __dirname + '/assets/trec-logo.png'    
     }))
     
     mainWindow.loadURL(url.format({
@@ -130,7 +133,19 @@ try {
         protocol: 'file',
         slashes: true,
         icon: __dirname + '/assets/trec-logo.png'    
-    }))    
+    }))
+    
+    mainWindow.webContents.executeJavaScript(`
+      var path = require('path');
+      module.paths.push(path.resolve('node_modules'));
+      module.paths.push(path.resolve('../node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'electron', 'node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'electron.asar', 'node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'app', 'node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'app.asar', 'node_modules'));
+      path = undefined;
+    `);
+      
     splash.once("ready-to-show", () => { splash.show()
     })
     setTimeout(() => {

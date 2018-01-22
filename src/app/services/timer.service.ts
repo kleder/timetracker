@@ -159,7 +159,7 @@ export class TimerService {
 
   public trayRecording() {
     let iconPath = ''    
-    if (process.platform == 'darwin') {
+    if (process.platform == 'darwin' || process.platform == 'linux') {
       iconPath = path.join(__dirname, './assets/tray/osx/icon_tray-recording.png')
     }
     else if (process.platform == 'win32') {
@@ -169,7 +169,7 @@ export class TimerService {
 
   public trayDefault() {
     let iconPath = ''    
-    if (process.platform == 'darwin') {
+    if (process.platform == 'darwin' || process.platform == 'linux') {
       iconPath = path.join(__dirname, './assets/tray/osx/icon_tray-normal.png')
     }
     else if (process.platform == 'win32') {
