@@ -187,6 +187,39 @@
             }
         }
     }
+    .boards__list--empty {
+        padding-top: 50px;
+        text-align: center;
+        img {
+          margin-bottom: 49px;
+          width: 121px;
+        }
+        .boards__title {
+            font-family: 'Montserrat', sans-serif;
+            color:  $white;
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 44px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .boards__text {
+            margin-bottom: 36px;
+            font-family: 'Montserrat', sans-serif;
+            color:  $font-grey;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 24px;
+            &--link {
+                text-decoration: underline;
+                cursor: pointer;
+                outline: none;
+                &:hover {
+                    color: $white;
+                }
+            }
+        }
+    }
 }
 .loading-container {
     height: calc(100% - 20px);

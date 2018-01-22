@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
   private totalTimes: object
   private boardStates: Array<any> = []
   private issueHexColor: any
-
+  private boardsChecked: boolean
   constructor(
     public api: ApiService,
     public timerService: TimerService,
@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit {
     this.databaseService.getBoardVisibilities(account["id"], boardName).then(boardVisibility => {
       this.agiles.filter(agile => {
         if (agile.name == boardVisibility[0].boardName) {
-          boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false
+          boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false          
         }
       })
     })
@@ -190,7 +190,7 @@ export class DashboardComponent implements OnInit {
     console.log("tempIssues", tempIssues)
     this.agiles[agileIndex].issues = tempIssues
     console.log("prepared agiles", this.agiles)
-
+    this.isAnyBoardVisible()
     this.prepareAndSaveUniqueStates(agileIndex)
   }
 
@@ -200,6 +200,14 @@ export class DashboardComponent implements OnInit {
     this.agiles[agileIndex].issues.forEach((issue) => {
       states.push(issue.field.State[0])
       this.databaseService.saveBoardStates(currentAccount["id"], this.agiles[agileIndex].name, issue.field.Priority[0])
+    })
+  }
+
+  public isAnyBoardVisible() {
+    this.agiles.forEach((agile) => {
+      if (agile.checked) {
+        this.boardsChecked = true
+      }
     })
   }
   
