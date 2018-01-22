@@ -77,7 +77,7 @@ try {
   // app.on('ready', createWindow);
   app.on('ready', () => {
     let trayImage = ''
-    if (process.platform == 'darwin') {  
+    if (process.platform == 'darwin' || process.platform == 'linux') {  
       trayImage = './assets/tray/osx/icon_tray-normal.png';
     }
     else if (process.platform == 'win32') {  
@@ -103,15 +103,21 @@ try {
     mainWindow = new BrowserWindow({
       width: 400,
       height: 650,
+      minWidth:400,
+      minHeight: 650,
       title: 'T-Rec App',
       frame: false,
       icon: __dirname + '/assets/trec-logo.png',
       show: false
     })
 
+    
+
     splash = new BrowserWindow({
       width: 400,
       height: 420,
+      minWidth:400,
+      minHeight: 420,
       frame: false,
       alwaysOnTop: true
     })
@@ -119,6 +125,7 @@ try {
       pathname: path.join(__dirname, 'splash.html'),
       protocol: 'file',
       slashes: true,
+      icon: __dirname + '/assets/trec-logo.png'    
     }))
     
     mainWindow.loadURL(url.format({
@@ -126,7 +133,19 @@ try {
         protocol: 'file',
         slashes: true,
         icon: __dirname + '/assets/trec-logo.png'    
-    }))    
+    }))
+    
+    mainWindow.webContents.executeJavaScript(`
+      var path = require('path');
+      module.paths.push(path.resolve('node_modules'));
+      module.paths.push(path.resolve('../node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'electron', 'node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'electron.asar', 'node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'app', 'node_modules'));
+      module.paths.push(path.resolve(__dirname, '..', '..', 'app.asar', 'node_modules'));
+      path = undefined;
+    `);
+      
     splash.once("ready-to-show", () => { splash.show()
     })
     setTimeout(() => {
@@ -138,7 +157,7 @@ try {
     mainWindow.on('closed', function() {
         app.quit()
     })
-
+    
     mainWindow.webContents.on('context-menu', (e, props) => {
       const InputMenu = Menu.buildFromTemplate([    
         { label: "Cut",
@@ -172,6 +191,17 @@ try {
             submenu: newMenu.initMenu(app, mainWindow)
           }
         ]
+        mainMenuTemplate.push(
+          {
+            label: 'Edit',
+            submenu: [
+              {role: 'cut'},
+              {role: 'copy'},
+              {role: 'paste'},
+              {role: 'selectall'}
+            ]
+          }
+        )
         Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate))
     }
 

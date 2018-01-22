@@ -13,6 +13,7 @@
             cursor: pointer;
             &:hover {
                 .project-list__title {
+                    opacity: 0.7;
                     text-decoration: underline;
                 }
             }
@@ -41,7 +42,6 @@
                 height: 15px;
                 background-color: #35343d;
                 border-radius: 4px;
-
                 span {
                     float: left;
                     color: $font-grey;
@@ -62,6 +62,9 @@
                     letter-spacing: 1px;
                     cursor: pointer;
                     outline: none;
+                    &:hover {
+                        color: $custom-red;
+                    }
                 }
             }
             .project-list__item {
@@ -95,8 +98,10 @@
                     .project-list__id {
                         padding-right: 14px;
                         cursor: pointer;
+                        text-decoration: underline;
                         &:hover {
-                            text-decoration: underline;
+                            color: $white;
+                            text-decoration: none;                            
                         }
                     }
                     .project-list__priority {
@@ -118,13 +123,16 @@
                         padding-right: 15px;
                     }
                     .project-list__description {
-                        padding-right: 15px;
+                        padding-right: 13px;
                         vertical-align: bottom;
                         font-size: 12px;
+                        color: $white;
                     }
                     .project-list__comments {
                         font-size: 12px;
+                        color: $white;                        
                         &:before {
+                            margin-right: -4px;
                             vertical-align: middle;
                         }
                     }
@@ -179,8 +187,43 @@
             }
         }
     }
+    .boards__list--empty {
+        padding-top: 50px;
+        text-align: center;
+        img {
+          margin-bottom: 49px;
+          width: 121px;
+        }
+        .boards__title {
+            font-family: 'Montserrat', sans-serif;
+            color:  $white;
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 44px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .boards__text {
+            margin-bottom: 36px;
+            font-family: 'Montserrat', sans-serif;
+            color:  $font-grey;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 24px;
+            &--link {
+                text-decoration: underline;
+                cursor: pointer;
+                outline: none;
+                &:hover {
+                    color: $white;
+                }
+            }
+        }
+    }
 }
 .loading-container {
+    height: calc(100% - 20px);
+    position: relative;
     padding: 10px;
     &__name {
         margin-bottom: 12px;
@@ -211,7 +254,12 @@
         }
     }
     .spinner {
-        margin-bottom: 30px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 190px;
+        bottom: 0;
+        margin: 0 auto;
         .lds-css {
             text-align: center;
         }

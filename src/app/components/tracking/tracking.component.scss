@@ -4,36 +4,36 @@
     overflow: hidden;
     cursor: default;    
     .menu {
-        margin-top: 76px;
-        width: 100%;
+        margin-top: 43px;
+        padding-top: 36px;
+        height: 42px;
         background-color: $menu-color;
-        ul {
-            padding: 0px 23px 0 30px;
+        &__main {
+            width: 90%;
+            display: inline-block;
+            padding: 0px;
             margin: 0;
-            margin-top: -10px;
+            margin-top: -17px;
+            text-align: center;
             li {
-                display: block;
-                float: left;
-                width: 40%;
-                padding: 13px;
+                display: inline-block;
+                padding: 19px 30px;
                 color: $white;
                 list-style: none;
                 text-align: center;
                 font-family: 'Montserrat', sans-serif;
                 border-top: 0;
                 box-sizing: border-box;
-                cursor: pointer;                            
-                &.active {
-                    border-bottom: 2px solid $custom-red; 
+                cursor: pointer;  
+                &:first-of-type {
+                    margin-left: 10%;
                 }
-                &.settings {
-                    float: right;
-                    width: inherit;
-                    padding: 13px 0;
-                    .trec-icon-settings {
-                        font-size: 20px;
-                    }
-                }     
+                &:hover {
+                    color: $custom-red;
+                }                          
+                &.menu__main--active {
+                    border-bottom: 2px solid $custom-red; 
+                } 
                 &:focus {
                     outline: none;
                 }
@@ -43,9 +43,21 @@
                 }
             }
         }
+        .menu__settings {
+            float: right;
+            width: 10%;
+            color: $white; 
+            .trec-icon-settings {
+                font-size: 20px;
+                cursor: pointer;
+                outline: none;
+                &:hover {
+                    color: $custom-red;
+                }     
+            }
+        }    
     }
     .content {
-        // margin-top: 127px;
         padding: 20px 10px;
         float: left;
         width: 100%;
@@ -57,8 +69,8 @@
         &.decrease {
             -webkit-animation: decrease 0.5s;
             animation: decrease 0.5s;
-            min-height: calc(100% - 197px);
-            height: calc(100% - 197px)
+            min-height: calc(100% - 209px);
+            height: calc(100% - 209px)
         }
         &.increase {
             -webkit-animation: increase 0.2s;
@@ -69,40 +81,26 @@
         @-webkit-keyframes decrease {
             from {        min-height: calc(100% - 107px);
                 height: calc(100% - 107px);} 
-            to {            min-height: calc(100% - 197px);
-                height: calc(100% - 197px); }
+            to {            min-height: calc(100% - 209px);
+                height: calc(100% - 209px); }
         }
         @keyframes decrease {
             from {        min-height: calc(100% - 107px);
                 height: calc(100% - 107px);} 
-            to {            min-height: calc(100% - 197px);
-                height: calc(100% - 197px); }
+            to {            min-height: calc(100% - 209px);
+                height: calc(100% - 209px); }
         }
         @-webkit-keyframes increase {
-            from {        min-height: calc(100% - 197px);
-                height: calc(100% - 197px);} 
+            from {        min-height: calc(100% - 209px);
+                height: calc(100% - 209px);} 
             to {                min-height: calc(100% - 107px);
                 height: calc(100% - 107px); }
         }
         @keyframes increase {
-            from {        min-height: calc(100% - 197px);
-                height: calc(100% - 197px);} 
+            from {        min-height: calc(100% - 209px);
+                height: calc(100% - 209px);} 
             to {             min-height: calc(100% - 107px);
                 height: calc(100% - 107px); }
-        }
-    }
-    button {
-        &.danger {
-            background-color: $custom-red;
-            color: $white !important;
-        }
-        &.positive {
-            background-color: $normal;
-            color: $dark !important
-        }
-        &.info {
-            background-color: #38b4e7;
-            color: $white !important;            
         }
     }
     #current-item {
@@ -211,11 +209,12 @@
     }
     #modal {
         display: none;
-        i {
-            float: right;
-            margin-top: -18px;
-            margin-right: -18px;
-            cursor: pointer;            
+        .trec-icon-close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 20px;
+            cursor: pointer;
         }
         .modal__backdrop {
             position: fixed;
@@ -233,12 +232,12 @@
             right: 0;
             left: 0;
             margin: 0 auto;
-            width: 300px;
+            width: 320px;
             box-sizing: border-box;
             text-align: center;
-            padding: 24px;
+            padding: 24px 16px;
             z-index: 10000;
-            background-color: #3b3e42;
+            background-color: $menu-color;
             color: $white;
             font-family: 'Montserrat', sans-serif;           
             border-radius: 4px;
@@ -247,8 +246,8 @@
                 font-size: 14px;
             }
             .modal__interaction {
-                width: 230px;
-                padding: 14px 7px 0;
+                width: 100%;
+                padding: 14px 0;
                 margin: 0 auto;
                 input {
                     -webkit-appearance: none;
@@ -271,22 +270,59 @@
                     font-size: 12px;
                     line-height: 16px;
                     float: left;
-                    width: 140px;
+                    width: 77%;
                     text-align: left;
                 }
             }
             .unstopped-item {
-                button {
-                    display: inline-block;
-                    width: 60px;
-                    height: 22px;
-                    border: 0px solid #ffffff;
-                    border-radius: 2px;
-                    font-family: 'Montserrat', sans-serif;
-                    font-size: 12px;
-                    font-weight: 500;
-                    margin: 0 2px;
-                    cursor: pointer;                                        
+                .btn {
+                    float: left;
+                    width: 33.3%;
+                    font-size: 11px;
+                    padding: 19px 6px;
+                    position: relative;
+                    width: 33.3%;
+                    text-align: left;
+                    box-sizing: border-box;
+                    &__text {
+                        position: absolute;
+                        top: 10px;
+                        left: 0;
+                        right: 0;
+                        text-align: center;
+                    }
+                    .icon {
+                        margin: -2px 3px 0 0;
+                        vertical-align: middle;
+                        font-size: 24px;
+                    }
+                    .trec-icon-remove {
+                        color: $custom-red;
+                    }
+                    .trec-icon-resume {
+                        color: $yellow;
+                    }
+                    .trec-icon-check {
+                        color: $normal;
+                        font-weight: 700;
+                    }
+                    &:first-of-type {
+                        border-top-right-radius: 0;
+                        border-bottom-right-radius: 0;
+                    }
+                    &:nth-of-type(2) {
+                        border-radius: 0;
+                        border-left-width: 1px;
+                        border-right-width: 1px;
+                        &:hover {
+                            border-left-width: 2px;
+                            border-right-width: 2px;
+                        }
+                    }
+                    &:last-of-type {
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                    }
                 }
             }
         }

@@ -9,7 +9,7 @@
         right: 0;
         width: 140px;
         margin: 0 auto;
-        padding: 31px 0 2px;
+        padding: 20px 0 0px;
         background-color: $menu-color;
     }
     &__title {
@@ -24,13 +24,13 @@
         cursor: default;
         .btn {
             display: inline-block;                    
-            width: calc(50% - 4px);
             &:nth-child(2) {
                 float: right;
             }
         }
       }
     &__content {
+        position: relative;
         .accounts__title {
             font-family: 'Montserrat', sans-serif;        
             color:  $font-grey;
@@ -39,6 +39,15 @@
             font-weight: 400;
             letter-spacing: 1px;
             cursor: default;            
+        }
+        .accounts__close {
+            position: absolute;
+            top: -32px;
+            right: 0px;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
         }
         ul {
             margin-top: 4px;
@@ -74,10 +83,6 @@
                     background: transparent;
                     border: 0;
                     cursor: pointer;
-                }
-                i {
-                    padding-right: 16px;
-                    color: $custom-red;
                 }
             }        
         }

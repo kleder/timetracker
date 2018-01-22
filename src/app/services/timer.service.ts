@@ -50,13 +50,19 @@ export class TimerService {
     if (this.currentIssue == undefined){
       return 0;
     }
-
     var stoppedTime = this.currentIssue.duration
-    if (stoppedTime < 60 && !this.hideHints) {
-      this.showModal()
+    if (stoppedTime <= 10) {
+      this.currentIssue = undefined      
+      return 0
     }
+    if (stoppedTime <= 10 && !this.hideHints) {
+      this.showModal()
+    } else if (stoppedTime > 10 && stoppedTime < 60) {
+      this.currentIssue = undefined      
+      return stoppedTime = 60
+    } 
     this.currentIssue = undefined
-    return stoppedTime
+    return Math.ceil(stoppedTime/60)*60
   }
 
   public startidleTime(min) {
@@ -78,15 +84,10 @@ export class TimerService {
     this.afkTime = 0
   }
 
-  public showNotification() {
-    document.getElementById('afk-notification').style.display = "unset"
-  }
-
   public shouldAddAfkTime(r) {
     if (!r) {
       this.updateTime()
     }
-    document.getElementById('afk-notification').style.display = "none"
   }
 
   public updateTime() {
@@ -109,14 +110,22 @@ export class TimerService {
 
 
   public async startItem(issue: WorkItemData): Promise<any> {
+    console.log("in startItem", issue)
+    console.log("this.currentIssue", this.currentIssue)
     if (this.currentIssue != undefined) {
+      if (issue.issueId == this.currentIssue.issueId) {
+        this.stopItem();
+        return false
+      }
       await this.stopItem();
     }
     this.trayRecording()
     issue.recordedTime = await this.databaseService.getRecordedTime(issue.issueId)
     return new Promise((resolve => {
       this.turnTimer(issue)
-      this.databaseService.startItem(issue)
+      if (issue.duration < 60) {
+        this.databaseService.startItem(issue)        
+      }
       resolve(issue);
     }))
 
@@ -126,13 +135,14 @@ export class TimerService {
     this.trayDefault()
     let issue = this.currentIssue;
     console.log(issue)
-    let stoppedTime = this.stopIssueTimer()
-    if (stoppedTime >= 60) {
+    issue.duration = this.stopIssueTimer()
+    if (issue.duration >= 60) {
       return this.api.createNewWorkItem(issue).then(
         data => {
           this.stopIdleTime()
           // stop issueTimer && saveInDb 
-          this.databaseService.stopItem(stoppedTime, issue.startDate)
+          this.databaseService.stopItem(issue.duration, issue.startDate)
+          this.databaseService.setIsPublished(issue.startDate)          
           this.stopTrackingNotifications()          
           this.toasterService.showToaster('Your tracking has been saved!', 'default')          
         }, err => {
@@ -142,14 +152,14 @@ export class TimerService {
     }
     return new Promise<any>((resolve, reject) => {
       this.stopTrackingNotifications()                
-      this.toasterService.showToaster('Records shorter than 1 minute will not be reported.', 'error')
+      this.toasterService.showToaster('Records shorter than 10 seconds will not be reported.', 'error')
       reject("To small amount of data");
     })
   }
 
   public trayRecording() {
     let iconPath = ''    
-    if (process.platform == 'darwin') {
+    if (process.platform == 'darwin' || process.platform == 'linux') {
       iconPath = path.join(__dirname, './assets/tray/osx/icon_tray-recording.png')
     }
     else if (process.platform == 'win32') {
@@ -159,7 +169,7 @@ export class TimerService {
 
   public trayDefault() {
     let iconPath = ''    
-    if (process.platform == 'darwin') {
+    if (process.platform == 'darwin' || process.platform == 'linux') {
       iconPath = path.join(__dirname, './assets/tray/osx/icon_tray-normal.png')
     }
     else if (process.platform == 'win32') {

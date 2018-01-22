@@ -36,7 +36,7 @@ function pack(plat, arch, cb) {
 
     if (icon) {
         DEFAULT_OPTS.icon = icon + (() => {
-            let extension = '.png';
+            let extension = '.ico';
             if (plat === 'darwin') {
                 extension = '.icns';
             } else if (plat === 'win32') {

@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
   private totalTimes: object
   private boardStates: Array<any> = []
   private issueHexColor: any
-
+  private boardsChecked: boolean
   constructor(
     public api: ApiService,
     public timerService: TimerService,
@@ -65,13 +65,16 @@ export class DashboardComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.init()
+    if (!window.navigator.onLine) {
+      this.toasterService.showToaster("No internet connection", "error")
+    } else {
+      this.init()
+    }
   }
 
   public init() {
     this.api.getAllAgiles().then(
       data => {
-        this.httpService.loader = false
         this.agiles = data
         this.agiles.forEach(agile => {
           this.getAgileVisibility(agile.name)
@@ -91,24 +94,22 @@ export class DashboardComponent implements OnInit {
     this.databaseService.getBoardVisibilities(account["id"], boardName).then(boardVisibility => {
       this.agiles.filter(agile => {
         if (agile.name == boardVisibility[0].boardName) {
-          boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false
+          boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false          
         }
       })
     })
   }
 
-  public getItemsFromDb() {
+  async getItemsFromDb() {
+    let account = await this.account.Current()    
     let that = this
     this.totalTimes = {}
-    this.databaseService.getAllItems().then(data => {
+    this.databaseService.getAllItems(account["id"]).then(data => {
       console.log("resolve from db", data)
       this.allItemsFromDb = data
       this.allItemsFromDb.forEach(function(row) {
         if (that.timerService.currentIssue == undefined && row.status == "start" && row.published == 0 && row.duration > 0) {
           that.dataService.sendUnstoppedItem(row)
-          that.dataService.choosenAction.subscribe(itemWithAction => {
-            that.manageUnstoppedItem(itemWithAction, itemWithAction["action"])
-          })
         }
         let todayItems = []
         if (new Date(row.date).getDate() == new Date().getDate() && row.status == "stop") {
@@ -193,7 +194,7 @@ export class DashboardComponent implements OnInit {
     console.log("tempIssues", tempIssues)
     this.agiles[agileIndex].issues = tempIssues
     console.log("prepared agiles", this.agiles)
-
+    this.isAnyBoardVisible()
     this.prepareAndSaveUniqueStates(agileIndex)
   }
 
@@ -205,6 +206,14 @@ export class DashboardComponent implements OnInit {
       this.databaseService.saveBoardStates(currentAccount["id"], this.agiles[agileIndex].name, issue.field.Priority[0])
     })
   }
+
+  public isAnyBoardVisible() {
+    this.agiles.forEach((agile) => {
+      if (agile.checked) {
+        this.boardsChecked = true
+      }
+    })
+  }
   
   public priorityClass(issue) {
     this.boardStates.filter(board => {
@@ -212,41 +221,6 @@ export class DashboardComponent implements OnInit {
         return issue.field.Priority[1] = board.hexColor
       }
     })
-  }
-
-  public manageUnstoppedItem = (item, action) => {
-    console.log("manageUnstoppedItem", item)
-    console.log('action', action)
-    item.id = item.issueid
-    if (action == 'remove') {
-      this.databaseService.deleteItem(item)
-      this.hideModal()
-      this.toasterService.showToaster('Your tracking has been removed!', 'default')
-    }
-    if (action == 'resume') {
-      this.agiles.filter(agile => {
-        if (agile.name == item.agile) {
-          agile.issues.filter(issue => {
-            if (issue.id == item.issueid) {
-              let unstoppedIssue = issue
-              unstoppedIssue.date = item.date
-              unstoppedIssue.duration = item.duration
-              console.log(unstoppedIssue)
-              this.sendWorkItems(unstoppedIssue)
-              this.hideModal()
-            }
-          })
-        }
-      })
-    }    
-    if (action == 'add') {
-      this.sendWorkItems({date: item.date, duration: item.duration, issueId: item.id, startDate: item.date, summary: item.summary, recordedTime: 0})
-      this.hideModal()
-    }
-  }
-
-  public hideModal() {
-    document.getElementById('modal').style.display = "none"
   }
 
   public convertEstimate = (est) => {
@@ -260,14 +234,18 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  public startTracking(issue: any) {
+  async startTracking(issue: any, duration?) {
+    console.log('issue in start tracking', issue)
+    let account = await this.account.Current()
     var item = new WorkItemData;
+    item.accountId = account["id"],
     item.issueId = issue.id;
-    item.duration = 0;
-    item.date = Date.now();
-    item.startDate = Date.now();
+    item.duration = duration || 0;
+    item.date = issue.date || Date.now();
+    item.startDate = issue.startDate || Date.now();
     item.summary = issue.field.summary;
     item.agile = issue.field.sprint[0].id.split(':')[0]
+    console.log("issue.id ", issue.id)
     console.log("summary", issue.field)
     this.timerService.startItem(item);
   }

@@ -29,7 +29,7 @@ export class ToasterService {
       }
       setTimeout(function() { 
         that.toaster.className = that.toaster.className.replace("show", "")
-      }, 2500);
+      }, 5500);
     }, 300)
     this.toaster.className = that.toaster.className.replace("default-notification--default", "")
     this.toaster.className = that.toaster.className.replace("default-notification--success", "")

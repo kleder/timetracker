@@ -11,6 +11,7 @@ const app = remote.app
 @Injectable()
 export class MenuService {
   accounts
+  mainMenuTemplate:Array<any>
   constructor(
     private accountService: AccountService,
     public databaseService: DatabaseService,
@@ -18,21 +19,44 @@ export class MenuService {
   ) { 
   }
 
-  public enabledWorkspace(arg:boolean) {
-    // this.accounts = await this.databaseService.getAccounts();
-    // console.log("this.accounts", this.accounts)
-    // let isCurrentAccountExists
-    // this.accounts.forEach(account => {
-    //   account.current? isCurrentAccountExists = true : ''
-    // })    
-    var mainMenuTemplate:Array<any> = [ 
+  public enabledWorkspace(arg:boolean) { 
+    this.mainMenuTemplate = [ 
       {
         submenu: newMenu.initMenu(app, remote.getCurrentWindow())
       }
     ]
-    mainMenuTemplate[0].submenu[0].enabled = arg
-    console.log("remote.menuitem", remote.MenuItem[0])
-    remote.Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate)) 
+    this.addEditMenu()
+    this.mainMenuTemplate[0].submenu[0].enabled = arg
+    remote.Menu.setApplicationMenu(Menu.buildFromTemplate(this.mainMenuTemplate)) 
+  }
+
+  public enabledWorkspaceAndSwitchAccount(arg:boolean) { 
+    this.mainMenuTemplate = [ 
+      {
+        submenu: newMenu.initMenu(app, remote.getCurrentWindow())
+      }
+    ]
+    this.addEditMenu()
+    this.mainMenuTemplate[0].submenu[0].enabled = arg    
+    this.mainMenuTemplate[0].submenu[1].submenu[0].enabled = arg
+    remote.Menu.setApplicationMenu(Menu.buildFromTemplate(this.mainMenuTemplate)) 
+  }
+
+  public addEditMenu() {
+    if (process.platform == 'darwin') {
+      this.mainMenuTemplate.push(
+        {
+          label: 'Edit',
+          submenu: [
+            {role: 'undo'},
+            {role: 'cut'},
+            {role: 'copy'},
+            {role: 'paste'},
+            {role: 'selectall'}
+          ]
+        }
+      )
+    }
   }
   
 }

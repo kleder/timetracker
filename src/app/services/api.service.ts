@@ -11,7 +11,6 @@ import { resolve } from 'dns';
 export class ApiService {
 
   constructor(
-    // public http: Http,
     public http: HttpService,
     public accounts: AccountService
   ) {

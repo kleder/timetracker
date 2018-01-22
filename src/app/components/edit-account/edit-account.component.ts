@@ -22,7 +22,7 @@ export class EditAccountComponent implements OnInit {
     public databaseService: DatabaseService,
     public activatedRoute: ActivatedRoute,
     public api: ApiService,
-    public http: HttpService,
+    public httpService: HttpService,
     public router: Router,
     public account: AccountService,
     public toasterService: ToasterService
@@ -45,7 +45,7 @@ export class EditAccountComponent implements OnInit {
   public getAllAgiles() {
     this.api.getAllAgiles().then(
       data => {
-        this.http.loader = false
+        this.httpService.loader = false
         this.agiles = data
         this.agiles.forEach(agile => {
           this.getAgileVisibility(agile.name)          
@@ -118,6 +118,12 @@ export class EditAccountComponent implements OnInit {
         this.toasterService.showToaster('An error occured!', "error")            
       })
     })
+  }
+
+  public saveChanges(account) {
+    this.updateAgilesVisibility()
+    this.editNameOrUrl(account)
+    this.backToWorkspace()
   }
 
 }

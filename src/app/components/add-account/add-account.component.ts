@@ -11,6 +11,8 @@ import { ToasterService } from '../../services/toaster.service';
 import { shell } from 'electron';
 
 import { DataService } from '../../services/data.service';
+import { MenuService } from '../../services/menu.service'
+import { DatabaseService } from '../../services/database.service'
 
 @Component({
   selector: 'app-add-account',
@@ -22,7 +24,8 @@ export class AddAccountComponent implements OnInit {
   public name = ""
   public youTrackUrl = "";
   public token = "";
-  public firstAccount: boolean
+  public firstAccount: boolean;
+  public accounts
 
   constructor(
     public http: Http,
@@ -31,7 +34,9 @@ export class AddAccountComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public apiService: ApiService,
     public toasterService: ToasterService,
-    public dataService: DataService
+    public dataService: DataService,
+    private menuService: MenuService,
+    private databaseService: DatabaseService
   )
     {
     }
@@ -45,6 +50,14 @@ export class AddAccountComponent implements OnInit {
     var current = await this.account.Current();
     if (current != undefined && !this.firstAccount){
       this.router.navigate(['/boards'], { queryParams: {justLoggedIn: false, name: current.name, url: current.url} });
+    } else if (current == undefined) {
+      this.menuService.enabledWorkspace(false)
+      this.getAccounts().then(() => {
+        if (this.accounts.length == 0) {
+          this.accounts = false
+          this.menuService.enabledWorkspaceAndSwitchAccount(false)        
+        }
+      })
     }
   }
 
@@ -55,27 +68,34 @@ export class AddAccountComponent implements OnInit {
     rAccount.token = this.token;
     rAccount.url = this.youTrackUrl;
     console.log('rAccount',rAccount)
+    if (!window.navigator.onLine) {
+      this.toasterService.showToaster("No internet connection", "error")
+    } else {
+      this.apiService.getCurrentUser(rAccount).then(
+        (data) => {
+          console.log("data", data)
+          console.log('rAccount',rAccount)
+          if (rAccount.name.length < 3) {
+            this.clearErrorUrlOrToken()
+            this.errorName()
+            this.loader = false;
+          } else {
+            this.account.add(rAccount.name, rAccount.url, rAccount.token);
+            this.loader = false;
+            this.goToBoard()
+          }
+        }, (error) => {
+          this.errorUrlOrToken()
+          this.toasterService.showToaster("Error eccoured! Incorrect URL or token", 'error')        
+          this.loader = false;
+          }
+      )   
+    }
+  }
 
-    this.apiService.getCurrentUser(rAccount).then(
-      (data) => {
-        console.log("data", data)
-        console.log('rAccount',rAccount)
-        if (rAccount.name.length < 3) {
-          this.clearErrorUrlOrToken()
-          this.errorName()
-          this.loader = false;
-        } else {
-          this.account.add(rAccount.name, rAccount.url, rAccount.token);
-          this.loader = false;
-          this.goToBoard()
-        }
-      }, (error) => {
-        this.errorUrlOrToken()
-        this.toasterService.showToaster("Error eccoured! Incorrect URL or token", 'error')        
-        this.loader = false;
-        }
-    )   
-  
+  public async getAccounts(): Promise<any> {
+    this.accounts = await this.databaseService.getAccounts();
+    console.log("this.accounts", this.accounts)
   }
 
   public errorName() {
@@ -103,7 +123,6 @@ export class AddAccountComponent implements OnInit {
   }
 
   goToBoard() {
-
     this.router.navigate(['/boards'], { queryParams: {justLoggedIn: true, name: this.name} });
   }
 

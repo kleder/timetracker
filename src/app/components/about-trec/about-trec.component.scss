@@ -11,7 +11,7 @@
         right: 0;
         width: 140px;
         margin: 0 auto;
-        padding: 31px 0 2px;
+        padding: 20px 0 0px;
         background-color: $menu-color;
     }
     &__title {
@@ -27,17 +27,17 @@
         font-family: 'Montserrat', sans-serif;
         color: $white;
         text-align: center;
-        padding: 44px 20px 90px;
+        padding: 38px 20px 90px;
         margin-bottom: 20px;
         height: 100%;
         font-size: 14px;
         img {
             max-width: 160px;
-            margin: 20px auto 20px;
+            margin: 0 auto 0;
             display: block;
         }
         p {
-            margin: 36px 0 22px 0;
+            margin: 26px 0 22px 0;
         }
         b {
             color: $custom-red;

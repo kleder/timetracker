@@ -22,7 +22,8 @@ html, body {
     outline: none;
     &--grey {
         background-color: $font-grey;
-        color: $font-btn-color;   
+        color: $font-btn-color;
+        cursor: not-allowed; 
         &:hover {
           background-color: $font-btn-color;
           color: $font-grey;
@@ -44,6 +45,9 @@ html, body {
       &:hover {
         border: 2px solid $white;
       }       
+    }
+    &:disabled {
+      cursor: not-allowed;
     }
   }
   .splash-screen {
@@ -189,4 +193,8 @@ html, body {
 
 .trec-icon-settings:before {
   content: '\e90e';
+}
+
+.trec-icon-resume:before {
+  content: '\e90f';
 }

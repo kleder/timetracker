@@ -3,6 +3,7 @@
     <div class="edit-board__title">Edit {{ boardName }}</div>
   </div>
   <div class="edit-board__content" *ngIf="boardStates?.length > 0 else noStates">
+      <span class="edit-board__close trec-icon-close" (click)="goBack()"></span>
       <div class="edit-board__title">SET PRIORITY COLORS</div> 
       <div class="edit-board__form">
         <div class="edit-board__item" *ngFor="let state of boardStates">
@@ -12,16 +13,13 @@
           </div>
           <input type="text" [(ngModel)]="state.hexColor">
         </div>
-        <div class="edit-board__buttons">
-            <button class="btn btn--transparent" type="submit" (click)="goBack()">CANCEL</button>
-            <button class="btn btn--grey" type="submit" (click)="updateStatesColors(boardStates)">SAVE CHANGES</button>                    
-        </div>
+        <button class="btn btn--transparent" type="submit" (click)="updateStatesColors(boardStates)">SAVE CHANGES</button>                    
       </div>
     </div>
     <ng-template #noStates>
       <div class="edit-board__content edit-board__content--empty">
-          <div class="edit-board__title">No states</div>
-          <button class="btn btn--transparent" type="submit" (click)="goBack()">CANCEL</button>          
+        <span class="edit-board__close trec-icon-close" (click)="goBack()"></span>
+        <div class="edit-board__title">No states</div>       
       </div>
     </ng-template>
 </div>

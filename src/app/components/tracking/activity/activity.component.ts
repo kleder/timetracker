@@ -6,6 +6,7 @@ import { ApiService } from '../../../services/api.service'
 import { WorkItemData } from 'app/models/RemoteAccount';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service'
+import { AccountService } from '../../../services/account.service'
 
 @Component({
   selector: 'app-activity',
@@ -24,14 +25,16 @@ export class ActivityComponent implements OnInit {
     private dataService: DataService,
     private api: ApiService,
     public router: Router,
-    public httpService: HttpService
+    public httpService: HttpService,
+    public account: AccountService    
   ) {
     this.todaySummaryItems = []
     this.todayTimes = {}
   }
 
-  ngOnInit() {
-    this.databaseService.getAllItems().then(rows => {
+  async ngOnInit() {
+    var current = await this.account.Current();
+    this.databaseService.getAllItems(current["id"]).then(rows => {
       if (rows) {   
         this.prepareItems(rows)
       }
@@ -76,13 +79,15 @@ export class ActivityComponent implements OnInit {
 
   }
 
-  public getIssueAndStart(issueId) {
+  async getIssueAndStart(issueId) {
+    let account = await this.account.Current()    
     return new Promise(resolve => {
       this.api.getIssue(issueId).then(issue => {
         var newIssue : WorkItemData;
         newIssue = {
+          accountId: account["id"],
           issueId: issue["id"],
-          agile: "",
+          agile: issue.field.find(item => item.name == "sprint").value[0].id.split(":")[0],
           duration: 0,
           summary: issue.field.find(item => item.name == "summary" ).value,
           date: Date.now(),

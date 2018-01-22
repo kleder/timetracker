@@ -28,6 +28,7 @@ class FieldValue {
 }
 
 export class WorkItemData {
+  public accountId: number
   public date: number
   public duration: number
   public issueId: string

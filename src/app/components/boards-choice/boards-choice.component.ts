@@ -123,4 +123,7 @@ export class BoardsChoiceComponent implements OnInit {
     })
   }
   
+  public goToAddAccount(arg) {
+    this.router.navigate(['add-account'], { queryParams: {firstAccount: arg} })    
+  }
 }

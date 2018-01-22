@@ -11,7 +11,7 @@
         right: 0;
         width: 140px;
         margin: 0 auto;
-        padding: 31px 0 2px;
+        padding: 20px 0 0px;
         background-color: $menu-color; 
         .change-account-token__title {
             font-family: 'Montserrat', sans-serif;        
@@ -23,10 +23,20 @@
         }
     }
     .change-account-token__content {
+        position: relative;
         padding: 38px 17px;
         height: calc(100% - 72px);
         background-color: $content-color;
         overflow: auto;
+        .change-account__close {
+            position: absolute;
+            top: 18px;
+            right: 12px;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
+        }
         .change-account-token__title {
             font-family: 'Montserrat', sans-serif;        
             color:  $font-grey;
@@ -72,7 +82,6 @@
                 cursor: default;
                 .btn {
                     display: inline-block;                    
-                    width: calc(50% - 4px);
                     &:nth-child(2) {
                         float: right;
                     }

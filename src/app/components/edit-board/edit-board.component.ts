@@ -54,6 +54,7 @@ export class EditBoardComponent implements OnInit {
         this.toasterService.showToaster('Color has been changed!', 'success')      
       })
     })
+    this.goBack()
   }
 
   changeBackground(bgColor) {
@@ -61,7 +62,7 @@ export class EditBoardComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/edit-account'], { queryParams: { boardName: this.boardName, accountId: this.accountId, accountName: this.accountName, accountUrl: this.accountUrl }});        
+    this.router.navigate(['/edit-account']);        
   }
 
 }

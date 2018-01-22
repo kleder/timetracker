@@ -1,12 +1,12 @@
 <div class="container">
     <div class="menu">
-        <ul>
-            <li routerLink="dashboard" routerLinkActive="active">Boards</li>
-            <li routerLink="activity" routerLinkActive="active">Records</li>
-            <li class="settings" routerLink="../edit-account">
-                <span class="trec-icon-settings"></span>
-            </li>
+        <ul class="menu__main">
+            <li routerLink="dashboard" routerLinkActive="menu__main--active">Boards</li>
+            <li routerLink="activity" routerLinkActive="menu__main--active">Records</li>
         </ul>
+        <div class="menu__settings">
+            <span class="trec-icon-settings" routerLink="../edit-account"></span>
+        </div>
     </div>
     <div id="content" class="content">
         <router-outlet></router-outlet>
@@ -31,7 +31,7 @@
             <div class="modal__backdrop"></div>
         </ng-template>
         <div class="modal__content">
-            <div class="record-too-short" *ngIf="timerService.currentIssue?.duration < 60">
+            <div class="record-too-short" *ngIf="timerService.currentIssue?.duration < 10 && !unstoppedItem?.duration">
                 <span class="trec-icon-close" (click)="hideModal()"></span>
                 <div class="modal__text">It looked like a simple missclick. Records shorter than 1 minute will not be reported.</div>
                 <div class="modal__interaction">
@@ -45,9 +45,21 @@
                         | secondsToTime }}?</span>
                 </div>
                 <div class="modal__interaction">
-                    <button class="danger" (click)="manageUnstoppedItem('remove')">Remove</button>
-                    <button class="info" (click)="manageUnstoppedItem('resume')">Resume</button>
-                    <button class="positive" (click)="manageUnstoppedItem('add')">Add</button>
+                    <button class="btn btn--transparent" (click)="manageUnstoppedItem('remove')">
+                        <span class="btn__text">
+                            <span class="icon trec-icon-remove"></span>Discard
+                        </span>
+                    </button>
+                    <button class="btn btn--transparent" (click)="manageUnstoppedItem('resume')">
+                        <span class="btn__text">
+                            <span class="icon trec-icon-resume"></span>Resume
+                        </span>
+                    </button>
+                    <button class="btn btn--transparent" (click)="manageUnstoppedItem('add')">
+                        <span class="btn__text">
+                            <span class="icon trec-icon-check"></span>Send
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
