@@ -65,7 +65,11 @@ export class DashboardComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.init()
+    if (!window.navigator.onLine) {
+      this.toasterService.showToaster("No internet connection", "error")
+    } else {
+      this.init()
+    }
   }
 
   public init() {

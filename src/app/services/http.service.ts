@@ -9,7 +9,6 @@ import {
   XHRBackend,
   ConnectionBackend
 } from '@angular/http';
-import { AccountService } from './account.service'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { RemoteAccount } from 'app/models/RemoteAccount';
@@ -17,7 +16,6 @@ import { RemoteAccount } from 'app/models/RemoteAccount';
 @Injectable()
 export class HttpService extends Http {
   public loader = false
-  
   private remoteAccount: RemoteAccount;
 
   constructor(

@@ -68,26 +68,29 @@ export class AddAccountComponent implements OnInit {
     rAccount.token = this.token;
     rAccount.url = this.youTrackUrl;
     console.log('rAccount',rAccount)
-
-    this.apiService.getCurrentUser(rAccount).then(
-      (data) => {
-        console.log("data", data)
-        console.log('rAccount',rAccount)
-        if (rAccount.name.length < 3) {
-          this.clearErrorUrlOrToken()
-          this.errorName()
+    if (!window.navigator.onLine) {
+      this.toasterService.showToaster("No internet connection", "error")
+    } else {
+      this.apiService.getCurrentUser(rAccount).then(
+        (data) => {
+          console.log("data", data)
+          console.log('rAccount',rAccount)
+          if (rAccount.name.length < 3) {
+            this.clearErrorUrlOrToken()
+            this.errorName()
+            this.loader = false;
+          } else {
+            this.account.add(rAccount.name, rAccount.url, rAccount.token);
+            this.loader = false;
+            this.goToBoard()
+          }
+        }, (error) => {
+          this.errorUrlOrToken()
+          this.toasterService.showToaster("Error eccoured! Incorrect URL or token", 'error')        
           this.loader = false;
-        } else {
-          this.account.add(rAccount.name, rAccount.url, rAccount.token);
-          this.loader = false;
-          this.goToBoard()
-        }
-      }, (error) => {
-        this.errorUrlOrToken()
-        this.toasterService.showToaster("Error eccoured! Incorrect URL or token", 'error')        
-        this.loader = false;
-        }
-    )   
+          }
+      )   
+    }
   }
 
   public async getAccounts(): Promise<any> {
@@ -120,7 +123,6 @@ export class AddAccountComponent implements OnInit {
   }
 
   goToBoard() {
-
     this.router.navigate(['/boards'], { queryParams: {justLoggedIn: true, name: this.name} });
   }
 
