@@ -4,18 +4,20 @@
     overflow: hidden;
     cursor: default;    
     .menu {
-        margin-top: 76px;
-        width: 100%;
+        margin-top: 43px;
+        padding-top: 36px;
+        height: 42px;
         background-color: $menu-color;
-        ul {
-            padding: 0px 20px;
+        &__main {
+            width: 90%;
+            display: inline-block;
+            padding: 0px;
             margin: 0;
-            margin-top: -10px;
+            margin-top: -17px;
+            text-align: center;
             li {
-                display: block;
-                float: left;
-                width: 47%;
-                padding: 13px;
+                display: inline-block;
+                padding: 19px 30px;
                 color: $white;
                 list-style: none;
                 text-align: center;
@@ -23,20 +25,15 @@
                 border-top: 0;
                 box-sizing: border-box;
                 cursor: pointer;  
+                &:first-of-type {
+                    margin-left: 10%;
+                }
                 &:hover {
                     color: $custom-red;
                 }                          
-                &.active {
+                &.menu__main--active {
                     border-bottom: 2px solid $custom-red; 
-                }
-                &.settings {
-                    float: right;
-                    width: inherit;
-                    padding: 13px 0;
-                    .trec-icon-settings {
-                        font-size: 20px;
-                    }
-                }     
+                } 
                 &:focus {
                     outline: none;
                 }
@@ -46,6 +43,19 @@
                 }
             }
         }
+        .menu__settings {
+            float: right;
+            width: 10%;
+            color: $white; 
+            .trec-icon-settings {
+                font-size: 20px;
+                cursor: pointer;
+                outline: none;
+                &:hover {
+                    color: $custom-red;
+                }     
+            }
+        }    
     }
     .content {
         padding: 20px 10px;

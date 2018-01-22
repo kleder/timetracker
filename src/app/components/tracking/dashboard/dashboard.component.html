@@ -4,7 +4,7 @@
       <div class="project-list__agile" (click)="toggle(i)">
         <h2 class="project-list__title">{{ agile.name }}</h2>
         <div class="project-list__toggle" *ngIf="agile?.issues != 0">
-            <i [ngClass]="agile.visiblityState=='shown'? 'fa trec-icon-caret-down' : 'trec-icon-caret-up'" aria-hidden="true"></i>              
+            <i [ngClass]="agile.visiblityState !='hidden'? 'trec-icon-caret-down' : 'trec-icon-caret-up'" aria-hidden="true"></i>              
         </div>
       </div>
       <div class="project-list__issues" [@visibilityChanged]="agile.visiblityState">
