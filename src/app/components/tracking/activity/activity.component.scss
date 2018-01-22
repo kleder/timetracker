@@ -154,7 +154,10 @@
         }
     }
     .spinner {
-        margin-bottom: 30px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
         .lds-css {
             text-align: center;
         }
