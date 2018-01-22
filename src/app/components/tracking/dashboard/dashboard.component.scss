@@ -123,13 +123,16 @@
                         padding-right: 15px;
                     }
                     .project-list__description {
-                        padding-right: 15px;
+                        padding-right: 13px;
                         vertical-align: bottom;
                         font-size: 12px;
+                        color: $white;
                     }
                     .project-list__comments {
                         font-size: 12px;
+                        color: $white;                        
                         &:before {
+                            margin-right: -4px;
                             vertical-align: middle;
                         }
                     }
