@@ -27,6 +27,9 @@
         <ng-template #noBoards>
           <div class="edit-account__no-boards">This account does not have any boards</div>  
         </ng-template>
+        <div class="edit-account__save-changes">
+        <button class="btn btn--red" type=”submit” (click)="saveChanges(editingAccount)">SAVE CHANGES</button>        
+      </div>
       </div>
       <ng-template #loader>
         <div class="edit-account__boards loading-container">
@@ -43,7 +46,7 @@
             <span class="trec-icon-remove"></span>
             REMOVE ACCOUNT
           </button>
-            
+          
       </div>
   </div>
 </div>
