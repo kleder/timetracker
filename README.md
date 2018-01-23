@@ -35,7 +35,7 @@ Once you run T-REC add Youtrack account by entering your Youtrack URL and person
 Then select boards you'd like to work with. Finally you may start recording the work you do with your tasks
 
 ### Remarks
-T-REC allows you to view your tasks which belong to the correctly scheduled current sprint on agile board. T-REC will not display the task if it is not part of the sprint or is not assigned to you.
+T-REC allows you to view your tasks which belong to the correctly scheduled current sprint on the agile board. T-REC will not display the task if it is not part of the sprint or is not assigned to you.
 
 ## Development and contribution
 To compile source code see [CONTRIBUTING](CONTRIBUTING.md) file
