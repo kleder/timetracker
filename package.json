@@ -1,6 +1,6 @@
 {
   "name": "T-Rec",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "T-Rec time tracker is built for speed and live work item update in youtrack system.",
   "homepage": "",
   "author": {
@@ -71,7 +71,7 @@
     "cross-env": "5.0.5",
     "css-loader": "0.28.7",
     "cssnano": "3.10.0",
-    "electron": "1.7.9",
+    "electron": "1.7.11",
     "electron-packager": "9.1.0",
     "electron-rebuild": "^1.6.0",
     "electron-reload": "1.2.1",

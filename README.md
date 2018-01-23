@@ -15,7 +15,7 @@ T-Rec is a desktop time recording app that helps you log your work time into You
 [![Build Status](https://travis-ci.org/kleder/timetracker.svg?branch=master)](https://travis-ci.org/kleder/timetracker)
 
 ## Downloads 
-The Windows (x64)/ Linux (x64) and Mac binaries are avaible on [Release](https://github.com/kleder/timetracker/releases/tag/v1.0.0) page.
+The Windows (x64)/ Linux (x64) and Mac binaries are avaible on [Release](https://github.com/kleder/timetracker/releases/latest) page.
 
 ## Getting started
 
