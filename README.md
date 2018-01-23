@@ -1,4 +1,4 @@
-# T-Rec – Time RECording app 
+# T-REC – Time RECording app 
 
 ![T-Rec image](./t-rec.jpg)
 
