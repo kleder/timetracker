@@ -23,7 +23,7 @@ The Windows (x64)/ Linux (x64) and Mac binaries are avaible on [Release](https:/
 
 To start using T-Rec you need to obtain the permament token for your personal youtrack account. Follow this instruction to get one: https://www.jetbrains.com/help/youtrack/standalone/Manage-Permanent-Token.html
 
-In case you don't see the "New Token" button make sure that you have set **Create Service** privileges in one of your youtrack roles.  
+In case you don't see the "New Token" button make sure that you have **Read Service** and **Update self** permissions to issue a token in one of your youtrack roles.  
 
 ### Before run
 
