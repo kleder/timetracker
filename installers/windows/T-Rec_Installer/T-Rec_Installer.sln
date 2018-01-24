@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "T-Rec_Installer", "T-Rec_Installer\T-Rec_Installer.wixproj", "{4C0F76A0-37F7-4DA5-86BA-53401C562699}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C0F76A0-37F7-4DA5-86BA-53401C562699}.Debug|x64.ActiveCfg = Debug|x64
+		{4C0F76A0-37F7-4DA5-86BA-53401C562699}.Debug|x64.Build.0 = Debug|x64
+		{4C0F76A0-37F7-4DA5-86BA-53401C562699}.Release|x64.ActiveCfg = Release|x64
+		{4C0F76A0-37F7-4DA5-86BA-53401C562699}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4F6A4D55-CF71-4D31-9D89-1681F06BFE71}
+	EndGlobalSection
+EndGlobal

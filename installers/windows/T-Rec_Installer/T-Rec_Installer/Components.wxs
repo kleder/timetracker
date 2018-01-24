@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+        <ComponentRef Id="MainAppShortcut" />
+        <ComponentRef Id="MyExeComponent" />
+    </ComponentGroup>
+    
+    <DirectoryRef Id="INSTALLFOLDER" FileSource="..\..\..\..\..\..\app-builds\T-Rec-win32-x64\">
+        <Component Id="MainAppShortcut" Guid="{AEB8D8D2-232F-4D94-B2B4-B5489D2C848D}">
+            <Shortcut Id="MainAppShortcut" 
+                      Name="T-Rec" 
+                      Target="[INSTALLFOLDER]T-Rec.exe"
+                      Directory="InstallProgramMenuFolder"
+                      WorkingDirectory="INSTALLFOLDER"
+                      Icon ="icon.ico"
+                      />
+            <RegistryValue Id="RegShortcutKey" Root="HKCU" Key="SOFTWARE\$(loc.ProductNameFolder)" Name="Shortcut" Value="1" Type="integer" KeyPath="yes" />
+            <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall"/>
+        </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DesktopFolder" FileSource="..\..\..\..\..\..\app-builds\T-Rec-win32-x64\">
+        <Component Id="MyExeComponent" Guid="{7278DF59-3297-47C9-AAA2-C212123C4DDE}">
+            <Shortcut Id="DesktopShortcut"
+                Name="T-Rec"
+                Target="[INSTALLFOLDER]T-Rec.exe"
+                Icon ="icon.ico"
+                Directory="DesktopFolder"
+                WorkingDirectory="INSTALLFOLDER" />
+            <RegistryValue Id="RegShortcutKey2" Root="HKCU" Key="SOFTWARE\$(loc.ProductNameFolder)" Name="Shortcut" Value="1" Type="integer" KeyPath="yes" />
+        </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>
