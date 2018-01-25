@@ -15,7 +15,8 @@
                       WorkingDirectory="INSTALLFOLDER"
                       Icon ="icon.ico"
                       />
-            <RegistryValue Id="RegShortcutKey" Root="HKCU" Key="SOFTWARE\$(loc.ProductNameFolder)" Name="Shortcut" Value="1" Type="integer" KeyPath="yes" />
+            <Condition>INSTALLMENUSTARTSHORTCUT</Condition>
+            <RegistryValue Id="RegShortcutKey" Root="HKCU" Key="SOFTWARE\!(loc.ProductNameFolder)" Name="Shortcut" Value="1" Type="integer" KeyPath="yes" />
             <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall"/>
         </Component>
     </DirectoryRef>
@@ -27,7 +28,8 @@
                 Icon ="icon.ico"
                 Directory="DesktopFolder"
                 WorkingDirectory="INSTALLFOLDER" />
-            <RegistryValue Id="RegShortcutKey2" Root="HKCU" Key="SOFTWARE\$(loc.ProductNameFolder)" Name="Shortcut" Value="1" Type="integer" KeyPath="yes" />
+            <Condition>INSTALLDESKTOPSHORTCUT</Condition>
+            <RegistryValue Id="RegShortcutKey2" Root="HKCU" Key="SOFTWARE\!(loc.ProductNameFolder)" Name="Shortcut" Value="1" Type="integer" KeyPath="yes" />
         </Component>
     </DirectoryRef>
   </Fragment>
