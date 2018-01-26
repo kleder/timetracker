@@ -2,8 +2,6 @@ matrix:
   include:
   - os: linux
     env: TARGET=linux
-  - os: osx
-    env: TARGET=mac
 
 language: node_js
 
