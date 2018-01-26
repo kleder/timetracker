@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "T-Rec_Installer", "T-Rec_Installer\T-Rec_Installer.wixproj", "{4C0F76A0-37F7-4DA5-86BA-53401C562699}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomAction", "CustomAction\CustomAction.csproj", "{D46149A1-B863-44CE-8AB8-E1F6C01C594E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,12 +19,6 @@ Global
 		{4C0F76A0-37F7-4DA5-86BA-53401C562699}.Release|x64.ActiveCfg = Release|x64
 		{4C0F76A0-37F7-4DA5-86BA-53401C562699}.Release|x64.Build.0 = Release|x64
 		{4C0F76A0-37F7-4DA5-86BA-53401C562699}.Release|x86.ActiveCfg = Release|x64
-		{D46149A1-B863-44CE-8AB8-E1F6C01C594E}.Debug|x64.ActiveCfg = Debug|x86
-		{D46149A1-B863-44CE-8AB8-E1F6C01C594E}.Debug|x86.ActiveCfg = Debug|x86
-		{D46149A1-B863-44CE-8AB8-E1F6C01C594E}.Debug|x86.Build.0 = Debug|x86
-		{D46149A1-B863-44CE-8AB8-E1F6C01C594E}.Release|x64.ActiveCfg = Release|x86
-		{D46149A1-B863-44CE-8AB8-E1F6C01C594E}.Release|x86.ActiveCfg = Release|x86
-		{D46149A1-B863-44CE-8AB8-E1F6C01C594E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

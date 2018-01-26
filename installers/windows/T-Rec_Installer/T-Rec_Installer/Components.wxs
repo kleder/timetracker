@@ -17,6 +17,11 @@
                       />
             <Condition>INSTALLMENUSTARTSHORTCUT</Condition>
             <RegistryValue Id="RegShortcutKey" Root="HKCU" Key="SOFTWARE\!(loc.ProductNameFolder)" Name="Shortcut" Value="1" Type="integer" KeyPath="yes" />
+            <RegistryKey Root="HKCU"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Run"
+                       Action="createAndRemoveOnUninstall">
+              <RegistryValue Type="string" Name="T-Rec" Value="&quot;[INSTALLFOLDER]T-Rec.exe&quot;" />
+            </RegistryKey>
             <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall"/>
         </Component>
     </DirectoryRef>
