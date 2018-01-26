@@ -13,4 +13,4 @@
 ## Specifications
 
   - T-REC Version:
-  - Platform: (mac/linuc/windows)
+  - Platform: (mac/linux/windows)
