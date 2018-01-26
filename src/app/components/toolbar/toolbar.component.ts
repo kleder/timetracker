@@ -20,6 +20,7 @@ const {Menu, MenuItem} = remote
 let mainWindow
 
 import { CustomMenu } from '../../../../src/Menu'
+import { DatabaseService } from 'app/services/database.service';
 const newMenu = new CustomMenu();
 
 @Component({
@@ -28,7 +29,8 @@ const newMenu = new CustomMenu();
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
-  public isMac: boolean = (process.platform == 'darwin') ? true : false    
+  public isMac: boolean = (process.platform == 'darwin') ? true : false  
+  public current = false;  
 
   constructor(
     public http: Http,
@@ -37,11 +39,15 @@ export class ToolbarComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public electronService: ElectronService,
     public toasterService: ToasterService,
-    public dataService: DataService
+    public dataService: DataService,
+    private databaseService: DatabaseService
   )
   {
    }
-  ngOnInit() {
+  async ngOnInit() {
+    this.account.CurrentAccount.subscribe(data => {
+      this.current = data.url !== undefined && data.url.trim() !== ''
+    });
     console.log('current route', this.router.url.split('?')[0])
   }
 
