@@ -21,7 +21,17 @@ The Windows (x64)/ Linux (x64) and Mac binaries are avaible on [Release](https:/
 
 ### Obtain YouTrack token for app 
 
-To start using T-REC you need to obtain the permament token for your personal YouTrack account. Follow this instruction to get one: https://www.jetbrains.com/help/youtrack/standalone/Manage-Permanent-Token.html
+To start using T-REC you need to obtain the permanent token for your personal YouTrack account. 
+Follow this instruction to get one: 
+1. Log-in into your YouTrack in web browser
+1. Open http://[YOUTRACK_URL]/users/me page
+1. Click on the **Update personal information and manage logins** link
+1. Open the Authentication tab.
+1. Click the **New token**... button.
+1. Fill the name "T-rec"
+1. Add scope "YouTrack"
+1. Click **Create Token**
+1. You must copy the token at this point, because as soon as you close the dialog you will not be able to access the token itself again. 
 
 In case you don't see the "New Token" button make sure that you have **Read Service** and **Update self** permissions to issue a token in one of your YouTrack roles.  
 
