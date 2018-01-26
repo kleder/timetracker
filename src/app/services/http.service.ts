@@ -64,7 +64,7 @@ export class HttpService extends Http {
   }
 
   private onError(res: Response): void {
-    console.log('Error, status code: ' + res.status);
+    console.error('Error, status code: ' + res.status);
   }
 
   private onEnd(): void {

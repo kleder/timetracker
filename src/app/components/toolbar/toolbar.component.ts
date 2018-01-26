@@ -40,7 +40,6 @@ export class ToolbarComponent implements OnInit {
     public dataService: DataService
   )
   {
-    console.log(process.env)
    }
   ngOnInit() {
     console.log('current route', this.router.url.split('?')[0])

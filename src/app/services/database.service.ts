@@ -25,15 +25,17 @@ export class DatabaseService {
     this.db = new sqlite3.Database(dbPath, (data) => {
 
       if (data == null){ 
-        this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT, `Summary` TEXT)");
-        this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT, `current` INTEGER)");
-        this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");     
-        this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");   
-        this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
-        this.db.run("CREATE TABLE IF NOT EXISTS `boards_visibility` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `visible` INTEGER)");        
-        this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");        
-        this.db.run("CREATE TABLE IF NOT EXISTS `boards_after_choose` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `afterChoose` INTEGER)");                     
-        this.variablesInit() 
+        this.db.serialize(() => {
+          this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT, `Summary` TEXT)");
+          this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT, `current` INTEGER)");
+          this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");     
+          this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");   
+          this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
+          this.db.run("CREATE TABLE IF NOT EXISTS `boards_visibility` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `visible` INTEGER)");        
+          this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");        
+          this.db.run("CREATE TABLE IF NOT EXISTS `boards_after_choose` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `afterChoose` INTEGER)");                     
+          this.variablesInit() 
+        });
       } 
     })
   }
@@ -47,7 +49,7 @@ export class DatabaseService {
           that.loader = false
           if (err) {
               that.loader = false   
-              console.log("err: ", err)
+              console.error(err)
               reject(err)
             } else {
               resolve(rows)
@@ -92,14 +94,11 @@ export class DatabaseService {
 
   public updateDuration = (duration:number, date: number) => {
     let that = this
-    console.log("UPDATE // duration: ", duration)
-    console.log("date", date)
     new Promise((resolve,reject) => {
       this.db.serialize(() => {
         let stmt = that.db.prepare("UPDATE `tasks` SET `duration` = '" + duration + "', `lastUpdate` = '" + Date.now() + "' WHERE `date` = '" + date + "'")
         stmt.run((err)=>{
           if (!err){
-            console.log("item duration updated ", duration)
             resolve(true)
           } else {
             reject(err)
@@ -120,7 +119,6 @@ export class DatabaseService {
       let stmt = that.db.prepare("UPDATE `tasks` SET `status` = 'stop', `duration` = " + duration + ", `lastUpdate` = " + lastUpdate + " WHERE `date` = " + date)
       stmt.run()
       stmt.finalize()
-      console.log("item stopped ", stmt)
     });
   }
 
@@ -130,7 +128,6 @@ export class DatabaseService {
       let stmt = that.db.prepare("UPDATE `tasks` SET `published` = '1' WHERE `date` = " + date)
       stmt.run()
       stmt.finalize()
-      console.log("set `published` to 1", stmt)
     });
   }
 
@@ -140,7 +137,6 @@ export class DatabaseService {
       let stmt = that.db.prepare("UPDATE `tasks` SET `status` = 'stop' WHERE `date` = " + date)
       stmt.run()
       stmt.finalize()
-      console.log("set `status` to 'stop'", stmt)
     });
   }
 
@@ -342,7 +338,6 @@ export class DatabaseService {
         let stmt = this.db.prepare("UPDATE `boards_states` SET `hexColor` = '" + color + "' WHERE `accountId` = '" + accountId + "' AND boardName = '" + boardName + "' AND state = '" + state + "'")
         stmt.run((err)=>{
           if (!err){
-            console.log("Color updated to ", color)
             resolve(true)
           } else {
             reject(err)

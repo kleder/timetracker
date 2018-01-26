@@ -105,7 +105,6 @@ export class DashboardComponent implements OnInit {
     let that = this
     this.totalTimes = {}
     this.databaseService.getAllItems(account["id"]).then(data => {
-      console.log("resolve from db", data)
       this.allItemsFromDb = data
       this.allItemsFromDb.forEach(function(row) {
         if (that.timerService.currentIssue == undefined && row.status == "start" && row.published == 0 && row.duration > 0) {
@@ -115,7 +114,6 @@ export class DashboardComponent implements OnInit {
         if (new Date(row.date).getDate() == new Date().getDate() && row.status == "stop") {
           todayItems.push(row)
         }
-        console.log("todayItems", todayItems)
         todayItems.forEach(function(row) {
           if (!that.totalTimes.hasOwnProperty(row.issueid)) {
             that.totalTimes[row.issueid] = row.duration
@@ -123,7 +121,6 @@ export class DashboardComponent implements OnInit {
             that.totalTimes[row.issueid] += row.duration
           }
         })
-        console.log("that.totalTimes", that.totalTimes)
 
       })  
       this.getAllAgiles()
@@ -145,7 +142,6 @@ export class DashboardComponent implements OnInit {
         this.dataService.sendAgilesVisibility({name: agile.name, state: agile.visiblityState})  
       }    
       agile.issues = []
-      console.log(agile, index)
       this.getIssuesByAgile(agile.name, index)
     })
   }
@@ -265,7 +261,6 @@ export class DashboardComponent implements OnInit {
     let projectId = issue.id.split("-")[0]
     this.api.getTimetrackingWorkTypes(projectId).then(
       data => {
-        console.log(data)
         this.workTypes = data
       }
     )

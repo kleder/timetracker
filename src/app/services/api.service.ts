@@ -70,7 +70,7 @@ export class ApiService {
   getIssuesByAgile = (agileName) => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
-        this.http.get('/rest/issue?filter=for:me+Board+' + agileName + ':+{Current+sprint}+#Unresolved&max=50')
+        this.http.get('/rest/issue?filter=for:me+Board+' + agileName + ':+{Current+sprint}+%23Unresolved')
           .map(res => res.json())
           .subscribe(data => {
             resolve(data)
@@ -92,9 +92,7 @@ export class ApiService {
   }
 
   getSprintInfo = (agile) => {
-    console.log(agile)
     let query = agile.url.split("/youtrack")[1]
-    console.log(query)
     return new Promise(resolve => {
       this.UseAccount().then(() => {
         this.http.get(query)
@@ -112,7 +110,6 @@ export class ApiService {
       duration: Math.round(data.duration / 60),
       description: "Added by T-Rec App"
     }
-    console.log(data)
 
     return new Promise(resolve => {
       this.UseAccount().then(() => {

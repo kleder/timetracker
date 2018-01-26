@@ -110,8 +110,6 @@ export class TimerService {
 
 
   public async startItem(issue: WorkItemData): Promise<any> {
-    console.log("in startItem", issue)
-    console.log("this.currentIssue", this.currentIssue)
     if (this.currentIssue != undefined) {
       if (issue.issueId == this.currentIssue.issueId) {
         this.stopItem();

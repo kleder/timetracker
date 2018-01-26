@@ -30,14 +30,11 @@ export class EditBoardComponent implements OnInit {
       this.accountName = params['accountName']
       this.accountUrl = params['accountUrl']
     });
-    console.log("this.boardName", this.boardName)
-    console.log("this.accountId", this.accountId)
     this.getBoardStates(this.accountId, this.boardName)
   }
 
   getBoardStates(accountId, boardName) {
     this.databaseService.getBoardStates(accountId, boardName).then(data => {
-      console.log("data", data)
       this.boardStates = data
     })
   }
