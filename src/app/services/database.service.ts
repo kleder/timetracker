@@ -9,113 +9,117 @@ const path = require('path')
 @Injectable()
 export class DatabaseService {
   public loader = false
-  public db 
+  public db
   constructor(
   ) {
     var envPath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
-    if (envPath == undefined){
-      envPath= __dirname;
+    if (envPath == undefined) {
+      envPath = __dirname;
     }
     var folder = path.resolve(envPath, '.trec')
-    try{
+    try {
       fs.mkdirSync(folder)
-    } catch(e){
+    } catch (e) {
     }
-    var dbPath = path.resolve(folder,'database')
+    var dbPath = path.resolve(folder, 'database')
     this.db = new sqlite3.Database(dbPath, (data) => {
-
-      if (data == null){ 
-        this.db.serialize(() => {
-          this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT, `Summary` TEXT)");
-          this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT, `current` INTEGER)");
-          this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");     
-          this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");   
-          this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
-          this.db.run("CREATE TABLE IF NOT EXISTS `boards_visibility` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `visible` INTEGER)");        
-          this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");        
-          this.db.run("CREATE TABLE IF NOT EXISTS `boards_after_choose` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `afterChoose` INTEGER)");                     
-          this.variablesInit() 
-        });
-      } 
+      if (data == null) {
+        this.db.all("SELECT * FROM `account` LIMIT 1", (err, rows) => {
+          if (err) {
+            this.db.serialize(() => {
+              this.db.get("")
+              this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT, `Summary` TEXT)");
+              this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT, `current` INTEGER)");
+              this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");
+              this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");
+              this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
+              this.db.run("CREATE TABLE IF NOT EXISTS `boards_visibility` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `visible` INTEGER)");
+              this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");
+              this.db.run("CREATE TABLE IF NOT EXISTS `boards_after_choose` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `afterChoose` INTEGER)");
+              this.variablesInit()
+            })
+          }
+        })
+      }
     })
   }
 
-  public async getAllItems(accountId) : Promise<any[]> {
+  public async getAllItems(accountId): Promise<any[]> {
     let that = this
     return new Promise<any[]>((resolve, reject) => {
       this.loader = true
       this.db.serialize(() => {
-        that.db.all("SELECT * FROM `tasks` WHERE `accountId` = '" + accountId + "'" , function(err, rows) {
+        that.db.all("SELECT * FROM `tasks` WHERE `accountId` = '" + accountId + "'", function (err, rows) {
           that.loader = false
           if (err) {
-              that.loader = false   
-              console.error(err)
-              reject(err)
-            } else {
-              resolve(rows)
-            }
+            that.loader = false
+            console.error(err)
+            reject(err)
+          } else {
+            resolve(rows)
+          }
         })
       })
     })
   }
 
-  public startItem = (issue : WorkItemData) => {
-      let that = this
-      let status = "start"
-      let duration = 0
-      this.db.serialize(function() {
-        let stmt = that.db.prepare("INSERT INTO `tasks` (`accountId`, `published`, `agile`, `issueid`, `status`, `date`, `duration`, `lastUpdate`,`summary`) VALUES ('" + issue.accountId + "', 0, '" + issue.agile + "', '" + issue.issueId + "', '" + status + "', '" + issue.date + "', '" + duration + "', '" + issue.date + "','"+ issue.summary +"')");
-        stmt.run()
-        stmt.finalize()
-      });
+  public startItem = (issue: WorkItemData) => {
+    let that = this
+    let status = "start"
+    let duration = 0
+    this.db.serialize(function () {
+      let stmt = that.db.prepare("INSERT INTO `tasks` (`accountId`, `published`, `agile`, `issueid`, `status`, `date`, `duration`, `lastUpdate`,`summary`) VALUES ('" + issue.accountId + "', 0, '" + issue.agile + "', '" + issue.issueId + "', '" + status + "', '" + issue.date + "', '" + duration + "', '" + issue.date + "','" + issue.summary + "')");
+      stmt.run()
+      stmt.finalize()
+    });
   }
 
 
-   public getRecordedTime(issueId : string): Promise<number> {
-      var now = new Date();
-      var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  public getRecordedTime(issueId: string): Promise<number> {
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
     return new Promise<number>((resolve, reject) => {
-      if (issueId == undefined){
+      if (issueId == undefined) {
         reject("isseId can't be blank");
       }
       this.db.serialize(() => {
-        this.db.get('SELECT SUM(duration) as duration FROM `tasks` where `issueid` = \''+ issueId + "' and `date` > '" + today +"' ", function(err, row) {
+        this.db.get('SELECT SUM(duration) as duration FROM `tasks` where `issueid` = \'' + issueId + "' and `date` > '" + today + "' ", function (err, row) {
           if (err) {
-              reject(err)
-            } else {
-              if (row)
-                resolve(row['duration'])
-              resolve(0)
-            }
+            reject(err)
+          } else {
+            if (row)
+              resolve(row['duration'])
+            resolve(0)
+          }
         })
       })
     })
   }
 
-  public updateDuration = (duration:number, date: number) => {
+  public updateDuration = (duration: number, date: number) => {
     let that = this
-    new Promise((resolve,reject) => {
+    new Promise((resolve, reject) => {
       this.db.serialize(() => {
         let stmt = that.db.prepare("UPDATE `tasks` SET `duration` = '" + duration + "', `lastUpdate` = '" + Date.now() + "' WHERE `date` = '" + date + "'")
-        stmt.run((err)=>{
-          if (!err){
+        stmt.run((err) => {
+          if (!err) {
             resolve(true)
           } else {
             reject(err)
           }
         })
         stmt.finalize()
-        
-        
+
+
       })
-      
+
     })
   }
 
   public stopItem = (duration, date) => {
     let that = this
     let lastUpdate = Date.now()
-    this.db.serialize(function() {
+    this.db.serialize(function () {
       let stmt = that.db.prepare("UPDATE `tasks` SET `status` = 'stop', `duration` = " + duration + ", `lastUpdate` = " + lastUpdate + " WHERE `date` = " + date)
       stmt.run()
       stmt.finalize()
@@ -124,7 +128,7 @@ export class DatabaseService {
 
   public setIsPublished = (date) => {
     let that = this
-    this.db.serialize(function() {
+    this.db.serialize(function () {
       let stmt = that.db.prepare("UPDATE `tasks` SET `published` = '1' WHERE `date` = " + date)
       stmt.run()
       stmt.finalize()
@@ -133,7 +137,7 @@ export class DatabaseService {
 
   public setIsStopped = (date) => {
     let that = this
-    this.db.serialize(function() {
+    this.db.serialize(function () {
       let stmt = that.db.prepare("UPDATE `tasks` SET `status` = 'stop' WHERE `date` = " + date)
       stmt.run()
       stmt.finalize()
@@ -151,33 +155,33 @@ export class DatabaseService {
     })
   }
 
-  public getAccount(youtrack : string) : Promise<RemoteAccount> {
+  public getAccount(youtrack: string): Promise<RemoteAccount> {
     return new Promise<RemoteAccount>((resolve, reject) => {
-      if (youtrack == undefined){
+      if (youtrack == undefined) {
         reject("Youtrack url can't be blank");
       }
       this.db.serialize(() => {
-        this.db.get('SELECT * FROM `account` where `url` = \''+ youtrack + "'", function(err, row) {
+        this.db.get('SELECT * FROM `account` where `url` = \'' + youtrack + "'", function (err, row) {
           if (err) {
-              reject(err)
-            } else {
-              console.log(row);
-              resolve(row)
-            }
+            reject(err)
+          } else {
+            console.log(row);
+            resolve(row)
+          }
         })
       })
     })
   }
 
-  public getAccounts = () : Promise<RemoteAccount[]> => {
+  public getAccounts = (): Promise<RemoteAccount[]> => {
     return new Promise<RemoteAccount[]>((resolve, reject) => {
       this.db.serialize(() => {
         this.db.all('SELECT * FROM `account`', (err, rows) => {
           if (err) {
-              reject(err)
-            } else {
-              resolve(rows)
-            }
+            reject(err)
+          } else {
+            resolve(rows)
+          }
         })
       })
     })
@@ -199,7 +203,7 @@ export class DatabaseService {
     })
   }
 
-  public addAccount = (item : RemoteAccount) => {
+  public addAccount = (item: RemoteAccount) => {
     this.db.serialize(() => {
       let stmt = this.db.prepare("UPDATE `account` SET `current` = 0");
       stmt.run()
@@ -221,7 +225,7 @@ export class DatabaseService {
             reject(err)
           }
         })
-        stmt.finalize()  
+        stmt.finalize()
       })
     })
   }
@@ -237,7 +241,7 @@ export class DatabaseService {
             reject(err)
           }
         })
-        stmt.finalize()  
+        stmt.finalize()
       })
     })
   }
@@ -253,13 +257,13 @@ export class DatabaseService {
             reject(err)
           }
         })
-        stmt.finalize()  
+        stmt.finalize()
       })
     })
   }
 
   public variablesInit = () => {
-    this.saveVariable({name: 'hide_hints', value: 0})    
+    this.saveVariable({ name: 'hide_hints', value: 0 })
   }
 
   public saveVariable = (variable) => {
@@ -269,7 +273,7 @@ export class DatabaseService {
       stmt.finalize()
     });
   }
-  
+
   public updateVariable = (variable) => {
     let that = this
     this.db.serialize(() => {
@@ -278,17 +282,17 @@ export class DatabaseService {
       stmt.finalize()
     });
   }
-  
+
   public getVariables = () => {
     let that = this
     return new Promise<any[]>((resolve, reject) => {
       this.db.serialize(() => {
-        that.db.get('SELECT * FROM `variables`', function(err, row) {
+        that.db.get('SELECT * FROM `variables`', function (err, row) {
           if (err) {
-              reject(err)
-            } else {
-              resolve(row)
-            }
+            reject(err)
+          } else {
+            resolve(row)
+          }
         })
       })
     })
@@ -306,9 +310,9 @@ export class DatabaseService {
   public getBoardStates(accountId, boardName) {
     return new Promise<any[]>((resolve, reject) => {
       this.db.serialize(() => {
-        this.db.all("SELECT * FROM `boards_states` WHERE `accountId` = '" + accountId + "' AND `boardName` = '" + boardName + "'", function(err, row) {
+        this.db.all("SELECT * FROM `boards_states` WHERE `accountId` = '" + accountId + "' AND `boardName` = '" + boardName + "'", function (err, row) {
           if (err) {
-            throw(err)
+            throw (err)
           } else {
             console.log("row", row)
             resolve(row)
@@ -321,7 +325,7 @@ export class DatabaseService {
   public getAllBoardStates(accountId) {
     return new Promise<any[]>((resolve, reject) => {
       this.db.serialize(() => {
-        this.db.all("SELECT * FROM `boards_states` WHERE `accountId` = '" + accountId + "'", function(err, row) {
+        this.db.all("SELECT * FROM `boards_states` WHERE `accountId` = '" + accountId + "'", function (err, row) {
           if (err) {
             reject(err)
           } else {
@@ -336,8 +340,8 @@ export class DatabaseService {
     return new Promise((resolve, reject) => {
       this.db.serialize(() => {
         let stmt = this.db.prepare("UPDATE `boards_states` SET `hexColor` = '" + color + "' WHERE `accountId` = '" + accountId + "' AND boardName = '" + boardName + "' AND state = '" + state + "'")
-        stmt.run((err)=>{
-          if (!err){
+        stmt.run((err) => {
+          if (!err) {
             resolve(true)
           } else {
             reject(err)
@@ -360,7 +364,7 @@ export class DatabaseService {
   public getBoardVisibilities(accountId, boardName) {
     return new Promise<any[]>((resolve, reject) => {
       this.db.serialize(() => {
-        this.db.all("SELECT * FROM `boards_visibility` WHERE `accountId` = '" + accountId + "' aND `boardName` = '" + boardName + "'", function(err, row) {
+        this.db.all("SELECT * FROM `boards_visibility` WHERE `accountId` = '" + accountId + "' aND `boardName` = '" + boardName + "'", function (err, row) {
           if (err) {
             reject(err)
           } else {
@@ -372,12 +376,12 @@ export class DatabaseService {
   }
 
   public updateBoardVisibility(accountId, boardName, visibility) {
-    return new Promise<any>((resolve, reject) => {      
+    return new Promise<any>((resolve, reject) => {
       let that = this
       this.db.serialize(() => {
         let stmt = that.db.prepare("UPDATE `boards_visibility` SET `visible` = '" + visibility + "' WHERE `accountId` = '" + accountId + "' AND `boardName` = '" + boardName + "'");
-        stmt.run((err)=>{
-          if (!err){
+        stmt.run((err) => {
+          if (!err) {
             resolve(true)
           } else {
             reject(err)
@@ -409,7 +413,7 @@ export class DatabaseService {
   public checkAgilesChosen(accountId) {
     return new Promise<any[]>((resolve, reject) => {
       this.db.serialize(() => {
-        this.db.all("SELECT * FROM `boards_after_choose` WHERE `accountId` = '" + accountId + "'", function(err, row) {
+        this.db.all("SELECT * FROM `boards_after_choose` WHERE `accountId` = '" + accountId + "'", function (err, row) {
           if (err) {
             reject(err)
           } else {
