@@ -67,14 +67,11 @@ export class AddAccountComponent implements OnInit {
     rAccount.name = this.name;
     rAccount.token = this.token;
     rAccount.url = this.youTrackUrl;
-    console.log('rAccount',rAccount)
     if (!window.navigator.onLine) {
       this.toasterService.showToaster("No internet connection", "error")
     } else {
       this.apiService.getCurrentUser(rAccount).then(
         (data) => {
-          console.log("data", data)
-          console.log('rAccount',rAccount)
           if (rAccount.name.length < 3) {
             this.clearErrorUrlOrToken()
             this.errorName()
@@ -95,7 +92,6 @@ export class AddAccountComponent implements OnInit {
 
   public async getAccounts(): Promise<any> {
     this.accounts = await this.databaseService.getAccounts();
-    console.log("this.accounts", this.accounts)
   }
 
   public errorName() {

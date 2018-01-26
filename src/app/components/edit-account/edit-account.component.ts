@@ -35,7 +35,6 @@ export class EditAccountComponent implements OnInit {
 
   async getCurrentAccount() {
     this.editingAccount = await this.account.Current()
-    console.log("this.editingAccount", this.editingAccount)
   }
 
   public backToWorkspace() {
@@ -55,12 +54,9 @@ export class EditAccountComponent implements OnInit {
   }
 
   editNameOrUrl(account) {
-    console.log("account", account)
     this.databaseService.editAccount(account).then(data => {
-      console.log("data", data)
       this.toasterService.showToaster('Account updated!', "success")
     }, err => {
-      console.log("err", err)
       this.toasterService.showToaster('An error occured!', "error")
     })
   }

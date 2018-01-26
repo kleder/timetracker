@@ -6,11 +6,12 @@ import { from } from 'rxjs/observable/from';
 import { RemoteAccount, UserData } from 'app/models/RemoteAccount';
 import { access } from 'original-fs';
 import { ApiService } from 'app/services/api.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class AccountService {
-
-  private currentAccount: RemoteAccount;
+  private currentAccountObs = new BehaviorSubject<RemoteAccount>(new RemoteAccount())
+  CurrentAccount = this.currentAccountObs.asObservable()
 
   constructor(
     private databaseService: DatabaseService
@@ -22,7 +23,6 @@ export class AccountService {
     account.url = url;
     account.token = token;
     this.databaseService.addAccount(account);
-    this.currentAccount = account;
     return account;
   }
 
@@ -36,17 +36,19 @@ export class AccountService {
     if (accounts != undefined && accounts.length > 0) {
       accounts.filter(account => {
         if (account['current'] == 1) {
-          console.log('current', account)
           currentAccount = account
+          this.currentAccountObs.next(account);
         }
       })
+    } else {
+      this.currentAccountObs.next(new RemoteAccount());
     }
-    console.log("currentAccount", currentAccount)
     return new Promise<RemoteAccount>((resolve) => { resolve(currentAccount) });
   }
 
   public async destroyCurrent(): Promise<RemoteAccount> {
     var currentAccount: RemoteAccount = {name: '', url: '', token: ''}
+    this.currentAccountObs.next(currentAccount);
     return new Promise<RemoteAccount>((resolve) => { resolve(currentAccount) });
   }
 }

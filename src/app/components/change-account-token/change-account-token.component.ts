@@ -32,10 +32,7 @@ export class ChangeAccountTokenComponent implements OnInit {
   }
 
   changeToken(accountId, newToken) {
-    console.log(accountId)
-    console.log(newToken)
     this.databaseService.changeAccountToken(accountId, newToken).then(data => {
-      console.log(data)
       this.toasterService.showToaster('Token has been changed successfully', 'success')
       this.router.navigate(['/edit-account'], { queryParams: {accountId: this.accountId, accountName: this.accountName, accountUrl: this.accountUrl }});              
     }, err => {

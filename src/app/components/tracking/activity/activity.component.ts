@@ -63,15 +63,13 @@ export class ActivityComponent implements OnInit {
     let summaryProperties = Object.getOwnPropertyNames(this.todayTimes)
     console.log("summaryProperties", summaryProperties)
     summaryProperties.forEach(property => {
-        that.api.getIssue(property).then(data => {
-          console.log(data)         
+        that.api.getIssue(property).then(data => {       
           let newIssue = {
             id: data["id"],
             summary: data["field"].filter(field => field.name == "summary" )[0].value,
             agile: data["field"].filter(field => field.name == "sprint" )[0].value[0].id.split(":")[0],
             todaysTime: this.todayTimes[property]
           }
-          console.log("new Issue", newIssue)
           that.todaySummaryItems.push(newIssue)
           that.loader = false    
         })

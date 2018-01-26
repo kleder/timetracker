@@ -10,7 +10,7 @@
 </div>
 <ng-template #windows>
     <div class="toolbar toolbar--win">
-        <div class="toolbar__menu trec-icon-menu" (click)="showMenu()">
+        <div class="toolbar__menu trec-icon-menu" *ngIf="current" (click)="showMenu()">
         </div>
         <div class="toolbar__logo">    
             <img src="../../../assets/logo.png" class="logo" alt="logo">

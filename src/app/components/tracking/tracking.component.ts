@@ -54,7 +54,6 @@ export class TrackingComponent implements OnDestroy, OnInit {
 
   subscribeNotificationTime() {
     this.dataService.currentNotificationTime.takeWhile(() => this.alive).subscribe(data => {
-      console.log(data)
       this.notificationTime = data
       if (this.notificationTime != undefined) {
         this.showInactiveNotification()
@@ -65,7 +64,6 @@ export class TrackingComponent implements OnDestroy, OnInit {
   subscribeIssueTime() {
     this.dataService.currentIssueTime.takeWhile(() => this.alive).subscribe(data => {
       let issueTime = data["currentTime"]
-      console.log("TAKE", data)
       if (issueTime % 60 === 0) {
         this.databaseService.updateDuration(Math.round(issueTime), this.timerService.currentIssue.startDate)
       }
@@ -164,11 +162,9 @@ export class TrackingComponent implements OnDestroy, OnInit {
 
   public getVariables() {
     this.databaseService.getVariables().then(data => {
-      console.log("data", data)
       if (data) {
         this.hideHints = parseInt(data["value"])
         this.dataService.sendHideHints(this.hideHints)
-        console.log("this.hideHints", this.hideHints)
       }
     })
   }
@@ -176,7 +172,6 @@ export class TrackingComponent implements OnDestroy, OnInit {
   public changeHintVisibility(hideHint) {
     (hideHint)? hideHint = 1: hideHint = 0
     this.databaseService.updateVariable({name: 'hide_hints', value: hideHint})
-    console.log("changeHintVisibility", hideHint)
   }
 
   public showModal() {
