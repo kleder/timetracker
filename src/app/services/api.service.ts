@@ -59,7 +59,7 @@ export class ApiService {
     });
   }
 
-  createIssueOnBoard(data, BoardName) {
+  createIssueOnBoard(data, BoardName, state) {
     let id = "";
     return new Promise((resolve, reject) => {
       this.UseAccount().then(() => {
@@ -71,8 +71,9 @@ export class ApiService {
           }, error => {
             reject(error)
           });
-      }).then(() => { this.executeCommand(id, { 'command': 'Assignee me Board ' + BoardName + ' Current sprint' }) })
-    })
+      })
+    }).then(() => { this.executeCommand(id, { 'command': 'Assignee me Board ' + BoardName + ' Current sprint' }) })
+    .then(() => {this.executeCommand(id, {'command': 'State ' + state})} )
   }
 
   getAllAgiles = () => {

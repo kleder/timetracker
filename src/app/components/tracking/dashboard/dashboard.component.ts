@@ -85,7 +85,12 @@ export class DashboardComponent implements OnInit {
   }
 
   public async createIssueOnBoard(data, board){
-    return this.api.createIssueOnBoard(data,board);
+    this.agiles.filter(agile => { 
+      if (agile.name == board){
+        var state = agile.columnSettings.visibleValues[0].value;
+        return this.api.createIssueOnBoard(data, board, state);
+      }
+     })
   }
   
   public async openInBrowser(url : string){
