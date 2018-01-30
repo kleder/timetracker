@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization  Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<String Id="Company">Kleder s.c.</String>
+    <String Id="ProductName_x86">T-Rec (32bit)</String>
+    <String Id="ProductName_x64">T-Rec (64bit)</String>
+    <String Id="ProductShortNameFolder">T-Rec</String>
+    <String Id="Language">1033</String>
+    <String Id="Description">T-Rec Time Recording</String>
+    <String Id="DowngradeErrorMessage">New version of T-Rec is already installed</String>
+    <String Id="ProductNameFolder">Kleder</String>
+
+  <String Id="WelcomeDlgDescription">{\WixUI_Font_Normal_White}The Setup Wizard will install [ProductName] on your computer. Click Next to continue or Cancel to exit the Setup Wizard.</String>
+  <String Id="LicenseAgreementDlgDescription">{\WixUI_Font_Normal_White}Please read the following license agreement carefully.</String>
+  <String Id="InstallDirDlgDescription">{\WixUI_Font_Normal_White}Choose destination folder or install in default folder.</String>
+  <String Id="CancelDlgDescription">{\WixUI_Font_Normal_White}[ProductName] setup was interrupted. Your system has not been modified. To install the program
+   at a later time, please run the installation again. Click the Finish button to exit the Setup Wizard.</String>
+  <String Id="ExitDlgDescription">{\WixUI_Font_Normal_White}Click the Finish button to exit the Setup Wizard</String>
+</WixLocalization>
