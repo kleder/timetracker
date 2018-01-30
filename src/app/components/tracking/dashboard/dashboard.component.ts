@@ -104,7 +104,7 @@ export class DashboardComponent implements OnInit {
     this.agiles.filter(agile => { 
       if (agile.name == board){
         let state = agile.columnSettings.visibleValues[0].value;
-        return this.api.createIssueOnBoard(data, board, state);
+        return this.api.createIssueOnBoard(data, board, state).then(() => this.init());
       }
     })
   }

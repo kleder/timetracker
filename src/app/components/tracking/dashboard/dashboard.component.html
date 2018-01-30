@@ -2,12 +2,17 @@
   <div class="project" *ngFor="let agile of agiles; let i=index">
     <div class="project-list" *ngIf="agile.checked">
       <div class="project-list__agile">
-        <h2 class="project-list__title"  (click)="openInBrowser('/agiles/'+agile.id)">{{ agile.name }}</h2> <i (click)="init()" class="fa fa-refresh" aria-hidden="true"></i> <i (click)="showAddIssueModal(agile)" class="fa fa-plus-square-o" aria-hidden="true"></i>
+        <h2 class="project-list__title"  (click)="openInBrowser('/agiles/'+agile.id)">{{ agile.name }} <i class="fa fa-external-link" aria-hidden="true"></i></h2>
         <div class="project-list__toggle" *ngIf="agile?.issues != 0" (click)="toggle(i)">
             <i [ngClass]="agile.visiblityState !='hidden'? 'trec-icon-caret-down' : 'trec-icon-caret-up'" aria-hidden="true"></i>              
         </div>
       </div>
+      
       <div class="project-list__issues" [@visibilityChanged]="agile.visiblityState">
+        <div class="project-list__issues--empty">
+          <button (click)="init()">Refresh</button> 
+          <button (click)="showAddIssueModal(agile)">Create Issue</button>
+        </div>
         <div class="project-list__item" *ngFor="let issue of agile.issues" [ngClass]='priorityClass(issue)' [style.border-left-color]='issue.field.Priority[1]'[ngClass]="issue.id == timerService.currentIssueId? 'recording' : ''">
           <div class="project-list__header">
             <span class="project-list__id" (click)="openInBrowser('/issue/'+issue.id)">{{ issue.id }}</span> 
@@ -25,6 +30,7 @@
               <ng-template #timerOff><span class="trec-icon-record"></span>REC</ng-template> 
             </button>
           </div>
+          
           <div class="project-list__content">
             <span class="project-list__summary">{{ issue.field.summary }}</span>
           </div>
