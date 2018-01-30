@@ -2,7 +2,7 @@
   <div class="project" *ngFor="let agile of agiles; let i=index">
     <div class="project-list" *ngIf="agile.checked">
       <div class="project-list__agile">
-        <h2 class="project-list__title"  (click)="openInBrowser('/agiles/'+agile.id)">{{ agile.name }}</h2> <i (click)="init()" class="fa fa-refresh" aria-hidden="true"></i> <i (click)="createIssueOnBoard({'project':'KW','summary':'Test issue','description':'DESC of new issue'},'Kleder')" class="fa fa-plus-square-o" aria-hidden="true"></i>
+        <h2 class="project-list__title"  (click)="openInBrowser('/agiles/'+agile.id)">{{ agile.name }}</h2> <i (click)="init()" class="fa fa-refresh" aria-hidden="true"></i> <i (click)="showAddIssueModal(agile)" class="fa fa-plus-square-o" aria-hidden="true"></i>
         <div class="project-list__toggle" *ngIf="agile?.issues != 0" (click)="toggle(i)">
             <i [ngClass]="agile.visiblityState !='hidden'? 'trec-icon-caret-down' : 'trec-icon-caret-up'" aria-hidden="true"></i>              
         </div>
@@ -40,6 +40,24 @@
         <img src="../../../../assets/skull.png" alt="skull">
         <div class="boards__title">No board was selected</div>
         <div class="boards__text">Go to <span class="boards__text--link" routerLink="../../edit-account">account settings</span> and choose some</div>
+    </div>
+  </div>
+  <div id="addIssue" class="modal">
+    <div class="modal__backdrop" (click)="hideAddIssueModal()"></div>
+    <div *ngIf="currentAgile != undefined" class="modal__content">
+      <span class="trec-icon-close" (click)="hideAddIssueModal()"></span>
+      <div class="modal__text">{{ 'Create issue at ' + currentAgile.name + ' Board' }}</div>
+      <div *ngIf="newIssue" class="modal__form"> 
+        <label>Project</label> 
+        <select [(ngModel)]="newIssue.project">
+          <option *ngFor="let project of currentAgile.projects">{{ project.id }}</option>
+        </select>        
+        <label>Title</label>
+        <input type="text" [(ngModel)]="newIssue.summary">
+        <label>Description</label>
+        <textarea [(ngModel)]="newIssue.description"></textarea>
+        <button class="btn btn--transparent" (click)="createIssueOnBoard(newIssue, currentAgile.name)">Add to YouTrack</button>
+      </div>
     </div>
   </div>
 </div>

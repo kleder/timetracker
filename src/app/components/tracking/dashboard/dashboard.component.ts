@@ -10,6 +10,7 @@ import { shell } from 'electron';
 import { ToasterService } from '../../../services/toaster.service'
 import { AccountService } from '../../../services/account.service'
 import { Router } from '@angular/router';
+import { newIssue } from 'app/models/RemoteAccount';
 
 const electron = require('electron')
 
@@ -38,6 +39,8 @@ export class DashboardComponent implements OnInit {
   private boardStates: Array<any> = []
   private issueHexColor: any
   private boardsChecked: boolean
+  private newIssue: newIssue
+  private currentAgile: object
   constructor(
     public api: ApiService,
     public timerService: TimerService,
@@ -84,8 +87,23 @@ export class DashboardComponent implements OnInit {
     this.getAllBoardStates()
   }
 
-  public async createIssueOnBoard(data, board){
-    return this.api.createIssueOnBoard(data,board);
+  public showAddIssueModal(agile) {
+    this.currentAgile = agile
+    console.log("agile", this.currentAgile)
+    this.newIssue = new newIssue
+    this.newIssue.project = this.currentAgile["projects"][0]["id"]
+    document.getElementById('addIssue').style.display = 'block'
+  }
+
+  public hideAddIssueModal() {
+    this.currentAgile = undefined
+    document.getElementById('addIssue').style.display = "none"
+  }
+
+  public async createIssueOnBoard(issue, board){
+    console.log('issue', issue)
+    this.hideAddIssueModal()
+    // return this.api.createIssueOnBoard(issue, board);
   }
   
   public async openInBrowser(url : string){
