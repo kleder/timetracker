@@ -83,6 +83,10 @@ export class DashboardComponent implements OnInit {
     })
     this.getAllBoardStates()
   }
+
+  public async createIssueOnBoard(data, board){
+    return this.api.createIssueOnBoard(data,board);
+  }
   
   public async openInBrowser(url : string){
     var account = await this.api.accounts.Current();

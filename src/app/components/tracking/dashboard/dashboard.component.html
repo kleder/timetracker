@@ -1,9 +1,9 @@
 <div class="container" *ngIf="!httpService.loader else loader">
   <div class="project" *ngFor="let agile of agiles; let i=index">
     <div class="project-list" *ngIf="agile.checked">
-      <div class="project-list__agile" (click)="toggle(i)">
-        <h2 class="project-list__title">{{ agile.name }}</h2>
-        <div class="project-list__toggle" *ngIf="agile?.issues != 0">
+      <div class="project-list__agile">
+        <h2 class="project-list__title"  (click)="openInBrowser('/agiles/'+agile.id)">{{ agile.name }}</h2> <i (click)="init()" class="fa fa-refresh" aria-hidden="true"></i> <i (click)="createIssueOnBoard({'project':'KW','summary':'Test issue','description':'DESC of new issue'},'Kleder')" class="fa fa-plus-square-o" aria-hidden="true"></i>
+        <div class="project-list__toggle" *ngIf="agile?.issues != 0" (click)="toggle(i)">
             <i [ngClass]="agile.visiblityState !='hidden'? 'trec-icon-caret-down' : 'trec-icon-caret-up'" aria-hidden="true"></i>              
         </div>
       </div>
@@ -31,7 +31,6 @@
         </div>
         <div *ngIf="agile?.issues == 0" class="project-list__issues--empty">
           <span>No tasks on this board for you..</span>
-          <button (click)="init()">REFRESH</button>
         </div>
       </div>
     </div>
