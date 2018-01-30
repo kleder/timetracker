@@ -100,10 +100,13 @@ export class DashboardComponent implements OnInit {
     document.getElementById('addIssue').style.display = "none"
   }
 
-  public async createIssueOnBoard(issue, board){
-    console.log('issue', issue)
-    this.hideAddIssueModal()
-    // return this.api.createIssueOnBoard(issue, board);
+  public async createIssueOnBoard(data, board) {
+    this.agiles.filter(agile => { 
+      if (agile.name == board){
+        let state = agile.columnSettings.visibleValues[0].value;
+        return this.api.createIssueOnBoard(data, board, state);
+      }
+    })
   }
   
   public async openInBrowser(url : string){
