@@ -7,14 +7,16 @@
         color: $white;
         &__agile {
             padding-bottom: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             border-bottom: 1px solid $border-color;
             letter-spacing: 1px;
             cursor: pointer;
             &:hover {
                 .project-list__title {
                     opacity: 0.7;
-                    text-decoration: underline;
+                }
+                .trec-icon-external-link {
+                    visibility: visible !important;
                 }
             }
             .project-list__title, .project-list__toggle {
@@ -26,6 +28,12 @@
                 font-weight: 400;
                 color: $white;
                 margin: 0;
+                .trec-icon-external-link {
+                    visibility: hidden;
+                    margin-left: 10px;
+                    font-size: 18px;
+                    vertical-align: sub;
+                }
             }
             .project-list__toggle {
                 float: right;
@@ -64,6 +72,18 @@
                     outline: none;
                     &:hover {
                         color: $custom-red;
+                    }
+                }
+            }
+            .project-list__options {
+                margin-bottom: 8px;
+                height: 24px;
+                .btn--options {
+                    float: left;
+                    margin-right: 9px;
+                    .trec-icon-refresh {
+                        margin-top: -3px;
+                        font-size: 14px;
                     }
                 }
             }
@@ -256,6 +276,7 @@
             border-radius: 4px;
             box-shadow: 0px 16px 16px 0px rgba(0,0,0,0.06);
             .modal__text {
+                padding: 0 16px;
                 font-family: 'Montserrat', sans-serif;        
                 color:  $white;
                 font-size: 16px;
@@ -305,6 +326,7 @@
             }
             select {
                 height: 52px;
+                cursor: pointer;
             }
             textarea {
                 max-height: 100px;

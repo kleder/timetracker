@@ -46,6 +46,20 @@ html, body {
         border: 2px solid $white;
       }       
     }
+    &--options {
+      padding: 8px 7px;
+      width: inherit;
+      font-size: 10px;
+      line-height: 8px;
+      height: 24px;
+      border-radius: 4px;
+      color: $white;
+      background-color: $options-bg-color;
+      letter-spacing: 0;
+      &:hover {
+        background-color: $issue-bg-color;
+      }
+    }
     &:disabled {
       cursor: not-allowed;
     }
@@ -197,4 +211,12 @@ html, body {
 
 .trec-icon-resume:before {
   content: '\e90f';
+}
+
+.trec-icon-external-link:before {
+  content: '\e910';
+}
+
+.trec-icon-refresh:before {
+  content: '\e911';
 }
