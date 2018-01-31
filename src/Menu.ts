@@ -8,7 +8,7 @@ export class CustomMenu {
       {
         label: 'Workspace',
         click() {
-          mainWindow.webContents.executeJavaScript('window.location="#/tracking"')
+          mainWindow.webContents.executeJavaScript('window.location="#/workspace"')
         }
       },
       {
@@ -23,7 +23,7 @@ export class CustomMenu {
           {
             label: 'Add new',
             click() {
-              mainWindow.webContents.executeJavaScript('window.location="#/add-account?firstAccount=false"')
+              mainWindow.webContents.executeJavaScript('window.location="#/accounts/add-account?firstAccount=false"')
             }
           }
         ]
@@ -31,7 +31,7 @@ export class CustomMenu {
       {
         label: 'About',
         click() {
-          mainWindow.webContents.executeJavaScript('window.location="#/about-trec"')
+          mainWindow.webContents.executeJavaScript('window.location="#/about"')
         }
       },
       {

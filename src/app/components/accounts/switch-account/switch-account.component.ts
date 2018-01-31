@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataService } from '../../services/data.service'
-import { DatabaseService } from '../../services/database.service'
-import { HttpService } from '../../services/http.service'
-import { AccountService } from '../../services/account.service'
-import { MenuService } from '../../services/menu.service'
+import { DataService } from '../../../services/data.service'
+import { DatabaseService } from '../../../services/database.service'
+import { HttpService } from '../../../services/http.service'
+import { AccountService } from '../../../services/account.service'
+import { MenuService } from '../../../services/menu.service'
 
 @Component({
   selector: 'app-switch-account',
@@ -58,7 +58,7 @@ export class SwitchAccountComponent implements OnInit {
   }
 
   goToAddAccount(arg) {
-    this.router.navigate(['add-account'], { queryParams: {firstAccount: arg} })    
+    this.router.navigate(['accounts/add-account'], { queryParams: {firstAccount: arg} })    
   }
 
   goBack() {

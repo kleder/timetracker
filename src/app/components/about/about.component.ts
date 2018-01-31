@@ -6,11 +6,11 @@ import { versions } from '../../../environments/versions';
 import { DataService } from '../../services/data.service'
 
 @Component({
-  selector: 'app-about-trec',
-  templateUrl: './about-trec.component.html',
-  styleUrls: ['./about-trec.component.scss']
+  selector: 'app-about',
+  templateUrl: './about.component.html',
+  styleUrls: ['./about.component.scss']
 })
-export class AboutTrecComponent implements OnInit {
+export class AboutComponent implements OnInit {
 
   public version = versions;
 
@@ -25,11 +25,12 @@ export class AboutTrecComponent implements OnInit {
    } 
 
   ngOnInit() {
+    console.log("this.router.url", this.router.url)
   }
 
   goBack() {
     this.router.navigate([this.dataService.routeBeforeMenu], { queryParams: { returnUrl: this.router.url } })
   }
 
-  }
+}
 
