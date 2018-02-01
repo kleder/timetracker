@@ -25,7 +25,6 @@ import { DatabaseService } from './services/database.service'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { HttpService } from './services/http.service';
 import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 
@@ -65,14 +64,6 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    LoadingModule.forRoot({
-      animationType: ANIMATION_TYPES.threeBounce,
-      backdropBackgroundColour: 'rgba(0,0,0,0.1)', 
-      backdropBorderRadius: '4px',
-      primaryColour: '#ffffff', 
-      secondaryColour: '#ffffff', 
-      tertiaryColour: '#ffffff'
-  })
   ],
   providers: [
     ElectronService, 
