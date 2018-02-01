@@ -25,6 +25,10 @@ export class HttpService extends Http {
     super(backend, defaultOptions)
   }
 
+  public getRawUrl(url: string){
+    return super.get(url);
+  }
+
   public UseAccount(remoteAccount : RemoteAccount) {
     this.remoteAccount = remoteAccount;
   }
