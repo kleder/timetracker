@@ -39,6 +39,7 @@ import { ToasterService } from './services/toaster.service';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SwitchAccountComponent } from './components/accounts/switch-account/switch-account.component'
 import { MenuService } from './services/menu.service';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { MenuService } from './services/menu.service';
     ChangeAccountTokenComponent,
     LicensesComponent,
     ToolbarComponent,
-    SwitchAccountComponent
+    SwitchAccountComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,

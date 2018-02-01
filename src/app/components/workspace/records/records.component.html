@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!loader else loaderContainer">
+<div class="container" *ngIf="!loader else spinner">
   <div class="record-list" *ngIf="todaySummaryItems?.length !=0 else empty">
     <div class="record-list__item" *ngFor="let record of todaySummaryItems">
       <div class="record-list__header">
@@ -23,21 +23,16 @@
     </div>
   </ng-template>
 </div>
-<ng-template #loaderContainer>
-  <div class="loading-container">
-    <div class="spinner">
-      <div class="lds-css ng-scope">
-        <div class="lds-spinner" style="height:100%"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-        </div>
+<ng-template #spinner>
+    <div class="loading-container">
+      <app-loading-spinner></app-loading-spinner>
+      <div class="loading-container__item">
+        <div class="loading-container__title"></div>
+        <div class="loading-container__content"></div>
+      </div>
+      <div class="loading-container__item">
+        <div class="loading-container__title"></div>
+        <div class="loading-container__content"></div>
       </div>
     </div>
-    <div class="loading-container__item">
-      <div class="loading-container__title"></div>
-      <div class="loading-container__content"></div>
-    </div>
-    <div class="loading-container__item">
-      <div class="loading-container__title"></div>
-      <div class="loading-container__content"></div>
-    </div>
-  </div>
-</ng-template>
+  </ng-template>

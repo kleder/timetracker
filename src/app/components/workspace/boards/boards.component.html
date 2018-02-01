@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!httpService.loader else loader">
+<div class="container" *ngIf="!httpService.loader else spinner">
   <div class="project" *ngFor="let agile of agiles; let i=index">
     <div class="project-list" *ngIf="agile.checked">
       <div class="project-list__agile">
@@ -70,15 +70,10 @@
   </div>
 </div>
 
-<ng-template #loader>
+<ng-template #spinner>
   <div class="loading-container">
-    <div class="spinner">
-      <div class="lds-css ng-scope">
-        <div class="lds-spinner" style="height:100%"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-        </div>
-      </div>
-    </div>
-    <div class="loading-container__name"></div>
+    <app-loading-spinner></app-loading-spinner>
+      <div class="loading-container__name"></div>
     <div class="loading-container__item">
       <div class="loading-container__title"></div>
       <div class="loading-container__content"></div>
