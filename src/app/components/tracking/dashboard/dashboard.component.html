@@ -2,7 +2,7 @@
   <div class="project" *ngFor="let agile of agiles; let i=index">
     <div class="project-list" *ngIf="agile.checked">
       <div class="project-list__agile">
-        <h2 class="project-list__title">{{ agile.name }}<span class="trec-icon-external-link" aria-hidden="true" (click)="openInBrowser('/agiles/'+agile.id)"></span></h2>
+        <h2 class="project-list__title" (click)="openInBrowser('/agiles/'+agile.id)" >{{ agile.name }}<span class="trec-icon-external-link" aria-hidden="true"></span></h2>
         <div class="project-list__toggle" *ngIf="agile?.issues != 0" (click)="toggle(i)">
             <i [ngClass]="agile.visiblityState !='hidden'? 'trec-icon-caret-down' : 'trec-icon-caret-up'" aria-hidden="true"></i>              
         </div>
