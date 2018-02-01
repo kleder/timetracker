@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ToasterService {
-  private toaster: HTMLElement
+  private toaster: any
   public toasterText: string
   constructor() {
-   }
+  
+  }
 
   public showToaster(text: string, type: string) {
-    console.log("in showToaster", text)
-    this.toaster = document.getElementById("default-notification")
     let that = this
+    this.toasterText = text
+    this.toaster = document.getElementById("default-notification")
     setTimeout(function() {
-      that.toasterText = text
       switch(type) {
         case 'default': {
           that.toaster.className += " show default-notification--default"
@@ -39,4 +39,17 @@ export class ToasterService {
   public hideToaster() {
     this.toaster.className = this.toaster.className.replace("show", "")    
   }
+
+  public default(text) {
+    this.showToaster(text, 'default')
+  }
+
+  public success(text) {
+    this.showToaster(text, 'success')
+  }
+
+  public error(text) {
+    this.showToaster(text, 'error')
+  }
+  
 }

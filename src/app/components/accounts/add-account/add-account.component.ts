@@ -68,7 +68,7 @@ export class AddAccountComponent implements OnInit {
     rAccount.token = this.token;
     rAccount.url = this.youTrackUrl;
     if (!window.navigator.onLine) {
-      this.toasterService.showToaster("No internet connection", "error")
+      this.toasterService.error("No internet connection")
     } else {
       this.apiService.getCurrentUser(rAccount).then(
         (data) => {
@@ -83,7 +83,7 @@ export class AddAccountComponent implements OnInit {
           }
         }, (error) => {
           this.errorUrlOrToken()
-          this.toasterService.showToaster("Error eccoured! Incorrect URL or token", 'error')        
+          this.toasterService.error("Error occoured! Incorrect URL or token")        
           this.loader = false;
           }
       )   
@@ -97,7 +97,7 @@ export class AddAccountComponent implements OnInit {
   public errorName() {
     let url = document.getElementById('add-account__name')
     url.className += " add-account__name--error"
-    this.toasterService.showToaster("Error eccoured! The name must be longer than 3 characters.", 'error')   
+    this.toasterService.error("Error occoured! The name must be longer than 3 characters.")   
   }
 
   public clearErrorUrlOrToken() {

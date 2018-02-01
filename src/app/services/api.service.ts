@@ -151,7 +151,7 @@ export class ApiService {
     let newItem = {
       date: data.date,
       duration: Math.round(data.duration / 60),
-      description: "Added by T-Rec App"
+      description: "Added by T-REC App"
     }
 
     return new Promise(resolve => {

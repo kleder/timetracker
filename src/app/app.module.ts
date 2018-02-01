@@ -40,6 +40,7 @@ import { SwitchAccountComponent } from './components/accounts/switch-account/swi
 import { MenuService } from './services/menu.service';
 import { Nl2brPipe } from 'app/pipes/nl2br.pipe';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { ToasterComponent } from './components/toaster/toaster.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     LicensesComponent,
     ToolbarComponent,
     SwitchAccountComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    ToasterComponent
   ],
   imports: [
     BrowserModule,

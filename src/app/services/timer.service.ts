@@ -138,19 +138,18 @@ export class TimerService {
       return this.api.createNewWorkItem(issue).then(
         data => {
           this.stopIdleTime()
-          // stop issueTimer && saveInDb 
           this.databaseService.stopItem(issue.duration, issue.startDate)
           this.databaseService.setIsPublished(issue.startDate)          
           this.stopTrackingNotifications()          
-          this.toasterService.showToaster('Your tracking has been saved!', 'default')          
+          this.toasterService.default('Your tracking has been saved!')          
         }, err => {
-          this.toasterService.showToaster('Can\'t report task to remote service.', 'error')          
+          this.toasterService.error('Can\'t report task to remote service.')          
         }
       )
     }
     return new Promise<any>((resolve, reject) => {
       this.stopTrackingNotifications()                
-      this.toasterService.showToaster('Records shorter than 10 seconds will not be reported.', 'error')
+      this.toasterService.error('Records shorter than 10 seconds will not be reported.')
       reject("To small amount of data");
     })
   }

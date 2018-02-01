@@ -128,7 +128,7 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
     if (action == 'remove') {
       this.databaseService.deleteItem(item.startDate)
       this.hideModal()
-      this.toasterService.showToaster('Your tracking has been removed!', 'default')
+      this.toasterService.default('Your tracking has been removed!')
     }
     if (action == 'resume') {
       this.timerService.startItem(item);
@@ -140,7 +140,7 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
         this.databaseService.stopItem(item.duration, item.startDate)
         this.databaseService.setIsPublished(item.startDate)    
         this.hideModal()             
-        this.toasterService.showToaster('Your tracking has been saved!', 'default')  
+        this.toasterService.default('Your tracking has been saved!')  
       })      
     }
     this.unstoppedItem = undefined

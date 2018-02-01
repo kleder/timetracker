@@ -69,7 +69,7 @@ export class BoardsComponent implements OnInit {
   
   ngOnInit() {
     if (!window.navigator.onLine) {
-      this.toasterService.showToaster("No internet connection", "error")
+      this.toasterService.error("No internet connection")
     } else {
       this.init()
     }
