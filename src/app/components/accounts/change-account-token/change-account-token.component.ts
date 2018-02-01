@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { DatabaseService } from '../../../services/database.service'
 import { ToasterService } from '../../../services/toaster.service'
+import { RemoteAccount } from 'app/models/RemoteAccount';
+import { ApiService } from 'app/services/api.service';
 
 @Component({
   selector: 'app-change-account-token',
@@ -18,7 +20,8 @@ export class ChangeAccountTokenComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public router: Router,
     public databaseService: DatabaseService,
-    public toasterService: ToasterService
+    public toasterService: ToasterService,
+    public api: ApiService
   ) { }
 
   ngOnInit() {
@@ -32,11 +35,20 @@ export class ChangeAccountTokenComponent implements OnInit {
   }
 
   changeToken(accountId, newToken) {
-    this.databaseService.changeAccountToken(accountId, newToken).then(data => {
-      this.toasterService.showToaster('Token has been changed successfully', 'success')
-      this.goBack()
-    }, err => {
-      console.log(err)
+    let rAccount = new RemoteAccount()
+    rAccount.name = this.accountName
+    rAccount.url = this.accountUrl
+    rAccount.token = newToken
+    this.api.getCurrentUser(rAccount).then((res) => {
+      this.databaseService.changeAccountToken(accountId, newToken).then(data => {
+        this.toasterService.success('Token has been changed successfully')
+        this.goBack()
+      }, err => {
+        console.log(err)
+        this.toasterService.error('An error occoured!')
+      })
+    }, (err) => {
+      this.toasterService.error('An error occoured! This token doesn\'t match any account')
     })
   }
 
