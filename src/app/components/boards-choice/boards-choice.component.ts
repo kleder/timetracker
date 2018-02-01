@@ -55,7 +55,7 @@ export class BoardsChoiceComponent implements OnInit {
           })
         })
         if (this.justLoggedIn) {
-          this.toasterService.showToaster("Account " + this.accountName + " is synced!", "success")
+          this.toasterService.success("Account " + this.accountName + " is synced!")
         }
       }
     )

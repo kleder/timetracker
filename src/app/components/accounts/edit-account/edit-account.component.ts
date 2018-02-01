@@ -55,9 +55,9 @@ export class EditAccountComponent implements OnInit {
 
   editNameOrUrl(account) {
     this.databaseService.editAccount(account).then(data => {
-      this.toasterService.showToaster('Account updated!', "success")
+      this.toasterService.success('Account updated!')
     }, err => {
-      this.toasterService.showToaster('An error occured!', "error")
+      this.toasterService.error('An error occured!')
     })
   }
 
@@ -72,9 +72,9 @@ export class EditAccountComponent implements OnInit {
   public removeAccount(id) {
     this.databaseService.deleteAccount(id).then(data => {
       this.router.navigate(['/accounts']) 
-      this.toasterService.showToaster('Account removed!', "success")
+      this.toasterService.success('Account removed!')
     }, err => {
-      this.toasterService.showToaster('An error occured!', "error")            
+      this.toasterService.error('An error occured!')            
     })
     this.hideModal()
   }
@@ -108,10 +108,10 @@ export class EditAccountComponent implements OnInit {
       agile.checked == true? agile.checked = 1 : agile.checked = 0
       this.databaseService.updateBoardVisibility(this.editingAccount.id, agile.name, agile.checked).then(data => {
         if (data) {
-          this.toasterService.showToaster('Your changes have been saved!', "success")          
+          this.toasterService.success('Your changes have been saved!')          
         }
       }, err => {
-        this.toasterService.showToaster('An error occured!', "error")            
+        this.toasterService.error('An error occured!')            
       })
     })
   }

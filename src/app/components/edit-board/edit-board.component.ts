@@ -42,13 +42,13 @@ export class EditBoardComponent implements OnInit {
   updateStatesColors(boardStates) {
     for (let i = 0; i < boardStates.length; i++) {
       if (!/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(boardStates[i].hexColor)) {
-        this.toasterService.showToaster('It isn\'t hex format!', 'error')          
+        this.toasterService.error('It isn\'t hex format!')          
         return false        
       }
     }
     boardStates.forEach((state) => {
       this.databaseService.changeBoardStates(state.accountId, state.boardName, state.state, state.hexColor).then(data => {
-        this.toasterService.showToaster('Color has been changed!', 'success')      
+        this.toasterService.success('Color has been changed!')      
       })
     })
     this.goBack()
