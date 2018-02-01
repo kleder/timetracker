@@ -25,7 +25,6 @@ import { DatabaseService } from './services/database.service'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { HttpService } from './services/http.service';
 import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 
@@ -40,6 +39,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SwitchAccountComponent } from './components/accounts/switch-account/switch-account.component'
 import { MenuService } from './services/menu.service';
 import { Nl2brPipe } from 'app/pipes/nl2br.pipe';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +57,8 @@ import { Nl2brPipe } from 'app/pipes/nl2br.pipe';
     ChangeAccountTokenComponent,
     LicensesComponent,
     ToolbarComponent,
-    SwitchAccountComponent
+    SwitchAccountComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -65,14 +66,6 @@ import { Nl2brPipe } from 'app/pipes/nl2br.pipe';
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    LoadingModule.forRoot({
-      animationType: ANIMATION_TYPES.threeBounce,
-      backdropBackgroundColour: 'rgba(0,0,0,0.1)', 
-      backdropBorderRadius: '4px',
-      primaryColour: '#ffffff', 
-      secondaryColour: '#ffffff', 
-      tertiaryColour: '#ffffff'
-  })
   ],
   providers: [
     ElectronService, 
