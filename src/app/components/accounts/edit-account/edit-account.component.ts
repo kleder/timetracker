@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from '../../services/database.service'
-import { ApiService } from '../../services/api.service'
-import { HttpService } from '../../services/http.service'
+import { DatabaseService } from '../../../services/database.service'
+import { ApiService } from '../../../services/api.service'
+import { HttpService } from '../../../services/http.service'
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { RemoteAccount } from 'app/models/RemoteAccount';
-import { AccountService } from '../../services/account.service'
-import { ToasterService } from '../../services/toaster.service'
+import { AccountService } from '../../../services/account.service'
+import { ToasterService } from '../../../services/toaster.service'
 
 @Component({
   selector: 'app-edit-account',
@@ -38,7 +38,7 @@ export class EditAccountComponent implements OnInit {
   }
 
   public backToWorkspace() {
-    this.router.navigate(['tracking'])
+    this.router.navigate(['workspace'])
   }
 
   public getAllAgiles() {
@@ -62,7 +62,7 @@ export class EditAccountComponent implements OnInit {
   }
 
   goToChangeToken() {
-    this.router.navigate(['/change-account-token'], { queryParams: {accountId: this.editingAccount.id, accountName: this.editingAccount.name, accountUrl: this.editingAccount.url } });    
+    this.router.navigate(['/accounts/change-account-token'], { queryParams: {accountId: this.editingAccount.id, accountName: this.editingAccount.name, accountUrl: this.editingAccount.url } });    
   }
 
   editBoard(board) {

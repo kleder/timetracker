@@ -9,11 +9,11 @@ import { HttpService } from '../../../services/http.service'
 import { AccountService } from '../../../services/account.service'
 
 @Component({
-  selector: 'app-activity',
-  templateUrl: './activity.component.html',
-  styleUrls: ['./activity.component.scss']
+  selector: 'app-records',
+  templateUrl: './records.component.html',
+  styleUrls: ['./records.component.scss']
 })
-export class ActivityComponent implements OnInit {
+export class RecordsComponent implements OnInit {
   private unstoppedItem: any
   public todaySummaryItems: Array<any>
   private todayTimes: object
@@ -112,7 +112,7 @@ export class ActivityComponent implements OnInit {
   }
 
   public goToBoards() {
-    this.router.navigate(['../tracking'])
+    this.router.navigate(['../workspace'])
   }
 
 }

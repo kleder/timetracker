@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DashboardComponent }  from './dashboard/dashboard.component';
-import { ActivityComponent }    from './activity/activity.component';
+import { BoardsComponent }  from './boards/boards.component';
+import { RecordsComponent }    from './records/records.component';
 import { TimerService } from '../../services/timer.service'
 import { DataService } from '../../services/data.service'
 import { DatabaseService } from '../../services/database.service'
@@ -14,11 +14,11 @@ const notifier = require('electron-notifications')
 const path = require('path')
 
 @Component({
-  selector: 'app-tracking',
-  templateUrl: './tracking.component.html',
-  styleUrls: ['./tracking.component.scss']
+  selector: 'app-workspace',
+  templateUrl: './workspace.component.html',
+  styleUrls: ['./workspace.component.scss']
 })
-export class TrackingComponent implements OnDestroy, OnInit {
+export class WorkspaceComponent implements OnDestroy, OnInit {
   public notificationTime: number
   public issueTime: number
   private allItemsFromDb: any
@@ -139,7 +139,7 @@ export class TrackingComponent implements OnDestroy, OnInit {
   }
 
   public goToEditAccount() {
-    this.router.navigate(['edit-account'])
+    this.router.navigate(['accounts/edit-account'])
   }
 
   public showInactiveNotification() {

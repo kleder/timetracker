@@ -1,13 +1,13 @@
 import { BoardsChoiceComponent } from './components/boards-choice/boards-choice.component';
-import { TrackingComponent } from './components/tracking/tracking.component';
-import { DashboardComponent } from './components/tracking/dashboard/dashboard.component';
-import { ActivityComponent } from './components/tracking/activity/activity.component';
-import { AddAccountComponent } from './components/add-account/add-account.component';
-import { SwitchAccountComponent } from './components/switch-account/switch-account.component';
-import { EditAccountComponent } from './components/edit-account/edit-account.component';
+import { WorkspaceComponent } from './components/workspace/workspace.component';
+import { BoardsComponent } from './components/workspace/boards/boards.component';
+import { RecordsComponent } from './components/workspace/records/records.component';
+import { AddAccountComponent } from './components/accounts/add-account/add-account.component';
+import { SwitchAccountComponent } from './components/accounts/switch-account/switch-account.component';
+import { EditAccountComponent } from './components/accounts/edit-account/edit-account.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
-import { ChangeAccountTokenComponent } from './components/change-account-token/change-account-token.component';
-import { AboutTrecComponent } from './components/about-trec/about-trec.component';
+import { ChangeAccountTokenComponent } from './components/accounts/change-account-token/change-account-token.component';
+import { AboutComponent } from './components/about/about.component';
 import { LicensesComponent } from './components/licenses/licenses.component';
 
 import { NgModule } from '@angular/core';
@@ -18,24 +18,30 @@ import { ApiService } from './services/api.service'
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'add-account',
+        redirectTo: 'accounts/add-account',
         pathMatch: 'full',
     },
     {
-        path: 'add-account',
-        component: AddAccountComponent,
-    },
-    {
         path: 'accounts',
-        component: SwitchAccountComponent,
-    },
-    {
-        path: 'edit-account',
-        component: EditAccountComponent
-    },
-    {
-        path: 'change-account-token',
-        component: ChangeAccountTokenComponent
+        children: [
+            {
+                path: '',
+                component: SwitchAccountComponent,
+                pathMatch: 'full'
+            },
+            {
+                path: 'add-account',
+                component: AddAccountComponent,
+            },
+            {
+                path: 'edit-account',
+                component: EditAccountComponent
+            },
+            {
+                path: 'change-account-token',
+                component: ChangeAccountTokenComponent
+            },
+        ]
     },
     {
         path: 'edit-board',
@@ -46,32 +52,32 @@ const routes: Routes = [
         component: BoardsChoiceComponent
     },
     {
-        path: 'about-trec',
-        component: AboutTrecComponent
+        path: 'workspace',
+        component: WorkspaceComponent,
+        children: [
+            {
+                path: '',
+                redirectTo: 'boards',
+                pathMatch: 'full'
+            },
+            {
+                path: 'boards',
+                component: BoardsComponent
+            },
+            {
+                path: 'records',
+                component: RecordsComponent
+            },
+        ]
+    },
+    {
+        path: 'about',
+        component: AboutComponent
     },
     {
         path: 'licenses',
         component: LicensesComponent
     },
-    {
-        path: 'tracking',
-        component: TrackingComponent,
-        children: [
-            {
-                path: '',
-                redirectTo: 'dashboard',
-                pathMatch: 'full'
-            },
-            {
-                path: 'dashboard',
-                component: DashboardComponent
-            },
-            {
-                path: 'activity',
-                component: ActivityComponent
-            },
-        ]
-    }
 ];
 
 @NgModule({

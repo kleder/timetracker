@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { DatabaseService } from '../../services/database.service'
-import { ToasterService } from '../../services/toaster.service'
+import { DatabaseService } from '../../../services/database.service'
+import { ToasterService } from '../../../services/toaster.service'
 
 @Component({
   selector: 'app-change-account-token',
@@ -34,14 +34,14 @@ export class ChangeAccountTokenComponent implements OnInit {
   changeToken(accountId, newToken) {
     this.databaseService.changeAccountToken(accountId, newToken).then(data => {
       this.toasterService.showToaster('Token has been changed successfully', 'success')
-      this.router.navigate(['/edit-account'], { queryParams: {accountId: this.accountId, accountName: this.accountName, accountUrl: this.accountUrl }});              
+      this.goBack()
     }, err => {
       console.log(err)
     })
   }
 
   goBack() {
-    this.router.navigate(['/edit-account'], { queryParams: { accountId: this.accountId, accountName: this.accountName, accountUrl: this.accountUrl }});        
+    this.router.navigate(['/accounts/edit-account'], { queryParams: { accountId: this.accountId, accountName: this.accountName, accountUrl: this.accountUrl }});        
   }
 
 }

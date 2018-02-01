@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { ApiService } from '../../services/api.service';
-import { AccountService } from '../../services/account.service';
+import { ApiService } from '../../../services/api.service';
+import { AccountService } from '../../../services/account.service';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { RemoteAccount } from 'app/models/RemoteAccount';
-import { ToasterService } from '../../services/toaster.service';
+import { ToasterService } from '../../../services/toaster.service';
 import { shell } from 'electron';
 
-import { DataService } from '../../services/data.service';
-import { MenuService } from '../../services/menu.service'
-import { DatabaseService } from '../../services/database.service'
+import { DataService } from '../../../services/data.service';
+import { MenuService } from '../../../services/menu.service'
+import { DatabaseService } from '../../../services/database.service'
 
 @Component({
   selector: 'app-add-account',

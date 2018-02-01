@@ -15,9 +15,9 @@ import { newIssue } from 'app/models/RemoteAccount';
 const electron = require('electron')
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-boards',
+  templateUrl: './boards.component.html',
+  styleUrls: ['./boards.component.scss'],
   animations: [
     trigger('visibilityChanged', [
       state('shown', style({ maxHeight: '1000px', transition: 'max-height .3s ease-in', overflow: 'hidden' })),
@@ -25,7 +25,7 @@ const electron = require('electron')
     ])
   ]
 })
-export class DashboardComponent implements OnInit {
+export class BoardsComponent implements OnInit {
   public projects: any
   private projectId: String
   private issues: any

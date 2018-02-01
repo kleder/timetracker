@@ -74,7 +74,7 @@ export class BoardsChoiceComponent implements OnInit {
 
   public goToWorkspace() {
     this.menuService.enabledWorkspace(true)
-    this.router.navigateByUrl('/tracking');
+    this.router.navigateByUrl('/workspace');
   }
 
   async agileVisibilityInit(agiles) {
