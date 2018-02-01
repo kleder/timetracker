@@ -45,3 +45,8 @@ Thumbs.db
 
 *.orig
 src/environments/versions.ts
+/installers/windows/T-Rec_Installer/.vs
+/installers/windows/T-Rec_Installer/T-Rec_Installer/bin
+/installers/windows/T-Rec_Installer/T-Rec_Installer/obj
+/installers/windows/T-Rec_Installer/CustomAction/bin
+/installers/windows/T-Rec_Installer/CustomAction/obj

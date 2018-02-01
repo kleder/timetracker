@@ -1,0 +1,379 @@
+@import "../../../theme/colors.scss";
+
+.container {
+    padding: 10px;
+    cursor: default;    
+    .project-list {
+        color: $white;
+        &__agile {
+            padding-bottom: 12px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid $border-color;
+            letter-spacing: 1px;
+            cursor: pointer;
+            &:hover {
+                .project-list__title {
+                    opacity: 0.7;
+                }
+                .trec-icon-external-link {
+                    visibility: visible !important;
+                }
+            }
+            .project-list__title, .project-list__toggle {
+                display: inline-block;
+            }
+            .project-list__title {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                color: $white;
+                margin: 0;
+                .trec-icon-external-link {
+                    visibility: hidden;
+                    margin-left: 10px;
+                    font-size: 18px;
+                    vertical-align: sub;
+                }
+            }
+            .project-list__toggle {
+                float: right;
+                margin: 2px 5px 0 0;
+            }
+        }
+        &__issues {
+            max-height: 8000px;
+            transition: max-height 0.3s ease-in;
+            overflow: hidden;
+            &--empty {
+                margin-bottom: 17px;
+                padding: 11px;
+                height: 15px;
+                background-color: #35343d;
+                border-radius: 4px;
+                span {
+                    float: left;
+                    color: $font-grey;
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+                button {
+                    padding: 0;
+                    float: right;
+                    margin-right: 2px;
+                    color: $white;
+                    background: transparent;
+                    border: 0;
+                    font-size: 12px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    letter-spacing: 1px;
+                    cursor: pointer;
+                    outline: none;
+                    &:hover {
+                        color: $custom-red;
+                    }
+                }
+            }
+            .project-list__options {
+                margin-bottom: 8px;
+                height: 24px;
+                .btn--options {
+                    float: left;
+                    margin-right: 9px;
+                    .trec-icon-refresh {
+                        margin-top: -3px;
+                        font-size: 14px;
+                    }
+                }
+            }
+            .project-list__item {
+                background-color: $issue-bg-color;
+                border: 1px solid $border-color;
+                border-left: 4px solid $border-color;
+                border-radius: 4px;
+                padding: 11px;
+                margin-bottom: 7px;
+                &:hover {
+                    .project-list__record {
+                        display: unset !important;
+                    }
+                }
+                &:last-child {
+                    margin-bottom: 31px;
+                }
+                &.recording {
+                    opacity: 0.7;
+                }
+                .project-list__header {
+                    color: $issue-font-color;
+                    font-size: 10px;
+                    font-family: 'Montserrat', sans-serif;
+                    text-align: left;
+                    font-weight: 400;
+                    padding-bottom: 11px;
+                    .project-list__id, .project-list__priority, .project-list__state, .project-list__type, .project-list__description, .project-list__comments, .project-list__record {
+                        display: inline-block;
+                    }
+                    .project-list__id {
+                        padding-right: 14px;
+                        cursor: pointer;
+                        text-decoration: underline;
+                        &:hover {
+                            color: $white;
+                            text-decoration: none;                            
+                        }
+                    }
+                    .project-list__priority {
+                        padding-right: 17px;
+                        &.normal {
+                            color: $normal;
+                        }
+                        &.major {
+                            color: $major;
+                        }
+                        &.minor {
+                            color: $minor;
+                        }
+                    }
+                    .project-list__state {
+                        padding-right: 14px;
+                    }
+                    .project-list__type {
+                        padding-right: 15px;
+                    }
+                    .project-list__description {
+                        padding-right: 13px;
+                        vertical-align: bottom;
+                        font-size: 12px;
+                        color: $white;
+                    }
+                    .project-list__comments {
+                        font-size: 12px;
+                        color: $white;                        
+                        &:before {
+                            margin-right: -4px;
+                            vertical-align: middle;
+                        }
+                    }
+                    .project-list__record {
+                        position: relative;
+                        padding: 2px 6px 3px 14px;
+                        margin-top: -2px;
+                        display: none;
+                        float: right;
+                        background: none;
+                        border: none;
+                        color: $custom-red;
+                        cursor: pointer;    
+                        .trec-icon-record {
+                            position: absolute;
+                            top: -5px;
+                            left: -7px;
+                            font-size: 29px;
+                        }                                    
+                        &:hover {
+                            position: relative;
+                            background-color: $custom-red;
+                            color: $white;
+                            border: 0px solid $custom-red;
+                            border-radius: 2px;
+                        }
+                        &.recording {
+                            display: unset !important;
+                            background-color: $custom-red;
+                            color: $white;
+                            border: 0px solid $custom-red;
+                            border-radius: 2px;
+                            .trec-icon-stop {
+                                position: absolute;
+                                top: 3px;
+                                left: 1px;
+                                font-size: 13px;
+                            }       
+                        }
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+                }
+                .project-list__content {
+                    font-family: 'Montserrat', sans-serif;
+                    color:  $white;
+                    font-size: 14px;
+                    font-weight: 400;
+                    text-align: left;
+                }
+            }
+        }
+    }
+    .boards__list--empty {
+        padding-top: 50px;
+        text-align: center;
+        img {
+          margin-bottom: 49px;
+          width: 121px;
+        }
+        .boards__title {
+            font-family: 'Montserrat', sans-serif;
+            color:  $white;
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 44px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .boards__text {
+            margin-bottom: 36px;
+            font-family: 'Montserrat', sans-serif;
+            color:  $font-grey;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 24px;
+            &--link {
+                text-decoration: underline;
+                cursor: pointer;
+                outline: none;
+                &:hover {
+                    color: $white;
+                }
+            }
+        }
+    }
+    .modal {
+        display: none;
+        .trec-icon-close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .modal__backdrop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 10000 !important;
+            cursor: pointer;            
+        }
+        .modal__content {
+            position: fixed;
+            top: 110px;
+            right: 0;
+            left: 0;
+            margin: 0 auto;
+            width: 320px;
+            box-sizing: border-box;
+            text-align: left;
+            padding: 24px 16px;
+            z-index: 10000;
+            background-color: $menu-color;
+            color: $white;
+            font-family: 'Montserrat', sans-serif;           
+            border-radius: 4px;
+            box-shadow: 0px 16px 16px 0px rgba(0,0,0,0.06);
+            .modal__text {
+                padding: 0 16px;
+                font-family: 'Montserrat', sans-serif;        
+                color:  $white;
+                font-size: 16px;
+                line-height: 20px;
+                font-weight: 400;
+                text-align: center;
+            }
+        }
+        .modal__form {
+            margin: 23px 0 30px;
+            .modal__title {
+                font-family: 'Montserrat', sans-serif;
+                color: #5d5b67;
+                font-size: 12px;
+                font-weight: 400;
+                letter-spacing: 1px;
+                cursor: default;
+                margin-bottom: 15px;
+            }
+            label, input, textarea, select {
+                display: block;
+            }
+            label {
+                margin-bottom: 7px;
+                font-family: 'Montserrat', sans-serif;        
+                color:  $white;
+                font-size: 12px;
+                font-weight: 400;
+            }
+            input, textarea, select {
+                padding: 10px;
+                width: 100%;
+                background-color: transparent;
+                margin-bottom: 14px;
+                line-height: 16px;
+                font-family: 'Montserrat', sans-serif;        
+                color:  $white;
+                font-size: 12px;
+                border: 2px solid $font-grey;
+                border-radius: 2px;
+                box-sizing: border-box;
+                cursor: text;
+                outline: none;
+                &:last-of-type {
+                    margin-bottom: 24px;
+                }
+            }
+            select {
+                height: 40px;
+                cursor: pointer;
+            }
+            textarea {
+                max-height: 100px;
+                max-width: 100%;
+            }
+        }
+    }
+}
+.loading-container {
+    height: calc(100% - 20px);
+    position: relative;
+    padding: 10px;
+    app-loading-spinner {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        bottom: 0;
+        margin: 0 auto;
+    }
+    &__name {
+        margin-bottom: 12px;
+        background-color: $border-color;
+        border-radius: 40px;
+        height: 10px;
+        width: 220px;
+    }
+    &__item {
+        margin-bottom: 24px;
+        padding: 12px;
+        width: 100%;
+        background: $empty-bg-color;
+        border-radius: 4px;
+        box-sizing: border-box;
+        .loading-container__title {
+            margin-bottom: 12px;
+            background-color: $border-color;
+            border-radius: 40px;
+            height: 10px;
+            width: 270px;
+        }
+        .loading-container__content {
+            background-color: $border-color;
+            border-radius: 40px;
+            height: 10px;
+            width: 180px;
+        }
+    }
+}

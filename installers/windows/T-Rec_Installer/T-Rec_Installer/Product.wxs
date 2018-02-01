@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?if $(var.Platform)=x64?>
+    <?define ProductCode = "{54A42EDA-6188-40D9-9F80-89CA587B88AB}"?>
+    <?else?>
+    <?define ProductCode = "{0057DA4F-29AF-4892-AB5F-FA4D40AAAEA6}"?>
+    <?endif?>
+  
+    <?define UpgradeCode = "{125D15DF-B8DB-48C3-B0CB-1F5E660B308D}"?>
+    <?define TimetrackerDir = "..\..\..\..\..\..\"?>
+
+  <Product Id="$(var.ProductCode)" 
+             Name="!(loc.ProductName_$(var.Platform))" 
+             Language="!(loc.Language)" 
+             Version="1.0.0.0" 
+             Manufacturer="!(loc.Company)" 
+             UpgradeCode="$(var.UpgradeCode)">
+    
+        <Package InstallerVersion="200" 
+                 Compressed="yes" 
+                 InstallScope="perMachine"
+                 Platform="$(var.Platform)"
+                 Manufacturer="!(loc.Company)"
+                 Description="!(loc.Description)"
+        />
+
+    <Property Id="INSTALLDESKTOPSHORTCUT" Value="1" />
+    <Property Id="INSTALLMENUSTARTSHORTCUT" Value="1" />
+    <Property Id="AUTORUN" Value="1" />
+
+    
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
+		<MediaTemplate EmbedCab="yes" />
+
+      <Icon Id="icon.ico" SourceFile="$(var.TimetrackerDir)src\assets\icons\favicon.ico"/>
+      <Property Id="ARPPRODUCTICON">icon.ico</Property>
+      
+    <UIRef Id="CustomUI"/>
+      <!--        replace the installer background and banner-->
+              <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\assets\background.jpg"/>
+      	    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\assets\top_banner.jpg"/>
+      <WixVariable Id="WixUILicenseRtf" Value="$(var.TimetrackerDir)LICENSE.rtf"/>
+
+    <SetProperty
+      Id="RegistryAutorun"
+      Value ="AUTORUN=[AUTORUN];INSTALLFOLDER=[INSTALLFOLDER]"
+      Sequence="execute"
+      Before="RegistryAutorun"/>
+
+    <CustomAction Id="RegistryAutorun"
+                  BinaryKey="CAJR"
+                  DllEntry="RegistryAutorun"
+                  Execute="deferred"
+                  Return="check"
+                  Impersonate="no"
+    />
+
+    <Binary Id="CAJR" SourceFile="..\CustomAction\bin\Debug\CustomAction.CA.dll"/>
+
+    <InstallExecuteSequence>
+      <Custom Action="RegistryAutorun" Before="InstallFinalize"/>
+    </InstallExecuteSequence>
+      
+		<Feature Id="ProductFeature" Title="T_Rec_Installer" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		  <ComponentGroupRef Id="PublishedComponents" />
+		</Feature>
+	</Product>
+</Wix>

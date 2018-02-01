@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { HttpService } from '../services/http.service'
 import { AccountService } from './account.service'
 import { RemoteAccount, UserData, IssueDetails, WorkItemData } from 'app/models/RemoteAccount';
-import { error } from 'util';
-import { reject } from 'q';
-import { resolve } from 'dns';
+
 @Injectable()
 export class ApiService {
 
@@ -14,20 +12,20 @@ export class ApiService {
     public http: HttpService,
     public accounts: AccountService
   ) {
-     this.UseAccount();
+    this.UseAccount();
   }
 
   public async UseAccount(remoteAccount?: RemoteAccount) {
     if (remoteAccount == undefined) {
-      var remoteAccount = await this.accounts.Current();      
+      var remoteAccount = await this.accounts.Current();
     }
-    if (remoteAccount != undefined){
+    if (remoteAccount != undefined) {
       this.http.UseAccount(remoteAccount);
     }
     return;
   }
 
-  getAllProjects = () => {
+  public getAllProjects = () => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
         this.http.get('/rest/admin/project')
@@ -41,7 +39,52 @@ export class ApiService {
     });
   }
 
-  getAllAgiles = () => {
+  public getVersionInfo(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.getRawUrl("https://api.github.com/repos/kleder/timetracker/releases/latest")
+      .map(res => res.json())
+      .subscribe(data => {
+        resolve(data);
+      }, err => reject(err))
+    })
+  }
+
+  private encodeQueryData(data) {
+    let ret = [];
+    for (let d in data)
+      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    return ret.join('&');
+  }
+
+  public executeCommand(id: string, command: any) {
+    return new Promise((resolve, reject) => {
+      let options = new RequestOptions();
+      options.headers = new Headers();
+      options.headers.append('Content-Type', 'application/x-www-form-urlencoded')
+      this.http.post('/rest/issue/' + id + '/execute/', this.encodeQueryData(command), options).subscribe(commandResult => {
+        resolve(commandResult), error => { reject(error) }
+      });
+    });
+  }
+
+  public createIssueOnBoard(data, BoardName, state) {
+    let id = "";
+    return new Promise((resolve, reject) => {
+      this.UseAccount().then(() => {
+        this.http.put('/rest/issue?' + this.encodeQueryData(data), "")
+          .subscribe(result => {
+            let loc = result.headers.get('Location');
+            id = loc.substr(loc.lastIndexOf('/') + 1);
+            resolve(id);
+          }, error => {
+            reject(error)
+          });
+      })
+    }).then(() => { this.executeCommand(id, { 'command': 'Assignee me Board ' + BoardName + ' Current sprint' }) })
+    .then(() => {this.executeCommand(id, {'command': 'State ' + state})} )
+  }
+
+  public getAllAgiles = () => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
         this.http.get('/rest/admin/agile')
@@ -55,7 +98,7 @@ export class ApiService {
     });
   }
 
-  getIssuesByProject = (id) => {
+  public getIssuesByProject = (id) => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
         this.http.get('/rest/issue/byproject/' + id + '?filter=for%3A+me')
@@ -67,7 +110,7 @@ export class ApiService {
     })
   }
 
-  getIssuesByAgile = (agileName) => {
+  public getIssuesByAgile = (agileName) => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
         this.http.get('/rest/issue?filter=for:me+Board+' + agileName + ':+{Current+sprint}+%23Unresolved')
@@ -79,7 +122,7 @@ export class ApiService {
     })
   }
 
-  getIssue = (issueId) => {
+  public getIssue = (issueId) => {
     return new Promise<IssueDetails>(resolve => {
       this.UseAccount().then(() => {
         this.http.get('/rest/issue/' + issueId + '?wikifyDescription=true')
@@ -91,7 +134,7 @@ export class ApiService {
     })
   }
 
-  getSprintInfo = (agile) => {
+  public getSprintInfo = (agile) => {
     let query = agile.url.split("/youtrack")[1]
     return new Promise(resolve => {
       this.UseAccount().then(() => {
@@ -104,7 +147,7 @@ export class ApiService {
     })
   }
 
-  createNewWorkItem = (data : WorkItemData) => {
+  public createNewWorkItem = (data: WorkItemData) => {
     let newItem = {
       date: data.date,
       duration: Math.round(data.duration / 60),
@@ -123,7 +166,7 @@ export class ApiService {
     })
   }
 
-  getWorkItem = (issueId) => {
+  public getWorkItem = (issueId) => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
         this.http.get('/rest/issue/' + issueId + '/timetracking/workitem')
@@ -135,7 +178,7 @@ export class ApiService {
     })
   }
 
-  getTimetrackingWorkTypes = (projectId) => {
+  public getTimetrackingWorkTypes = (projectId) => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
         this.http.get('/rest/admin/project/' + projectId + '/timetracking/worktype')
@@ -147,18 +190,18 @@ export class ApiService {
     })
   }
 
-  getCurrentUser(remoteAccount: RemoteAccount) {
+  public getCurrentUser(remoteAccount: RemoteAccount) {
     this.UseAccount(remoteAccount)
     this.http.UseAccount(remoteAccount)
     return new Promise((resolve, reject) => {
       this.http.get('/rest/user/current')
         .map(res => res.json())
-        .subscribe(data => { 
-          resolve(data) 
+        .subscribe(data => {
+          resolve(data)
         }, error => {
-          reject(error) 
-        } 
-      );
+          reject(error)
+        }
+        );
     })
   }
 

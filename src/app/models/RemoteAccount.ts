@@ -37,3 +37,9 @@ export class WorkItemData {
   public recordedTime = 0
   public startDate = Date.now();
 }
+
+export class newIssue {
+  public project: string
+  public summary: string
+  public description: string
+}

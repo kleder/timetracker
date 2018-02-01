@@ -59,7 +59,7 @@ export class EditBoardComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/edit-account']);        
+    this.router.navigate(['/accounts/edit-account']);        
   }
 
 }

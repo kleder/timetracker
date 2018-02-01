@@ -1,0 +1,336 @@
+@import "../../theme/colors.scss";
+.container {
+    height: 100%;
+    overflow: hidden;
+    cursor: default;    
+    .menu {
+        margin-top: 43px;
+        padding-top: 36px;
+        height: 42px;
+        background-color: $menu-color;
+        &__main {
+            width: 90%;
+            display: inline-block;
+            padding: 0px;
+            margin: 0;
+            margin-top: -17px;
+            text-align: center;
+            li {
+                display: inline-block;
+                padding: 19px 30px;
+                color: $white;
+                list-style: none;
+                text-align: center;
+                font-family: 'Montserrat', sans-serif;
+                border-top: 0;
+                box-sizing: border-box;
+                cursor: pointer;  
+                &:first-of-type {
+                    margin-left: 10%;
+                }
+                &:hover {
+                    color: $custom-red;
+                }                          
+                &.menu__main--active {
+                    border-bottom: 2px solid $custom-red; 
+                } 
+                &:focus {
+                    outline: none;
+                }
+                a {
+                    text-decoration: none;
+                    color: #000000;
+                }
+            }
+        }
+        .menu__settings {
+            float: right;
+            width: 10%;
+            color: $white; 
+            .trec-icon-settings {
+                font-size: 20px;
+                cursor: pointer;
+                outline: none;
+                &:hover {
+                    color: $custom-red;
+                }     
+            }
+            .trec-icon-settings.warning {
+                color: $major;
+                &:hover {
+                    color: $custom-red;
+                }
+            }
+        }    
+    }
+    .content {
+        padding: 20px 10px;
+        float: left;
+        width: 100%;
+        min-height: calc(100% - 107px);
+        height: calc(100% - 107px);
+        background-color: $content-color;
+        box-sizing: border-box;
+        overflow: auto;
+        &.decrease {
+            -webkit-animation: decrease 0.5s;
+            animation: decrease 0.5s;
+            min-height: calc(100% - 209px);
+            height: calc(100% - 209px)
+        }
+        &.increase {
+            -webkit-animation: increase 0.2s;
+            animation: increase 0.2s;
+            min-height: calc(100% - 107px);
+            height: calc(100% - 107px);
+        }
+        @-webkit-keyframes decrease {
+            from {        min-height: calc(100% - 107px);
+                height: calc(100% - 107px);} 
+            to {            min-height: calc(100% - 209px);
+                height: calc(100% - 209px); }
+        }
+        @keyframes decrease {
+            from {        min-height: calc(100% - 107px);
+                height: calc(100% - 107px);} 
+            to {            min-height: calc(100% - 209px);
+                height: calc(100% - 209px); }
+        }
+        @-webkit-keyframes increase {
+            from {        min-height: calc(100% - 209px);
+                height: calc(100% - 209px);} 
+            to {                min-height: calc(100% - 107px);
+                height: calc(100% - 107px); }
+        }
+        @keyframes increase {
+            from {        min-height: calc(100% - 209px);
+                height: calc(100% - 209px);} 
+            to {             min-height: calc(100% - 107px);
+                height: calc(100% - 107px); }
+        }
+    }
+    #current-item {
+        visibility: hidden;
+        position: fixed;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: $issue-bg-color;
+        border-top: 4px solid $custom-red;
+        padding: 16px;
+        box-sizing: border-box;
+        &.show {
+            visibility: visible;
+            -webkit-animation: fadein-current 0.5s;
+            animation: fadein-current 0.5s;
+        }
+        &.fade-out {
+            visibility: visible;
+            -webkit-animation: fadeout-current 0.5s ;
+            animation: fadeout-current 0.5s;
+        }
+        &.hidden {
+            visibility: hidden
+        }
+        @-webkit-keyframes fadein-current {
+            from {bottom: -91px; } 
+            to {bottom: 0; }
+        }
+        @keyframes fadein-current {
+            from {bottom: -91px; }
+            to {bottom: 0; }
+        }
+        @-webkit-keyframes fadeout-current {
+            from {bottom: 0; } 
+            to {bottom: -91px;}
+        }
+        @keyframes fadeout-current {
+            from {bottom: 0; }
+            to {bottom: -91px;}
+        }
+        .current-item__content, .current-item__record {
+            display: inline-block;
+        }
+        .current-item__content {
+            float: left;
+            width: calc(100% - 75px);
+            font-family: 'Montserrat', sans-serif;
+            color:  $white;
+            font-size: 14px;
+            font-weight: 400;
+            .current-item__summary {
+                display: block;
+                padding: 0 20px 16px 0;             
+                font-family: 'Montserrat', sans-serif;
+                color:  $white;
+                font-size: 14px;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+            .current-item__duration {
+                display: inline-block;
+                width: 60px;
+                margin-right: 22px;
+                font-family: 'Montserrat', sans-serif;
+                color:  $white;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            .current-item__todays-time {
+                color: $issue-font-color;
+                font-size: 10px;
+                font-weight: 400;
+                letter-spacing: 1px;
+            }
+        }
+        .current-item__record {
+            margin-top: 4px;
+            button {
+                padding: 7px 13px;            
+                font-size: 12px;
+                float: right;
+                background: none;
+                border: none;
+                color: $custom-red;
+                background-color: $custom-red;
+                color: $white;
+                border: 0px solid $custom-red;
+                border-radius: 2px;
+                cursor: pointer;
+                span {
+                    position: relative;
+                    padding-left: 10px;
+                    &:before {
+                        position: absolute;
+                        top: -14px;
+                        left: -9px;
+                        font-size: 19px;
+                    }
+                    &:focus {
+                        outline: none;
+                    }
+                }                   
+            }               
+        }
+    }
+    #modal {
+        display: none;
+        .trec-icon-close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .modal__backdrop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 10000 !important;
+            cursor: pointer;            
+        }
+        .modal__content {
+            position: fixed;
+            top: 230px;
+            right: 0;
+            left: 0;
+            margin: 0 auto;
+            width: 320px;
+            box-sizing: border-box;
+            text-align: center;
+            padding: 24px 16px;
+            z-index: 10000;
+            background-color: $menu-color;
+            color: $white;
+            font-family: 'Montserrat', sans-serif;           
+            border-radius: 4px;
+            box-shadow: 0px 16px 16px 0px rgba(0,0,0,0.06);
+            .modal__text {
+                font-size: 14px;
+            }
+            .modal__interaction {
+                width: 100%;
+                padding: 14px 0;
+                margin: 0 auto;
+                input {
+                    -webkit-appearance: none;
+                    margin: 0;
+                    margin: 7px 10px 0 22px; 
+                    height: 16px;
+                    width: 16px;
+                    background-color: transparent;
+                    border: 1px solid white;
+                    border-radius: 2px;
+                    vertical-align: middle;
+                    outline: none;
+                    float: left;
+                    cursor: pointer;                    
+                    &:checked {
+                      background-color: $white;
+                    }
+                }
+                label {
+                    font-size: 12px;
+                    line-height: 16px;
+                    float: left;
+                    width: 77%;
+                    text-align: left;
+                }
+            }
+            .unstopped-item {
+                .btn {
+                    float: left;
+                    width: 33.3%;
+                    font-size: 11px;
+                    padding: 19px 6px;
+                    position: relative;
+                    width: 33.3%;
+                    text-align: left;
+                    box-sizing: border-box;
+                    &__text {
+                        position: absolute;
+                        top: 10px;
+                        left: 0;
+                        right: 0;
+                        text-align: center;
+                    }
+                    .icon {
+                        margin: -2px 3px 0 0;
+                        vertical-align: middle;
+                        font-size: 24px;
+                    }
+                    .trec-icon-remove {
+                        color: $custom-red;
+                    }
+                    .trec-icon-resume {
+                        color: $yellow;
+                    }
+                    .trec-icon-check {
+                        color: $normal;
+                        font-weight: 700;
+                    }
+                    &:first-of-type {
+                        border-top-right-radius: 0;
+                        border-bottom-right-radius: 0;
+                    }
+                    &:nth-of-type(2) {
+                        border-radius: 0;
+                        border-left-width: 1px;
+                        border-right-width: 1px;
+                        &:hover {
+                            border-left-width: 2px;
+                            border-right-width: 2px;
+                        }
+                    }
+                    &:last-of-type {
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                    }
+                }
+            }
+        }
+    }
+}

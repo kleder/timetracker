@@ -13,11 +13,11 @@ import { ElectronService } from './providers/electron.service';
 
 import { DatePipe } from '@angular/common';
 
-import { DashboardComponent } from './components/tracking/dashboard/dashboard.component';
-import { ActivityComponent } from './components/tracking/activity/activity.component';
-import { TrackingComponent } from './components/tracking/tracking.component';
+import { BoardsComponent } from './components/workspace/boards/boards.component';
+import { RecordsComponent } from './components/workspace/records/records.component';
+import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { BoardsChoiceComponent } from './components/boards-choice/boards-choice.component';
-import { AboutTrecComponent } from './components/about-trec/about-trec.component';
+import { AboutComponent } from './components/about/about.component';
 
 import { DataService } from './services/data.service'
 import { TimerService } from './services/timer.service'
@@ -25,37 +25,40 @@ import { DatabaseService } from './services/database.service'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { HttpService } from './services/http.service';
 import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 
-import { AddAccountComponent } from './components/add-account/add-account.component';
-import { EditAccountComponent } from './components/edit-account/edit-account.component';
+import { AddAccountComponent } from './components/accounts/add-account/add-account.component';
+import { EditAccountComponent } from './components/accounts/edit-account/edit-account.component';
 import { EditBoardComponent } from './components/edit-board/edit-board.component';
 import { LicensesComponent } from './components/licenses/licenses.component';
-import { ChangeAccountTokenComponent } from './components/change-account-token/change-account-token.component';
+import { ChangeAccountTokenComponent } from './components/accounts/change-account-token/change-account-token.component';
 
 import { ToasterService } from './services/toaster.service';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { SwitchAccountComponent } from './components/switch-account/switch-account.component'
+import { SwitchAccountComponent } from './components/accounts/switch-account/switch-account.component'
 import { MenuService } from './services/menu.service';
+import { Nl2brPipe } from 'app/pipes/nl2br.pipe';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TrackingComponent,
-    DashboardComponent,
-    ActivityComponent,
+    WorkspaceComponent,
+    BoardsComponent,
+    RecordsComponent,
     BoardsChoiceComponent,
     SecondsToTimePipe,
+    Nl2brPipe,
     AddAccountComponent,
     EditAccountComponent,
     EditBoardComponent,
-    AboutTrecComponent,
+    AboutComponent,
     ChangeAccountTokenComponent,
     LicensesComponent,
     ToolbarComponent,
-    SwitchAccountComponent
+    SwitchAccountComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -63,14 +66,6 @@ import { MenuService } from './services/menu.service';
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    LoadingModule.forRoot({
-      animationType: ANIMATION_TYPES.threeBounce,
-      backdropBackgroundColour: 'rgba(0,0,0,0.1)', 
-      backdropBorderRadius: '4px',
-      primaryColour: '#ffffff', 
-      secondaryColour: '#ffffff', 
-      tertiaryColour: '#ffffff'
-  })
   ],
   providers: [
     ElectronService, 
