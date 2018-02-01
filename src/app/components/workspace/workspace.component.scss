@@ -55,6 +55,12 @@
                     color: $custom-red;
                 }     
             }
+            .trec-icon-settings.warning {
+                color: $major;
+                &:hover {
+                    color: $custom-red;
+                }
+            }
         }    
     }
     .content {

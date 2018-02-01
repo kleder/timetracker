@@ -5,7 +5,7 @@
             <li routerLink="records" routerLinkActive="menu__main--active">Records</li>
         </ul>
         <div class="menu__settings">
-            <span class="trec-icon-settings" routerLink="../accounts/edit-account"></span>
+            <span class="trec-icon-settings" [class.warning]="differentVersion" routerLink="../accounts/edit-account"></span>
         </div>
     </div>
     <div id="content" class="content">

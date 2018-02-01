@@ -38,6 +38,7 @@ import { ToasterService } from './services/toaster.service';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SwitchAccountComponent } from './components/accounts/switch-account/switch-account.component'
 import { MenuService } from './services/menu.service';
+import { Nl2brPipe } from 'app/pipes/nl2br.pipe';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
 
@@ -49,6 +50,7 @@ import { ToasterComponent } from './components/toaster/toaster.component';
     RecordsComponent,
     BoardsChoiceComponent,
     SecondsToTimePipe,
+    Nl2brPipe,
     AddAccountComponent,
     EditAccountComponent,
     EditBoardComponent,

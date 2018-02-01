@@ -7,6 +7,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RemoteAccount } from 'app/models/RemoteAccount';
 import { AccountService } from '../../../services/account.service'
 import { ToasterService } from '../../../services/toaster.service'
+import { versions } from '../../../../environments/versions'
+import { shell } from 'electron';
+
 
 @Component({
   selector: 'app-edit-account',
@@ -18,6 +21,9 @@ export class EditAccountComponent implements OnInit {
   public agiles: any
   public toasterText: string
   public modalText: string
+  public isNew = false;
+  public version = {name:'', published_at:'', body:''};
+
   constructor(
     public databaseService: DatabaseService,
     public activatedRoute: ActivatedRoute,
@@ -31,6 +37,12 @@ export class EditAccountComponent implements OnInit {
   ngOnInit() {
     this.getCurrentAccount()
     this.getAllAgiles()
+    this.api.getVersionInfo().then(data => {
+      this.version = data;
+      if (data.tag_name != undefined && data.tag_name.replace("v","") !== versions.version){
+        this.isNew = true
+      }
+    })
   }
 
   async getCurrentAccount() {
@@ -51,6 +63,10 @@ export class EditAccountComponent implements OnInit {
         })
       }
     )
+  }
+
+  public async openInBrowser(url : string){
+    shell.openExternal(url);
   }
 
   editNameOrUrl(account) {
