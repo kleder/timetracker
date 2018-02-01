@@ -1,6 +1,9 @@
 @import "../../../theme/colors.scss";
 
 .container {
+    .new {
+        color: $major !important
+    } 
     margin-top: 60px;
     width: 100%;
     height: 100%;
@@ -46,7 +49,7 @@
             font-size: 12px;
             font-weight: 400;
             letter-spacing: 1px;
-            cursor: default;            
+            cursor: default;           
         }
         .edit-account__form {
             margin-bottom: 30px;
@@ -176,6 +179,22 @@
             font-size: 12px;
             line-height: 18px;
             color: $white;            
+        }
+        .edit-account__info {
+            margin: 16px 0 32px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            line-height: 18px;
+            color: $white;    
+            a {
+                cursor: pointer;
+                text-decoration: underline;
+                color: $white;
+                &:hover {
+                    color: $white;
+                    text-decoration: none;                            
+                }
+            }        
         }
         .edit-account__actions {
             margin-bottom: 50px;

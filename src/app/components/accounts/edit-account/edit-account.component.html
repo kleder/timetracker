@@ -4,6 +4,14 @@
   </div>
   <div class="edit-account__content">
     <span class="edit-account__close trec-icon-close" (click)="backToWorkspace()"></span>
+    <div class="edit-account__info">
+        <span class="edit-account__title">{{version.name}} RELEASE INFORMATION - <span class="new" *ngIf="isNew">NEW!</span></span>
+        <div>
+          PUBLISHED: {{version.published_at | date:"dd-MM-yyyy"}}
+          <p [innerHTML]="version.body | nl2br"></p>
+          <a class="new" *ngIf="isNew" href="{{version.html_url}}">Download new version</a>
+        </div>
+    </div>
     <div class="edit-account__form" *ngIf="editingAccount?.name.length > 0">
         <div class="edit-account__title">EDIT ACCOUNT</div>          
         <label>Account name</label>
@@ -46,7 +54,6 @@
             <span class="trec-icon-remove"></span>
             REMOVE ACCOUNT
           </button>
-          
       </div>
   </div>
 </div>

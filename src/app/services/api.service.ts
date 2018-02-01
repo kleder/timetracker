@@ -39,7 +39,7 @@ export class ApiService {
     });
   }
 
-  public getVersionInfo(){
+  public getVersionInfo(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http.getRawUrl("https://api.github.com/repos/kleder/timetracker/releases/latest")
       .map(res => res.json())

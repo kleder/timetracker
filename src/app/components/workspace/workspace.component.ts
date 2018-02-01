@@ -7,6 +7,7 @@ import { DatabaseService } from '../../services/database.service'
 import { ApiService } from '../../services/api.service'
 import { SecondsToTimePipe } from '../../pipes/seconds-to-time.pipe'
 import { ToasterService } from '../../services/toaster.service'
+import { versions } from '../../../environments/versions'
 
 import { Router } from '@angular/router';
 import { WorkItemData } from 'app/models/RemoteAccount';
@@ -30,6 +31,7 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
   public hideHints: number
   secondsToTimePipe = new SecondsToTimePipe()
   public dbVariables: object
+  public differentVersion = false;
 
   constructor(
     public timerService: TimerService,
@@ -38,7 +40,9 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
     public api: ApiService,
     public router: Router,
     public toasterService: ToasterService
-  ) { }
+  ) {
+    this.checkVersion()
+   }
 
   ngOnInit() {
     this.subscribeNotificationTime()
@@ -52,7 +56,15 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
     this.alive = false
   }
 
-  subscribeNotificationTime() {
+  private checkVersion(){
+    this.api.getVersionInfo().then(data => {
+      if (data.tag_name != undefined && data.tag_name.replace("v","") !== versions.version){
+        this.differentVersion = true
+      }
+    })
+  }
+
+  private subscribeNotificationTime() {
     this.dataService.currentNotificationTime.takeWhile(() => this.alive).subscribe(data => {
       this.notificationTime = data
       if (this.notificationTime != undefined) {
@@ -61,7 +73,7 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
     })
   }
 
-  subscribeIssueTime() {
+  private subscribeIssueTime() {
     this.dataService.currentIssueTime.takeWhile(() => this.alive).subscribe(data => {
       let issueTime = data["currentTime"]
       if (issueTime % 60 === 0) {
@@ -76,7 +88,7 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
     })
   }
 
-  subscribeUnstoppedItem() {
+  private subscribeUnstoppedItem() {
     this.dataService.currentUnstoppedItem.takeWhile(() => this.alive).subscribe(data => {
       this.unstoppedItem = data
       if (Object.keys(this.unstoppedItem).length != 0) {
