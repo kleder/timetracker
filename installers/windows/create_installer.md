@@ -7,7 +7,7 @@ npm install
 
 ### 2. Run in timetracker directory
 ```sh
-np run electron:windows
+npm run electron:windows
 ```
 
 ### 3. Rebuild T-Rec_Installer project in Visual Studio 2017
