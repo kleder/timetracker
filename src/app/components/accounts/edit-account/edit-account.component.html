@@ -9,7 +9,7 @@
         <div>
           PUBLISHED: {{version.published_at | date:"dd-MM-yyyy"}}
           <p [innerHTML]="version.body | nl2br"></p>
-          <a class="new" *ngIf="isNew" href="{{version.html_url}}">Download new version</a>
+          <a class="new" *ngIf="isNew" (click)="openInBrowser(version.html_url)">Download new version</a>
         </div>
     </div>
     <div class="edit-account__form" *ngIf="editingAccount?.name.length > 0">
