@@ -12,7 +12,7 @@
   <Product Id="$(var.ProductCode)" 
              Name="!(loc.ProductName_$(var.Platform))" 
              Language="!(loc.Language)" 
-             Version="1.0.0.0" 
+             Version="1.1.0.0" 
              Manufacturer="!(loc.Company)" 
              UpgradeCode="$(var.UpgradeCode)">
     
@@ -41,25 +41,6 @@
       	    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\assets\top_banner.jpg"/>
       <WixVariable Id="WixUILicenseRtf" Value="$(var.TimetrackerDir)LICENSE.rtf"/>
 
-    <SetProperty
-      Id="RegistryAutorun"
-      Value ="AUTORUN=[AUTORUN];INSTALLFOLDER=[INSTALLFOLDER]"
-      Sequence="execute"
-      Before="RegistryAutorun"/>
-
-    <CustomAction Id="RegistryAutorun"
-                  BinaryKey="CAJR"
-                  DllEntry="RegistryAutorun"
-                  Execute="deferred"
-                  Return="check"
-                  Impersonate="no"
-    />
-
-    <Binary Id="CAJR" SourceFile="..\CustomAction\bin\Debug\CustomAction.CA.dll"/>
-
-    <InstallExecuteSequence>
-      <Custom Action="RegistryAutorun" Before="InstallFinalize"/>
-    </InstallExecuteSequence>
       
 		<Feature Id="ProductFeature" Title="T_Rec_Installer" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
