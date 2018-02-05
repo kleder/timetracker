@@ -35,12 +35,14 @@ export class BoardsComponent implements OnInit {
   private unstoppedItem: any
   private allItemsFromDb: any
   public agiles: any
+  public applyCommand: any
   private totalTimes: object
   private boardStates: Array<any> = []
   private issueHexColor: any
   private boardsChecked: boolean
   private newIssue: newIssue
   private currentAgile: object
+  
   constructor(
     public api: ApiService,
     public timerService: TimerService,
@@ -87,8 +89,15 @@ export class BoardsComponent implements OnInit {
     this.getAllBoardStates()
   }
 
+  public showCommandModal(issue){
+    this.currentAgile = undefined
+    this.applyCommand = { id: issue, command:'' }
+    document.getElementById('addIssue').style.display = 'block'
+  }
+
   public showAddIssueModal(agile) {
     this.currentAgile = agile
+    this.applyCommand = undefined
     console.log("agile", this.currentAgile)
     this.newIssue = new newIssue
     this.newIssue.project = this.currentAgile["projects"][0]["id"]
@@ -180,6 +189,20 @@ export class BoardsComponent implements OnInit {
       }
     )
   }
+
+  public showSuggestion(){
+
+  }
+
+  public executeCommand(commNdItem: any) {
+    console.log(commNdItem)
+    this.api.executeCommand(commNdItem.id,commNdItem.command).then( data => {
+      this.applyCommand = undefined;
+      document.getElementById('addIssue').style.display = "none";
+      this.init();
+    })
+  }
+
 
   public prepareIssues = (issues, agileName, agileIndex) => {
     let that = this

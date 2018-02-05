@@ -27,6 +27,7 @@
             <span class="project-list__comments trec-icon-comments" *ngIf="issue.hasComment" title="Issue has {{ issue.hasComment }} comment(s)">
               {{ issue.hasComment }}
             </span>
+            <span class="project-list__state" (click)="showCommandModal(issue.id)" title="Apply command">[...]</span>
             <button class="project-list__record" [ngClass]="issue.id == timerService.currentIssue?.issueId ? 'recording' : ''" (click)="startTracking(issue)">
               <span *ngIf="issue.id == timerService.currentIssue?.issueId; else timerOff"><span class="trec-icon-stop"></span>STOP</span>
               <ng-template #timerOff><span class="trec-icon-record"></span>REC</ng-template> 
@@ -52,9 +53,9 @@
   </div>
   <div id="addIssue" class="modal">
     <div class="modal__backdrop" (click)="hideAddIssueModal()"></div>
-    <div *ngIf="currentAgile != undefined" class="modal__content">
+    <div *ngIf="currentAgile != undefined || applyCommand != undefined" class="modal__content">
       <span class="trec-icon-close" (click)="hideAddIssueModal()"></span>
-      <div class="modal__text">{{ 'Create issue at ' + currentAgile.name + ' Board' }}</div>
+      <div class="modal__text" *ngIf="currentAgile != undefined">{{ 'Create issue at ' + currentAgile.name + ' Board' }}</div>
       <div *ngIf="newIssue" class="modal__form"> 
         <label>Project</label> 
         <select [(ngModel)]="newIssue.project">
@@ -66,8 +67,13 @@
         <textarea [(ngModel)]="newIssue.description"></textarea>
         <button class="btn btn--transparent" (click)="createIssueOnBoard(newIssue, currentAgile.name)">Add to YouTrack</button>
       </div>
-    </div>
+      <div *ngIf="applyCommand" class="modal__form">         
+        <label>Apply command</label>
+        <input type="text" [(ngModel)]="applyCommand.command" (change)="showSuggestion()">
+        <button class="btn btn--transparent" (click)="executeCommand(applyCommand)">Apply</button>
+      </div>
   </div>
+</div>
 </div>
 
 <ng-template #spinner>

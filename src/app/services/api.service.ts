@@ -61,7 +61,7 @@ export class ApiService {
       let options = new RequestOptions();
       options.headers = new Headers();
       options.headers.append('Content-Type', 'application/x-www-form-urlencoded')
-      this.http.post('/rest/issue/' + id + '/execute/', this.encodeQueryData(command), options).subscribe(commandResult => {
+      this.http.post('/rest/issue/' + id + '/execute/', this.encodeQueryData({command:command}), options).subscribe(commandResult => {
         resolve(commandResult), error => { reject(error) }
       });
     });
@@ -113,7 +113,7 @@ export class ApiService {
   public getIssuesByAgile = (agileName) => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
-        this.http.get('/rest/issue?filter=for:me+Board+' + agileName + ':+{Current+sprint}+%23Unresolved')
+        this.http.get('/rest/issue?filter=for:me+Board+' + agileName + ':+{Current+sprint}+%23Unresolved&max=100')
           .map(res => res.json())
           .subscribe(data => {
             resolve(data)
