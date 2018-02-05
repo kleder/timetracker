@@ -36,8 +36,8 @@ export class HttpService extends Http {
   put(url: string, body:any, options?: RequestOptionsArgs): Observable<any> {
     return super.put(this.getFullUrl(url), body, this.getOptions(options));
   }
-  get(url: string, options?: RequestOptionsArgs): Observable<any> {
-    this.loader = true
+  get(url: string, options?: RequestOptionsArgs, loader=true): Observable<any> {
+    this.loader = loader
     return super.get(this.getFullUrl(url), this.getOptions(options));
   }
 

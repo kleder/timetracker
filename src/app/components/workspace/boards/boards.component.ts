@@ -190,13 +190,15 @@ export class BoardsComponent implements OnInit {
     )
   }
 
-  public showSuggestion(){
-
+  public showSuggestion(commNdItem: any){
+    this.api.getCommandSuggestions(commNdItem.id,{command:commNdItem.command, max:5}).then( data => {
+      console.log(data)
+      this.applyCommand.suggestions = data;
+    })
   }
 
   public executeCommand(commNdItem: any) {
-    console.log(commNdItem)
-    this.api.executeCommand(commNdItem.id,commNdItem.command).then( data => {
+    this.api.executeCommand(commNdItem.id,{command:commNdItem.command}).then( data => {
       this.applyCommand = undefined;
       document.getElementById('addIssue').style.display = "none";
       this.init();

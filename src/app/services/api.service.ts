@@ -56,12 +56,22 @@ export class ApiService {
     return ret.join('&');
   }
 
+  public getCommandSuggestions(id: string, command: any) {
+    return new Promise((resolve, reject) => {
+      this.http.get('/rest/issue/' + id + '/execute/intellisense?'+this.encodeQueryData(command), undefined, false)
+      .map(res => res.json())
+      .subscribe(result => {
+        resolve(result), error => { reject(error) }
+      });
+    });
+  }
+
   public executeCommand(id: string, command: any) {
     return new Promise((resolve, reject) => {
       let options = new RequestOptions();
       options.headers = new Headers();
       options.headers.append('Content-Type', 'application/x-www-form-urlencoded')
-      this.http.post('/rest/issue/' + id + '/execute/', this.encodeQueryData({command:command}), options).subscribe(commandResult => {
+      this.http.post('/rest/issue/' + id + '/execute/', this.encodeQueryData(command), options).subscribe(commandResult => {
         resolve(commandResult), error => { reject(error) }
       });
     });

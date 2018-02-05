@@ -249,6 +249,13 @@
             font-size: 20px;
             cursor: pointer;
         }
+        
+        .modal__text-suggestion {
+            font-size: 14px;
+            line-height: 16px;
+            padding: 0 0 16px; 
+        }
+
         .modal__backdrop {
             position: fixed;
             top: 0;
