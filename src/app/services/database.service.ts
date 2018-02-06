@@ -353,12 +353,14 @@ export class DatabaseService {
   }
 
   public initBoardVisibility(accountId, boardName, visibility) {
-    let that = this
-    this.db.serialize(() => {
-      let stmt = that.db.prepare("INSERT OR IGNORE INTO `boards_visibility` (`accountId`, `boardName`, `visible`) VALUES ( '" + accountId + "', '" + boardName + "','" + visibility + "')");
-      stmt.run()
-      stmt.finalize()
-    });
+    return new Promise((resolve, reject) => {
+      let that = this
+      this.db.serialize(() => {
+        let stmt = that.db.prepare("INSERT OR IGNORE INTO `boards_visibility` (`accountId`, `boardName`, `visible`) VALUES ( '" + accountId + "', '" + boardName + "','" + visibility + "')");
+        stmt.run()
+        stmt.finalize()
+      });
+    })
   }
 
   public getBoardVisibilities(accountId, boardName) {

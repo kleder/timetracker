@@ -126,6 +126,11 @@ export class BoardsComponent implements OnInit {
   async getAgileVisibility(boardName) {
     let account = await this.account.Current()
     this.databaseService.getBoardVisibilities(account["id"], boardName).then(boardVisibility => {
+      if (boardVisibility.length === 0) {
+        this.databaseService.initBoardVisibility(account["id"], boardName, 0).then( () => {
+          this.getAgileVisibility(boardName)
+        })
+      }
       this.agiles.filter(agile => {
         if (agile.name == boardVisibility[0].boardName) {
           boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false          
