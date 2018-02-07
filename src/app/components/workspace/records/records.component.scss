@@ -3,6 +3,16 @@
 .record-list {
     padding: 5px 10px;
     cursor: default;
+    &__title {
+        padding-bottom: 8px;
+        font-family: 'Montserrat', sans-serif;        
+        color:  $font-grey;
+        font-size: 12px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: default;
+    }
     &__item {
         background-color: $issue-bg-color;
         border: 0px solid $issue-bg-color;
