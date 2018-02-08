@@ -43,10 +43,8 @@ export class RecordsComponent implements OnInit {
   }
 
   public getItemsFromPast(items, days) {
-    let temp = []
+    let itemsFromPast = []
     let currentTime = (new Date()).getTime()
-    let mm = new Date().getMinutes()*60*1000
-    let hh = new Date().getHours()*60*60*1000
     let twoDaysAgo = new Date().getTime() - 1000 * 60 * 60 * 24 * 2;
     let pastTime = new Date().getTime() - 1000 * 60 * 60 * 24 * days;
     for (let i = 0; i < items.length - 1; i++ ) {
@@ -54,32 +52,22 @@ export class RecordsComponent implements OnInit {
       if (items[i].date > pastTime && items[i].date < twoDaysAgo && items[i].status == "stop") {
         let records = []
         records.push(items[i])
-        if (temp.length === 0) {
-          temp.push({
+        if (itemsFromPast.length === 0) {
+          itemsFromPast.push({
             date: daysAgo + " days ago",
             records: records
           })
         } else {
-          let result = this.getByDaysAgo(temp, daysAgo + " days ago")
-          if (result) {
-            console.log('result', result)
-            // let resultt = result.records.filter(function(rec) {
-            //   console.log('rec', rec)
-            //   console.log('item i', items[i])
-            //   return rec.issueid === items[i].issueid
-            // })
-            let resultt = this.getByIssueId(result.records, items[i].issueid)
-            console.log('resultt', resultt)
-            if (resultt) {
-              resultt.duration += items[i].duration
+          let filteredByDaysAgo = this.getByDaysAgo(itemsFromPast, daysAgo + " days ago")
+          if (filteredByDaysAgo) {
+            let filteredByIssueId = this.getByIssueId(filteredByDaysAgo.records, items[i].issueid)
+            if (filteredByIssueId) {
+              filteredByIssueId.duration += items[i].duration
             } else {
-              result.records.push(items[i])
-              // result = undefined
+              filteredByDaysAgo.records.push(items[i])
             }
-            // result.records.push(items[i])
-            
           } else {
-            temp.push({
+            itemsFromPast.push({
               date: daysAgo + " days ago",
               records: records
             });
@@ -87,13 +75,10 @@ export class RecordsComponent implements OnInit {
         }
       }
     }
-    console.log('temp', temp)
-    return temp.reverse()
+    return itemsFromPast.reverse()
   }
   
   public getByDaysAgo(arr, value) {
-    // console.log('arr', arr)
-    // console.log('value', value)
     let result = arr.filter(function(o) { 
       return o.date == value
     })
