@@ -60,9 +60,24 @@ export class RecordsComponent implements OnInit {
             records: records
           })
         } else {
-          let result = this.getByValue(temp, daysAgo + " days ago")
+          let result = this.getByDaysAgo(temp, daysAgo + " days ago")
           if (result) {
-            result.records.push(items[i])
+            console.log('result', result)
+            // let resultt = result.records.filter(function(rec) {
+            //   console.log('rec', rec)
+            //   console.log('item i', items[i])
+            //   return rec.issueid === items[i].issueid
+            // })
+            let resultt = this.getByIssueId(result.records, items[i].issueid)
+            console.log('resultt', resultt)
+            if (resultt) {
+              resultt.duration += items[i].duration
+            } else {
+              result.records.push(items[i])
+              // result = undefined
+            }
+            // result.records.push(items[i])
+            
           } else {
             temp.push({
               date: daysAgo + " days ago",
@@ -72,12 +87,22 @@ export class RecordsComponent implements OnInit {
         }
       }
     }
+    console.log('temp', temp)
     return temp.reverse()
   }
   
-  public getByValue(arr, value) {
+  public getByDaysAgo(arr, value) {
+    // console.log('arr', arr)
+    // console.log('value', value)
     let result = arr.filter(function(o) { 
       return o.date == value
+    })
+    return result? result[0] : null
+  }
+
+  public getByIssueId(arr, value) {
+    let result = arr.filter(function(o) { 
+      return o.issueid == value
     })
     return result? result[0] : null
   }
