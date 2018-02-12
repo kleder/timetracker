@@ -198,11 +198,23 @@
                     }
                 }
                 .project-list__content {
+                    position: relative;
                     font-family: 'Montserrat', sans-serif;
                     color:  $white;
                     font-size: 14px;
                     font-weight: 400;
                     text-align: left;
+                    .project-list__summary {
+                        width: 88%;
+                        display: inline-block;
+                    }
+                    .project-list__estimation {
+                        position: absolute;
+                        bottom: -5px;
+                        right: -4px;
+                        font-size: 10px;
+                        color: $issue-font-color;
+                    }
                 }
             }
         }

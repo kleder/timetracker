@@ -275,13 +275,17 @@ export class BoardsComponent implements OnInit {
   }
 
   public convertEstimate = (est) => {
-    let newEst = Number(est) / 60
-    if (newEst < 8) {
-      return newEst + "h"
-    } else if (newEst % 8 !== 0){
-      return Math.floor(newEst / 8) + "d" + newEst % 8 + "h"
+    if (est === undefined) {
+      return "No est"
     } else {
-      return Math.floor(newEst / 8) + "d"
+      let newEst = Number(est) / 60
+      if (newEst < 8) {
+        return newEst + "h"
+      } else if (newEst % 8 !== 0){
+        return Math.floor(newEst / 8) + "d" + newEst % 8 + "h"
+      } else {
+        return Math.floor(newEst / 8) + "d"
+      }
     }
   }
 
