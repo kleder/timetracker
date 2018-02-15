@@ -299,7 +299,7 @@ export class BoardsComponent implements OnInit {
     item.date = issue.date || Date.now();
     item.startDate = issue.startDate || Date.now();
     item.summary = issue.field.summary;
-    item.agile = issue.field.sprint[0].id.split(':')[0]
+    item.agile = issue.agile
     console.log("issue.id ", issue.id)
     console.log("summary", issue.field)
     this.timerService.startItem(item);
