@@ -13,6 +13,8 @@ import { shell } from 'electron';
 import { DataService } from '../../../services/data.service';
 import { MenuService } from '../../../services/menu.service'
 import { DatabaseService } from '../../../services/database.service'
+import { NumberValueAccessor } from '@angular/forms/src/directives/number_value_accessor';
+const ENTER_KEYCODE = 13
 
 @Component({
   selector: 'app-add-account',
@@ -25,8 +27,7 @@ export class AddAccountComponent implements OnInit {
   public youTrackUrl = "";
   public token = "";
   public firstAccount: boolean;
-  public accounts
-
+  public accounts;
   constructor(
     public http: Http,
     public account: AccountService,
@@ -88,6 +89,13 @@ export class AddAccountComponent implements OnInit {
           }
       )   
     }
+  }
+
+  public onEnterKey(e) {
+    if (e.keyCode === ENTER_KEYCODE) {
+      this.login()
+    }
+    
   }
 
   public async getAccounts(): Promise<any> {

@@ -56,6 +56,16 @@ export class ApiService {
     return ret.join('&');
   }
 
+  public getCommandSuggestions(id: string, command: any) {
+    return new Promise((resolve, reject) => {
+      this.http.get('/rest/issue/' + id + '/execute/intellisense?'+this.encodeQueryData(command), undefined, false)
+      .map(res => res.json())
+      .subscribe(result => {
+        resolve(result), error => { reject(error) }
+      });
+    });
+  }
+
   public executeCommand(id: string, command: any) {
     return new Promise((resolve, reject) => {
       let options = new RequestOptions();
@@ -113,7 +123,7 @@ export class ApiService {
   public getIssuesByAgile = (agileName) => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
-        this.http.get('/rest/issue?filter=for:me+Board+' + agileName + ':+{Current+sprint}+%23Unresolved')
+        this.http.get('/rest/issue?filter=for:me+Board+' + agileName + ':+{Current+sprint}+%23Unresolved&max=100')
           .map(res => res.json())
           .subscribe(data => {
             resolve(data)

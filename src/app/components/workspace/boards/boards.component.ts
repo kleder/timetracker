@@ -35,12 +35,14 @@ export class BoardsComponent implements OnInit {
   private unstoppedItem: any
   private allItemsFromDb: any
   public agiles: any
+  public applyCommand: any
   private totalTimes: object
   private boardStates: Array<any> = []
   private issueHexColor: any
   private boardsChecked: boolean
   private newIssue: newIssue
   private currentAgile: object
+  
   constructor(
     public api: ApiService,
     public timerService: TimerService,
@@ -87,8 +89,15 @@ export class BoardsComponent implements OnInit {
     this.getAllBoardStates()
   }
 
+  public showCommandModal(issue){
+    this.currentAgile = undefined
+    this.applyCommand = { id: issue, command:'' }
+    document.getElementById('addIssue').style.display = 'block'
+  }
+
   public showAddIssueModal(agile) {
     this.currentAgile = agile
+    this.applyCommand = undefined
     console.log("agile", this.currentAgile)
     this.newIssue = new newIssue
     this.newIssue.project = this.currentAgile["projects"][0]["id"]
@@ -117,6 +126,11 @@ export class BoardsComponent implements OnInit {
   async getAgileVisibility(boardName) {
     let account = await this.account.Current()
     this.databaseService.getBoardVisibilities(account["id"], boardName).then(boardVisibility => {
+      if (boardVisibility.length === 0) {
+        this.databaseService.initBoardVisibility(account["id"], boardName, 0).then( () => {
+          this.getAgileVisibility(boardName)
+        })
+      }
       this.agiles.filter(agile => {
         if (agile.name == boardVisibility[0].boardName) {
           boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false          
@@ -180,6 +194,22 @@ export class BoardsComponent implements OnInit {
       }
     )
   }
+
+  public showSuggestion(commNdItem: any){
+    this.api.getCommandSuggestions(commNdItem.id,{command:commNdItem.command, max:5}).then( data => {
+      console.log(data)
+      this.applyCommand.suggestions = data;
+    })
+  }
+
+  public executeCommand(commNdItem: any) {
+    this.api.executeCommand(commNdItem.id,{command:commNdItem.command}).then( data => {
+      this.applyCommand = undefined;
+      document.getElementById('addIssue').style.display = "none";
+      this.init();
+    })
+  }
+
 
   public prepareIssues = (issues, agileName, agileIndex) => {
     let that = this
@@ -245,13 +275,17 @@ export class BoardsComponent implements OnInit {
   }
 
   public convertEstimate = (est) => {
-    let newEst = Number(est) / 60
-    if (newEst < 8) {
-      return newEst + "h"
-    } else if (newEst % 8 !== 0){
-      return Math.floor(newEst / 8) + "d" + newEst % 8 + "h"
+    if (est === undefined) {
+      return "No est"
     } else {
-      return Math.floor(newEst / 8) + "d"
+      let newEst = Number(est) / 60
+      if (newEst < 8) {
+        return newEst + "h"
+      } else if (newEst % 8 !== 0){
+        return Math.floor(newEst / 8) + "d" + newEst % 8 + "h"
+      } else {
+        return Math.floor(newEst / 8) + "d"
+      }
     }
   }
 
@@ -265,7 +299,7 @@ export class BoardsComponent implements OnInit {
     item.date = issue.date || Date.now();
     item.startDate = issue.startDate || Date.now();
     item.summary = issue.field.summary;
-    item.agile = issue.field.sprint[0].id.split(':')[0]
+    item.agile = issue.agile
     console.log("issue.id ", issue.id)
     console.log("summary", issue.field)
     this.timerService.startItem(item);

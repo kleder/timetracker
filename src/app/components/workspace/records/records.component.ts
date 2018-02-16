@@ -15,10 +15,13 @@ import { AccountService } from '../../../services/account.service'
 })
 export class RecordsComponent implements OnInit {
   private unstoppedItem: any
-  public todaySummaryItems: Array<any>
-  private todayTimes: object
+  public todaySummaryItems: Array<any> = []
+  private todayTimes: object = {}
   private db: any
   public loader: boolean = true
+  public yesterdayTimes: object = {}
+  public yesterdaySummaryItems: Array<any> = []
+  public itemsFromPast: Array<any>
   constructor(
     public databaseService: DatabaseService,
     private timerService: TimerService,
@@ -28,8 +31,6 @@ export class RecordsComponent implements OnInit {
     public httpService: HttpService,
     public account: AccountService    
   ) {
-    this.todaySummaryItems = []
-    this.todayTimes = {}
   }
 
   async ngOnInit() {
@@ -41,12 +42,69 @@ export class RecordsComponent implements OnInit {
     })
   }
 
+  public getItemsFromPast(items, days) {
+    let itemsFromPast = []
+    let currentTime = (new Date()).getTime()
+    let twoDaysAgo = new Date().getTime() - 1000 * 60 * 60 * 24 * 2;
+    let pastTime = new Date().getTime() - 1000 * 60 * 60 * 24 * days;
+    for (let i = 0; i < items.length - 1; i++ ) {
+      let daysAgo = Math.round((currentTime - items[i].date)/(1000*60*60*24))
+      if (items[i].date > pastTime && items[i].date < twoDaysAgo && items[i].status == "stop") {
+        let records = []
+        records.push(items[i])
+        if (itemsFromPast.length === 0) {
+          itemsFromPast.push({
+            date: daysAgo + " days ago",
+            records: records
+          })
+        } else {
+          let filteredByDaysAgo = this.getByDaysAgo(itemsFromPast, daysAgo + " days ago")
+          if (filteredByDaysAgo) {
+            let filteredByIssueId = this.getByIssueId(filteredByDaysAgo.records, items[i].issueid)
+            if (filteredByIssueId) {
+              filteredByIssueId.duration += items[i].duration
+            } else {
+              filteredByDaysAgo.records.push(items[i])
+            }
+          } else {
+            itemsFromPast.push({
+              date: daysAgo + " days ago",
+              records: records
+            });
+          }
+        }
+      }
+    }
+    return itemsFromPast.reverse()
+  }
+  
+  public getByDaysAgo(arr, value) {
+    let result = arr.filter(function(o) { 
+      return o.date == value
+    })
+    return result? result[0] : null
+  }
+
+  public getByIssueId(arr, value) {
+    let result = arr.filter(function(o) { 
+      return o.issueid == value
+    })
+    return result? result[0] : null
+  }
+  
   public prepareItems(rows) {
+    console.log('rows', rows)
     let that = this
     let todayItems = []
+    let yesterdayItems = []
+    let pastItems = []
     rows.forEach(function(row) {
-      if (new Date(row.date).getDate() == new Date().getDate() && row.status == "stop") {
+      let currentTime = new Date();
+      if (new Date(row.date).getDate() == currentTime.getDate() && row.status == "stop") {
         todayItems.push(row)
+      }
+      if (new Date(row.date).getDate() == currentTime.getDate() - 1 && row.status == "stop") {
+        yesterdayItems.push(row)
       }
     })
     console.log("todayItems", todayItems)
@@ -60,21 +118,36 @@ export class RecordsComponent implements OnInit {
         that.todayTimes[row.issueid] += row.duration
       }
     })
-    let summaryProperties = Object.getOwnPropertyNames(this.todayTimes)
-    console.log("summaryProperties", summaryProperties)
-    summaryProperties.forEach(property => {
-        that.api.getIssue(property).then(data => {       
-          let newIssue = {
-            id: data["id"],
-            summary: data["field"].filter(field => field.name == "summary" )[0].value,
-            agile: data["field"].filter(field => field.name == "sprint" )[0].value[0].id.split(":")[0],
-            todaysTime: this.todayTimes[property]
-          }
-          that.todaySummaryItems.push(newIssue)
-          that.loader = false    
-        })
+    yesterdayItems.forEach(function(row) {
+      if (!that.yesterdayTimes.hasOwnProperty(row.issueid)) {
+        that.yesterdayTimes[row.issueid] = row.duration
+      } else {
+        that.yesterdayTimes[row.issueid] += row.duration
+      }
     })
+    this.todaySummaryItems = this.getRecordsInfo(this.todayTimes)
+    this.yesterdaySummaryItems = this.getRecordsInfo(this.yesterdayTimes)
+    this.itemsFromPast = this.getItemsFromPast(rows, 55)
+  }
 
+  public getRecordsInfo(times) {
+    let that = this
+    let summaryRecords = []
+    let properties = Object.getOwnPropertyNames(times)
+    console.log('times', times)
+    properties.forEach(property => {
+      that.api.getIssue(property).then(data => {
+        let newIssue = {
+          id: data["id"],
+          summary: data["field"].filter(field => field.name == "summary" )[0].value,
+          agile: data["field"].filter(field => field.name == "sprint" )[0].value[0].id.split(":")[0],
+          todaysTime: times[property]
+        }
+        summaryRecords.push(newIssue)
+        that.loader = false
+      })
+    })
+    return summaryRecords
   }
 
   async getIssueAndStart(issueId) {
