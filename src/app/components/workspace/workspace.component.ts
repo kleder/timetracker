@@ -163,13 +163,19 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
     })
     notification.on('swipedRight', () => {
       notification.close()
+      this.clearInactiveTime()
     })
     notification.on('buttonClicked', (text, buttonIndex, options) => {
       if (text === 'Remove') {
         this.timerService.shouldAddAfkTime(false)
       }
       notification.close()
+      this.clearInactiveTime()
     })
+  }
+
+  public clearInactiveTime() {
+    this.dataService.sentNotificationTime(undefined)
   }
 
   public getVariables() {
