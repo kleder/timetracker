@@ -52,9 +52,11 @@ export class TimerService {
     }
     var stoppedTime = this.currentIssue.duration
     if (stoppedTime <= 10) {
+      this.dataService.sendRecordTooShort(true)
       this.currentIssue = undefined      
       return 0
     }
+    this.dataService.sendRecordTooShort(false)
     if (stoppedTime <= 10 && !this.hideHints) {
       this.showModal()
     } else if (stoppedTime > 10 && stoppedTime < 60) {

@@ -32,6 +32,7 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
   secondsToTimePipe = new SecondsToTimePipe()
   public dbVariables: object
   public differentVersion = false;
+  public recordTooShort: boolean
 
   constructor(
     public timerService: TimerService,
@@ -49,6 +50,7 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
     this.subscribeIssueTime()
     this.subscribeUnstoppedItem()
     this.subscribeAgilesStates()
+    this.subscribeRecordTooShort()
     this.getVariables()
   }
 
@@ -115,6 +117,15 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
       )
       console.log("this.agilesStates", this.agilesStates)
       this.dataService.sendCurrentAgilesVisibility(this.agilesStates)
+    })
+  }
+
+  public subscribeRecordTooShort = () => {
+    this.dataService.recTooShort.takeWhile(() => this.alive).subscribe(recordTooShort => {
+      this.recordTooShort = recordTooShort
+      if (this.recordTooShort && !this.timerService.hideHints) {
+        this.showModal()
+      }
     })
   }
 

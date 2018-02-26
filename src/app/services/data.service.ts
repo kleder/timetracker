@@ -33,6 +33,9 @@ export class DataService {
   private shouldHideHints = new BehaviorSubject<number>(0)
   hideHints = this.shouldHideHints.asObservable()
 
+  private recordTooShort = new BehaviorSubject<boolean>(undefined)
+  recTooShort = this.recordTooShort.asObservable()
+
   constructor() { }
 
   sentNotificationTime(data: number) {
@@ -69,6 +72,10 @@ export class DataService {
 
   sendHideHints(data: number) {
     this.shouldHideHints.next(data)
+  }
+
+  sendRecordTooShort(data: boolean) {
+    this.recordTooShort.next(data)
   }
 
 }

@@ -26,18 +26,19 @@
         </div>
     </div>
     <div id="modal">
-        <div class="modal__backdrop" *ngIf="timerService.currentIssue?.duration < 60; else notHideable" (click)="hideModal()"></div>
+        <div class="modal__backdrop" *ngIf="!unstoppedItem?.duration; else notHideable" (click)="hideModal()"></div>
         <ng-template #notHideable>
             <div class="modal__backdrop"></div>
         </ng-template>
         <div class="modal__content">
-            <div class="record-too-short" *ngIf="timerService.currentIssue?.duration < 10 && !unstoppedItem?.duration">
+            <div class="record-too-short" *ngIf="recordTooShort && !timerService.hideHints">
                 <span class="trec-icon-close" (click)="hideModal()"></span>
                 <div class="modal__text">It looked like a simple missclick. Records shorter than 1 minute will not be reported.</div>
                 <div class="modal__interaction">
                     <input type="checkbox" [(ngModel)]="hintsCheckbox" (ngModelChange)="changeHintVisibility($event)" name="hintsCheckbox">
                     <label>Lesson learnt! Don’t show this message again.</label>
                 </div>
+                <button class="btn btn--transparent" (click)="hideModal()">OK</button>
             </div>
             <div class="unstopped-item" *ngIf="unstoppedItem?.duration">
                 <div class="modal__text">
