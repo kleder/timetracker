@@ -26,21 +26,59 @@ export class DatabaseService {
       if (data == null) {
         this.db.all("SELECT * FROM `account` LIMIT 1", (err, rows) => {
           if (err) {
-            this.db.serialize(() => {
-              this.db.get("")
-              this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT, `Summary` TEXT)");
-              this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT, `current` INTEGER)");
-              this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");
-              this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");
-              this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
-              this.db.run("CREATE TABLE IF NOT EXISTS `boards_visibility` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `visible` INTEGER)");
-              this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");
-              this.db.run("CREATE TABLE IF NOT EXISTS `boards_after_choose` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `afterChoose` INTEGER)");
-              this.variablesInit()
-            })
+            this.dbInit()
           }
         })
       }
+    })
+  }
+
+  public dbInit = () => {
+    this.db.serialize(() => {
+      this.db.get("")
+      this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT, `Summary` TEXT)");
+      this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT, `current` INTEGER)");
+      this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");
+      this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");
+      this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
+      this.db.run("CREATE TABLE IF NOT EXISTS `boards_visibility` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `visible` INTEGER)");
+      this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");
+      this.db.run("CREATE TABLE IF NOT EXISTS `boards_after_choose` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `afterChoose` INTEGER)");
+      this.variablesInit()
+    })
+  }
+
+  public dropAllTables = () => {
+    let that = this
+    this.loader = true
+    return new Promise<any[]>((resolve, reject) => {
+      this.db.serialize(() => {
+        that.db.all("select name from sqlite_master where type='table'", function (err, tables) {
+          tables.forEach((table) => {
+            that.db.run("DROP TABLE '" + table.name + "'", function(err, tabless) {
+            })
+          })
+          resolve([])
+        });
+      })
+    })
+  }
+
+  public recreateDb = () => {
+    let accounts
+    this.getAccounts().then((data) => {
+      accounts = data
+      this.dropAllTables().then((data) => {
+        this.dbInit()
+        accounts.forEach((account) => {
+          let acc: RemoteAccount = {
+            name: account.name,
+            url: account.url,
+            token: account.token
+          }
+          this.addAccount(acc)
+        })
+      })
     })
   }
 

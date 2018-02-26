@@ -21,6 +21,7 @@ export class EditAccountComponent implements OnInit {
   public agiles: any
   public toasterText: string
   public modalText: string
+  public modalType: string
   public isNew = false;
   public version = {name:'', published_at:'', body:''};
 
@@ -95,7 +96,8 @@ export class EditAccountComponent implements OnInit {
     this.hideModal()
   }
 
-  public showModal(text) {
+  public showModal(text, action) {
+    this.modalType = action
     this.modalText = text
     document.getElementById('modal').style.display = "block"
   }
@@ -136,6 +138,11 @@ export class EditAccountComponent implements OnInit {
     this.updateAgilesVisibility()
     this.editNameOrUrl(account)
     this.backToWorkspace()
+  }
+
+  public resetApplication() {
+    this.databaseService.recreateDb()
+    this.hideModal()
   }
 
 }

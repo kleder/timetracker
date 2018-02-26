@@ -36,20 +36,26 @@
           <div class="edit-account__no-boards">No boards found. It looks like you need to create agile board or your sprint is not scheduled correctly.</div>  
         </ng-template>
         <div class="edit-account__save-changes">
-        <button class="btn btn--red" type=”submit” (click)="saveChanges(editingAccount)">SAVE CHANGES</button>        
+          <button class="btn btn--red" type=”submit” (click)="saveChanges(editingAccount)">SAVE CHANGES</button>        
+        </div>
       </div>
+      <div class="edit-account__actions">
+          <button class="edit-account__remove btn btn--transparent" type=”submit” (click)="showModal('Do you really want to DELETE THIS ACCOUNT?', 'remove-account')">
+            <span class="trec-icon-remove"></span>
+            REMOVE ACCOUNT
+          </button>
+      </div>
+      <div class="edit-account__reset">
+        <div class="edit-account__title">T-REC MEMORY</div>
+        <button class="btn btn--transparent" (click)="showModal('Do you really want to RESET T-REC? 
+        Your local records, selected boards will be deleted. Only accounts will remain in the T-REC\'s memory. 
+        Your data in YouTrack will not be changed!', 'reset-application')">RESET APPLICATION</button>
       </div>
       <ng-template #spinner>
         <div class="edit-account__boards loading-container">
           <app-loading-spinner></app-loading-spinner>
         </div>
       </ng-template>
-      <div class="edit-account__actions">
-          <button class="edit-account__remove btn btn--transparent" type=”submit” (click)="showModal('Do you really want to DELETE THIS ACCOUNT?')">
-            <span class="trec-icon-remove"></span>
-            REMOVE ACCOUNT
-          </button>
-      </div>
   </div>
 </div>
 <div id="modal">
@@ -60,9 +66,14 @@
     </div>
     <div class="modal__interaction">
       <button class="btn btn--transparent" (click)="hideModal()">No</button>
-    <button class="btn btn--transparent" (click)="removeAccount(editingAccount.id)">
+      <button *ngIf="modalType === 'remove-account' else resetApp" class="btn btn--transparent" (click)="removeAccount(editingAccount.id)">
         <span class="trec-icon-remove"></span>Yes
-    </button>
+      </button>
+      <ng-template #resetApp>
+        <button class="btn btn--transparent" (click)="resetApplication()">
+          <span class="trec-icon-remove"></span>RESET
+        </button>
+      </ng-template>
     </div>
   </div>
 </div>

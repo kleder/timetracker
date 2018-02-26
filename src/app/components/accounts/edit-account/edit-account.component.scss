@@ -180,6 +180,12 @@
             line-height: 18px;
             color: $white;            
         }
+        .edit-account__reset {
+            margin-bottom: 50px;
+            .edit-account__title {
+                margin-bottom: 15px;
+            }
+        }
         .edit-account__info {
             margin: 16px 0 32px;
             font-family: 'Montserrat', sans-serif;
@@ -197,7 +203,9 @@
             }        
         }
         .edit-account__actions {
-            margin-bottom: 50px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid $border-color;
             .edit-account__remove {
                 padding: 12px;
                 .trec-icon-remove {
@@ -206,7 +214,7 @@
                     vertical-align: sub;
                 }
                 &:first-of-type {
-                    margin-bottom: 8px;
+                    // margin-bottom: 8px;
                 }
             }
         }
