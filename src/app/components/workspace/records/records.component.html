@@ -18,13 +18,32 @@
           </button>
           <div class="record-list__subtimes">
             <span class="record-list__title">Work items:</span>
-            <div class="record-list__work-item" *ngFor="let workItem of record.subTimes" (click)="editWorkItem(workItem)">
+            <div class="record-list__work-item" *ngFor="let workItem of record.subTimes">
               <span>{{ workItem.duration | secondsToTime }}</span>
+              <span>on {{ workItem.date | date:'fullDate' }}</span>
+              <span class="trec-icon-settings" (click)="showEditIssueModal(workItem)"></span>
               <span class="trec-icon-remove" (click)="deleteWorkItem(workItem)"></span>
             </div>
           </div>
         </div>  
       </div>     
+    </div>
+  </div>
+  <div id="editIssue" class="modal">
+    <div class="modal__backdrop" (click)="hideEditIssueModal()"></div>
+    <div class="modal__content" *ngIf="editingItem != undefined">
+      <span class="trec-icon-close" (click)="hideEditIssueModal()"></span>
+      <div class="modal__header">
+        <div>Edit {{ editingItem.summary }}</div>
+        <div>{{ editingItem.date | date:'medium' }}</div>
+      </div>
+      <div>
+        <input type="number" [(ngModel)]="editingItem.duration" name="duration">min(s)
+      </div>
+      <div>
+        <input type="text" [(ngModel)]="editingItem.description" name="description">
+      </div>
+      <button class="btn btn--transparent" (click)="editWorkItem(editingItem)">Save changes</button>
     </div>
   </div>
   <ng-template #empty>

@@ -188,6 +188,17 @@ export class ApiService {
     })
   }
 
+  public editWorkItem = (issueId, workItem, workItemId) => {
+    return new Promise(resolve => {
+      this.UseAccount().then(() => {
+        this.http.put('/rest/issue/' + issueId + '/timetracking/workitem/' + workItemId, workItem)
+          .subscribe(data => {
+            resolve(data)
+          })
+      })
+    })
+  }
+  
   public deleteWorkItem = (issueId, workItem) => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {

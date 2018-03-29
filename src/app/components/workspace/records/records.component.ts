@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service'
 import { AccountService } from '../../../services/account.service'
 import { ToasterService} from '../../../services/toaster.service'
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-records',
@@ -16,14 +17,10 @@ import { ToasterService} from '../../../services/toaster.service'
 })
 export class RecordsComponent implements OnInit {
   private unstoppedItem: any
-  public todaySummaryItems: Array<any> = []
-  private todayTimes: object = {}
   private db: any
   public loader: boolean = true
-  public yesterdayTimes: object = {}
-  public yesterdaySummaryItems: Array<any> = []
-  public itemsFromPast: Array<any>
   public preparedTimes: Array<any>
+  public editingItem: object
   constructor(
     public databaseService: DatabaseService,
     private timerService: TimerService,
@@ -171,29 +168,62 @@ export class RecordsComponent implements OnInit {
     )
   }
 
-  public editWorkItem(item) {
-
+  public editWorkItem(editingItem) {
+    let workItem = {
+      date: editingItem.date,
+      duration: editingItem.duration,
+      description: editingItem.description
+    }
+    this.api.editWorkItem(editingItem.issueid, workItem, editingItem.id).then((data => {
+      this.databaseService.updateDuration(workItem.duration * 60, editingItem.dateFromDb)
+      this.init()
+      this.hideEditIssueModal()
+    }))
   }
 
   public deleteWorkItem(item) {
+    let dbItemCreated = new Date(item.date)
+    let dbItemCreatedStr = dbItemCreated.getDate() + "/"+ dbItemCreated.getMonth() + 1 + "/" + dbItemCreated.getFullYear()
     this.api.getWorkItems(item.issueid).then((workItems: Array<any>) => {
       for (let i = 0; i < workItems.length; i++) {
         let workItemCreated = new Date(workItems[i].created)
-        let workItemCreatedStr = workItemCreated.getDate() + "/"+ workItemCreated.getMonth() + 1 + "/" + workItemCreated.getFullYear() + " " + workItemCreated.getHours() + ":" + workItemCreated.getMinutes()
-        if (item.duration === workItems[i].duration * 60) {
-          let diff = item.lastUpdate - workItems[i].created
-          if (diff > -3000 && diff < 3000) {
-            this.api.deleteWorkItem(item.issueid, workItems[i].id).then((data) => {
-              this.databaseService.deleteItem(item.date)
-              this.toasterService.default('Work item has been deleted and synced with YouTrack!')
-              this.init()
-            }, (err) => {
-              this.toasterService.error('An error occured!')
-            })
-          }
+        let workItemCreatedStr = workItemCreated.getDate() + "/"+ workItemCreated.getMonth() + 1 + "/" + workItemCreated.getFullYear()
+        if (item.duration === workItems[i].duration * 60 && dbItemCreatedStr === workItemCreatedStr) {
+          this.api.deleteWorkItem(item.issueid, workItems[i].id).then((data) => {
+            this.databaseService.deleteItem(item.date)
+            this.toasterService.default('Work item has been deleted and synced with YouTrack!')
+            this.init()
+          }, (err) => {
+            this.toasterService.error('An error occured!')
+          })
         }
       }
     })
+  }
+
+  public showEditIssueModal(item) {
+    let dbItemCreated = new Date(item.date)
+    let dbItemCreatedStr = dbItemCreated.getDate() + "/"+ dbItemCreated.getMonth() + 1 + "/" + dbItemCreated.getFullYear()
+    this.editingItem = item;
+    this.api.getWorkItems(item.issueid).then((workItems: Array<any>) => {
+      for (let i = 0; i < workItems.length; i++) {
+        let workItemCreated = new Date(workItems[i].created)
+        let workItemCreatedStr = workItemCreated.getDate() + "/"+ workItemCreated.getMonth() + 1 + "/" + workItemCreated.getFullYear()
+        if (item.duration === workItems[i].duration * 60 && dbItemCreatedStr === workItemCreatedStr) {
+          document.getElementById('editIssue').style.display = 'block'
+          this.editingItem = workItems[i]
+          this.editingItem["summary"] = item.Summary
+          this.editingItem["agile"] = item.agile
+          this.editingItem["issueid"] = item.issueid
+          this.editingItem["dateFromDb"] = item.date
+        }
+      }
+    })
+    
+  }
+
+  public hideEditIssueModal() {
+    document.getElementById('editIssue').style.display = 'none'
   }
 
   public goToBoards() {
