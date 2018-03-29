@@ -176,11 +176,22 @@ export class ApiService {
     })
   }
 
-  public getWorkItem = (issueId) => {
+  public getWorkItems = (issueId) => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
         this.http.get('/rest/issue/' + issueId + '/timetracking/workitem')
           .map(res => res.json())
+          .subscribe(data => {
+            resolve(data)
+          })
+      })
+    })
+  }
+
+  public deleteWorkItem = (issueId, workItem) => {
+    return new Promise(resolve => {
+      this.UseAccount().then(() => {
+        this.http.delete('/rest/issue/' + issueId + '/timetracking/workitem/' + workItem)
           .subscribe(data => {
             resolve(data)
           })

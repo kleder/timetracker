@@ -7,6 +7,7 @@ import { WorkItemData } from 'app/models/RemoteAccount';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service'
 import { AccountService } from '../../../services/account.service'
+import { ToasterService} from '../../../services/toaster.service'
 
 @Component({
   selector: 'app-records',
@@ -22,6 +23,7 @@ export class RecordsComponent implements OnInit {
   public yesterdayTimes: object = {}
   public yesterdaySummaryItems: Array<any> = []
   public itemsFromPast: Array<any>
+  public preparedTimes: Array<any>
   constructor(
     public databaseService: DatabaseService,
     private timerService: TimerService,
@@ -29,53 +31,22 @@ export class RecordsComponent implements OnInit {
     private api: ApiService,
     public router: Router,
     public httpService: HttpService,
-    public account: AccountService    
+    public account: AccountService,
+    public toasterService: ToasterService  
   ) {
   }
 
   async ngOnInit() {
+    this.init()
+  }
+
+  async init() {
     var current = await this.account.Current();
     this.databaseService.getAllItems(current["id"]).then(rows => {
       if (rows) {   
         this.prepareItems(rows)
       }
     })
-  }
-
-  public getItemsFromPast(items, days) {
-    let itemsFromPast = []
-    let currentTime = (new Date()).getTime()
-    let twoDaysAgo = new Date().getTime() - 1000 * 60 * 60 * 24 * 2;
-    let pastTime = new Date().getTime() - 1000 * 60 * 60 * 24 * days;
-    for (let i = 0; i < items.length - 1; i++ ) {
-      let daysAgo = Math.round((currentTime - items[i].date)/(1000*60*60*24))
-      if (items[i].date > pastTime && items[i].date < twoDaysAgo && items[i].status == "stop") {
-        let records = []
-        records.push(items[i])
-        if (itemsFromPast.length === 0) {
-          itemsFromPast.push({
-            date: daysAgo + " days ago",
-            records: records
-          })
-        } else {
-          let filteredByDaysAgo = this.getByDaysAgo(itemsFromPast, daysAgo + " days ago")
-          if (filteredByDaysAgo) {
-            let filteredByIssueId = this.getByIssueId(filteredByDaysAgo.records, items[i].issueid)
-            if (filteredByIssueId) {
-              filteredByIssueId.duration += items[i].duration
-            } else {
-              filteredByDaysAgo.records.push(items[i])
-            }
-          } else {
-            itemsFromPast.push({
-              date: daysAgo + " days ago",
-              records: records
-            });
-          }
-        }
-      }
-    }
-    return itemsFromPast.reverse()
   }
   
   public getByDaysAgo(arr, value) {
@@ -93,61 +64,76 @@ export class RecordsComponent implements OnInit {
   }
   
   public prepareItems(rows) {
-    console.log('rows', rows)
     let that = this
     let todayItems = []
     let yesterdayItems = []
     let pastItems = []
-    rows.forEach(function(row) {
-      let currentTime = new Date();
-      if (new Date(row.date).getDate() == currentTime.getDate() && row.status == "stop") {
-        todayItems.push(row)
-      }
-      if (new Date(row.date).getDate() == currentTime.getDate() - 1 && row.status == "stop") {
-        yesterdayItems.push(row)
-      }
-    })
-    console.log("todayItems", todayItems)
-    if (todayItems.length == 0) {
-      this.loader = false
-    }
-    todayItems.forEach(function(row) {
-      if (!that.todayTimes.hasOwnProperty(row.issueid)) {
-        that.todayTimes[row.issueid] = row.duration
-      } else {
-        that.todayTimes[row.issueid] += row.duration
-      }
-    })
-    yesterdayItems.forEach(function(row) {
-      if (!that.yesterdayTimes.hasOwnProperty(row.issueid)) {
-        that.yesterdayTimes[row.issueid] = row.duration
-      } else {
-        that.yesterdayTimes[row.issueid] += row.duration
-      }
-    })
-    this.todaySummaryItems = this.getRecordsInfo(this.todayTimes)
-    this.yesterdaySummaryItems = this.getRecordsInfo(this.yesterdayTimes)
-    this.itemsFromPast = this.getItemsFromPast(rows, 55)
-  }
+    let currentTime = new Date();
+    let preparedTimes = []
+    let todayFullDate = new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear()
 
-  public getRecordsInfo(times) {
-    let that = this
-    let summaryRecords = []
-    let properties = Object.getOwnPropertyNames(times)
-    console.log('times', times)
-    properties.forEach(property => {
-      that.api.getIssue(property).then(data => {
-        let newIssue = {
-          id: data["id"],
-          summary: data["field"].filter(field => field.name == "summary" )[0].value,
-          agile: data["field"].filter(field => field.name == "sprint" )[0].value[0].id.split(":")[0],
-          todaysTime: times[property]
+    rows.forEach(function(row) {
+      let fullDate = new Date(row.date).getDate() + "/" + new Date(row.date).getMonth() + "/" + new Date(row.date).getFullYear()
+      if (new Date(row.date).getMonth() === new Date().getMonth() && new Date(row.date).getFullYear() === new Date(row.date).getFullYear()) {
+        if (new Date(row.date).getDate() === new Date().getDate()) {
+          fullDate = "today"
+        } else if (new Date(row.date).getDate() === new Date().getDate()-1) {
+          fullDate = "yesterday"
         }
-        summaryRecords.push(newIssue)
-        that.loader = false
+      }
+      if (preparedTimes.length > 0) {
+        let founded = preparedTimes.find(time => time.date === fullDate)
+        if (founded) {
+          founded.records.push(row)
+        } else {
+          let tasks = []
+          tasks.push(row)
+          preparedTimes.unshift({date: fullDate, records: tasks, summaryRecords: []})
+        }
+      } else {
+        let records = []
+        records.push(row)
+        preparedTimes.push({date: fullDate, records: records, summaryRecords: []})
+      }
+    })
+    preparedTimes.forEach((day) => {
+      day.totalTime = 0
+      day.records.forEach((record) => {
+        day.totalTime += record.duration
       })
     })
-    return summaryRecords
+    preparedTimes.forEach((day) => {
+      day.records.forEach((record) => {
+        if (parseInt(record.published)) {
+          if (day.summaryRecords.length > 0) {
+            let founded = day.summaryRecords.find(summaryRecord => summaryRecord.issueid === record.issueid)
+            if (founded) {
+              founded.subTimes.push(record)
+            } else {
+              let temp = Object.assign({}, record)
+              record.subTimes = []
+              record.subTimes.push(temp)
+              day.summaryRecords.push(record)
+            }
+          } else {
+            let temp = Object.assign({}, record)
+            record.subTimes = []
+            record.subTimes.push(temp)
+            day.summaryRecords.push(record)
+          }
+        }
+      })
+    })
+    preparedTimes.forEach((day) => {
+      day.summaryRecords.forEach((record) => {
+        record.summaryTime = 0
+        record.subTimes.forEach((subTime) => {
+          record.summaryTime += subTime.duration
+        })
+      })
+    })
+    this.preparedTimes = preparedTimes
+    this.loader = false
   }
 
   async getIssueAndStart(issueId) {
@@ -176,12 +162,38 @@ export class RecordsComponent implements OnInit {
           this.dataService.timeSavedNotification('Your tracking has been saved!')
           this.dataService.timeSavedNotification('')
           this.databaseService.setIsPublished(item.date)
-          this.databaseService.setIsStopped(item.date) 
+          this.databaseService.setIsStopped(item.date)
+          this.init()
       }, (err) =>{
           this.dataService.timeSavedNotification('An error occured.')
           this.dataService.timeSavedNotification('')
       }
     )
+  }
+
+  public editWorkItem(item) {
+
+  }
+
+  public deleteWorkItem(item) {
+    this.api.getWorkItems(item.issueid).then((workItems: Array<any>) => {
+      for (let i = 0; i < workItems.length; i++) {
+        let workItemCreated = new Date(workItems[i].created)
+        let workItemCreatedStr = workItemCreated.getDate() + "/"+ workItemCreated.getMonth() + 1 + "/" + workItemCreated.getFullYear() + " " + workItemCreated.getHours() + ":" + workItemCreated.getMinutes()
+        if (item.duration === workItems[i].duration * 60) {
+          let diff = item.lastUpdate - workItems[i].created
+          if (diff > -3000 && diff < 3000) {
+            this.api.deleteWorkItem(item.issueid, workItems[i].id).then((data) => {
+              this.databaseService.deleteItem(item.date)
+              this.toasterService.default('Work item has been deleted and synced with YouTrack!')
+              this.init()
+            }, (err) => {
+              this.toasterService.error('An error occured!')
+            })
+          }
+        }
+      }
+    })
   }
 
   public goToBoards() {

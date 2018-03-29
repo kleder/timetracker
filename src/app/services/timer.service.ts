@@ -139,10 +139,10 @@ export class TimerService {
     if (issue.duration >= 60) {
       return this.api.createNewWorkItem(issue).then(
         data => {
-          this.stopIdleTime()
           this.databaseService.stopItem(issue.duration, issue.startDate)
-          this.databaseService.setIsPublished(issue.startDate)          
-          this.stopTrackingNotifications()          
+          this.databaseService.setIsPublished(issue.startDate)
+          this.stopIdleTime()        
+          this.stopTrackingNotifications()    
           this.toasterService.default('Your tracking has been saved!')          
         }, err => {
           this.toasterService.error('Can\'t report task to remote service.')          

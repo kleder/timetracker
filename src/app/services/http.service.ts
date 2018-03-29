@@ -36,6 +36,7 @@ export class HttpService extends Http {
   put(url: string, body:any, options?: RequestOptionsArgs): Observable<any> {
     return super.put(this.getFullUrl(url), body, this.getOptions(options));
   }
+
   get(url: string, options?: RequestOptionsArgs, loader=true): Observable<any> {
     this.loader = loader
     return super.get(this.getFullUrl(url), this.getOptions(options));
@@ -43,6 +44,10 @@ export class HttpService extends Http {
 
   post(url: string, body: any, options?: RequestOptionsArgs): Observable<any>{
     return super.post(this.getFullUrl(url), body, this.getOptions(options))
+  }
+
+  delete(url: string, options?: RequestOptionsArgs): Observable<any>{
+    return super.delete(this.getFullUrl(url), this.getOptions(options))
   }
 
   private getOptions(options?: RequestOptionsArgs){

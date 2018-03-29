@@ -1,52 +1,30 @@
 <div class="container" *ngIf="!loader else spinner">
-  <div class="record-list" *ngIf="todaySummaryItems?.length !=0">
-    <div class="record-list__title">TODAY</div>
-    <div class="record-list__item" *ngFor="let record of todaySummaryItems">
-      <div class="record-list__header">
-        <span class="record-list__summary">{{ record.summary }}</span> 
-        <span class="record-list__todays-time">{{ record.todaysTime | secondsToTime}}</span>
-      </div>
-      <div class="record-list__content">
-        <span class="record-list__agile">{{ record.agile }}</span>
-        <button class="record-list__record" [ngClass]="record.id == timerService.currentIssue?.issueId ? 'recording' : ''" (click)="getIssueAndStart(record.id)">
-          <span *ngIf="record.id == timerService.currentIssue?.issueId; else timerOff"><span class="trec-icon-stop"></span>STOP</span>
-          <ng-template #timerOff><span class="trec-icon-record"></span>REC</ng-template>
-        </button>    
-      </div>            
-    </div>
-  </div>
-  <div class="record-list" *ngIf="yesterdaySummaryItems?.length !=0">
-    <div class="record-list__title">YESTERDAY</div>
-    <div class="record-list__item" *ngFor="let record of yesterdaySummaryItems">
-      <div class="record-list__header">
-        <span class="record-list__summary">{{ record.summary }}</span> 
-        <span class="record-list__todays-time">{{ record.todaysTime | secondsToTime}}</span>
-      </div>
-      <div class="record-list__content">
-        <span class="record-list__agile">{{ record.agile }}</span>
-        <button class="record-list__record" [ngClass]="record.id == timerService.currentIssue?.issueId ? 'recording' : ''" (click)="getIssueAndStart(record.id)">
-          <span *ngIf="record.id == timerService.currentIssue?.issueId; else timerOff"><span class="trec-icon-stop"></span>STOP</span>
-          <ng-template #timerOff><span class="trec-icon-record"></span>REC</ng-template>
-        </button>    
-      </div>            
-    </div>
-  </div>
-  <div class="record-list" *ngIf="itemsFromPast?.length !=0 else empty">
-    <div *ngFor="let past of itemsFromPast">
-      <div class="record-list__title">{{ past.date }}</div>
-      <div class="record-list__item" *ngFor="let record of past.records">
+  <div class="record-list" *ngIf="preparedTimes?.length != 0; else empty">
+    <div *ngFor="let day of preparedTimes">
+      <span class="record-list__title" *ngIf="day.summaryRecords?.length != 0">{{ day.date }}</span>
+      <div class="record-list__item" *ngFor="let record of day.summaryRecords">
         <div class="record-list__header">
           <span class="record-list__summary">{{ record.Summary }}</span> 
-          <span class="record-list__todays-time">{{ record.duration | secondsToTime}}</span>
+          <div class="record-list__todays-time">
+            <span>{{ record.summaryTime | secondsToTime}}</span>
+          </div>
         </div>
         <div class="record-list__content">
           <span class="record-list__agile">{{ record.agile }}</span>
-          <button class="record-list__record" [ngClass]="record.id == timerService.currentIssue?.issueId ? 'recording' : ''" (click)="getIssueAndStart(record.id)">
-            <span *ngIf="record.id == timerService.currentIssue?.issueId; else timerOff"><span class="trec-icon-stop"></span>STOP</span>
+          <button class="record-list__record" [ngClass]="record.issueid == timerService.currentIssue?.issueId ? 'recording' : ''" (click)="getIssueAndStart(record.issueid)">
+            <span *ngIf="record.issueid == timerService.currentIssue?.issueId; else timerOff">
+              <span class="trec-icon-stop"></span>STOP</span>
             <ng-template #timerOff><span class="trec-icon-record"></span>REC</ng-template>
-          </button>    
-        </div>            
-      </div>
+          </button>
+          <div class="record-list__subtimes">
+            <span class="record-list__title">Work items:</span>
+            <div class="record-list__work-item" *ngFor="let workItem of record.subTimes" (click)="editWorkItem(workItem)">
+              <span>{{ workItem.duration | secondsToTime }}</span>
+              <span class="trec-icon-remove" (click)="deleteWorkItem(workItem)"></span>
+            </div>
+          </div>
+        </div>  
+      </div>     
     </div>
   </div>
   <ng-template #empty>

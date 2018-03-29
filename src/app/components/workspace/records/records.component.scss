@@ -23,6 +23,9 @@
             .record-list__record {
                 display: unset !important;
             }
+            .record-list__subtimes {
+                display: block !important;
+            }
         }
         .record-list__header {
             color: $issue-font-color;
@@ -92,6 +95,13 @@
                 }
                 &:focus {
                     outline: none;
+                }
+            }
+            .record-list__subtimes {
+                display: none;
+                text-align: center;
+                .record-list__work-item {
+                    cursor: pointer;
                 }
             }
         }
