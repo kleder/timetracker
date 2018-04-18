@@ -134,7 +134,6 @@ export class TimerService {
   public stopItem(): Promise<any> {
     this.trayDefault()
     let issue = this.currentIssue;
-    console.log(issue)
     issue.duration = this.stopIssueTimer()
     if (issue.duration >= 60) {
       return this.api.createNewWorkItem(issue).then(

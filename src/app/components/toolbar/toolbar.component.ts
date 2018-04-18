@@ -48,7 +48,6 @@ export class ToolbarComponent implements OnInit {
     this.account.CurrentAccount.subscribe(data => {
       this.current = data.url !== undefined && data.url.trim() !== ''
     });
-    console.log('current route', this.router.url.split('?')[0])
   }
 
   closeApp() {

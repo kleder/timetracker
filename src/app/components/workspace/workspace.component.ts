@@ -96,7 +96,6 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
       if (Object.keys(this.unstoppedItem).length != 0) {
         this.showModal()
       }
-      console.log("unstoppedItem observble", this.unstoppedItem)
     })
   }
 
@@ -115,7 +114,6 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
           t.name === thing.name
         ))
       )
-      console.log("this.agilesStates", this.agilesStates)
       this.dataService.sendCurrentAgilesVisibility(this.agilesStates)
     })
   }

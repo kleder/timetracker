@@ -203,7 +203,6 @@ export class DatabaseService {
           if (err) {
             reject(err)
           } else {
-            console.log(row);
             resolve(row)
           }
         })
@@ -352,7 +351,6 @@ export class DatabaseService {
           if (err) {
             throw (err)
           } else {
-            console.log("row", row)
             resolve(row)
           }
         })

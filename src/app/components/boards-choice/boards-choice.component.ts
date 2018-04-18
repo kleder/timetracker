@@ -44,7 +44,6 @@ export class BoardsChoiceComponent implements OnInit {
   }
 
   public getAllAgiles() {
-    console.log('getAllAgiles()')
     this.api.getAllAgiles().then(
       data => {
         this.httpService.loader = false

@@ -44,7 +44,6 @@ export class ChangeAccountTokenComponent implements OnInit {
         this.toasterService.success('Token has been changed successfully')
         this.goBack()
       }, err => {
-        console.log(err)
         this.toasterService.error('An error occoured!')
       })
     }, (err) => {

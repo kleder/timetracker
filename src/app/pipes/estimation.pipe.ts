@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class EstimationPipe implements PipeTransform {
 
   transform(minutes:number): any {
-    let str = ''
+    let str = ``
     let d = minutes / 480
     if (minutes !== undefined) {
       if (d > 1) {
