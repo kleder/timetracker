@@ -98,7 +98,6 @@ export class BoardsComponent implements OnInit {
   public showAddIssueModal(agile) {
     this.currentAgile = agile
     this.applyCommand = undefined
-    console.log("agile", this.currentAgile)
     this.newIssue = new newIssue
     this.newIssue.project = this.currentAgile["projects"][0]["id"]
     document.getElementById('addIssue').style.display = 'block'
@@ -197,7 +196,6 @@ export class BoardsComponent implements OnInit {
 
   public showSuggestion(commNdItem: any){
     this.api.getCommandSuggestions(commNdItem.id,{command:commNdItem.command, max:5}).then( data => {
-      console.log(data)
       this.applyCommand.suggestions = data;
     })
   }
@@ -212,10 +210,7 @@ export class BoardsComponent implements OnInit {
 
 
   public prepareIssues = (issues, agileName, agileIndex) => {
-    let that = this
-    console.log("issues", issues, )
-    console.log(" agileName", agileName)
-    console.log("agileIndex", agileIndex)    
+    let that = this 
     let tempIssues = []
     issues.issue.forEach((issue, index) => {
       var newIssue = {
@@ -236,15 +231,11 @@ export class BoardsComponent implements OnInit {
       issue.field.forEach((field, index) => {
         newIssue.field[field.name.replace(" ", "")] = field.value
       })
-      newIssue.field["Est"] = this.convertEstimate(newIssue.field["Est"])
       newIssue.hasComment = Object.keys(newIssue.comment).length == 0? false : Object.keys(newIssue.comment).length
       newIssue.hasDescription = newIssue.field.hasOwnProperty('description')? true : false
-      console.log("newIssue", newIssue)
       tempIssues.push(newIssue)
     })
-    console.log("tempIssues", tempIssues)
     this.agiles[agileIndex].issues = tempIssues
-    console.log("prepared agiles", this.agiles)
     this.isAnyBoardVisible()
     this.prepareAndSaveUniqueStates(agileIndex)
   }
@@ -274,23 +265,7 @@ export class BoardsComponent implements OnInit {
     })
   }
 
-  public convertEstimate = (est) => {
-    if (est === undefined) {
-      return "No est"
-    } else {
-      let newEst = Number(est) / 60
-      if (newEst < 8) {
-        return newEst + "h"
-      } else if (newEst % 8 !== 0){
-        return Math.floor(newEst / 8) + "d" + newEst % 8 + "h"
-      } else {
-        return Math.floor(newEst / 8) + "d"
-      }
-    }
-  }
-
   async startTracking(issue: any, duration?) {
-    console.log('issue in start tracking', issue)
     let account = await this.account.Current()
     var item = new WorkItemData;
     item.accountId = account["id"],
@@ -300,8 +275,6 @@ export class BoardsComponent implements OnInit {
     item.startDate = issue.startDate || Date.now();
     item.summary = issue.field.summary;
     item.agile = issue.agile
-    console.log("issue.id ", issue.id)
-    console.log("summary", issue.field)
     this.timerService.startItem(item);
   }
 

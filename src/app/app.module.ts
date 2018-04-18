@@ -41,6 +41,7 @@ import { MenuService } from './services/menu.service';
 import { Nl2brPipe } from 'app/pipes/nl2br.pipe';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
+import { EstimationPipe } from './pipes/estimation.pipe';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ToasterComponent } from './components/toaster/toaster.component';
     ToolbarComponent,
     SwitchAccountComponent,
     LoadingSpinnerComponent,
-    ToasterComponent
+    ToasterComponent,
+    EstimationPipe
   ],
   imports: [
     BrowserModule,
