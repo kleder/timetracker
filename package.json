@@ -1,6 +1,6 @@
 {
   "name": "T-Rec",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "T-Rec time tracker is built for speed and live work item update in youtrack system.",
   "homepage": "https://github.com/kleder/timetracker",
   "author": {
@@ -36,8 +36,8 @@
     "e2e": "protractor ./protractor.conf.js",
     "postinstall": "electron-rebuild -f -w sqlite3,@paulcbetts/system-idle-time",
     "electron-rebuild": "electron-rebuild -f -w sqlite3,@paulcbetts/system-idle-time",
-    "deb64":"npm run electron:linux && electron-installer-debian --src app-builds/T-Rec-linux-x64/ --dest app-builds/installers/ --arch amd64",
-    "dmg": "npm run electron:mac && electron-installer-dmg app-builds/T-Rec-darwin-x64/T-Rec.app T-Rec --icon=./src/assets/trec-logo.png --overwrite --background=./src./assets/t-rec-bg.png"
+    "deb64": "npm run electron:linux && electron-installer-debian --src app-builds/T-Rec-linux-x64/ --dest app-builds/installers/ --arch amd64",
+    "dmg": "npm run electron:mac && electron-installer-dmg app-builds/T-Rec-darwin-x64/T-Rec.app T-Rec --out=./app-builds/ --icon=./src/assets/trec-logo.png --overwrite --background=./src/assets/t-rec-bg.png"
   },
   "dependencies": {
     "@paulcbetts/system-idle-time": "^1.0.4",
@@ -68,6 +68,8 @@
     "cssnano": "3.10.0",
     "electron": "1.7.11",
     "electron-builder": "^19.37.2",
+    "electron-installer-debian": "^0.8.1",
+    "electron-installer-dmg": "^0.2.1",
     "electron-packager": "9.1.0",
     "electron-rebuild": "^1.6.0",
     "electron-reload": "1.2.1",
