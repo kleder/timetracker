@@ -3,12 +3,13 @@ import { RemoteAccount, WorkItemData } from '../models/RemoteAccount';
 import { reject } from 'q';
 import * as fs from "fs";
 import { from } from 'rxjs/observable/from';
+
 const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
 
+
 @Injectable()
 export class DatabaseService {
-  public loader = false
   public db
   constructor(
   ) {
@@ -50,7 +51,6 @@ export class DatabaseService {
 
   public dropAllTables = () => {
     let that = this
-    this.loader = true
     return new Promise<any[]>((resolve, reject) => {
       this.db.serialize(() => {
         that.db.all("select name from sqlite_master where type='table'", function (err, tables) {
@@ -85,12 +85,9 @@ export class DatabaseService {
   public async getAllItems(accountId): Promise<any[]> {
     let that = this
     return new Promise<any[]>((resolve, reject) => {
-      this.loader = true
       this.db.serialize(() => {
         that.db.all("SELECT * FROM `tasks` WHERE `accountId` = '" + accountId + "'", function (err, rows) {
-          that.loader = false
           if (err) {
-            that.loader = false
             console.error(err)
             reject(err)
           } else {

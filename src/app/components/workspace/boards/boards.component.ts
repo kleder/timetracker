@@ -11,6 +11,7 @@ import { ToasterService } from '../../../services/toaster.service'
 import { AccountService } from '../../../services/account.service'
 import { Router } from '@angular/router';
 import { newIssue } from 'app/models/RemoteAccount';
+import { SpinnerService } from 'app/services/spinner.service';
 
 const electron = require('electron')
 
@@ -39,7 +40,7 @@ export class BoardsComponent implements OnInit {
   private totalTimes: object
   private boardStates: Array<any> = []
   private issueHexColor: any
-  private boardsChecked: boolean
+  private boardsChecked: boolean = true
   private newIssue: newIssue
   private currentAgile: object
   
@@ -51,7 +52,8 @@ export class BoardsComponent implements OnInit {
     public httpService: HttpService,
     public toasterService: ToasterService,
     public account: AccountService,
-    public router: Router
+    public router: Router,
+    public spinnerService: SpinnerService
   ) { 
     this.newItemProperties = {
       date: 0,
@@ -112,7 +114,10 @@ export class BoardsComponent implements OnInit {
     this.agiles.filter(agile => { 
       if (agile.name == board){
         let state = agile.columnSettings.visibleValues[0].value;
-        return this.api.createIssueOnBoard(data, board, state).then(() => this.init());
+        return this.api.createIssueOnBoard(data, board, state).then(() => {
+          this.init()
+          this.hideAddIssueModal()
+        });
       }
     })
   }
@@ -142,6 +147,7 @@ export class BoardsComponent implements OnInit {
     let account = await this.account.Current()    
     let that = this
     this.totalTimes = {}
+    this.spinnerService.visible = true;
     this.databaseService.getAllItems(account["id"]).then(data => {
       this.allItemsFromDb = data
       this.allItemsFromDb.forEach(function(row) {
@@ -159,8 +165,8 @@ export class BoardsComponent implements OnInit {
             that.totalTimes[row.issueid] += row.duration
           }
         })
-
-      })  
+      })
+      this.spinnerService.visible = false;
       this.getAllAgiles()
     })
   }
@@ -179,15 +185,21 @@ export class BoardsComponent implements OnInit {
       if (agile.checked) {
         this.dataService.sendAgilesVisibility({name: agile.name, state: agile.visiblityState})  
       }    
-      agile.issues = []
-      this.getIssuesByAgile(agile.name, index)
+      agile.issues = []      
     })
+    that.agiles.forEach((element, index) => {
+      that.getIssuesByAgile(element.name, index)
+    });
+    setInterval(() => {
+      that.agiles.forEach((element, index) => {
+        that.getIssuesByAgile(element.name, index)  
+      });
+    }, 3000);
   }
 
   public getIssuesByAgile(agileName, index, after=0, max=10) {
     this.api.getIssuesByAgile(agileName).then(
       data => {
-          this.httpService.loader = false
           this.issues = data
           this.prepareIssues(this.issues, agileName, index)
       }
@@ -210,8 +222,13 @@ export class BoardsComponent implements OnInit {
 
 
   public prepareIssues = (issues, agileName, agileIndex) => {
-    let that = this 
-    let tempIssues = []
+    let that = this
+    if (this.agiles[agileIndex] == undefined){
+      this.agiles[agileIndex] = {
+        issues: []
+      };
+    }
+
     issues.issue.forEach((issue, index) => {
       var newIssue = {
         id: issue.id,
@@ -233,9 +250,35 @@ export class BoardsComponent implements OnInit {
       })
       newIssue.hasComment = Object.keys(newIssue.comment).length == 0? false : Object.keys(newIssue.comment).length
       newIssue.hasDescription = newIssue.field.hasOwnProperty('description')? true : false
-      tempIssues.push(newIssue)
+
+      let elements = this.agiles[agileIndex].issues.filter(x => x.id === newIssue.id);
+      
+      if (elements.length === 0) {
+        this.agiles[agileIndex].issues.push(newIssue);
+      }
+      else {
+        this.agiles[agileIndex].issues.forEach((item, index) => {
+          if (item.id === newIssue.id) {
+            this.agiles[agileIndex].issues[index] = newIssue;
+          }
+          let deleteElement = []
+          this.agiles[agileIndex].issues.forEach((item, index) => {
+            if (issues.issue[index]) {
+              deleteElement[index] = issues.issue[index].id
+            }
+            else {
+              deleteElement[index] = undefined
+            }
+          })
+          this.agiles[agileIndex].issues.forEach((item, index) => {
+            if (deleteElement.indexOf(item.id) == -1) {
+              this.agiles[agileIndex].issues.splice(index, 1)
+            }
+          })
+        })
+      } 
     })
-    this.agiles[agileIndex].issues = tempIssues
+
     this.isAnyBoardVisible()
     this.prepareAndSaveUniqueStates(agileIndex)
   }
@@ -251,8 +294,8 @@ export class BoardsComponent implements OnInit {
 
   public isAnyBoardVisible() {
     this.agiles.forEach((agile) => {
-      if (agile.checked) {
-        this.boardsChecked = true
+      if (!agile.checked) {
+        this.boardsChecked = false
       }
     })
   }

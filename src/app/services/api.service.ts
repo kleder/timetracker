@@ -58,7 +58,7 @@ export class ApiService {
 
   public getCommandSuggestions(id: string, command: any) {
     return new Promise((resolve, reject) => {
-      this.http.get('/rest/issue/' + id + '/execute/intellisense?'+this.encodeQueryData(command), undefined, false)
+      this.http.get('/rest/issue/' + id + '/execute/intellisense?'+this.encodeQueryData(command), undefined)
       .map(res => res.json())
       .subscribe(result => {
         resolve(result), error => { reject(error) }

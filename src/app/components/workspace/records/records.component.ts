@@ -9,6 +9,7 @@ import { HttpService } from '../../../services/http.service'
 import { AccountService } from '../../../services/account.service'
 import { ToasterService} from '../../../services/toaster.service'
 import { DatePipe } from '@angular/common';
+import { SpinnerService } from '../../../services/spinner.service'
 
 @Component({
   selector: 'app-records',
@@ -18,7 +19,6 @@ import { DatePipe } from '@angular/common';
 export class RecordsComponent implements OnInit {
   private unstoppedItem: any
   private db: any
-  public loader: boolean = true
   public preparedTimes: Array<any>
   public editingItem: object
   constructor(
@@ -29,7 +29,8 @@ export class RecordsComponent implements OnInit {
     public router: Router,
     public httpService: HttpService,
     public account: AccountService,
-    public toasterService: ToasterService  
+    public toasterService: ToasterService,
+    public spinnerService: SpinnerService
   ) {
   }
 
@@ -38,11 +39,13 @@ export class RecordsComponent implements OnInit {
   }
 
   async init() {
+    this.spinnerService.visible = true;
     var current = await this.account.Current();
     this.databaseService.getAllItems(current["id"]).then(rows => {
       if (rows) {   
         this.prepareItems(rows)
       }
+      this.spinnerService.visible = false;
     })
   }
   
@@ -130,7 +133,6 @@ export class RecordsComponent implements OnInit {
       })
     })
     this.preparedTimes = preparedTimes
-    this.loader = false
   }
 
   async getIssueAndStart(issueId) {

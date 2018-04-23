@@ -9,6 +9,7 @@ import { AccountService } from '../../../services/account.service'
 import { ToasterService } from '../../../services/toaster.service'
 import { versions } from '../../../../environments/versions'
 import { shell } from 'electron';
+import { SpinnerService } from '../../../services/spinner.service';
 
 
 @Component({
@@ -32,7 +33,8 @@ export class EditAccountComponent implements OnInit {
     public httpService: HttpService,
     public router: Router,
     public account: AccountService,
-    public toasterService: ToasterService
+    public toasterService: ToasterService,
+    public spinnerService: SpinnerService
   ) { }
 
   ngOnInit() {
@@ -55,13 +57,14 @@ export class EditAccountComponent implements OnInit {
   }
 
   public getAllAgiles() {
+    this.spinnerService.visible = true;
     this.api.getAllAgiles().then(
       data => {
-        this.httpService.loader = false
         this.agiles = data
         this.agiles.forEach(agile => {
           this.getAgileVisibility(agile.name)          
         })
+        this.spinnerService.visible = false;
       }
     )
   }

@@ -191,16 +191,26 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 12px;
             line-height: 18px;
-            color: $white;    
-            a {
-                cursor: pointer;
-                text-decoration: underline;
-                color: $white;
-                &:hover {
+            color: $white;
+            .edit-account__title {
+                margin-bottom: 15px;
+            }
+            .edit-account__content {
+                border: 2px solid #5d5b67;
+                padding: 16px;
+                max-height: 100px;
+                overflow: auto;
+                a {
+                    display: block;
+                    cursor: pointer;
+                    text-decoration: underline;
                     color: $white;
-                    text-decoration: none;                            
+                    &:hover {
+                        color: $white;
+                        text-decoration: none;                            
+                    }
                 }
-            }        
+            }
         }
         .edit-account__actions {
             margin-bottom: 30px;

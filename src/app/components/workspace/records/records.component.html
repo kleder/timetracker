@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!loader else spinner">
+<div class="container" *ngIf="!spinnerService.visible else spinner">
   <div class="record-list" *ngIf="preparedTimes?.length != 0; else empty">
     <div *ngFor="let day of preparedTimes">
       <span class="record-list__title" *ngIf="day.summaryRecords?.length != 0">{{ day.date }}</span>

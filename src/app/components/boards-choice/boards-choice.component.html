@@ -1,5 +1,5 @@
 <div class="board-choice">
-  <div class="board-choise__content" *ngIf="!httpService.loader else loader">
+  <div class="board-choise__content" *ngIf="!spinnerService.visible else spinner">
     <div class="board-choice__list" *ngIf="agiles?.length !=0; else empty">    
       <div class="board-choice__title">Select agile boards</div>
       <div class="board-choice__hint">You will be able to edit this selection later</div>      
@@ -21,7 +21,7 @@
       </div>
     </ng-template>
   </div>
-  <ng-template #loader>
+  <ng-template #spinner>
     <div class="loading-container">
       <app-loading-spinner></app-loading-spinner>
     </div>

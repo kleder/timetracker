@@ -5,11 +5,11 @@
   <div class="edit-account__content">
     <span class="edit-account__close trec-icon-close" (click)="backToWorkspace()"></span>
     <div class="edit-account__info">
-        <span class="edit-account__title">{{version.name}} RELEASE INFORMATION - <span class="new" *ngIf="isNew">NEW!</span></span>
-        <div>
-          PUBLISHED: {{version.published_at | date:"dd-MM-yyyy"}}
-          <p [innerHTML]="version.body | nl2br"></p>
+        <div class="edit-account__title">{{version.name}} RELEASE INFORMATION - <span class="new" *ngIf="isNew">NEW!</span></div>
+        <div class="edit-account__content">
+          <span>PUBLISHED: {{version.published_at | date:"dd-MM-yyyy"}}</span>
           <a class="new" *ngIf="isNew" (click)="openInBrowser(version.html_url)">Download new version</a>
+          <p [innerHTML]="version.body | nl2br"></p>
         </div>
     </div>
     <div class="edit-account__form" *ngIf="editingAccount?.name.length > 0">
@@ -24,7 +24,7 @@
         <button class="btn btn--transparent" type="submit" (click)="goToChangeToken()">CHANGE ACCOUNT TOKEN</button>        
       </div>
       <span class="edit-account__title">SELECT BOARDS</span>
-      <div class="edit-account__boards" *ngIf="!httpService.loader else spinner">
+      <div class="edit-account__boards" *ngIf="!spinnerService.visible else spinner">
         <div class="edit-account__boards-list" *ngIf="agiles?.length != 0 else noBoards">
           <div class="edit-account__item" *ngFor="let agile of agiles">
             <input type="checkbox" [(ngModel)]="agile.checked" name="checked">

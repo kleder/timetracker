@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!httpService.loader else spinner">
+<div class="container" *ngIf="!spinnerService.visible else spinner">
   <div class="project" *ngFor="let agile of agiles; let i=index">
     <div class="project-list" *ngIf="agile.checked">
       <div class="project-list__agile">

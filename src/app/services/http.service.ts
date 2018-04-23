@@ -15,7 +15,6 @@ import { RemoteAccount } from 'app/models/RemoteAccount';
 
 @Injectable()
 export class HttpService extends Http {
-  public loader = false
   private remoteAccount: RemoteAccount;
 
   constructor(
@@ -36,9 +35,7 @@ export class HttpService extends Http {
   put(url: string, body:any, options?: RequestOptionsArgs): Observable<any> {
     return super.put(this.getFullUrl(url), body, this.getOptions(options));
   }
-
-  get(url: string, options?: RequestOptionsArgs, loader=true): Observable<any> {
-    this.loader = loader
+  get(url: string, options?: RequestOptionsArgs): Observable<any> {
     return super.get(this.getFullUrl(url), this.getOptions(options));
   }
 
@@ -78,9 +75,4 @@ export class HttpService extends Http {
   private onError(res: Response): void {
     console.error('Error, status code: ' + res.status);
   }
-
-  private onEnd(): void {
-    this.loader = false
-  }
-
 }

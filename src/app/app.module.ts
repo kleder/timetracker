@@ -42,6 +42,7 @@ import { Nl2brPipe } from 'app/pipes/nl2br.pipe';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
 import { EstimationPipe } from './pipes/estimation.pipe';
+import { SpinnerService } from './services/spinner.service'
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { EstimationPipe } from './pipes/estimation.pipe';
     DatabaseService,
     HttpService,
     ToasterService,
-    MenuService
+    MenuService,
+    SpinnerService
   ],
   bootstrap: [AppComponent]
 })

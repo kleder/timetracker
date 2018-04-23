@@ -8,6 +8,7 @@ import { RemoteAccount } from 'app/models/RemoteAccount';
 import { ToasterService } from '../../services/toaster.service'
 import { DatabaseService } from '../../services/database.service'
 import { MenuService } from '../../services/menu.service'
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-boards-choice',
@@ -29,7 +30,8 @@ export class BoardsChoiceComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public toasterService: ToasterService,
     public databaseService: DatabaseService,
-    public menuService: MenuService    
+    public menuService: MenuService,
+    public spinnerService: SpinnerService
   ) { 
   }
 
@@ -44,9 +46,9 @@ export class BoardsChoiceComponent implements OnInit {
   }
 
   public getAllAgiles() {
+    this.spinnerService.visible = true; 
     this.api.getAllAgiles().then(
       data => {
-        this.httpService.loader = false
         this.agiles = data
         this.agileVisibilityInit(this.agiles).then(() => {
           this.agiles.forEach(agile => {
@@ -56,6 +58,7 @@ export class BoardsChoiceComponent implements OnInit {
         if (this.justLoggedIn) {
           this.toasterService.success("Account " + this.accountName + " is synced!")
         }
+        this.spinnerService.visible = false;
       }
     )
   }

@@ -14,6 +14,8 @@ import { DataService } from '../../../services/data.service';
 import { MenuService } from '../../../services/menu.service'
 import { DatabaseService } from '../../../services/database.service'
 import { NumberValueAccessor } from '@angular/forms/src/directives/number_value_accessor';
+import { SpinnerService } from '../../../services/spinner.service';
+
 const ENTER_KEYCODE = 13
 
 @Component({
@@ -22,7 +24,6 @@ const ENTER_KEYCODE = 13
   styleUrls: ['./add-account.component.scss']
 })
 export class AddAccountComponent implements OnInit {
-  public loader = false;
   public name = ""
   public youTrackUrl = "";
   public token = "";
@@ -37,7 +38,8 @@ export class AddAccountComponent implements OnInit {
     public toasterService: ToasterService,
     public dataService: DataService,
     private menuService: MenuService,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private spinnerService: SpinnerService
   )
     {
     }
@@ -63,7 +65,7 @@ export class AddAccountComponent implements OnInit {
   }
 
   public login = async () => {
-    this.loader = true;
+    this.spinnerService.visible = true;
     var rAccount = new RemoteAccount;
     rAccount.name = this.name;
     rAccount.token = this.token;
@@ -76,17 +78,16 @@ export class AddAccountComponent implements OnInit {
           if (rAccount.name.length < 3) {
             this.clearErrorUrlOrToken()
             this.errorName()
-            this.loader = false;
           } else {
             this.account.add(rAccount.name, rAccount.url, rAccount.token);
-            this.loader = false;
             this.goToBoard()
           }
+          this.spinnerService.visible = false;
         }, (error) => {
           this.errorUrlOrToken()
-          this.toasterService.error("Error occoured! Incorrect URL or token")        
-          this.loader = false;
-          }
+          this.toasterService.error("Error occoured! Incorrect URL or token")    
+          this.spinnerService.visible = false;    
+        }
       )   
     }
   }
