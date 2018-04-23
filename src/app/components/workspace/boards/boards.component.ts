@@ -228,7 +228,9 @@ export class BoardsComponent implements OnInit {
         issues: []
       };
     }
-
+    if (issues.issue.length === 0) {
+      this.agiles[agileIndex].issues = []
+    }
     issues.issue.forEach((issue, index) => {
       var newIssue = {
         id: issue.id,
@@ -252,7 +254,6 @@ export class BoardsComponent implements OnInit {
       newIssue.hasDescription = newIssue.field.hasOwnProperty('description')? true : false
 
       let elements = this.agiles[agileIndex].issues.filter(x => x.id === newIssue.id);
-      
       if (elements.length === 0) {
         this.agiles[agileIndex].issues.push(newIssue);
       }
