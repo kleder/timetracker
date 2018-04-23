@@ -7,7 +7,6 @@
             <i [ngClass]="agile.visiblityState !='hidden'? 'trec-icon-caret-down' : 'trec-icon-caret-up'" aria-hidden="true"></i>              
         </div>
       </div>
-      
       <div class="project-list__issues" [@visibilityChanged]="agile.visiblityState">
         <div class="project-list__options">
           <button class="btn btn--options" (click)="showAddIssueModal(agile)">CREATE ISSUE</button>

@@ -137,7 +137,7 @@ export class BoardsComponent implements OnInit {
       }
       this.agiles.filter(agile => {
         if (agile.name == boardVisibility[0].boardName) {
-          boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false          
+          boardVisibility[0].visible == 1? agile.checked = true : agile.checked = false
         }
       })
     })
@@ -278,7 +278,6 @@ export class BoardsComponent implements OnInit {
         })
       } 
     })
-
     this.isAnyBoardVisible()
     this.prepareAndSaveUniqueStates(agileIndex)
   }
@@ -293,11 +292,13 @@ export class BoardsComponent implements OnInit {
   }
 
   public isAnyBoardVisible() {
+    let agilesChecked = 0;
     this.agiles.forEach((agile) => {
-      if (!agile.checked) {
-        this.boardsChecked = false
+      if (agile.checked) {
+        agilesChecked += 1;
       }
     })
+    this.boardsChecked = agilesChecked ? true : false;
   }
   
   public priorityClass(issue) {
