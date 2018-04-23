@@ -226,6 +226,10 @@ export class BoardsComponent implements OnInit {
       this.agiles[agileIndex] = {issues:new Array<any>()};
     }
 
+    if (issues.issue.length === 0) {
+      this.agiles[agileIndex].issues = []
+    }
+
     issues.issue.forEach((issue, index) => {
       var newIssue = {
         id: issue.id,
@@ -249,8 +253,9 @@ export class BoardsComponent implements OnInit {
       newIssue.hasComment = Object.keys(newIssue.comment).length == 0? false : Object.keys(newIssue.comment).length
       newIssue.hasDescription = newIssue.field.hasOwnProperty('description')? true : false
 
+
       let elements = this.agiles[agileIndex].issues.filter(x => x.id === newIssue.id);
-      
+    
       if (elements.length === 0) {
         this.agiles[agileIndex].issues.push(newIssue);
       }
@@ -261,15 +266,10 @@ export class BoardsComponent implements OnInit {
           }
           let deleteElement = []
           this.agiles[agileIndex].issues.forEach((item, index) => {
-            if (issues.issue[index]) {
-              deleteElement[index] = issues.issue[index].id
-            }
-            else {
-              deleteElement[index] = undefined
-            }
+            deleteElement[index] = issues.issue[index] ? issues.issue[index].id : undefined
           })
           this.agiles[agileIndex].issues.forEach((item, index) => {
-            if (deleteElement.indexOf(item.id) == -1) {
+            if (deleteElement.indexOf(item.id) === -1) {
               this.agiles[agileIndex].issues.splice(index, 1)
             }
           })
