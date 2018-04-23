@@ -113,7 +113,10 @@ export class BoardsComponent implements OnInit {
     this.agiles.filter(agile => { 
       if (agile.name == board){
         let state = agile.columnSettings.visibleValues[0].value;
-        return this.api.createIssueOnBoard(data, board, state).then(() => this.init());
+        return this.api.createIssueOnBoard(data, board, state).then(() => {
+          this.init()
+          this.hideAddIssueModal()
+        });
       }
     })
   }
@@ -182,13 +185,14 @@ export class BoardsComponent implements OnInit {
       }    
       agile.issues = []      
     })
-
+    that.agiles.forEach((element, index) => {
+      that.getIssuesByAgile(element.name, index)
+    });
     setInterval(() => {
       that.agiles.forEach((element, index) => {
         that.getIssuesByAgile(element.name, index)  
       });
     }, 3000);
-    
   }
 
   public getIssuesByAgile(agileName, index, after=0, max=10) {
@@ -245,21 +249,29 @@ export class BoardsComponent implements OnInit {
       newIssue.hasComment = Object.keys(newIssue.comment).length == 0? false : Object.keys(newIssue.comment).length
       newIssue.hasDescription = newIssue.field.hasOwnProperty('description')? true : false
 
-      let elements = this.agiles[agileIndex].issues.filter(x => x.id == newIssue.id);
+      let elements = this.agiles[agileIndex].issues.filter(x => x.id === newIssue.id);
       
-      if (elements.length === 0)  {
+      if (elements.length === 0) {
         this.agiles[agileIndex].issues.push(newIssue);
-      }  
+      }
       else {
         this.agiles[agileIndex].issues.forEach((item, index) => {
-          if (item.id === newIssue.id) this.agiles[agileIndex].issues[index] = newIssue;
+          if (item.id === newIssue.id) {
+            this.agiles[agileIndex].issues[index] = newIssue;
+          }
           let deleteElement = []
           this.agiles[agileIndex].issues.forEach((item, index) => {
-            if (issues.issue[index]) deleteElement[index] = issues.issue[index].id
-            else deleteElement[index] = undefined
+            if (issues.issue[index]) {
+              deleteElement[index] = issues.issue[index].id
+            }
+            else {
+              deleteElement[index] = undefined
+            }
           })
           this.agiles[agileIndex].issues.forEach((item, index) => {
-            if(deleteElement.indexOf(item.id) == -1) this.agiles[agileIndex].issues.splice(index, 1)
+            if (deleteElement.indexOf(item.id) == -1) {
+              this.agiles[agileIndex].issues.splice(index, 1)
+            }
           })
         })
       } 
