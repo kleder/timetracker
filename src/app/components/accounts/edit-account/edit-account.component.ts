@@ -56,7 +56,6 @@ export class EditAccountComponent implements OnInit {
   public getAllAgiles() {
     this.api.getAllAgiles().then(
       data => {
-        this.httpService.loader = false
         this.agiles = data
         this.agiles.forEach(agile => {
           this.getAgileVisibility(agile.name)          

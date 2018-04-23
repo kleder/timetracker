@@ -180,15 +180,20 @@ export class BoardsComponent implements OnInit {
       if (agile.checked) {
         this.dataService.sendAgilesVisibility({name: agile.name, state: agile.visiblityState})  
       }    
-      agile.issues = []
-      this.getIssuesByAgile(agile.name, index)
+      agile.issues = []      
     })
+
+    setInterval(() => {
+      that.agiles.forEach((element, index) => {
+        that.getIssuesByAgile(element.name, index)  
+      });
+    }, 3000);
+    
   }
 
   public getIssuesByAgile(agileName, index, after=0, max=10) {
     this.api.getIssuesByAgile(agileName).then(
       data => {
-          this.httpService.loader = false
           this.issues = data
           this.prepareIssues(this.issues, agileName, index)
       }
@@ -213,10 +218,10 @@ export class BoardsComponent implements OnInit {
 
   public prepareIssues = (issues, agileName, agileIndex) => {
     let that = this
-    console.log("issues", issues, )
-    console.log(" agileName", agileName)
-    console.log("agileIndex", agileIndex)    
-    let tempIssues = []
+    if (this.agiles[agileIndex] == undefined){
+      this.agiles[agileIndex] = {issues:new Array<any>()};
+    }
+
     issues.issue.forEach((issue, index) => {
       var newIssue = {
         id: issue.id,
@@ -239,12 +244,27 @@ export class BoardsComponent implements OnInit {
       newIssue.field["Est"] = this.convertEstimate(newIssue.field["Est"])
       newIssue.hasComment = Object.keys(newIssue.comment).length == 0? false : Object.keys(newIssue.comment).length
       newIssue.hasDescription = newIssue.field.hasOwnProperty('description')? true : false
-      console.log("newIssue", newIssue)
-      tempIssues.push(newIssue)
+
+      let elements = this.agiles[agileIndex].issues.filter(x => x.id == newIssue.id);
+      
+      if (elements.length === 0)  {
+        this.agiles[agileIndex].issues.push(newIssue);
+      }  
+      else {
+        this.agiles[agileIndex].issues.forEach((item, index) => {
+          if (item.id === newIssue.id) this.agiles[agileIndex].issues[index] = newIssue;
+          let deleteElement = []
+          this.agiles[agileIndex].issues.forEach((item, index) => {
+            if (issues.issue[index]) deleteElement[index] = issues.issue[index].id
+            else deleteElement[index] = undefined
+          })
+          this.agiles[agileIndex].issues.forEach((item, index) => {
+            if(deleteElement.indexOf(item.id) == -1) this.agiles[agileIndex].issues.splice(index, 1)
+          })
+        })
+      } 
     })
-    console.log("tempIssues", tempIssues)
-    this.agiles[agileIndex].issues = tempIssues
-    console.log("prepared agiles", this.agiles)
+
     this.isAnyBoardVisible()
     this.prepareAndSaveUniqueStates(agileIndex)
   }

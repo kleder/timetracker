@@ -20,7 +20,7 @@
     "prebuild": "ts-node git.version.ts",
     "webpack:watch": "webpack --watch",
     "start:web": "webpack-dev-server --content-base . --port 4200 --inline",
-    "build:electron:main": "npm run prebuild && tsc main.ts --outDir dist && copyfiles package.json dist && cd dist && npm install --prod && cd ..",
+    "build:electron:main": "tsc main.ts --outDir dist && copyfiles package.json dist",
     "build": "webpack --display-error-details && npm run build:electron:main",
     "build:prod": "cross-env NODE_ENV=production npm run build",
     "electron:serve": "npm run build:electron:main && electron ./dist --serve",
@@ -36,12 +36,14 @@
     "e2e": "protractor ./protractor.conf.js",
     "postinstall": "electron-rebuild -f -w sqlite3,@paulcbetts/system-idle-time",
     "electron-rebuild": "electron-rebuild -f -w sqlite3,@paulcbetts/system-idle-time",
-    "deb64":"npm run electron:linux && electron-installer-debian --src app-builds/T-Rec-linux-x64/ --dest app-builds/installers/ --arch amd64",
+    "deb64": "npm run electron:linux && electron-installer-debian --src app-builds/T-Rec-linux-x64/ --dest app-builds/installers/ --arch amd64",
     "dmg": "npm run electron:mac && electron-installer-dmg app-builds/T-Rec-darwin-x64/T-Rec.app T-Rec --icon=./src/assets/trec-logo.png --overwrite --background=./src./assets/t-rec-bg.png"
   },
   "dependencies": {
     "@paulcbetts/system-idle-time": "^1.0.4",
     "electron-notifications": "^1.0.0",
+    "global": "^4.3.2",
+    "npm": "^5.8.0",
     "sqlite3": "^3.1.13"
   },
   "devDependencies": {
@@ -66,7 +68,7 @@
     "cross-env": "5.0.5",
     "css-loader": "0.28.7",
     "cssnano": "3.10.0",
-    "electron": "1.7.11",
+    "electron": "^1.8.4",
     "electron-builder": "^19.37.2",
     "electron-packager": "9.1.0",
     "electron-rebuild": "^1.6.0",

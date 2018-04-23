@@ -47,7 +47,6 @@ export class BoardsChoiceComponent implements OnInit {
     console.log('getAllAgiles()')
     this.api.getAllAgiles().then(
       data => {
-        this.httpService.loader = false
         this.agiles = data
         this.agileVisibilityInit(this.agiles).then(() => {
           this.agiles.forEach(agile => {
