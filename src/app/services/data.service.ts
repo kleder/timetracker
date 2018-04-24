@@ -36,6 +36,9 @@ export class DataService {
   private recordTooShort = new BehaviorSubject<boolean>(undefined)
   recTooShort = this.recordTooShort.asObservable()
 
+  private isInternetConnection = new BehaviorSubject<boolean>(true)
+  netConnection = this.isInternetConnection.asObservable()
+
   constructor() { }
 
   sentNotificationTime(data: number) {
@@ -76,6 +79,10 @@ export class DataService {
 
   sendRecordTooShort(data: boolean) {
     this.recordTooShort.next(data)
+  }
+
+  internetConnection(data: boolean) {
+    this.isInternetConnection.next(data)
   }
 
 }

@@ -334,3 +334,19 @@
         }
     }
 }
+.no-connection {
+    // display: none;
+    position: fixed;
+    padding: 19px 19px 16px;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    background-color: $input-error;
+    span {
+        color: $white;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 12px;
+        line-height: 12px;
+        letter-spacing: 1px;
+    }
+}

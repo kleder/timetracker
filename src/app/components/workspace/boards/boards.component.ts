@@ -72,23 +72,27 @@ export class BoardsComponent implements OnInit {
   }
   
   ngOnInit() {
-    if (!window.navigator.onLine) {
-      this.toasterService.error("No internet connection")
-    } else {
-      this.init()
-    }
+    this.init()
   }
 
   public init() {
-    this.api.getAllAgiles().then(
-      data => {
-        this.agiles = data
-        this.agiles.forEach(agile => {
-          this.getAgileVisibility(agile.name)
-        })
-      this.getItemsFromDb()
-    })
-    this.getAllBoardStates()
+    if (window.navigator.onLine) {
+      this.api.getAllAgiles().then(
+        data => {
+          this.agiles = data
+          this.agiles.forEach(agile => {
+            this.getAgileVisibility(agile.name)
+          })
+        this.getItemsFromDb()
+      })
+      this.getAllBoardStates()
+      this.dataService.internetConnection(true)
+    } else {
+      this.dataService.internetConnection(false)
+      setTimeout(() => {
+        this.init()
+      }, 3000)
+    }
   }
 
   public showCommandModal(issue){
@@ -191,10 +195,15 @@ export class BoardsComponent implements OnInit {
       that.getIssuesByAgile(element.name, index)
     });
     setInterval(() => {
-      that.agiles.forEach((element, index) => {
-        that.getIssuesByAgile(element.name, index)  
-      });
-    }, 3000);
+      if (window.navigator.onLine) {
+        this.dataService.internetConnection(true)
+        that.agiles.forEach((element, index) => {
+          that.getIssuesByAgile(element.name, index)  
+        });
+      } else { 
+         this.dataService.internetConnection(false)
+      }
+    }, 5000);
   }
 
   public getIssuesByAgile(agileName, index, after=0, max=10) {

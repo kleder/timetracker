@@ -33,6 +33,7 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
   public dbVariables: object
   public differentVersion = false;
   public recordTooShort: boolean
+  public internetConnection: boolean
 
   constructor(
     public timerService: TimerService,
@@ -51,6 +52,7 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
     this.subscribeUnstoppedItem()
     this.subscribeAgilesStates()
     this.subscribeRecordTooShort()
+    this.subscribeInternetConnection()
     this.getVariables()
   }
 
@@ -63,6 +65,12 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
       if (data.tag_name != undefined && data.tag_name.replace("v","") !== versions.version){
         this.differentVersion = true
       }
+    })
+  }
+
+  private subscribeInternetConnection() {
+    this.dataService.netConnection.takeWhile(() => this.alive).subscribe(data => {
+      this.internetConnection = data
     })
   }
 
