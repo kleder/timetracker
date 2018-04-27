@@ -103,6 +103,7 @@ export class EditAccountComponent implements OnInit {
     this.modalType = action
     this.modalText = text
     document.getElementById('modal').style.display = "block"
+
   }
 
   public hideModal() {

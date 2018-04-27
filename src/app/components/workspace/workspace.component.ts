@@ -34,6 +34,7 @@ export class WorkspaceComponent implements OnDestroy, OnInit {
   public differentVersion = false;
   public recordTooShort: boolean
   public internetConnection: boolean
+  public applyCommand: any
 
   constructor(
     public timerService: TimerService,

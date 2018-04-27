@@ -23,7 +23,8 @@
         <div class="edit-account__title">CHANGE TOKEN</div>          
         <button class="btn btn--transparent" type="submit" (click)="goToChangeToken()">CHANGE ACCOUNT TOKEN</button>        
       </div>
-      <span class="edit-account__title">SELECT BOARDS</span>
+      <span class="edit-account__title" >SELECT BOARDS</span>
+      <span class="edit-account__query" (click)="showModal(('Enter your query'),'submit-query')">QUERY</span>
       <div class="edit-account__boards" *ngIf="!spinnerService.visible else spinner">
         <div class="edit-account__boards-list" *ngIf="agiles?.length != 0 else noBoards">
           <div class="edit-account__item" *ngFor="let agile of agiles">
@@ -65,6 +66,7 @@
       <span>{{ modalText }}</span>
     </div>
     <div class="modal__interaction">
+      <button *ngIf="modalType === 'submit-query' else resetApp" class="btn btn--transparent">Apply</button>
       <button class="btn btn--transparent" (click)="hideModal()">No</button>
       <button *ngIf="modalType === 'remove-account' else resetApp" class="btn btn--transparent" (click)="removeAccount(editingAccount.id)">
         <span class="trec-icon-remove"></span>Yes
@@ -77,3 +79,15 @@
     </div>
   </div>
 </div>
+<!-- <div id="queryModal">
+    <div class="modal__backdrop" (click)="hideModal()"></div>
+    <div class="modal__content">
+      <div class="modal__text">
+      <span>{{ modalText }}</span><-->
+        <!-- <input type="text" placeholder="Enter query">
+      </div>
+      <div class="modal__interaction">
+        <button class="btn btn--transparent">Apply</button>
+      </div>
+    </div>
+  </div> -->
