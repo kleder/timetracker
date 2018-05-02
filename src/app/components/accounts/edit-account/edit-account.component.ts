@@ -106,8 +106,19 @@ export class EditAccountComponent implements OnInit {
 
   }
 
+  public showQueryModal(text, action) {
+    this.modalType = action
+    this.modalText = text
+    document.getElementById('queryModal').style.display = "block"
+
+  }
+
   public hideModal() {
     document.getElementById('modal').style.display = "none"
+  }
+
+  public hideQueryModal() {
+    document.getElementById('queryModal').style.display = "none"
   }
 
   async getAgileVisibility(boardName) {

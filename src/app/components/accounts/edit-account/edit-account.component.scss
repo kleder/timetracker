@@ -44,6 +44,7 @@
             cursor: pointer;
         }
         .edit-account__title {
+
             font-family: 'Montserrat', sans-serif;        
             color:  $font-grey;
             font-size: 12px;
@@ -53,11 +54,14 @@
         }
         .edit-account__query {
             font-family: 'Montserrat', sans-serif;        
-            color:  $font-grey;
+            color:  white;
             font-size: 12px;
-            font-weight: 400;
+            font-weight: 900;
             letter-spacing: 1px;
-            cursor: default;           
+            box-sizing: border-box;
+            float: right;
+            text-align: right;
+            cursor: pointer;           
         }
         .edit-account__form {
             margin-bottom: 30px;
@@ -203,6 +207,7 @@
             .edit-account__title {
                 margin-bottom: 15px;
             }
+
             .edit-account__content {
                 border: 2px solid #5d5b67;
                 padding: 16px;
@@ -219,6 +224,7 @@
                     }
                 }
             }
+
         }
         .edit-account__actions {
             margin-bottom: 30px;
@@ -295,6 +301,21 @@
                     color: $custom-red;
                 }                                      
             }
+            input {
+                -webkit-appearance: none;
+                position: relative;
+                display: inline-block;
+                width: 100%;
+                height: 25px;
+                margin-bottom: 5px;
+                z-index: 1000;
+                border-radius: 2px;
+                vertical-align: middle;
+                outline: none;
+                cursor: pointer;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 12px;
+            }
         }
     }
 }
@@ -358,9 +379,25 @@
                     color: $custom-red;
                 }                                      
             }
+            input {
+                -webkit-appearance: none;
+                position: relative;
+                display: inline-block;
+                width: 100%;
+                height: 25px;
+                margin-bottom: 5px;
+                z-index: 1000;
+                border-radius: 2px;
+                vertical-align: middle;
+                outline: none;
+                cursor: pointer;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 12px;
+            }
         }
     }
 }
+
 .loading-container {
     position: relative;
     padding-bottom: 20px !important;
