@@ -101,6 +101,50 @@
                 margin-bottom: 15px;
             }
         }
+        .edit-account__time-works {
+            margin-bottom: 30px;
+            span {
+                color: #fff;
+            }
+            select {
+                padding: 3px 3px;
+                background-color: #23222a;
+                color: #ffffff;
+                border: 2px solid #ec4259;
+                cursor: pointer;
+            }
+            label {
+                padding-right: 3px;
+            }
+            label.time-days {
+                font: 400 12px 'Montserrat', sans-serif;        
+                color: $white;
+                display: block;
+                cursor: pointer;
+                margin-top: 5px;      
+                input {
+                    width: 5%;
+                    position: relative;
+                    visibility: hidden;
+                    margin: 5px 2% 5px;
+                    cursor: pointer;
+                    &:before {
+                        font-family: 'trec-icons';
+                        content: "\E901";
+                        font-size: 28px;
+                        position: absolute;
+                        top: 0px;
+                        left: -5px;
+                        visibility: visible;
+                        color: #fff; 
+                    }
+                    &[ng-reflect-model=true]:before, 
+                    &[ng-reflect-model='1']:before {
+                        color: $custom-red;
+                    }
+                }
+            }
+        }
         .edit-account__boards {
             margin-bottom: 30px;
             border-bottom: 1px solid $border-color;

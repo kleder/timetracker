@@ -23,6 +23,38 @@
         <div class="edit-account__title">CHANGE TOKEN</div>          
         <button class="btn btn--transparent" type="submit" (click)="goToChangeToken()">CHANGE ACCOUNT TOKEN</button>        
       </div>
+      <div class="edit-account__time-works">
+        <div class="edit-account__title">Work hours</div>
+        <label class="edit-account__title">Start Work</label>
+        <select [(ngModel)]="workHoursInfo.timeStartHour">
+          <option *ngFor="let item of hourDay" [selected]="workHoursInfo.timeStartHour === item">{{item}}</option>
+        </select>
+        <select [(ngModel)]="workHoursInfo.timeStartMinute">
+          <option *ngFor="let item of minuteHour" [selected]="workHoursInfo.timeStartMinute === item">{{item}}</option>
+        </select>
+        <label class="edit-account__title">End Work</label>
+        <select [(ngModel)]="workHoursInfo.timeEndHour">
+          <option *ngFor="let item of hourDay" [selected]="workHoursInfo.timeEndHour === item">{{item}}</option>
+        </select>
+        <select [(ngModel)]="workHoursInfo.timeEndMinute">
+          <option *ngFor="let item of minuteHour" [selected]="workHoursInfo.timeEndMinute === item">{{item}}</option>
+        </select>
+        <label class="edit-account__title">Work days</label>
+        <label class="time-days" for="monday">
+          <input [(ngModel)]="week.monday" id="monday" name="monday" type="checkbox">Monday</label>
+        <label class="time-days" for="tuesday">
+          <input [(ngModel)]="week.tuesday" id="tuesday" name="tuesday" type="checkbox">Tuesday</label>
+        <label class="time-days" for="wednesday">
+          <input [(ngModel)]="week.wednesday" id="wednesday" name="wednesday" type="checkbox">Wednesday</label>
+        <label class="time-days" for="thursday">
+          <input [(ngModel)]="week.thursday" id="thursday" name="thursday" type="checkbox">Thursday</label>
+        <label class="time-days" for="friday">
+          <input [(ngModel)]="week.friday" id="friday" name="friday" type="checkbox">Friday</label>
+        <label class="time-days" for="saturday">
+          <input [(ngModel)]="week.saturday" id="saturday" name="saturday" type="checkbox">Saturday</label>
+        <label class="time-days" for="sunday">
+          <input [(ngModel)]="week.sunday" id="sunday" name="sunday" type="checkbox">Sunday</label>
+      </div>
       <span class="edit-account__title">SELECT BOARDS</span>
       <div class="edit-account__boards" *ngIf="!httpService.loader else spinner">
         <div class="edit-account__boards-list" *ngIf="agiles?.length != 0 else noBoards">

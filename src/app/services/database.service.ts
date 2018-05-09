@@ -19,29 +19,33 @@ export class DatabaseService {
     var folder = path.resolve(envPath, '.trec')
     try {
       fs.mkdirSync(folder)
-    } catch (e) {
-    }
-    var dbPath = path.resolve(folder, 'database')
-    this.db = new sqlite3.Database(dbPath, (data) => {
-      if (data == null) {
-        this.db.all("SELECT * FROM `account` LIMIT 1", (err, rows) => {
+    } catch (e) {}
+
+    this.db = new sqlite3.Database(path.resolve(folder, 'database'))
+    let pathOfSystem = (process.platform == 'win32') ? "\\" : "/"
+    const location = path.resolve('./migrations')
+    let that = this
+
+    fs.readdir(location, (err, files) => {
+      const sqlMigration = ('' + files).split(',')
+
+      that.db.run("CREATE TABLE IF NOT EXISTS `migrations`(`id` INTEGER NOT NULL PRIMARY KEY, `name` TEXT)");
+      that.db.serialize(() => {
+        that.db.all('SELECT `name` FROM `migrations`', (err, rows) => {
           if (err) {
-            this.db.serialize(() => {
-              this.db.get("")
-              this.db.run("CREATE TABLE IF NOT EXISTS `tasks` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `accountId` INTEGER, `published` TEXT, `agile` TEXT, `issueid` TEXT, `status` TEXT, `date` INTEGER, `duration` INTEGER, `lastUpdate` TEXT, `Summary` TEXT)");
-              this.db.run("CREATE TABLE IF NOT EXISTS `account` (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `name` TEXT, `url` TEXT, `token` TEXT, `current` INTEGER)");
-              this.db.run("CREATE TABLE IF NOT EXISTS `variables` (id INTEGER NOT NULL PRIMARY KEY, `name` TEXT UNIQUE, `value` INTEGER)");
-              this.db.run("CREATE TABLE IF NOT EXISTS `boards_states` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `state` TEXT, `hexColor` TEXT)");
-              this.db.run("CREATE UNIQUE INDEX BOARDS_INDEX ON boards_states (accountId, boardName, state)");
-              this.db.run("CREATE TABLE IF NOT EXISTS `boards_visibility` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `boardName` TEXT, `visible` INTEGER)");
-              this.db.run("CREATE UNIQUE INDEX BOARDS_CHOOSE ON boards_visibility (accountId, boardName)");
-              this.db.run("CREATE TABLE IF NOT EXISTS `boards_after_choose` (id INTEGER NOT NULL PRIMARY KEY, `accountId` INT, `afterChoose` INTEGER)");
-              this.variablesInit()
+            reject(err)
+          }
+          for (let i = 0; i < sqlMigration.length; i++) {
+            fs.readFile(location + pathOfSystem + sqlMigration[i], 'utf8', function (err, data) {
+              if (!rows[i]) {
+                that.db.run("INSERT INTO `migrations` (`name`) VALUES ('" + sqlMigration[i] + "')");
+                that.db.exec(data)
+              }
             })
           }
         })
-      }
-    })
+      })
+    });
   }
 
   public async getAllItems(accountId): Promise<any[]> {
@@ -230,6 +234,51 @@ export class DatabaseService {
     })
   }
 
+  public getTimeWork() {
+    return new Promise((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.all('SELECT * FROM `variables`', function (err, row) {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(row)
+          }
+        })
+      })
+    })
+  }
+
+  public setTimeWorkAccount = (dayWork, startWorkHour = '0', startWorkMinute = '0', endWorkHour = '0', endWorkMinute = '0') => {
+    return new Promise((resolve, reject) => {
+      this.db.serialize(() => {
+        let stmt1 = this.db.prepare("Update `variables` SET `value` = " + startWorkHour + " WHERE `name` = 'startWorkHour'")
+        let stmt2 = this.db.prepare("Update `variables` SET `value` = " + startWorkMinute + " WHERE `name` = 'startWorkMinute'")
+        let stmt3 = this.db.prepare("Update `variables` SET `value` = " + endWorkHour + " WHERE `name` = 'endWorkHour'")
+        let stmt4 = this.db.prepare("Update `variables` SET `value` = " + endWorkMinute + " WHERE `name` = 'endWorkMinute'")
+        let stmt5 = this.db.prepare("Update `variables` SET `value` = '" + dayWork + "' WHERE `name` = 'dayWork'")
+
+        let err = (err) => {
+          if (!err) {
+            resolve(true)
+          } else {
+            reject(err)
+          }
+        }
+        stmt1.run(err)
+        stmt2.run(err)
+        stmt3.run(err)
+        stmt4.run(err)
+        stmt5.run(err)
+
+        stmt1.finalize()
+        stmt2.finalize()
+        stmt3.finalize()
+        stmt4.finalize()
+        stmt5.finalize()
+      })
+    })
+  }
+
   public changeAccountToken = (accountId, newToken) => {
     return new Promise((resolve, reject) => {
       this.db.serialize(() => {
@@ -260,18 +309,6 @@ export class DatabaseService {
         stmt.finalize()
       })
     })
-  }
-
-  public variablesInit = () => {
-    this.saveVariable({ name: 'hide_hints', value: 0 })
-  }
-
-  public saveVariable = (variable) => {
-    this.db.serialize(() => {
-      let stmt = this.db.prepare("INSERT OR IGNORE INTO `variables` (`name`, `value`) VALUES ('" + variable.name + "','" + variable.value + "')");
-      stmt.run()
-      stmt.finalize()
-    });
   }
 
   public updateVariable = (variable) => {

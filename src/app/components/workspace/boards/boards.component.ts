@@ -5,12 +5,11 @@ import { DataService } from '../../../services/data.service'
 import { DatabaseService } from '../../../services/database.service'
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { HttpService } from '../../../services/http.service'
-import { WorkItemData } from 'app/models/RemoteAccount';
+import { WorkItemData, newIssue } from 'app/models/RemoteAccount';
 import { shell } from 'electron';
 import { ToasterService } from '../../../services/toaster.service'
 import { AccountService } from '../../../services/account.service'
 import { Router } from '@angular/router';
-import { newIssue } from 'app/models/RemoteAccount';
 
 const electron = require('electron')
 
@@ -42,6 +41,8 @@ export class BoardsComponent implements OnInit {
   private boardsChecked: boolean
   private newIssue: newIssue
   private currentAgile: object
+  public issuesLength: number[]
+  public agileNames: string[]
   
   constructor(
     public api: ApiService,
@@ -74,6 +75,7 @@ export class BoardsComponent implements OnInit {
       this.toasterService.error("No internet connection")
     } else {
       this.init()
+      this.notification()
     }
   }
 
@@ -219,16 +221,57 @@ export class BoardsComponent implements OnInit {
     })
   }
 
+notification() {
+  setInterval(() => {
+    let days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'], dayWork
+    let startWork = Number(new Date().setHours(0, 0, 0, 0)) / 1000
+    let endWork = Number(new Date().setHours(0, 0, 0, 0)) / 1000
+    let date = Number(new Date().getTime()) / 1000
+
+    this.databaseService.getTimeWork().then(data => {
+      for (let index in data) {
+        if (data[index].name === 'startWorkHour') {
+          startWork = startWork + data[index].value * 60 * 60
+        }
+        else if (data[index].name === 'startWorkMinute') {
+          startWork = startWork + data[index].value * 60
+        }
+        else if (data[index].name === 'endWorkHour') {
+          endWork = endWork + data[index].value * 60 * 60
+        }
+        else if (data[index].name === 'endWorkMinute') {
+          endWork = endWork + data[index].value * 60
+        }
+        else if (data[index].name === 'dayWork') {
+          dayWork = JSON.parse(data[index].value)
+        }
+      }
+
+      if (date < endWork && date > startWork && dayWork[days[new Date().getDay()]] && this.issuesLength.indexOf(1) === -1) {
+        new Notification('No open tasks!');
+      }
+    })
+  }, 900000)
+}
+
 
   public prepareIssues = (issues, agileName, agileIndex) => {
     let that = this
-    if (this.agiles[agileIndex] == undefined){
+    if (this.agiles[agileIndex] === undefined){
       this.agiles[agileIndex] = {issues:new Array<any>()};
     }
 
     if (issues.issue.length === 0) {
       this.agiles[agileIndex].issues = []
     }
+
+    if (this.agileNames === undefined || this.issuesLength === undefined || this.agileNames.indexOf(agileName) !== -1 || this.agileNames.length === 0) {
+      this.agileNames = [];
+      this.issuesLength = []
+    }
+
+    this.agileNames.push(agileName)
+    this.issuesLength.push(issues.issue.length)
 
     issues.issue.forEach((issue, index) => {
       var newIssue = {
@@ -252,7 +295,6 @@ export class BoardsComponent implements OnInit {
       newIssue.field["Est"] = this.convertEstimate(newIssue.field["Est"])
       newIssue.hasComment = Object.keys(newIssue.comment).length == 0? false : Object.keys(newIssue.comment).length
       newIssue.hasDescription = newIssue.field.hasOwnProperty('description')? true : false
-
 
       let elements = this.agiles[agileIndex].issues.filter(x => x.id === newIssue.id);
     

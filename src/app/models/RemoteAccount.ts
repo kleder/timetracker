@@ -43,3 +43,25 @@ export class newIssue {
   public summary: string
   public description: string
 }
+
+export class WorkHoursInfo {
+  constructor(
+    public timeStartHour: string,
+    public timeStartMinute: string,
+    public timeEndHour: string,
+    public timeEndMinute: string,
+    public week: Week) 
+    { }
+}
+
+export class Week {
+  constructor(
+    public monday: boolean,
+    public tuesday: boolean,
+    public wednesday: boolean,
+    public thursday: boolean,
+    public friday: boolean,
+    public saturday: boolean,
+    public sunday: boolean) 
+    { }
+}

@@ -8,14 +8,18 @@ import { RemoteAccount } from 'app/models/RemoteAccount';
 import { AccountService } from '../../../services/account.service'
 import { ToasterService } from '../../../services/toaster.service'
 import { versions } from '../../../../environments/versions'
+import { WorkHoursInfo, Week } from '../../../models/RemoteAccount'
 import { shell } from 'electron';
-
+import { DecimalPipe } from '@angular/common';
+import { DataService } from '../../../services/data.service'
+import { BoardsComponent } from '../../workspace/boards/boards.component'
 
 @Component({
   selector: 'app-edit-account',
   templateUrl: './edit-account.component.html',
   styleUrls: ['./edit-account.component.scss']
 })
+
 export class EditAccountComponent implements OnInit {
   public editingAccount: any
   public agiles: any
@@ -23,6 +27,10 @@ export class EditAccountComponent implements OnInit {
   public modalText: string
   public isNew = false;
   public version = {name:'', published_at:'', body:''};
+  public week: Week = new Week(true, true, true, true, true, false, false);
+  public workHoursInfo: WorkHoursInfo = new WorkHoursInfo('9', '10', '17', '10', this.week)
+  public hourDay = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+  public minuteHour = [0, 15, 30, 45];
 
   constructor(
     public databaseService: DatabaseService,
@@ -35,6 +43,7 @@ export class EditAccountComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getTimeWork()
     this.getCurrentAccount()
     this.getAllAgiles()
     this.api.getVersionInfo().then(data => {
@@ -43,7 +52,40 @@ export class EditAccountComponent implements OnInit {
         this.isNew = true
       }
     })
+  } 
+
+  public getTimeWork() {
+    this.databaseService.getTimeWork().then(data => {
+      for (let index in data) {
+        if (data[index].name === 'startWorkHour') {
+          this.workHoursInfo.timeStartHour = data[index].value
+        }
+        else if (data[index].name === 'startWorkMinute') {
+          this.workHoursInfo.timeStartMinute = data[index].value
+        }
+        else if (data[index].name === 'endWorkHour') {
+          this.workHoursInfo.timeEndHour = data[index].value
+        }
+        else if (data[index].name === 'endWorkMinute') {
+          this.workHoursInfo.timeEndMinute = data[index].value
+        }
+        else if (data[index].name === 'dayWork') {
+          for (let item in JSON.parse(data[index].value)) {
+            this.week[item] = JSON.parse(data[index].value)[item]
+          }
+        }
+      }
+    })
   }
+
+  public setTimeWork() {
+    let dayWork = {}
+    for (let item in this.week) {
+      dayWork[item] = this.week[item] ? 1 : 0
+    }
+    this.databaseService.setTimeWorkAccount(JSON.stringify(dayWork), this.workHoursInfo.timeStartHour, this.workHoursInfo.timeStartMinute, this.workHoursInfo.timeEndHour, this.workHoursInfo.timeEndMinute)
+  }
+
 
   async getCurrentAccount() {
     this.editingAccount = await this.account.Current()
@@ -135,6 +177,7 @@ export class EditAccountComponent implements OnInit {
     this.updateAgilesVisibility()
     this.editNameOrUrl(account)
     this.backToWorkspace()
+    this.setTimeWork()
   }
 
 }
