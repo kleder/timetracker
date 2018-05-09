@@ -120,10 +120,11 @@ export class ApiService {
     })
   }
 
-  public getIssuesByAgile = (agileName) => {
+  public getIssuesByAgile = (agileName, query?) => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
-        this.http.get('/rest/issue?filter=for:me+Board+' + agileName + ':+{Current+sprint}+%23Unresolved&max=100')
+        var command = query ? '/rest/issue?' + this.encodeQueryData({filter:query, max:100}) : '/rest/issue?filter=for:me+Board+' + agileName + ':+{Current+sprint}+%23Unresolved&max=100';
+        this.http.get(command)
           .map(res => res.json())
           .subscribe(data => {
             resolve(data)

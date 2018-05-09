@@ -24,6 +24,10 @@ export class EditAccountComponent implements OnInit {
   public modalText: string
   public modalType: string
   public isNew = false;
+  private issues: any;
+  private totalTimes: object;
+  public query: string;
+  private boardsChecked: boolean = true;
   public version = {name:'', published_at:'', body:''};
 
   constructor(
@@ -111,6 +115,98 @@ export class EditAccountComponent implements OnInit {
     this.modalText = text
     document.getElementById('queryModal').style.display = "block"
 
+  }
+
+  public getIssuesByAgile(after=0, max=10, agileName, index) {
+    console.log(this.query)
+    this.api.getIssuesByAgile(this.query).then(
+      data => {
+        console.log(data)
+          this.issues = data
+          this.prepareIssues(this.issues, agileName, index)
+      }
+    )
+  }
+
+  public prepareIssues = (issues, agileName, agileIndex) => {
+    let that = this
+    if (this.agiles[agileIndex] == undefined){
+      this.agiles[agileIndex] = {
+        issues: []
+      };
+    }
+    if (issues.issue.length === 0) {
+      this.agiles[agileIndex].issues = []
+    }
+    issues.issue.forEach((issue, index) => {
+      var newIssue = {
+        id: issue.id,
+        agile: agileName,
+        comment: {},
+        hasComment: undefined,
+        hasDescription: undefined,
+        entityId: issue.entityId,
+        jiraId: issue.jiraId,
+        field: {},
+        tag: issue.tag,
+        todaysTime: that.totalTimes[issue.id] || 0
+      }
+      issue.comment.forEach((comm, key) => {
+        newIssue.comment[key] = comm
+      })
+      issue.field.forEach((field, index) => {
+        newIssue.field[field.name.replace(" ", "")] = field.value
+      })
+      newIssue.hasComment = Object.keys(newIssue.comment).length == 0? false : Object.keys(newIssue.comment).length
+      newIssue.hasDescription = newIssue.field.hasOwnProperty('description')? true : false
+
+      let elements = this.agiles[agileIndex].issues.filter(x => x.id === newIssue.id);
+      if (elements.length === 0) {
+        this.agiles[agileIndex].issues.push(newIssue);
+      }
+      else {
+        this.agiles[agileIndex].issues.forEach((item, index) => {
+          if (item.id === newIssue.id) {
+            this.agiles[agileIndex].issues[index] = newIssue;
+          }
+          let deleteElement = []
+          this.agiles[agileIndex].issues.forEach((item, index) => {
+            if (issues.issue[index]) {
+              deleteElement[index] = issues.issue[index].id
+            }
+            else {
+              deleteElement[index] = undefined
+            }
+          })
+          this.agiles[agileIndex].issues.forEach((item, index) => {
+            if (deleteElement.indexOf(item.id) == -1) {
+              this.agiles[agileIndex].issues.splice(index, 1)
+            }
+          })
+        })
+      } 
+    })
+    this.isAnyBoardVisible()
+    this.prepareAndSaveUniqueStates(agileIndex)
+  }
+
+  async prepareAndSaveUniqueStates(agileIndex) {
+    let states = []
+    let currentAccount = await this.account.Current()
+    this.agiles[agileIndex].issues.forEach((issue) => {
+      states.push(issue.field.State[0])
+      this.databaseService.saveBoardStates(currentAccount["id"], this.agiles[agileIndex].name, issue.field.Priority[0])
+    })
+  }
+
+  public isAnyBoardVisible() {
+    let agilesChecked = 0;
+    this.agiles.forEach((agile) => {
+      if (agile.checked) {
+        agilesChecked += 1;
+      }
+    })
+    this.boardsChecked = agilesChecked ? true : false;
   }
 
   public hideModal() {

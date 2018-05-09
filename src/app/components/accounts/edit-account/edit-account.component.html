@@ -86,8 +86,8 @@
       <span>{{ modalText }}</span>
       </div>
     <div class="modal__interaction">
-      <input type="text" placeholder="Enter query">
-      <button class="btn btn--transparent">Apply</button>
+      <input type="text" [(ngModel)]="query" placeholder="Enter query">
+      <button class="btn btn--transparent" (click)="getIssuesByAgile()">Apply</button>
       <button class="btn btn--transparent" (click)="hideQueryModal()">Quit</button>
     </div>
     </div>
