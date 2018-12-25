@@ -36,7 +36,7 @@
     "e2e": "protractor ./protractor.conf.js",
     "postinstall": "electron-rebuild -f -w sqlite3,@paulcbetts/system-idle-time",
     "electron-rebuild": "electron-rebuild -f -w sqlite3,@paulcbetts/system-idle-time",
-    "deb64":"npm run electron:linux && electron-installer-debian --src app-builds/T-Rec-linux-x64/ --dest app-builds/installers/ --arch amd64",
+    "deb64": "npm run electron:linux && electron-installer-debian --src app-builds/T-Rec-linux-x64/ --dest app-builds/installers/ --arch amd64",
     "dmg": "npm run electron:mac && electron-installer-dmg app-builds/T-Rec-darwin-x64/T-Rec.app T-Rec --icon=./src/assets/trec-logo.png --overwrite --background=./src./assets/t-rec-bg.png"
   },
   "dependencies": {
