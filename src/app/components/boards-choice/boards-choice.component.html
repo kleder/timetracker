@@ -4,7 +4,7 @@
       <div class="board-choice__title">Select agile boards</div>
       <div class="board-choice__hint">You will be able to edit this selection later</div>      
       <div class="board-choice__item" *ngFor="let agile of agiles; let i=index">
-        <input type="checkbox" [(ngModel)]="agile.checked" (ngModelChange)="agileVisibilityUpdate(agile)" name="checked">
+        <input type="checkbox" [(ngModel)]="agile.isChecked"  name="checked">
         <label>{{ agile.name }}</label>
       </div>
       <button class="btn btn--red" type=”submit” (click)="agilesChoose()">SELECT</button>      

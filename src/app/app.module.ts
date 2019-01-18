@@ -13,11 +13,6 @@ import { ElectronService } from './providers/electron.service';
 
 import { DatePipe } from '@angular/common';
 
-import { BoardsComponent } from './components/workspace/boards/boards.component';
-import { RecordsComponent } from './components/workspace/records/records.component';
-import { WorkspaceComponent } from './components/workspace/workspace.component';
-import { BoardsChoiceComponent } from './components/boards-choice/boards-choice.component';
-import { AboutComponent } from './components/about/about.component';
 
 import { DataService } from './services/data.service'
 import { TimerService } from './services/timer.service'
@@ -28,42 +23,62 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpService } from './services/http.service';
 import { SecondsToTimePipe } from './pipes/seconds-to-time.pipe';
 
-import { AddAccountComponent } from './components/accounts/add-account/add-account.component';
-import { EditAccountComponent } from './components/accounts/edit-account/edit-account.component';
-import { EditBoardComponent } from './components/edit-board/edit-board.component';
-import { LicensesComponent } from './components/licenses/licenses.component';
-import { ChangeAccountTokenComponent } from './components/accounts/change-account-token/change-account-token.component';
 
 import { ToasterService } from './services/toaster.service';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { SwitchAccountComponent } from './components/accounts/switch-account/switch-account.component'
+
 import { MenuService } from './services/menu.service';
 import { Nl2brPipe } from 'app/pipes/nl2br.pipe';
-import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
-import { ToasterComponent } from './components/toaster/toaster.component';
 import { EstimationPipe } from './pipes/estimation.pipe';
 import { SpinnerService } from './services/spinner.service'
+import { JiraComponent } from './components/accounts/add-account/jira/jira.component';
+import { AddAccountComponent } from './components/accounts/add-account/add-account.component';
+import { YouTrackAccount } from './models/YouTrackAccount';
+import { YoutrackComponent } from './components/accounts/add-account/youtrack/youtrack.component';
+import { ApiProviderService } from './services/api/api-provider.service';
+import { UrlParserService } from './services/url-parser.service';
+import { MapToIterable } from './pipes/map-to-iterable.pipe';
+import { ApiInitService } from './services/api/api-init.service';
+import { ToasterComponent } from './components/toaster/toaster.component';
+import { BoardsChoiceComponent } from './components/boards-choice/boards-choice.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { WorkspaceComponent } from './components/workspace/workspace.component';
+import { RecordsComponent } from './components/workspace/records/records.component';
+import { BoardsComponent } from './components/workspace/boards/boards.component';
+import { ColorService } from './services/color.service';
+import { RecordCollectionService } from './services/record-collection.service';
+import { DateService } from './services/date.service';
+import { SortedMapToIterable } from './pipes/sorted-map-to-iterable.pipe';
+import { RecordHeaderDate } from './pipes/record-header-date.pipe';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { ChangeAccountTokenComponent } from './components/accounts/change-account-token/change-account-token.component';
+import { EditAccountComponent } from './components/accounts/edit-account/edit-account.component';
+import { EditProjectComponent } from './components/edit-project/edit-project.component';
+import { SwitchAccountComponent } from './components/accounts/switch-account/switch-account.component';
+import { DbMemoryCacheService } from './services/db-memory-cache.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WorkspaceComponent,
-    BoardsComponent,
-    RecordsComponent,
-    BoardsChoiceComponent,
     SecondsToTimePipe,
     Nl2brPipe,
+    EstimationPipe,
     AddAccountComponent,
-    EditAccountComponent,
-    EditBoardComponent,
-    AboutComponent,
-    ChangeAccountTokenComponent,
-    LicensesComponent,
-    ToolbarComponent,
-    SwitchAccountComponent,
-    LoadingSpinnerComponent,
+    JiraComponent,
+    YoutrackComponent,
+    MapToIterable,
     ToasterComponent,
-    EstimationPipe
+    BoardsChoiceComponent,
+    LoadingSpinnerComponent,
+    WorkspaceComponent,
+    RecordsComponent,
+    BoardsComponent,
+    SortedMapToIterable,
+    RecordHeaderDate,
+    ToolbarComponent,
+    EditAccountComponent,
+    ChangeAccountTokenComponent,
+    EditProjectComponent,
+    SwitchAccountComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +96,14 @@ import { SpinnerService } from './services/spinner.service'
     HttpService,
     ToasterService,
     MenuService,
-    SpinnerService
+    SpinnerService,
+    ApiProviderService,
+    UrlParserService,
+    ApiInitService,
+    ColorService,
+    RecordCollectionService,
+    DateService,
+    DbMemoryCacheService
   ],
   bootstrap: [AppComponent]
 })

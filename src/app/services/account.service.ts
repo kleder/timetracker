@@ -3,52 +3,51 @@ import { Http, Headers } from '@angular/http';
 import { DatabaseService } from './database.service'
 import 'rxjs/add/operator/map';
 import { from } from 'rxjs/observable/from';
-import { RemoteAccount, UserData } from 'app/models/RemoteAccount';
+import { Account } from 'app/models/Account';
 import { access } from 'original-fs';
-import { ApiService } from 'app/services/api.service';
 import { BehaviorSubject } from 'rxjs';
+import { AccountType } from '../models/AccountType';
 
 @Injectable()
 export class AccountService {
-  private currentAccountObs = new BehaviorSubject<RemoteAccount>(new RemoteAccount())
+  private currentAccountObs = new BehaviorSubject<Account>(new Account())
   CurrentAccount = this.currentAccountObs.asObservable()
+  private current: Account;
+  public accountType: AccountType;
 
   constructor(
     private databaseService: DatabaseService
-  ) { }
-
-  public add(name: string, url: string, token: string): RemoteAccount {
-    var account = new RemoteAccount();
-    account.name = name;
-    account.url = url;
-    account.token = token;
-    this.databaseService.addAccount(account);
-    return account;
+  ) { 
   }
 
-  public async get(youtrack: string): Promise<RemoteAccount> {
-    return await this.databaseService.getAccount(youtrack);
+  public async add(remoteAccount: Account): Promise <any>{ 
+    this.current = remoteAccount;
+    return this.databaseService.addAccount(remoteAccount);
   }
 
-  public async Current(): Promise<RemoteAccount> {
-    var currentAccount: RemoteAccount;
-    var accounts = await this.databaseService.getAccounts();
-    if (accounts != undefined && accounts.length > 0) {
-      accounts.filter(account => {
-        if (account['current'] == 1) {
-          currentAccount = account
-          this.currentAccountObs.next(account);
-        }
-      })
-    } else {
-      this.currentAccountObs.next(new RemoteAccount());
-    }
-    return new Promise<RemoteAccount>((resolve) => { resolve(currentAccount) });
+  // think about better name, this is not a login..
+  public async tryLogin() : Promise<boolean> {
+    let that = this;
+    return this.databaseService.getCurrentAccount().then( account => {
+        console.log("acc" + account)
+        that.current = account;
+        that.accountType = account.type;
+        return Promise.resolve(account !== undefined)
+    } )
   }
 
-  public async destroyCurrent(): Promise<RemoteAccount> {
-    var currentAccount: RemoteAccount = {name: '', url: '', token: ''}
+  public async update(remoteAccount: Account): Promise<any>{
+    return this.databaseService.updateAccount(remoteAccount)
+  }
+
+  public Current(): Account {
+    return this.current;
+  }
+
+  public async destroyCurrent(): Promise<Account> {
+    var currentAccount: Account = new Account();
+
     this.currentAccountObs.next(currentAccount);
-    return new Promise<RemoteAccount>((resolve) => { resolve(currentAccount) });
+    return new Promise<Account>((resolve) => { resolve(currentAccount) });
   }
 }

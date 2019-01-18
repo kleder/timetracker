@@ -49,7 +49,7 @@ export class DataService {
     this.issueData.next(data)
   }
 
-  sentChosenAgiles(data: object) {
+  sendChosenAgiles(data: object) {
     this.agilesData.next(data)
   }
 

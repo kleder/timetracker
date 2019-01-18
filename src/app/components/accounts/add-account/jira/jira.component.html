@@ -1,0 +1,26 @@
+<div class="jira">
+    <div class="jira__header">
+            <div *ngIf="!changeAccountSettings" class="youtrack__title">Add new JIRA account</div>
+            <div *ngIf="changeAccountSettings" class="youtrack__title">Change JIRA account</div>
+    </div>
+    <div class="jira__content">
+        <span *ngIf="accounts?.length > 0" class="jira__close trec-icon-close" routerLink="/accounts"></span>                
+        <form #formCtrl="ngForm">
+            <div class="jira__form">
+                <input id="jira__name" class="form-control" id="name" required minlength="3" [(ngModel)]="name" name="name" (keypress)="onEnterKey($event)" placeholder="Custom name for an account" onfocus="this.placeholder=''" onblur="this.placeholder='Custom name for the account'" type="text">
+                <input id="jira__url" [(ngModel)]="jiraUrl" name="jiraUrl" (keypress)="onEnterKey($event)" placeholder="JIRA home URL" onfocus="this.placeholder=''" onblur="this.placeholder='JIRA home URL'" type="text" >
+                <input id="jira__accessToken" [(ngModel)]="accessToken" name="accessToken" (keypress)="onEnterKey($event)" placeholder="Access Token" onfocus="this.placeholder=''" onblur="this.placeholder='Access Token'" type="text" >
+                <input id="jira__accessTokenSecret" [(ngModel)]="accessTokenSecret" name="accessTokenSecret" (keypress)="onEnterKey($event)" placeholder="Access Token Secret" onfocus="this.placeholder=''" onblur="this.placeholder='Access Token Secret'" type="text" >
+                <input id="jira__consumerSecret" [(ngModel)]="consumerSecret" name="consumerSecret" (keypress)="onEnterKey($event)" placeholder="Consumer Secret" onfocus="this.placeholder=''" onblur="this.placeholder='Consumer Secret'" type="text" >
+                <div class="jira__buttons">
+                    <button [ngClass]="!formCtrl.form.valid? 'btn--grey' : 'btn--red'" class="btn" (click)="login()">
+                            {{
+                        
+                                changeAccountSettings == true ?  "CHANGE SETTINGS" : "ADD ACCOUNT"
+                            }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

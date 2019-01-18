@@ -1,6 +1,6 @@
 <div class="container">  
   <div class="edit-account__header">
-    <div class="edit-account__title" *ngIf="editingAccount?.name.length > 0">Edit {{ editingAccount.name || 'unnamed account' }}</div>
+    <div class="edit-account__title" *ngIf="editingAccount?.name?.length > 0">Edit {{ editingAccount.name || 'unnamed account' }}</div>
   </div>
   <div class="edit-account__content">
     <span class="edit-account__close trec-icon-close" (click)="backToWorkspace()"></span>
@@ -12,24 +12,30 @@
           <p [innerHTML]="version.body | nl2br"></p>
         </div>
     </div>
-    <div class="edit-account__form" *ngIf="editingAccount?.name.length > 0">
-        <div class="edit-account__title">EDIT ACCOUNT</div>          
-        <label>Account name</label>
-        <input [(ngModel)]="editingAccount.name" name="name" type="text">
-        <label>Youtrack URL</label>
-        <input [(ngModel)]="editingAccount.url" name="url" type="text">
+    <div class="edit-account__form">
+        <div class="edit-account__title">EDIT ACCOUNT</div>     
+        <button class="btn btn--transparent" type="submit" (click)="goToChangeAccountSettings()">EDIT ACCOUNT SETTINGS</button>  
+                   
       </div> 
-      <div class="edit-account__change-token">
-        <div class="edit-account__title">CHANGE TOKEN</div>          
-        <button class="btn btn--transparent" type="submit" (click)="goToChangeToken()">CHANGE ACCOUNT TOKEN</button>        
+
+      <span class="edit-account__title">EDIT PROJECT SETTINGS</span>
+      <div class="edit-account__projects" *ngIf="!spinnerService.visible else spinner">
+        <div class="edit-account__projects-list" *ngIf="projects?.length != 0 else noProject">
+          <div class="edit-account__item" *ngFor="let project of projects">
+            <label>{{ project.name }}</label>
+            <span class="trec-icon-settings" (click)="editProject(project)"></span>
+          </div>
+        </div>
+        <ng-template #noProject>
+          <div class="edit-account__no-boards">No projects found.</div>  
+        </ng-template>
       </div>
       <span class="edit-account__title">SELECT BOARDS</span>
       <div class="edit-account__boards" *ngIf="!spinnerService.visible else spinner">
-        <div class="edit-account__boards-list" *ngIf="agiles?.length != 0 else noBoards">
-          <div class="edit-account__item" *ngFor="let agile of agiles">
-            <input type="checkbox" [(ngModel)]="agile.checked" name="checked">
-            <label>{{ agile.name }}</label>
-            <span class="trec-icon-settings" (click)="editBoard(agile)"></span>
+        <div class="edit-account__boards-list" *ngIf="boards?.length != 0 else noBoards">
+          <div class="edit-account__item" *ngFor="let board of boards">
+            <input type="checkbox" [(ngModel)]="board.isChecked" name="checked">
+            <label>{{ board.name }}</label>
           </div>
         </div>
         <ng-template #noBoards>

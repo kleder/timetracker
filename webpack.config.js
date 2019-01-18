@@ -37,9 +37,9 @@ function getPlugins() {
   // Always expose NODE_ENV to webpack, you can now use `process.env.NODE_ENV`
   // inside your code for any environment checks; UglifyJS will automatically
   // drop any unreachable code.
-  //plugins.push(new DefinePlugin({
-  //  "process.env.NODE_ENV": "\"production\""
-  //}));
+  plugins.push(new DefinePlugin({
+   "process.env.NODE_ENV": "\"production\""
+  }));
 
   plugins.push(new NoEmitOnErrorsPlugin());
 

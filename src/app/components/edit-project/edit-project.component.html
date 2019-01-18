@@ -1,0 +1,26 @@
+<div class="container">  
+  <div class="edit-board__header">
+    <div class="edit-board__title">Edit {{ projectName }}</div>
+  </div>
+  <div class="edit-board__content" *ngIf="priorities?.length > 0 else noStates">
+      <span class="edit-board__close trec-icon-close" (click)="goBack()"></span>
+      <div class="edit-board__title">SET PRIORITY COLORS</div> 
+      <div class="edit-board__form">
+        <div class="edit-board__item" *ngFor="let priority of priorities">
+          <div class="edit-board__priority">
+            <!-- <div class="edit-board__color" [ngStyle]="changeBackground(priority.hexColor)"></div> -->
+            <label [ngStyle]="changeBackground(priority.hexColor)"  class="edit-board__name">{{ priority.name }}</label>
+          </div>
+          <input type="text" [(ngModel)]="priority.hexColor">
+        </div>
+        <button class="btn btn--transparent" type="submit" (click)="updateStatesColors(priorities)">SAVE CHANGES</button>                    
+      </div>
+    </div>
+    <ng-template #noStates>
+      <div class="edit-board__content edit-board__content--empty">
+        <span class="edit-board__close trec-icon-close" (click)="goBack()"></span>
+        <div class="edit-board__title">No states</div>       
+      </div>
+    </ng-template>
+</div>
+    

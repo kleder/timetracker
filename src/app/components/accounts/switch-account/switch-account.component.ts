@@ -56,7 +56,7 @@ export class SwitchAccountComponent implements OnInit {
   }
 
   goToAddAccount(arg) {
-    this.router.navigate(['accounts/add-account'], { queryParams: {firstAccount: arg} })    
+    this.router.navigate(['accounts/add-account'], { queryParams: {createAccount: true} })    
   }
 
   goBack() {

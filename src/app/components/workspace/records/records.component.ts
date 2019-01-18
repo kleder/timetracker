@@ -1,155 +1,93 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { DatabaseService } from '../../../services/database.service'
 import { TimerService } from '../../../services/timer.service'
 import { DataService } from '../../../services/data.service'
-import { ApiService } from '../../../services/api.service'
-import { WorkItemData } from 'app/models/RemoteAccount';
+import { ApiService } from '../../../services/api/api.service'
+import { WorkItem } from 'app/models/WorkItem';
 import { Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service'
 import { AccountService } from '../../../services/account.service'
 import { ToasterService} from '../../../services/toaster.service'
 import { DatePipe } from '@angular/common';
 import { SpinnerService } from '../../../services/spinner.service'
+import { ApiProviderService } from '../../../services/api/api-provider.service';
+import { ApiInitService } from '../../../services/api/api-init.service';
+import { RecordCollectionService } from '../../../services/record-collection.service';
+import { DateService } from '../../../services/date.service';
+import { DbMemoryCacheService } from '../../../services/db-memory-cache.service';
+import { TrecOnInit } from '../../TrecOnInit';
 
 @Component({
   selector: 'app-records',
   templateUrl: './records.component.html',
   styleUrls: ['./records.component.scss']
 })
-export class RecordsComponent implements OnInit {
+export class RecordsComponent extends TrecOnInit {
   private unstoppedItem: any
   private db: any
   public preparedTimes: Array<any>
-  public editingItem: object
+  public editingItem: WorkItem;
+  public records: Map<string, WorkItem[]> = new Map<string, WorkItem[]>();
+  public anyRecordsExists: boolean;
+
   constructor(
     public databaseService: DatabaseService,
     private timerService: TimerService,
     private dataService: DataService,
-    private api: ApiService,
+    protected apiProviderService: ApiProviderService,
     public router: Router,
     public httpService: HttpService,
-    public account: AccountService,
+    public accountService: AccountService,
     public toasterService: ToasterService,
-    public spinnerService: SpinnerService
+    public spinnerService: SpinnerService,
+    protected apiInitService: ApiInitService,
+    private recordCollectionService: RecordCollectionService,
+    private dateService: DateService,
+    private dbMemoryCacheService: DbMemoryCacheService,
+    private zone: NgZone
   ) {
+    super(apiProviderService, apiInitService, accountService);
   }
 
   async ngOnInit() {
-    this.init()
+    this.spinnerService.visible = true;
+    await super.ngOnInit();
+
+    this.init();
   }
 
   async init() {
-    this.spinnerService.visible = true;
-    var current = await this.account.Current();
-    this.databaseService.getAllItems(current["id"]).then(rows => {
-      if (rows) {   
-        this.prepareItems(rows)
-      }
-      this.spinnerService.visible = false;
-    })
-  }
-  
-  public getByDaysAgo(arr, value) {
-    let result = arr.filter(function(o) { 
-      return o.date == value
-    })
-    return result? result[0] : null
+    var current = await this.accountService.Current();
+    this.api = this.apiProviderService.getInstance();
+    let workItems = this.dbMemoryCacheService.getWorkItems();
+    this.recordCollectionService.init(workItems);
+    var allRecordsFromDb = this.recordCollectionService.getRecords();
+    this.zone.run(()=> this.records = allRecordsFromDb)
+    this.zone.run(() => this.anyRecordsExists = workItems.length > 0);
+    this.spinnerService.visible = false;
+
   }
 
-  public getByIssueId(arr, value) {
-    let result = arr.filter(function(o) { 
-      return o.issueid == value
-    })
-    return result? result[0] : null
-  }
   
-  public prepareItems(rows) {
-    let that = this
-    let todayItems = []
-    let yesterdayItems = []
-    let pastItems = []
-    let currentTime = new Date();
-    let preparedTimes = []
-    let todayFullDate = new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear()
+  
+  public getIssueName(workItem: WorkItem) : string {
+      return this.getTask(workItem).summary;
+  }
 
-    rows.forEach(function(row) {
-      let fullDate = new Date(row.date).getDate() + "/" + new Date(row.date).getMonth() + "/" + new Date(row.date).getFullYear()
-      if (new Date(row.date).getMonth() === new Date().getMonth() && new Date(row.date).getFullYear() === new Date(row.date).getFullYear()) {
-        if (new Date(row.date).getDate() === new Date().getDate()) {
-          fullDate = "today"
-        } else if (new Date(row.date).getDate() === new Date().getDate()-1) {
-          fullDate = "yesterday"
-        }
-      }
-      if (preparedTimes.length > 0) {
-        let founded = preparedTimes.find(time => time.date === fullDate)
-        if (founded) {
-          founded.records.push(row)
-        } else {
-          let tasks = []
-          tasks.push(row)
-          preparedTimes.unshift({date: fullDate, records: tasks, summaryRecords: []})
-        }
-      } else {
-        let records = []
-        records.push(row)
-        preparedTimes.push({date: fullDate, records: records, summaryRecords: []})
-      }
-    })
-    preparedTimes.forEach((day) => {
-      day.totalTime = 0
-      day.records.forEach((record) => {
-        day.totalTime += record.duration
-      })
-    })
-    preparedTimes.forEach((day) => {
-      day.records.forEach((record) => {
-        if (parseInt(record.published)) {
-          if (day.summaryRecords.length > 0) {
-            let founded = day.summaryRecords.find(summaryRecord => summaryRecord.issueid === record.issueid)
-            if (founded) {
-              founded.subTimes.push(record)
-            } else {
-              let temp = Object.assign({}, record)
-              record.subTimes = []
-              record.subTimes.push(temp)
-              day.summaryRecords.push(record)
-            }
-          } else {
-            let temp = Object.assign({}, record)
-            record.subTimes = []
-            record.subTimes.push(temp)
-            day.summaryRecords.push(record)
-          }
-        }
-      })
-    })
-    preparedTimes.forEach((day) => {
-      day.summaryRecords.forEach((record) => {
-        record.summaryTime = 0
-        record.subTimes.forEach((subTime) => {
-          record.summaryTime += subTime.duration
-        })
-      })
-    })
-    this.preparedTimes = preparedTimes
+  public getBoardName(workItem: WorkItem) : string {
+    let task = this.getTask(workItem);
+    return this.dbMemoryCacheService.getBoard(task.boardId).name;
+  }
+
+  private getTask(workItem: WorkItem) {
+    return this.dbMemoryCacheService.getTask(workItem.issueId);
   }
 
   async getIssueAndStart(issueId) {
-    let account = await this.account.Current()    
+    let account = await this.accountService.Current()    
     return new Promise(resolve => {
       this.api.getIssue(issueId).then(issue => {
-        var newIssue : WorkItemData;
-        newIssue = {
-          accountId: account["id"],
-          issueId: issue["id"],
-          agile: issue.field.find(item => item.name == "sprint").value[0].id.split(":")[0],
-          duration: 0,
-          summary: issue.field.find(item => item.name == "summary" ).value,
-          date: Date.now(),
-          startDate: Date.now(),
-          recordedTime: 0
-        }
+        var newIssue : WorkItem;
         this.timerService.startItem(newIssue)
       })
     })
@@ -160,8 +98,7 @@ export class RecordsComponent implements OnInit {
       (data)  => {
           this.dataService.timeSavedNotification('Your tracking has been saved!')
           this.dataService.timeSavedNotification('')
-          this.databaseService.setIsPublished(item.date)
-          this.databaseService.setIsStopped(item.date)
+         
           this.init()
       }, (err) =>{
           this.dataService.timeSavedNotification('An error occured.')
@@ -170,66 +107,57 @@ export class RecordsComponent implements OnInit {
     )
   }
 
-  public editWorkItem(editingItem) {
-    let workItem = {
-      date: editingItem.date,
-      duration: editingItem.duration,
-      description: editingItem.description
-    }
-    this.api.editWorkItem(editingItem.issueid, workItem, editingItem.id).then((data => {
-      this.databaseService.updateDuration(workItem.duration * 60, editingItem.dateFromDb)
-      this.init()
-      this.hideEditIssueModal()
+
+  public editWorkItem() {
+    let that = this;
+    this.api.editWorkItem(this.editingItem).then((data => {
+      that.databaseService.updateWorkItem(that.editingItem).then(() => {
+        this.init()
+        this.hideEditIssueModal();
+        this.toasterService.success("Work item has been updated successfuly")
+      });
+      
     }))
   }
 
-  public deleteWorkItem(item) {
-    let dbItemCreated = new Date(item.date)
-    let dbItemCreatedStr = dbItemCreated.getDate() + "/"+ dbItemCreated.getMonth() + 1 + "/" + dbItemCreated.getFullYear()
-    this.api.getWorkItems(item.issueid).then((workItems: Array<any>) => {
-      for (let i = 0; i < workItems.length; i++) {
-        let workItemCreated = new Date(workItems[i].created)
-        let workItemCreatedStr = workItemCreated.getDate() + "/"+ workItemCreated.getMonth() + 1 + "/" + workItemCreated.getFullYear()
-        if (item.duration === workItems[i].duration * 60 && dbItemCreatedStr === workItemCreatedStr) {
-          this.api.deleteWorkItem(item.issueid, workItems[i].id).then((data) => {
-            this.databaseService.deleteItem(item.date)
-            this.toasterService.default('Work item has been deleted and synced with YouTrack!')
-            this.init()
-          }, (err) => {
-            this.toasterService.error('An error occured!')
-          })
-        }
-      }
+  public deleteWorkItem(item: WorkItem) {
+    let that = this;
+ 
+    this.api.deleteWorkItem(item).then(() => {
+      that.databaseService.deleteWorkItem(item).then(() => {
+        this.dbMemoryCacheService.forceSync();
+        this.toasterService.success("Work item has been deleted") 
+      })
     })
   }
 
-  public showEditIssueModal(item) {
-    let dbItemCreated = new Date(item.date)
-    let dbItemCreatedStr = dbItemCreated.getDate() + "/"+ dbItemCreated.getMonth() + 1 + "/" + dbItemCreated.getFullYear()
-    this.editingItem = item;
-    this.api.getWorkItems(item.issueid).then((workItems: Array<any>) => {
-      for (let i = 0; i < workItems.length; i++) {
-        let workItemCreated = new Date(workItems[i].created)
-        let workItemCreatedStr = workItemCreated.getDate() + "/"+ workItemCreated.getMonth() + 1 + "/" + workItemCreated.getFullYear()
-        if (item.duration === workItems[i].duration * 60 && dbItemCreatedStr === workItemCreatedStr) {
-          document.getElementById('editIssue').style.display = 'block'
-          this.editingItem = workItems[i]
-          this.editingItem["summary"] = item.Summary
-          this.editingItem["agile"] = item.agile
-          this.editingItem["issueid"] = item.issueid
-          this.editingItem["dateFromDb"] = item.date
-        }
-      }
+  public getTimeSpend(workItem: WorkItem) : number {
+      return this.dateService.getDurationInSeconds(workItem.startDate, workItem.endDate);
+  }
+
+  public getSpendInAllDay(day: string) : number {
+
+    let sum = 0;
+    var rec = this.records.get(day);
+    rec.forEach(workItem => {
+        sum += this.getTimeSpend(workItem);
     })
-    
+
+    return sum;
+  }
+
+
+  public showEditIssueModal(item: WorkItem) {
+    this.editingItem = item;
+    document.getElementById('editIssue').style.display = 'block'
   }
 
   public hideEditIssueModal() {
     document.getElementById('editIssue').style.display = 'none'
   }
 
-  public goToBoards() {
-    this.router.navigate(['../workspace'])
+  public async goToBoards() {
+    let acc = this.accountService.Current()
+    this.router.navigate(['../workspace'], { queryParams: { name: "aaaa", accountId :acc.id} });
   }
-
 }

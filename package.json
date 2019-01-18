@@ -35,14 +35,17 @@
     "pree2e": "webdriver-manager update --standalone false --gecko false --quiet && npm run build",
     "e2e": "protractor ./protractor.conf.js",
     "postinstall": "electron-rebuild -f -w sqlite3,@paulcbetts/system-idle-time",
-    "electron-rebuild": "electron-rebuild -f -w sqlite3,@paulcbetts/system-idle-time",
+    "electron-rebuild": "electron-rebuild -f -w sqlite3,@paulcbettnames/system-idle-time",
     "deb64": "npm run electron:linux && electron-installer-debian --src app-builds/T-Rec-linux-x64/ --dest app-builds/installers/ --arch amd64",
     "dmg": "npm run electron:mac && electron-installer-dmg app-builds/T-Rec-darwin-x64/T-Rec.app T-Rec --out=./app-builds/ --icon=./src/assets/trec-logo.png --overwrite --background=./src/assets/t-rec-bg.png"
   },
   "dependencies": {
     "@paulcbetts/system-idle-time": "^1.0.4",
     "electron-notifications": "^1.0.0",
-    "sqlite3": "^3.1.13"
+    "reflect-metadata": "^0.1.12",
+    "sql.js": "^0.5.0",
+    "sqlite3": "4.0.0",
+    "typeorm": "^0.2.7"
   },
   "devDependencies": {
     "@angular/animations": "^4.4.3",
@@ -83,6 +86,7 @@
     "istanbul-instrumenter-loader": "3.0.0",
     "jasmine-core": "2.8.0",
     "jasmine-spec-reporter": "4.2.1",
+    "jira-client": "^6.4.1",
     "json-loader": "0.5.7",
     "karma": "1.7.1",
     "karma-chrome-launcher": "2.2.0",

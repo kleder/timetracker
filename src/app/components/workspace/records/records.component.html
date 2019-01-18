@@ -1,30 +1,20 @@
 <div class="container" *ngIf="!spinnerService.visible else spinner">
-  <div class="record-list" *ngIf="preparedTimes?.length != 0; else empty">
-    <div *ngFor="let day of preparedTimes">
-      <span class="record-list__title" *ngIf="day.summaryRecords?.length != 0">{{ day.date }}</span>
-      <div class="record-list__item" *ngFor="let record of day.summaryRecords">
+  <div class="record-list" *ngIf="anyRecordsExists; else empty">
+    <div *ngFor="let dayKeyVal of records | sortedMapToIterable">
+      <span class="record-list__title" >{{ dayKeyVal.key | recordHeaderDate }}</span>
+      <span class="record-list__spent">SPENT: {{ getSpendInAllDay(dayKeyVal.key) | secondsToTime }}</span>
+
+      <div class="record-list__item" *ngFor="let record of dayKeyVal.val">
         <div class="record-list__header">
-          <span class="record-list__summary">{{ record.Summary }}</span> 
+          <span class="record-list__summary">{{ getIssueName(record) }}</span> 
           <div class="record-list__todays-time">
-            <span>{{ record.summaryTime | secondsToTime}}</span>
+            <span>{{ record.duration | secondsToTime }}</span>
           </div>
         </div>
         <div class="record-list__content">
-          <span class="record-list__agile">{{ record.agile }}</span>
-          <button class="record-list__record" [ngClass]="record.issueid == timerService.currentIssue?.issueId ? 'recording' : ''" (click)="getIssueAndStart(record.issueid)">
-            <span *ngIf="record.issueid == timerService.currentIssue?.issueId; else timerOff">
-              <span class="trec-icon-stop"></span>STOP</span>
-            <ng-template #timerOff><span class="trec-icon-record"></span>REC</ng-template>
-          </button>
-          <div class="record-list__subtimes">
-            <span class="record-list__title">Work items:</span>
-            <div class="record-list__work-item" *ngFor="let workItem of record.subTimes">
-              <span>{{ workItem.duration | secondsToTime }}</span>
-              <span>on {{ workItem.date | date:'fullDate' }}</span>
-              <span class="trec-icon-settings" (click)="showEditIssueModal(workItem)"></span>
-              <span class="trec-icon-remove" (click)="deleteWorkItem(workItem)"></span>
-            </div>
-          </div>
+          <span class="record-list__agile">{{ getBoardName(record) }}</span>
+          <span class="trec-icon-remove record-list__button" (click)="deleteWorkItem(record)"></span> 
+          <span class="trec-icon-settings record-list__button" (click)="showEditIssueModal(record)"></span>
         </div>  
       </div>     
     </div>
@@ -34,20 +24,20 @@
     <div class="modal__content" *ngIf="editingItem != undefined">
       <span class="trec-icon-close" (click)="hideEditIssueModal()"></span>
       <div class="modal__header">
-        <div>Edit {{ editingItem.summary }}</div>
-        <div>{{ editingItem.date | date:'medium' }}</div>
+        <div>Edit <b>{{ getIssueName(editingItem) }} </b> </div>
       </div>
       <div>
-        <input type="number" [(ngModel)]="editingItem.duration" name="duration">min(s)
+        <input type="number" [(ngModel)]="editingItem.duration" name="duration"> 
+        <span style=" display: inline !important">min(s)</span>
       </div>
       <div>
-        <input type="text" [(ngModel)]="editingItem.description" name="description">
+        <input type="text" [(ngModel)]="editingItem.comment" name="description">
       </div>
-      <button class="btn btn--transparent" (click)="editWorkItem(editingItem)">Save changes</button>
+      <button class="btn btn--transparent" (click)="editWorkItem()">Save changes</button>
     </div>
   </div>
   <ng-template #empty>
-    <div class="record-list--empty" *ngIf="todaySummaryItems?.length == 0 && yesterdaySummaryItems?.length == 0 && itemsFromPast.length == 0">
+    <div class="record-list--empty">
       <img src="../../../../assets/dino-foot.png" alt="foot">
       <div class="record-list__title">You haven't made any time entry yet</div>
       <div class="record-list__text">Go back to the Boards tab, select the task and hit record.</div>

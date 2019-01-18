@@ -173,6 +173,80 @@
                 }
             }
         }
+
+        .edit-account__projects {
+            margin-bottom: 30px;
+            border-bottom: 1px solid $border-color;
+            .edit-account__item {
+                position: relative;
+                margin: 16px 0;    
+                height: 48px;
+                background: transparent;
+                border: 2px solid $font-grey;
+                border-radius: 4px;
+                input {
+                    -webkit-appearance: none;
+                    position: absolute;
+                    width: 100%;
+                    height: 50px;
+                    margin: 0;
+                    z-index: 1000;
+                    border-radius: 2px;
+                    vertical-align: middle;
+                    outline: none;
+                    cursor: pointer;
+                    color: $white;
+                    
+                        &:before {
+                            font-family: 'trec-icons' !important;
+                            content: "\e901";
+                            font-size: 28px;
+                            position: absolute;
+                            top: 11px; 
+                            left: 15px;
+                            color: $custom-red;
+                        }
+                    
+                    &:checked + label {
+                        color: $white;
+                    }
+                    &:hover + label {
+                        color: $custom-red;
+                    }
+                }
+                label {
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    text-align: center;
+                    padding: 19px 13px;
+                    font-family: 'Montserrat', sans-serif;
+                    color: $white;
+                    font-size: 14px;
+                    line-height: 12px;      
+                    font-weight: 400;
+                    letter-spacing: 2px;
+                }
+                .trec-icon-settings {
+                    position: absolute;
+                    top: 13px;
+                    right: 13px;
+                    color: $font-grey;
+                    font-size: 22px;
+                    z-index: 1000;
+                    cursor: pointer;
+                    &:hover {
+                        color: $white;                        
+                    }
+                }
+                &:last-of-type {
+                    margin-bottom: 32px;
+                }
+            }
+        }
         .edit-account__no-boards {
             margin: 16px 0 32px;
             font-family: 'Montserrat', sans-serif;

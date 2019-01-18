@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/api/api.service';
 import { AccountService } from '../../services/account.service';
 
 import { Router, ActivatedRoute } from '@angular/router';
@@ -21,6 +21,7 @@ let mainWindow
 
 import { CustomMenu } from '../../../../src/Menu'
 import { DatabaseService } from 'app/services/database.service';
+import { AccountType } from '../../models/AccountType';
 const newMenu = new CustomMenu();
 
 @Component({
@@ -46,7 +47,8 @@ export class ToolbarComponent implements OnInit {
    }
   async ngOnInit() {
     this.account.CurrentAccount.subscribe(data => {
-      this.current = data.url !== undefined && data.url.trim() !== ''
+      // let url = data.type == AccountType.Jira ? data.Jira.url : data.Youtrack.url;
+      // this.current = url!== undefined && url.trim() !== ''
     });
   }
 

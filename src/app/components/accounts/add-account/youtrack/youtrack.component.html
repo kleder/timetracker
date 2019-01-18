@@ -1,0 +1,26 @@
+<div class="youtrack">
+    <div class="youtrack__header">
+        <div *ngIf="!changeAccountSettings" class="youtrack__title">Add new YouTrack account</div>
+        <div *ngIf="changeAccountSettings" class="youtrack__title">Change YouTrack account</div>
+
+    </div>
+    <div class="youtrack__content">
+        <span *ngIf="accounts?.length > 0" class="youtrack__close trec-icon-close" routerLink="/accounts"></span>                
+        <form #formCtrl="ngForm">
+            <div class="youtrack__form">
+                <input id="youtrack__name" [(ngModel)]="name" name="name" (keypress)="onEnterKey($event)" placeholder="Custom name for an account" onfocus="this.placeholder=''" onblur="this.placeholder='Custom name for the account'" type="text" required>
+                <input id="youtrack__url" [(ngModel)]="youTrackUrl" name="youTrackUrl" (keypress)="onEnterKey($event)" placeholder="YouTrack home URL" onfocus="this.placeholder=''" onblur="this.placeholder='YouTrack home URL'" type="text" required>
+                <input id="youtrack__token" [(ngModel)]="token" name="token" (keypress)="onEnterKey($event)" placeholder="Token" onfocus="this.placeholder=''" onblur="this.placeholder='Token'" type="text" required>
+                <div class="youtrack__hint">How to obtain a new permament token? <a (click)="openInBrowser()">Click here</a></div>            
+                <div class="youtrack__buttons">
+                    <button [ngClass]="!formCtrl.form.valid? 'btn--grey' : 'btn--red'" [disabled]="!formCtrl.form.valid" class="btn" (click)="login()" type="submit">
+                        {{
+                        
+                            changeAccountSettings == true ?  "CHANGE SETTINGS" : "ADD ACCOUNT"
+                        }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

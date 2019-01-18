@@ -1,19 +1,12 @@
 <div class="add-account">
-    <div class="add-account__header">
-        <div class="add-account__title">Add new account</div>
+    <div class="add-account_header">
+        <div class="add-account__title">Choose Account Type</div>
     </div>
+
     <div class="add-account__content">
-        <span *ngIf="accounts?.length > 0" class="add-account__close trec-icon-close" routerLink="/accounts"></span>                
-        <form #formCtrl="ngForm">
-            <div class="add-account__form">
-                <input id="add-account__name" [(ngModel)]="name" name="name" (keypress)="onEnterKey($event)" placeholder="Custom name for an account" onfocus="this.placeholder=''" onblur="this.placeholder='Custom name for the account'" type="text" required>
-                <input id="add-account__url" [(ngModel)]="youTrackUrl" name="youTrackUrl" (keypress)="onEnterKey($event)" placeholder="YouTrack home URL" onfocus="this.placeholder=''" onblur="this.placeholder='YouTrack home URL'" type="text" required>
-                <input id="add-account__token" [(ngModel)]="token" name="token" (keypress)="onEnterKey($event)" placeholder="Token" onfocus="this.placeholder=''" onblur="this.placeholder='Token'" type="text" required>
-                <div class="add-account__hint">How to obtain a new permament token? <a (click)="openInBrowser()">Click here</a></div>            
-                <div class="add-account__buttons">
-                    <button [ngClass]="!formCtrl.form.valid? 'btn--grey' : 'btn--red'" [disabled]="!formCtrl.form.valid" class="btn" (click)="login()" type="submit">ADD ACCOUNT</button>
-                </div>
-            </div>
-        </form>
-    </div>
+        <img src="../../../../assets/jira-active-logo.png" (click)=onClick(issueTrackerType.Jira)/>
+        <img src="../../../../assets/youtrack-active-logo.png" (click)=onClick(issueTrackerType.YouTrack)/>
+    </div>  
 </div>
+
+

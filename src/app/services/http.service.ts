@@ -11,11 +11,11 @@ import {
 } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
-import { RemoteAccount } from 'app/models/RemoteAccount';
+import { Account } from 'app/models/Account';
 
 @Injectable()
 export class HttpService extends Http {
-  private remoteAccount: RemoteAccount;
+  private remoteAccount: Account;
 
   constructor(
     backend: XHRBackend,
@@ -28,7 +28,7 @@ export class HttpService extends Http {
     return super.get(url);
   }
 
-  public UseAccount(remoteAccount : RemoteAccount) {
+  public UseAccount(remoteAccount : Account) {
     this.remoteAccount = remoteAccount;
   }
 
@@ -50,18 +50,18 @@ export class HttpService extends Http {
   private getOptions(options?: RequestOptionsArgs){
     
     if (options != undefined){
-      options.headers.append('Authorization', 'Bearer '+ this.remoteAccount.token)
+      options.headers.append('Authorization', 'Bearer '+ this.remoteAccount.Youtrack.token)
       return options;
     }
 
     return {headers: new Headers({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer '+ this.remoteAccount.token
+      'Authorization': 'Bearer '+ this.remoteAccount.Youtrack.token
     })} 
   }
   private getFullUrl(url: string): string {
-    return  this.remoteAccount.url + url;
+    return  this.remoteAccount.Youtrack.url + url;
   }
 
   private onCatch(error: any, caught: Observable<any>): Observable<any> {

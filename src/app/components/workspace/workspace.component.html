@@ -1,22 +1,22 @@
 <div class="container">
     <div class="menu">
         <ul class="menu__main">
-            <li routerLink="boards" routerLinkActive="menu__main--active">Boards</li>
-            <li routerLink="records" routerLinkActive="menu__main--active">Records</li>
+            <li routerLink="boards" preserveQueryParams routerLinkActive="menu__main--active">Boards</li>
+            <li routerLink="records" preserveQueryParams routerLinkActive="menu__main--active">Records</li>
         </ul>
         <div class="menu__settings">
-            <span class="trec-icon-settings" [class.warning]="differentVersion" routerLink="../accounts/edit-account"></span>
+            <span class="trec-icon-settings" [class.warning]="differentVersion" (click)="goToEditAccount()"></span>
         </div>
     </div>
     <div id="content" class="content">
         <router-outlet></router-outlet>
     </div>
     <div id="current-item">
-        <div class="current-item__container" *ngIf="timerService.currentIssue?.issueId">
-            <div class="current-item__content">
-                <span class="current-item__summary">{{ timerService.currentIssue.summary }}</span>
-                <span class="current-item__duration">{{ timerService.currentIssue.duration | secondsToTime }}</span>
-                <span class="current-item__todays-time">TODAY: {{ timerService.currentIssue.recordedTime | secondsToTime }}</span>
+        <div class="current-item__container">
+            <div class="current-item__content" *ngIf="currentWorkItem != undefined">
+                <span class="current-item__summary">{{ getIssueName(currentWorkItem) }}</span>
+                <span class="current-item__duration">{{ elapsed | secondsToTime }}</span>
+                <span class="current-item__todays-time">TODAY: {{ getTimeSpentTodayOnTask(currentWorkItem) + elapsed | secondsToTime }}</span>
             </div>
             <div class="current-item__record">
                 <button (click)="stopTracking()">
@@ -31,14 +31,19 @@
             <div class="modal__backdrop"></div>
         </ng-template>
         <div class="modal__content">
-            <div class="record-too-short" *ngIf="recordTooShort && !timerService.hideHints">
+            <div class="record-too-short">
                 <span class="trec-icon-close" (click)="hideModal()"></span>
                 <div class="modal__text">It looked like a simple missclick. Records shorter than 1 minute will not be reported.</div>
                 <div class="modal__interaction">
                     <input type="checkbox" [(ngModel)]="hintsCheckbox" (ngModelChange)="changeHintVisibility($event)" name="hintsCheckbox">
                     <label>Lesson learnt! Don’t show this message again.</label>
                 </div>
-                <button class="btn btn--transparent" (click)="hideModal()">OK</button>
+                <div>
+                        <button class="btn btn--transparent" (click)="hideModal()">Continue tracking</button>
+                        <button class="btn btn--transparent" (click)="ignoreTracking()">Cancel tracking</button>
+                </div>
+               
+
             </div>
             <div class="unstopped-item" *ngIf="unstoppedItem?.duration">
                 <div class="modal__text">

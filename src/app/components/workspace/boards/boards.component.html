@@ -1,41 +1,40 @@
 <div class="container" *ngIf="!spinnerService.visible else spinner">
-  <div class="project" *ngFor="let agile of agiles; let i=index">
-    <div class="project-list" *ngIf="agile.checked">
+  <div class="project" *ngFor="let boardKeyVal of boards | mapToIterable">
+    <div class="project-list" >
       <div class="project-list__agile">
-        <h2 class="project-list__title" (click)="openInBrowser('/agiles/'+agile.id)" >{{ agile.name }}<span class="trec-icon-external-link" aria-hidden="true"></span></h2>
-        <div class="project-list__toggle" *ngIf="agile?.issues != 0" (click)="toggle(i)">
-            <i [ngClass]="agile.visiblityState !='hidden'? 'trec-icon-caret-down' : 'trec-icon-caret-up'" aria-hidden="true"></i>              
+        <h2 class="project-list__title" (click)="openBoardInBrowser('/agiles/'+boardKeyVal.val.details.timeTrackerId)">{{ boardKeyVal.key }}<span class="trec-icon-external-link" aria-hidden="true"></span></h2>
+        <div class="project-list__toggle" (click)="toggle(i)">
+            <!-- <i [ngClass]="agile.visiblityState !='hidden'? 'trec-icon-caret-down' : 'trec-icon-caret-up'" aria-hidden="true"></i>               -->
         </div>
       </div>
-      <div class="project-list__issues" [@visibilityChanged]="agile.visiblityState">
+      <div class="project-list__issues">
         <div class="project-list__options">
-          <button class="btn btn--options" (click)="showAddIssueModal(agile)">CREATE ISSUE</button>
-          <button class="btn btn--options" (click)="init()">
+          <button class="btn btn--options" (click)="showCreateIssueModal(boardKeyVal.val.details.name, boardKeyVal.val.details.timeTrackerId)">CREATE ISSUE</button>
+          <button class="btn btn--options" (click)="syncTasks(this)">
             <span class="trec-icon-refresh"></span>
           </button> 
         </div>
-        <div class="project-list__item" *ngFor="let issue of agile.issues" [ngClass]='priorityClass(issue)' [style.border-left-color]='issue.field.Priority[1]'[ngClass]="issue.id == timerService.currentIssueId? 'recording' : ''">
+        <div class="project-list__item" *ngFor="let issueKeyVal of boardKeyVal.val.tasks | mapToIterable">
           <div class="project-list__header">
-            <span class="project-list__id" (click)="openInBrowser('/issue/'+issue.id)">{{ issue.id }}</span> 
-            <span class="project-list__priority" [ngClass]='priorityClass(issue)' [style.color]='issue.field.Priority[1]'>{{ issue.field.Priority[0] }}</span>
-            <span class="project-list__state" *ngIf="issue.field.State">{{ issue.field.State[0] }}</span>
-            <span class="project-list__state" *ngIf="issue.field.Stage">{{ issue.field.Stage[0] }}</span>
-            <span class="project-list__type">{{ issue.field.Type[0] }}</span>
-            <span class="project-list__description trec-icon-description" *ngIf="issue.hasDescription" title="{{ issue.field.description }}">
+            <span class="project-list__id" (click)="openIssueInBrowser(issueKeyVal.val.url)">{{issueKeyVal.val.visibleId}}</span> 
+            <span class="project-list__priority" [ngStyle]='getPriorityColor(boardKeyVal.val.details.id, issueKeyVal.val.priority)' >{{issueKeyVal.val.priority}}</span>
+            <span class="project-list__state">{{issueKeyVal.val.state}}</span>
+            <span class="project-list__type">{{issueKeyVal.val.type}}</span>
+            <span class="project-list__description trec-icon-description" *ngIf="issueKeyVal.val.hasDescription" title="{{issueKeyVal.val.description}}">
             </span>
-            <span class="project-list__comments trec-icon-comments" *ngIf="issue.hasComment" title="Issue has {{ issue.hasComment }} comment(s)">
-              {{ issue.hasComment }}
+            <span class="project-list__comments trec-icon-comments" *ngIf="issueKeyVal.val.numberOfComments > 2" title="Issue has {{issueKeyVal.val.numberOfComments}} comment(s)">
+              {{issueKeyVal.val.numberOfComments}} 
             </span>
-            <span class="project-list__state" (click)="showCommandModal(issue.id)" title="Apply command">[...]</span>
-            <button class="project-list__record" [ngClass]="issue.id == timerService.currentIssue?.issueId ? 'recording' : ''" (click)="startTracking(issue)">
-              <span *ngIf="issue.id == timerService.currentIssue?.issueId; else timerOff"><span class="trec-icon-stop"></span>STOP</span>
+            <!-- <span class="project-list__state" (click)="showCommandModal(issue.id)" title="Apply command">[...]</span> -->
+            <button class="project-list__record" [ngClass]="issueKeyVal.val.timeTrackerId == timerService.currentIssue?.issueId ? 'recording' : ''" (click)="startTracking(issueKeyVal.val.id, issueKeyVal.val.timeTrackerId)">
+              <span *ngIf="issueKeyVal.val.timeTrackerId  == timerService.currentIssue?.issueId; else timerOff"><span class="trec-icon-stop"></span>STOP</span>
               <ng-template #timerOff><span class="trec-icon-record"></span>REC</ng-template> 
             </button>
           </div>
           
           <div class="project-list__content">
-            <span class="project-list__summary">{{ issue.field.summary }}</span>
-            <span class="project-list__estimation" title="Estimation time: {{ issue.field.Est }}">{{ issue.field.Est | estimation }}</span>
+            <span class="project-list__summary">{{issueKeyVal.val.summary}}</span>
+            <span class="project-list__estimation" title="Estimation time: {{issueKeyVal.val.estimation}}">{{issueKeyVal.val.estimation | estimation}}</span>
           </div>
         </div>
         <div *ngIf="agile?.issues == 0" class="project-list__issues--empty">
@@ -44,7 +43,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!boardsChecked">
+  <div *ngIf="boards.length == 0">
     <div class="boards__list--empty">
         <img src="../../../../assets/skull.png" alt="skull">
         <div class="boards__title">No board was selected</div>
@@ -53,28 +52,28 @@
   </div>
   <div id="addIssue" class="modal">
     <div class="modal__backdrop" (click)="hideAddIssueModal()"></div>
-    <div *ngIf="currentAgile != undefined || applyCommand != undefined" class="modal__content">
+    <div *ngIf="currentProjectName != undefined || applyCommand != undefined" class="modal__content">
       <span class="trec-icon-close" (click)="hideAddIssueModal()"></span>
-      <div class="modal__text" *ngIf="currentAgile != undefined">{{ 'Create issue at ' + currentAgile.name + ' Board' }}</div>
+      <div class="modal__text" *ngIf="currentProjectName != undefined"> Create issue at <b>{{ currentProjectName}}</b> board</div>
       <div *ngIf="newIssue" class="modal__form"> 
-        <label>Project</label> 
+        <!-- <label>Project</label> 
         <select [(ngModel)]="newIssue.project">
           <option *ngFor="let project of currentAgile.projects">{{ project.id }}</option>
-        </select>        
+        </select>         -->
         <label>Title</label>
         <input type="text" [(ngModel)]="newIssue.summary">
         <label>Description</label>
         <textarea [(ngModel)]="newIssue.description"></textarea>
-        <button class="btn btn--transparent" (click)="createIssueOnBoard(newIssue, currentAgile.name)">Add to YouTrack</button>
+        <button class="btn btn--transparent" (click)="createIssueOnBoard(newIssue, currentProjectName)">Create</button>
       </div>
-      <div *ngIf="applyCommand" class="modal__form">         
+      <!-- <div *ngIf="applyCommand" class="modal__form">         
         <label>Apply command</label>
         <input type="text" [(ngModel)]="applyCommand.command" (keypress)="showSuggestion(applyCommand)">
         <div class="modal__text-suggestion" *ngIf="applyCommand.suggestions">
           <div *ngFor="let suggestion of applyCommand.suggestions.suggest; let i=index"><span *ngIf="i<5">{{suggestion.option}}</span></div>
         </div>
         <button class="btn btn--transparent" (click)="executeCommand(applyCommand)">Apply</button>
-      </div>
+      </div> -->
   </div>
 </div>
 </div>
