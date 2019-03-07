@@ -97,7 +97,7 @@ export class ApiService {
   public getAllAgiles = () => {
     return new Promise(resolve => {
       this.UseAccount().then(() => {
-        this.http.get('/rest/admin/agile')
+        this.http.get('/api/agiles?fields=name')
           .map(res => res.json())
           .subscribe(data => {
             resolve(data);
