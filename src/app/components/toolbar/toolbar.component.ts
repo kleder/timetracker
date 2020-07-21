@@ -1,26 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
-import { ApiService } from '../../services/api.service';
 import { AccountService } from '../../services/account.service';
 
 import { Router, ActivatedRoute } from '@angular/router';
-import { setTimeout } from 'timers';
-import { webContents } from 'electron';
-import { ElectronService } from 'app/providers/electron.service';
-import { ToasterService } from 'app/services/toaster.service';
-import { DataService } from 'app/services/data.service';
+import { ElectronService } from '../../providers/electron.service';
+import { ToasterService } from '../../services/toaster.service';
+import { DataService } from '../../services/data.service';
 const electron = require("electron")
-const { BrowserWindow } = require("electron")
 const app = electron.remote.app
 const win = electron.remote.getCurrentWindow()
-const {remote} = require('electron')
-const {Menu, MenuItem} = remote
-
-let mainWindow
-
+const { remote } = require('electron')
+const { Menu } = remote
 import { CustomMenu } from '../../../../src/Menu'
-import { DatabaseService } from 'app/services/database.service';
+
 const newMenu = new CustomMenu();
 
 @Component({
@@ -29,21 +22,18 @@ const newMenu = new CustomMenu();
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
-  public isMac: boolean = (process.platform == 'darwin') ? true : false  
-  public current = false;  
+  public isMac: boolean = (process.platform == 'darwin') ? true : false
+  public current = false;
 
   constructor(
-    public http: Http,
+    public http: HttpClient,
     public account: AccountService,
-    public router: Router, 
+    public router: Router,
     public activatedRoute: ActivatedRoute,
     public electronService: ElectronService,
     public toasterService: ToasterService,
-    public dataService: DataService,
-    private databaseService: DatabaseService
-  )
-  {
-   }
+    public dataService: DataService) {
+  }
   async ngOnInit() {
     this.account.CurrentAccount.subscribe(data => {
       this.current = data.url !== undefined && data.url.trim() !== ''
@@ -58,11 +48,11 @@ export class ToolbarComponent implements OnInit {
   minimizeApp() {
     win.minimize()
   }
-  
+
   showMenu() {
-      const template = newMenu.initMenu(app, remote.getCurrentWindow())
-      const menu = Menu.buildFromTemplate(template)
-      menu.popup(remote.getCurrentWindow())
+    const template = newMenu.initMenu(app, remote.getCurrentWindow())
+    const menu = Menu.buildFromTemplate(template)
+    menu.popup()
   }
 
 }

@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 
 import { ApiService } from '../../../services/api.service';
 import { AccountService } from '../../../services/account.service';
 
 import { Router, ActivatedRoute } from '@angular/router';
-import { RemoteAccount } from 'app/models/RemoteAccount';
+import { RemoteAccount } from '../../../models/RemoteAccount';
 import { ToasterService } from '../../../services/toaster.service';
 import { shell } from 'electron';
 
 import { DataService } from '../../../services/data.service';
 import { MenuService } from '../../../services/menu.service'
 import { DatabaseService } from '../../../services/database.service'
-import { NumberValueAccessor } from '@angular/forms/src/directives/number_value_accessor';
 const ENTER_KEYCODE = 13
 
 @Component({
@@ -29,7 +28,7 @@ export class AddAccountComponent implements OnInit {
   public firstAccount: boolean;
   public accounts;
   constructor(
-    public http: Http,
+    public http: HttpClient,
     public account: AccountService,
     public router: Router, 
     public activatedRoute: ActivatedRoute,

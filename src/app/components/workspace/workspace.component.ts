@@ -10,7 +10,7 @@ import { ToasterService } from '../../services/toaster.service'
 import { versions } from '../../../environments/versions'
 
 import { Router } from '@angular/router';
-import { WorkItemData } from 'app/models/RemoteAccount';
+import { WorkItemData } from '../../models/RemoteAccount';
 const notifier = require('electron-notifications')
 const path = require('path')
 

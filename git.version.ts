@@ -1,5 +1,6 @@
 import fs = require('fs');
 import { Observable } from 'rxjs';
+import { combineLatest } from 'rxjs'
 
 let exec = require('child_process').exec;
 
@@ -25,8 +26,7 @@ const branch = new Observable<string>(s => {
         });
 });
 
-Observable
-    .combineLatest(revision, branch)
+combineLatest(revision, branch)
     .subscribe(([revision, branch]) => {
         console.log(`version: '${process.env.npm_package_version}', revision: '${revision}', branch: '${branch}'`);
 

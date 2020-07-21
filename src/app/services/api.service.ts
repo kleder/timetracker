@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { HttpService } from '../services/http.service'
 import { AccountService } from './account.service'
@@ -41,8 +41,7 @@ export class ApiService {
 
   public getVersionInfo(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.getRawUrl("https://api.github.com/repos/kleder/timetracker/releases/latest")
-      .map(res => res.json())
+      this.http.rawGet("https://api.github.com/repos/kleder/timetracker/releases/latest", { "responseType": "json" })
       .subscribe(data => {
         resolve(data);
       }, err => reject(err))
@@ -68,9 +67,8 @@ export class ApiService {
 
   public executeCommand(id: string, command: any) {
     return new Promise((resolve, reject) => {
-      let options = new RequestOptions();
-      options.headers = new Headers();
-      options.headers.append('Content-Type', 'application/x-www-form-urlencoded')
+      let options = {'headers' : new HttpHeaders};
+      options.headers.set('Content-Type', 'application/x-www-form-urlencoded')
       this.http.post('/rest/issue/' + id + '/execute/', this.encodeQueryData(command), options).subscribe(commandResult => {
         resolve(commandResult), error => { reject(error) }
       });

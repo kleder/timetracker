@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { DatabaseService } from '../../../services/database.service'
 import { ToasterService } from '../../../services/toaster.service'
-import { RemoteAccount } from 'app/models/RemoteAccount';
-import { ApiService } from 'app/services/api.service';
+import { RemoteAccount } from '../../../models/RemoteAccount';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-change-account-token',

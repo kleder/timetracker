@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service'
 
@@ -11,7 +11,7 @@ import { DataService } from '../../services/data.service'
 export class LicensesComponent implements OnInit {
 
   constructor(
-    public http: Http,
+    public http: HttpClient,
     public router: Router,
     public dataService: DataService
    ){}

@@ -1,58 +1,52 @@
 import { Injectable } from '@angular/core';
 import {
-  Http,
-  RequestOptions,
-  RequestOptionsArgs,
-  Response,
-  Request,
-  Headers,
-  XHRBackend,
-  ConnectionBackend
-} from '@angular/http';
+  HttpClient,
+  HttpHandler,
+  HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { RemoteAccount } from 'app/models/RemoteAccount';
 
 @Injectable()
-export class HttpService extends Http {
+export class HttpService extends HttpClient {
   public loader = false
   private remoteAccount: RemoteAccount;
 
   constructor(
-    backend: XHRBackend,
-    defaultOptions: RequestOptions
+    handler: HttpHandler
   ) { 
-    super(backend, defaultOptions)
-  }
-
-  public getRawUrl(url: string){
-    return super.get(url);
+    super(handler)
   }
 
   public UseAccount(remoteAccount : RemoteAccount) {
     this.remoteAccount = remoteAccount;
   }
 
-  put(url: string, body:any, options?: RequestOptionsArgs): Observable<any> {
+  public rawGet(url: string, options: any){
+    return super.get(url, options)
+  }
+
+  put(url: string, body:any, options?: any): Observable<any> {
     return super.put(this.getFullUrl(url), body, this.getOptions(options));
   }
-  get(url: string, options?: RequestOptionsArgs, loader=true): Observable<any> {
+
+  get(url: string, options?: any, loader=true): Observable<any> {
     this.loader = loader
     return super.get(this.getFullUrl(url), this.getOptions(options));
   }
 
-  post(url: string, body: any, options?: RequestOptionsArgs): Observable<any>{
+  post(url: string, body: any, options?: any): Observable<any>{
     return super.post(this.getFullUrl(url), body, this.getOptions(options))
   }
 
-  private getOptions(options?: RequestOptionsArgs){
+  private getOptions(options?: any){
     
     if (options != undefined){
-      options.headers.append('Authorization', 'Bearer '+ this.remoteAccount.token)
+      options.headers.set('Authorization', 'Bearer '+ this.remoteAccount.token)
       return options;
     }
 
-    return {headers: new Headers({
+    return {headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer '+ this.remoteAccount.token

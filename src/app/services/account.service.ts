@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
 import { DatabaseService } from './database.service'
 import 'rxjs/add/operator/map';
-import { from } from 'rxjs/observable/from';
-import { RemoteAccount, UserData } from 'app/models/RemoteAccount';
-import { access } from 'original-fs';
-import { ApiService } from 'app/services/api.service';
+import { RemoteAccount } from '../models/RemoteAccount';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()

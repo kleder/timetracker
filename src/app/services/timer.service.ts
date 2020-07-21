@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 const idle = require('idle');
 import { DataService } from '../services/data.service'
-import { ApiService } from 'app/services/api.service';
-import { DatabaseService } from 'app/services/database.service';
-import { WorkItemData } from 'app/models/RemoteAccount';
+import { ApiService } from '../services/api.service';
+import { DatabaseService } from '../services/database.service';
+import { WorkItemData } from '../models/RemoteAccount';
 import { ToasterService } from './toaster.service'
 const ipcRenderer = require('electron').ipcRenderer;
 const path = require('path')

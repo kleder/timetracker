@@ -1,9 +1,9 @@
 import 'reflect-metadata';
-import 'polyfills';
+import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
@@ -38,7 +38,7 @@ import { ToasterService } from './services/toaster.service';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SwitchAccountComponent } from './components/accounts/switch-account/switch-account.component'
 import { MenuService } from './services/menu.service';
-import { Nl2brPipe } from 'app/pipes/nl2br.pipe';
+import { Nl2brPipe } from './pipes/nl2br.pipe';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
 
@@ -66,7 +66,7 @@ import { ToasterComponent } from './components/toaster/toaster.component';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     AppRoutingModule,
   ],
   providers: [

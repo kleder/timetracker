@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { shell } from 'electron';
 import { versions } from '../../../environments/versions';
@@ -15,7 +15,7 @@ export class AboutComponent implements OnInit {
   public version = versions;
 
   constructor(
-    public http: Http,
+    public http: HttpClient,
     public router: Router,
     public dataService: DataService
    ){}

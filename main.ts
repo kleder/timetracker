@@ -2,8 +2,6 @@
 const electron = require("electron")
 
 import {SquirrelEvent} from './src/SquirrelEvent';
-import { dirname } from 'path';
-import { last } from '@angular/router/src/utils/collection';
 
 import { CustomMenu } from './src/Menu'
 const newMenu = new CustomMenu();
@@ -181,7 +179,7 @@ try {
       ]);
       const { inputFieldType } = props;
       
-      InputMenu.popup(mainWindow, props);
+      InputMenu.popup(props);
       
     });
 

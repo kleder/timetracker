@@ -5,12 +5,12 @@ import { DataService } from '../../../services/data.service'
 import { DatabaseService } from '../../../services/database.service'
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { HttpService } from '../../../services/http.service'
-import { WorkItemData } from 'app/models/RemoteAccount';
+import { WorkItemData } from '../../../models/RemoteAccount';
 import { shell } from 'electron';
 import { ToasterService } from '../../../services/toaster.service'
 import { AccountService } from '../../../services/account.service'
 import { Router } from '@angular/router';
-import { newIssue } from 'app/models/RemoteAccount';
+import { newIssue } from '../../../models/RemoteAccount';
 
 const electron = require('electron')
 
